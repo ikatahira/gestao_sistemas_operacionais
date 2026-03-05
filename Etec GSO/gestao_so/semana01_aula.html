@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 01 – Introdução aos Sistemas Operacionais | GSO I 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ink:#0e1117; --navy:#0f2d52; --blue:#1565c0; --sky:#42a5f5;
+  --teal:#00897b; --green:#2e7d32; --lime:#66bb6a;
+  --amber:#f57c00; --orange:#ef6c00; --red:#c62828;
+  --purple:#6a1b9a; --violet:#9c27b0;
+  --gold:#ffc107; --xp:#ff6f00;
+  --bg:#f0f4f8; --surface:#fff;
+  --gray-100:#e8edf2; --gray-300:#c5d0db; --gray-500:#6b7c93; --gray-700:#374151;
+  --radius:16px; --radius-sm:10px; --radius-xs:6px;
+  --shadow:0 4px 20px rgba(0,0,0,.08); --shadow-lg:0 8px 32px rgba(0,0,0,.14);
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--gray-700);line-height:1.7;min-height:100vh;}
+
+/* ── HEADER ── */
+.header{background:linear-gradient(135deg,#0e1117 0%,#0f2d52 60%,#1565c0 100%);color:#fff;padding:0;position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,.4);}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.week-pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:4px 14px;font-size:.76em;font-weight:700;font-family:'Space Mono',monospace;white-space:nowrap;}
+.header-text{flex:1;}
+.header-text h1{font-size:clamp(1em,2.5vw,1.5em);font-weight:900;letter-spacing:-.02em;}
+.header-text p{opacity:.65;font-size:.82em;margin-top:2px;}
+.xp-bar-header{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:50px;padding:6px 14px;font-size:.8em;font-weight:700;white-space:nowrap;}
+.xp-bar-header .xp-icon{font-size:1em;}
+#header-xp{color:var(--gold);}
+
+/* ── XP TOAST ── */
+.xp-toast{position:fixed;top:80px;right:24px;background:linear-gradient(135deg,#ff6f00,#ffc107);color:#fff;padding:12px 22px;border-radius:50px;font-weight:800;font-size:1em;z-index:999;box-shadow:0 4px 20px rgba(255,111,0,.5);transform:translateY(-20px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+.xp-toast.show{transform:translateY(0);opacity:1;}
+
+/* ── PROGRESS TRACKER ── */
+.progress-tracker{max-width:1100px;margin:0 auto;padding:20px 28px 0;}
+.progress-card{background:var(--surface);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow);border:1px solid var(--gray-100);display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.progress-info{flex:1;min-width:200px;}
+.progress-info h3{font-size:.9em;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+.progress-bar-wrap{background:var(--gray-100);border-radius:50px;height:12px;overflow:hidden;}
+.progress-bar{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--sky),var(--blue));transition:width .6s cubic-bezier(.34,1.56,.64,1);}
+.progress-stats{display:flex;gap:16px;flex-wrap:wrap;}
+.stat-chip{background:var(--bg);border-radius:var(--radius-sm);padding:10px 16px;text-align:center;border:1px solid var(--gray-100);}
+.stat-chip .val{font-size:1.4em;font-weight:900;color:var(--navy);display:block;}
+.stat-chip .lbl{font-size:.72em;color:var(--gray-500);font-weight:600;text-transform:uppercase;}
+.badges-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.badge{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3em;border:2px solid var(--gray-300);background:var(--gray-100);filter:grayscale(1);opacity:.4;transition:all .3s;position:relative;cursor:help;}
+.badge.earned{filter:none;opacity:1;border-color:var(--gold);background:linear-gradient(135deg,#fff8e1,#fff);box-shadow:0 2px 12px rgba(255,193,7,.4);}
+.badge .tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#0e1117;color:#fff;padding:6px 10px;border-radius:6px;font-size:.7em;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;}
+.badge:hover .tooltip{opacity:1;}
+
+/* ── CONTAINER ── */
+.container{max-width:1100px;margin:0 auto;padding:20px 28px;}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border-radius:var(--radius);padding:26px;margin-bottom:18px;box-shadow:var(--shadow);border:1px solid var(--gray-100);transition:box-shadow .2s;}
+.card-title{font-size:1.15em;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--gray-100);}
+.card-title .badge-mini{background:linear-gradient(135deg,var(--sky),var(--blue));color:#fff;border-radius:50px;padding:2px 10px;font-size:.65em;font-weight:700;vertical-align:middle;}
+
+/* ── OBJECTIVES ── */
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+.obj-item{background:linear-gradient(135deg,#e3f2fd,#bbdefb);border:1px solid #90caf9;border-radius:var(--radius-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;}
+.obj-num{width:24px;height:24px;background:var(--blue);color:#fff;border-radius:50%;font-size:.72em;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.obj-text{font-size:.88em;font-weight:700;color:var(--navy);}
+
+/* ── THEORY SECTIONS ── */
+.teoria-item{background:var(--bg);border-radius:var(--radius-sm);padding:20px 22px;margin-bottom:14px;border-left:5px solid var(--teal);position:relative;}
+.teoria-item h3{color:var(--navy);font-size:1em;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.teoria-item p{color:var(--gray-700);font-size:.92em;line-height:1.8;}
+.tip-box{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:1px solid #a5d6a7;border-radius:var(--radius-xs);padding:10px 14px;margin-top:10px;font-size:.85em;font-weight:700;color:var(--green);display:flex;gap:8px;align-items:flex-start;}
+
+/* ── VIDEO EMBEDS ── */
+.video-section{margin-bottom:18px;}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;}
+.video-card{background:var(--surface);border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--gray-100);box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;}
+.video-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.video-thumb{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;}
+.video-thumb iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+.video-info{padding:14px;}
+.video-title{font-weight:800;color:var(--navy);font-size:.92em;margin-bottom:4px;}
+.video-desc{font-size:.8em;color:var(--gray-500);}
+.video-tag{display:inline-block;background:linear-gradient(135deg,var(--sky),var(--blue));color:#fff;border-radius:50px;padding:2px 8px;font-size:.7em;font-weight:700;margin-bottom:6px;}
+
+/* ── QUIZ ── */
+.quiz-card{background:linear-gradient(135deg,#e8eaf6,#fff);border:2px solid #9fa8da;border-radius:var(--radius);padding:24px;margin-bottom:18px;}
+.quiz-card.quiz-done{border-color:var(--lime);background:linear-gradient(135deg,#f1f8e9,#fff);}
+.quiz-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.quiz-header h3{font-size:1.1em;font-weight:900;color:var(--navy);flex:1;}
+.xp-reward{background:linear-gradient(135deg,var(--xp),var(--gold));color:#fff;border-radius:50px;padding:4px 12px;font-size:.78em;font-weight:800;white-space:nowrap;}
+.quiz-score-display{background:var(--navy);color:#fff;border-radius:50px;padding:4px 12px;font-size:.78em;font-weight:800;display:none;}
+.quiz-score-display.visible{display:inline-block;}
+
+.q-block{margin-bottom:20px;}
+.q-text{font-weight:700;color:var(--navy);font-size:.95em;margin-bottom:10px;display:flex;gap:8px;}
+.q-num{background:var(--blue);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0;margin-top:2px;}
+.options{display:flex;flex-direction:column;gap:7px;}
+.opt-btn{background:var(--bg);border:2px solid var(--gray-300);border-radius:var(--radius-xs);padding:10px 16px;text-align:left;font-family:'Nunito',sans-serif;font-size:.88em;font-weight:600;color:var(--gray-700);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;}
+.opt-btn:hover:not(:disabled){background:#e3f2fd;border-color:var(--sky);color:var(--navy);}
+.opt-btn.correct{background:linear-gradient(135deg,#e8f5e9,#c8e6c9)!important;border-color:var(--lime)!important;color:var(--green)!important;font-weight:800;}
+.opt-btn.wrong{background:linear-gradient(135deg,#ffebee,#ffcdd2)!important;border-color:#e57373!important;color:var(--red)!important;}
+.opt-btn:disabled{cursor:default;}
+.opt-letter{width:24px;height:24px;border-radius:50%;background:var(--gray-300);display:flex;align-items:center;justify-content:center;font-size:.78em;font-weight:800;flex-shrink:0;transition:background .2s;}
+.opt-btn.correct .opt-letter{background:var(--lime);}
+.opt-btn.wrong .opt-letter{background:#e57373;}
+.feedback{margin-top:8px;padding:10px 14px;border-radius:var(--radius-xs);font-size:.85em;font-weight:700;display:none;}
+.feedback.show{display:block;}
+.feedback.ok{background:#e8f5e9;color:var(--green);border:1px solid #a5d6a7;}
+.feedback.fail{background:#ffebee;color:var(--red);border:1px solid #ffcdd2;}
+
+.quiz-submit{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border:none;border-radius:var(--radius-sm);padding:12px 28px;font-family:'Nunito',sans-serif;font-size:.95em;font-weight:800;cursor:pointer;transition:all .2s;margin-top:8px;}
+.quiz-submit:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(21,101,192,.4);}
+.quiz-submit:disabled{opacity:.5;cursor:default;transform:none;}
+.quiz-result{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-radius:var(--radius-sm);padding:16px 20px;margin-top:14px;display:none;text-align:center;}
+.quiz-result.show{display:block;}
+.quiz-result .result-score{font-size:2em;font-weight:900;}
+.quiz-result .result-msg{font-size:.9em;opacity:.85;margin-top:4px;}
+
+/* ── LAB ACTIVITY ── */
+.lab-card{border:2px solid var(--gray-100);border-radius:var(--radius-sm);padding:20px;margin-bottom:14px;position:relative;overflow:hidden;transition:border-color .3s;}
+.lab-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--teal),var(--sky));}
+.lab-card.done{border-color:var(--lime);}
+.lab-card.done::before{background:linear-gradient(180deg,var(--green),var(--lime));}
+.lab-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+.lab-num{width:32px;height:32px;background:var(--navy);color:#fff;border-radius:50%;font-size:.8em;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lab-info{flex:1;}
+.lab-title{font-size:1em;font-weight:800;color:var(--navy);margin-bottom:4px;}
+.lab-meta{display:flex;gap:7px;flex-wrap:wrap;}
+.lab-tag{background:var(--gray-100);border-radius:50px;padding:2px 10px;font-size:.75em;font-weight:700;color:var(--gray-500);}
+.lab-desc{color:var(--gray-700);font-size:.9em;margin-bottom:12px;line-height:1.7;}
+.lab-steps{background:var(--bg);border-radius:var(--radius-xs);padding:14px 16px;margin-bottom:12px;}
+.lab-steps h4{font-size:.82em;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.lab-steps ol{padding-left:18px;}
+.lab-steps li{font-size:.88em;color:var(--gray-700);margin-bottom:6px;font-weight:600;}
+.lab-steps li code{background:var(--navy);color:#fff;padding:2px 6px;border-radius:4px;font-family:'Space Mono',monospace;font-size:.85em;}
+.lab-complete-btn{background:linear-gradient(135deg,var(--teal),var(--green));color:#fff;border:none;border-radius:var(--radius-xs);padding:10px 20px;font-family:'Nunito',sans-serif;font-size:.88em;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.lab-complete-btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,137,123,.4);}
+.lab-complete-btn.done-btn{background:linear-gradient(135deg,var(--green),#1b5e20);cursor:default;transform:none;}
+
+/* ── KEYBOARD SHORTCUT ── */
+kbd{background:var(--navy);color:#fff;border-radius:4px;padding:2px 8px;font-family:'Space Mono',monospace;font-size:.82em;font-weight:700;border-bottom:3px solid #040d1f;}
+
+/* ── NAV ── */
+.nav-bar{background:var(--surface);border-radius:var(--radius);padding:14px 20px;box-shadow:var(--shadow);border:1px solid var(--gray-100);display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;}
+.nav-btn{padding:9px 18px;border-radius:var(--radius-sm);text-decoration:none;font-weight:800;font-size:.86em;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;box-shadow:0 2px 8px rgba(15,45,82,.3);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(15,45,82,.4);}
+.btn-secondary{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-300);}
+.btn-secondary:hover{background:var(--gray-100);border-color:var(--sky);}
+.btn-green{background:linear-gradient(135deg,var(--green),#1b5e20);color:#fff;}
+.nav-spacer{flex:1;}
+
+/* ── LINKS SECTION ── */
+.link-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.link-card{background:var(--bg);border-radius:var(--radius-sm);padding:16px;border:1px solid var(--gray-100);text-decoration:none;color:inherit;transition:all .2s;display:block;}
+.link-card:hover{border-color:var(--sky);box-shadow:var(--shadow);transform:translateY(-2px);}
+.link-icon{font-size:1.6em;margin-bottom:6px;}
+.link-title{font-weight:800;font-size:.9em;color:var(--navy);margin-bottom:2px;}
+.link-url{font-size:.78em;color:var(--gray-500);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .container,.progress-tracker{padding:12px 14px;}
+  .card{padding:16px;}
+  .quiz-card{padding:16px;}
+  .obj-grid{grid-template-columns:1fr;}
+  .video-grid{grid-template-columns:1fr;}
+  .header-inner{padding:12px 16px;}
+}
+
+/* ── CELEBRATION ── */
+.confetti-emoji{position:fixed;pointer-events:none;font-size:1.5em;z-index:9999;animation:fall 2s forwards;}
+@keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0deg);}100%{opacity:0;transform:translateY(100vh) rotate(720deg);}}
+</style>
+</head>
+<body>
+
+<div class="xp-toast" id="xpToast">🌟 +0 XP</div>
+
+<header class="header">
+  <div class="header-inner">
+    <span class="week-pill">S01/20</span>
+    <div class="header-text">
+      <h1>Introdução aos Sistemas Operacionais</h1>
+      <p>Gestão de Sistemas Operacionais I · Prof. Isaque Katahira · 2026</p>
+    </div>
+    <div class="xp-bar-header">
+      <span class="xp-icon">⚡</span>
+      <span>XP: </span><span id="header-xp">0</span>
+      <span style="opacity:.6">/ 400</span>
+    </div>
+  </div>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-tracker">
+  <div class="progress-card">
+    <div class="progress-info">
+      <h3>Seu progresso na Semana 01</h3>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div style="font-size:.8em;color:var(--gray-500);margin-top:4px;font-weight:600;"><span id="progressPct">0</span>% concluído</div>
+    </div>
+    <div class="progress-stats">
+      <div class="stat-chip"><span class="val" id="statXP">0</span><span class="lbl">⚡ XP</span></div>
+      <div class="stat-chip"><span class="val" id="statQuiz">0/3</span><span class="lbl">📝 Quizzes</span></div>
+      <div class="stat-chip"><span class="val" id="statLab">0/3</span><span class="lbl">🔬 Labs</span></div>
+    </div>
+    <div>
+      <div style="font-size:.8em;font-weight:700;color:var(--gray-500);margin-bottom:6px;">CONQUISTAS</div>
+      <div class="badges-row">
+        <div class="badge" id="badge-curious" title="Explorador Curioso">🔍<span class="tooltip">Explorador Curioso</span></div>
+        <div class="badge" id="badge-quiz1" title="Quiz Master 1">📝<span class="tooltip">Quiz Master 1</span></div>
+        <div class="badge" id="badge-lab" title="Mão na Massa">🔬<span class="tooltip">Mão na Massa</span></div>
+        <div class="badge" id="badge-perfect" title="Nota Máxima">🏆<span class="tooltip">Nota Máxima</span></div>
+        <div class="badge" id="badge-week1" title="Semana 1 Concluída">⭐<span class="tooltip">Semana 1 Concluída</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- NAV -->
+  <nav class="nav-bar">
+    <span class="nav-btn btn-secondary" style="opacity:.4;pointer-events:none;">⬅ Anterior</span>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Início</a>
+    <span class="nav-spacer"></span>
+    <a href="semana02_aula.html" class="nav-btn btn-primary">Semana 02 ➡</a>
+  </nav>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <div class="card-title">🎯 O que você vai aprender hoje</div>
+    <div class="obj-grid">
+      <div class="obj-item"><div class="obj-num">1</div><span class="obj-text">O que é um Sistema Operacional e para que serve</span></div>
+      <div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Os diferentes tipos de SO: monotarefa, multitarefa e mais</span></div>
+      <div class="obj-item"><div class="obj-num">3</div><span class="obj-text">A história do Windows: do Windows 1.0 ao Windows 11</span></div>
+      <div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Como identificar informações do seu sistema pelo notebook</span></div>
+    </div>
+  </div>
+
+  <!-- VIDEOS INTRODUTÓRIOS -->
+  <div class="card video-section">
+    <div class="card-title">▶️ Vídeos para Começar <span class="badge-mini">Assista antes de ler!</span></div>
+    <p style="font-size:.9em;color:var(--gray-500);margin-bottom:14px;">Estes vídeos vão te dar uma base visual antes da leitura. Recomendamos assistir na ordem!</p>
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/pTdSs8kHqfM" allowfullscreen loading="lazy" title="O que é um Sistema Operacional?"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">▶ Obrigatório</div>
+          <div class="video-title">O que é um Sistema Operacional?</div>
+          <div class="video-desc">Explicação simples e visual sobre o que faz um SO no seu computador. Perfeito para iniciantes.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/GjNp0bBLjr0" allowfullscreen loading="lazy" title="Tipos de Sistemas Operacionais"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">▶ Obrigatório</div>
+          <div class="video-title">Tipos de Sistemas Operacionais</div>
+          <div class="video-desc">Aprenda a diferença entre monotarefa, multitarefa, multiusuário com exemplos do dia a dia.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/6Jv5tGgkgWQ" allowfullscreen loading="lazy" title="História do Windows"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">▶ Recomendado</div>
+          <div class="video-title">A Evolução do Windows</div>
+          <div class="video-desc">Do Windows 1.0 (1985) ao Windows 11 — veja como o sistema operacional mais famoso evoluiu.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEORIA 1 -->
+  <div class="card">
+    <div class="card-title">📖 1. O que é um Sistema Operacional?</div>
+    <div class="teoria-item">
+      <h3>🤔 Pense assim…</h3>
+      <p>Imagine um restaurante. Você (o cliente) quer comer um prato. A cozinha tem todos os ingredientes e equipamentos (hardware). Mas alguém precisa organizar os cozinheiros, controlar os pedidos e garantir que ninguém interfira no trabalho do outro. Esse "gerente da cozinha" é o <strong>Sistema Operacional</strong>.</p>
+      <div class="tip-box">💡 Resumindo: o SO é o intermediário entre você e o hardware do computador. Sem ele, você precisaria falar "binário" com o processador!</div>
+    </div>
+    <div class="teoria-item">
+      <h3>⚙️ O que o SO faz na prática?</h3>
+      <p>O Sistema Operacional cuida de <strong>4 tarefas principais</strong>: gerenciar o processador (CPU), gerenciar a memória (RAM), gerenciar os dispositivos de armazenamento (HD/SSD) e gerenciar os periféricos (teclado, mouse, impressora). Tudo isso acontece automaticamente enquanto você usa o notebook!</p>
+      <div class="tip-box">💡 No seu notebook: Windows é o SO mais comum. Outros exemplos: macOS (Apple), Linux (servidores e programadores), Android (celulares), iOS (iPhone).</div>
+    </div>
+    <div class="teoria-item">
+      <h3>📋 Funções do SO no dia a dia</h3>
+      <p><strong>Interface com o usuário:</strong> a tela que você vê, os ícones, as janelas — tudo isso é o SO. <strong>Segurança:</strong> senhas de login, permissões de arquivos. <strong>Multitarefa:</strong> abrir o YouTube e o Word ao mesmo tempo. <strong>Drivers:</strong> faz o SO "conversar" com impressoras, pendrives, etc.</p>
+    </div>
+  </div>
+
+  <!-- QUIZ 1 -->
+  <div class="quiz-card" id="quiz1">
+    <div class="quiz-header">
+      <span style="font-size:1.5em;">🎮</span>
+      <h3>Quiz 1 – O que é um Sistema Operacional?</h3>
+      <span class="xp-reward">⚡ +50 XP</span>
+      <span class="quiz-score-display" id="score1">0/5</span>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">1</div>Qual é a principal função de um Sistema Operacional?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="1" data-val="a"><span class="opt-letter">A</span>Criar documentos e planilhas</button>
+        <button class="opt-btn" data-q="1" data-val="b"><span class="opt-letter">B</span>Intermediar a comunicação entre o usuário e o hardware</button>
+        <button class="opt-btn" data-q="1" data-val="c"><span class="opt-letter">C</span>Conectar o computador à internet</button>
+        <button class="opt-btn" data-q="1" data-val="d"><span class="opt-letter">D</span>Processar imagens e vídeos</button>
+      </div>
+      <div class="feedback" id="fb-1-b" data-for="1">✅ Correto! O SO age como intermediário entre você e o hardware, gerenciando todos os recursos.</div>
+      <div class="feedback fail" id="fb-1-wrong" data-for="1-wrong">❌ Não é essa! O SO é o intermediário entre usuário e hardware — como um gerente que organiza tudo.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">2</div>Qual destes NÃO é um exemplo de Sistema Operacional?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="2" data-val="a"><span class="opt-letter">A</span>Windows 11</button>
+        <button class="opt-btn" data-q="2" data-val="b"><span class="opt-letter">B</span>Android</button>
+        <button class="opt-btn" data-q="2" data-val="c"><span class="opt-letter">C</span>Microsoft Word</button>
+        <button class="opt-btn" data-q="2" data-val="d"><span class="opt-letter">D</span>macOS</button>
+      </div>
+      <div class="feedback" id="fb-2-c" data-for="2">✅ Correto! O Word é um aplicativo de edição de texto, não um SO. Ele roda DENTRO de um SO.</div>
+      <div class="feedback fail" id="fb-2-wrong" data-for="2-wrong">❌ Errou! Microsoft Word é um aplicativo (programa), não um SO. SOs são: Windows, Android, macOS, Linux.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">3</div>Quais dos seguintes são gerenciados pelo SO? (Escolha a mais completa)</div>
+      <div class="options">
+        <button class="opt-btn" data-q="3" data-val="a"><span class="opt-letter">A</span>Apenas o processador (CPU)</button>
+        <button class="opt-btn" data-q="3" data-val="b"><span class="opt-letter">B</span>CPU, memória RAM, armazenamento e periféricos</button>
+        <button class="opt-btn" data-q="3" data-val="c"><span class="opt-letter">C</span>Apenas a memória RAM e o HD</button>
+        <button class="opt-btn" data-q="3" data-val="d"><span class="opt-letter">D</span>Apenas os periféricos (teclado, mouse)</button>
+      </div>
+      <div class="feedback" id="fb-3-b" data-for="3">✅ Perfeito! O SO gerencia TODOS os recursos: CPU, RAM, armazenamento e periféricos.</div>
+      <div class="feedback fail" id="fb-3-wrong" data-for="3-wrong">❌ Incompleto! O SO gerencia tudo: CPU + RAM + armazenamento + periféricos. Ele é o grande gerente!</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">4</div>Qual SO é o mais usado em celulares Android?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="4" data-val="a"><span class="opt-letter">A</span>Windows Mobile</button>
+        <button class="opt-btn" data-q="4" data-val="b"><span class="opt-letter">B</span>iOS</button>
+        <button class="opt-btn" data-q="4" data-val="c"><span class="opt-letter">C</span>Android (baseado em Linux)</button>
+        <button class="opt-btn" data-q="4" data-val="d"><span class="opt-letter">D</span>macOS</button>
+      </div>
+      <div class="feedback" id="fb-4-c" data-for="4">✅ Exato! Android é baseado no kernel Linux e é o SO mais usado em smartphones do mundo.</div>
+      <div class="feedback fail" id="fb-4-wrong" data-for="4-wrong">❌ Errou! Android (baseado em Linux) é o SO dos celulares Android. iOS é exclusivo do iPhone.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">5</div>O que são "drivers" no contexto do SO?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="5" data-val="a"><span class="opt-letter">A</span>Programas para editar fotos</button>
+        <button class="opt-btn" data-q="5" data-val="b"><span class="opt-letter">B</span>Software que permite ao SO se comunicar com dispositivos específicos</button>
+        <button class="opt-btn" data-q="5" data-val="c"><span class="opt-letter">C</span>Arquivos de backup do sistema</span></button>
+        <button class="opt-btn" data-q="5" data-val="d"><span class="opt-letter">D</span>Pastas do Windows Explorer</button>
+      </div>
+      <div class="feedback" id="fb-5-b" data-for="5">✅ Correto! Drivers são "tradutores" — permitem que o SO converse com impressoras, placas de vídeo, etc.</div>
+      <div class="feedback fail" id="fb-5-wrong" data-for="5-wrong">❌ Não! Drivers são programas especiais que fazem o SO conversar com dispositivos como impressoras e webcams.</div>
+    </div>
+
+    <button class="quiz-submit" id="submit1" onclick="submitQuiz(1)" disabled>✅ Ver Resultado</button>
+    <div class="quiz-result" id="result1">
+      <div class="result-score" id="resultScore1"></div>
+      <div class="result-msg" id="resultMsg1"></div>
+    </div>
+  </div>
+
+  <!-- TEORIA 2 -->
+  <div class="card">
+    <div class="card-title">📖 2. Tipos de Sistemas Operacionais</div>
+    <div class="teoria-item">
+      <h3>📌 Monotarefa</h3>
+      <p>Executa apenas <strong>um programa por vez</strong>. Quando você abre um segundo programa, o primeiro é interrompido. Exemplo clássico: MS-DOS (usado antes do Windows). Hoje, raramente usado — ficou no passado. É como um caixa de banco que atende um cliente de cada vez e faz os outros esperarem até terminar.</p>
+    </div>
+    <div class="teoria-item">
+      <h3>📌 Multitarefa</h3>
+      <p>Executa <strong>vários programas simultaneamente</strong> (ou quase — na verdade o processador alterna entre eles muito rapidamente). É o que o Windows, macOS e Linux fazem. Você ouve música, responde e-mail e navega no YouTube ao mesmo tempo — isso é multitarefa!</p>
+      <div class="tip-box">💡 Dica prática: pressione <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd> para abrir o Gerenciador de Tarefas e ver todos os processos rodando ao mesmo tempo!</div>
+    </div>
+    <div class="teoria-item">
+      <h3>📌 Multiusuário</h3>
+      <p>Permite que <strong>vários usuários</strong> usem o sistema ao mesmo tempo, cada um com seu perfil e permissões. Muito comum em servidores de empresas e universidades. Linux e Windows Server são exemplos. Cada usuário tem sua área isolada.</p>
+    </div>
+    <div class="teoria-item">
+      <h3>📌 Multiprocessado</h3>
+      <p>Usa <strong>múltiplos processadores</strong> (ou núcleos) ao mesmo tempo para processar tarefas mais rapidamente. Seu notebook provavelmente tem um processador com 4, 6 ou 8 núcleos — isso é multiprocessamento! Cada núcleo é como uma "pista" adicional numa estrada.</p>
+      <div class="tip-box">💡 Para ver quantos núcleos tem seu processador: <kbd>Win</kbd> + <kbd>R</kbd> → digite <code>msinfo32</code> → procure "Processador"</div>
+    </div>
+  </div>
+
+  <!-- QUIZ 2 -->
+  <div class="quiz-card" id="quiz2">
+    <div class="quiz-header">
+      <span style="font-size:1.5em;">🎮</span>
+      <h3>Quiz 2 – Tipos de Sistemas Operacionais</h3>
+      <span class="xp-reward">⚡ +50 XP</span>
+      <span class="quiz-score-display" id="score2">0/4</span>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">1</div>Um sistema que executa apenas UM programa por vez é chamado de:</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-1" data-val="a"><span class="opt-letter">A</span>Multitarefa</button>
+        <button class="opt-btn" data-q="q2-1" data-val="b"><span class="opt-letter">B</span>Monotarefa</button>
+        <button class="opt-btn" data-q="q2-1" data-val="c"><span class="opt-letter">C</span>Multiusuário</button>
+        <button class="opt-btn" data-q="q2-1" data-val="d"><span class="opt-letter">D</span>Multiprocessado</button>
+      </div>
+      <div class="feedback" id="fb-q2-1-b" data-for="q2-1">✅ Correto! Monotarefa = mono (um) + tarefa. MS-DOS é o exemplo clássico.</div>
+      <div class="feedback fail" id="fb-q2-1-wrong" data-for="q2-1-wrong">❌ Não! Monotarefa = executa UM programa por vez. Pense: "mono" = um.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">2</div>Você está ouvindo Spotify, com o Word aberto e baixando um arquivo. Que tipo de SO permite isso?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-2" data-val="a"><span class="opt-letter">A</span>Monotarefa</button>
+        <button class="opt-btn" data-q="q2-2" data-val="b"><span class="opt-letter">B</span>Sistema Batch</button>
+        <button class="opt-btn" data-q="q2-2" data-val="c"><span class="opt-letter">C</span>Multitarefa</button>
+        <button class="opt-btn" data-q="q2-2" data-val="d"><span class="opt-letter">D</span>Monotarefa avançado</button>
+      </div>
+      <div class="feedback" id="fb-q2-2-c" data-for="q2-2">✅ Perfeito! Multitarefa permite vários programas rodando ao mesmo tempo. Windows é multitarefa!</div>
+      <div class="feedback fail" id="fb-q2-2-wrong" data-for="q2-2-wrong">❌ Errou! Isso é Multitarefa — vários programas rodando simultaneamente. É o que o Windows faz!</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">3</div>Em uma universidade, 50 alunos acessam o mesmo servidor Linux com seus logins. Que característica é essa?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-3" data-val="a"><span class="opt-letter">A</span>Multiprocessado</button>
+        <button class="opt-btn" data-q="q2-3" data-val="b"><span class="opt-letter">B</span>Multiusuário</button>
+        <button class="opt-btn" data-q="q2-3" data-val="c"><span class="opt-letter">C</span>Multitarefa</button>
+        <button class="opt-btn" data-q="q2-3" data-val="d"><span class="opt-letter">D</span>Monotarefa</button>
+      </div>
+      <div class="feedback" id="fb-q2-3-b" data-for="q2-3">✅ Correto! Multiusuário = vários usuários acessando o mesmo sistema com perfis independentes.</div>
+      <div class="feedback fail" id="fb-q2-3-wrong" data-for="q2-3-wrong">❌ Não! Vários usuários no mesmo sistema = Multiusuário. Cada um tem seu login e área separada.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">4</div>Seu notebook tem processador com 8 núcleos. Que tipo de SO aproveita todos eles?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-4" data-val="a"><span class="opt-letter">A</span>Monotarefa</button>
+        <button class="opt-btn" data-q="q2-4" data-val="b"><span class="opt-letter">B</span>Multiusuário</button>
+        <button class="opt-btn" data-q="q2-4" data-val="c"><span class="opt-letter">C</span>Multiprocessado</button>
+        <button class="opt-btn" data-q="q2-4" data-val="d"><span class="opt-letter">D</span>Batch</button>
+      </div>
+      <div class="feedback" id="fb-q2-4-c" data-for="q2-4">✅ Exato! Multiprocessado aproveita múltiplos núcleos/processadores para rodar tarefas em paralelo.</div>
+      <div class="feedback fail" id="fb-q2-4-wrong" data-for="q2-4-wrong">❌ Errou! Multiprocessado = usa múltiplos núcleos/processadores ao mesmo tempo.</div>
+    </div>
+
+    <button class="quiz-submit" id="submit2" onclick="submitQuiz(2)" disabled>✅ Ver Resultado</button>
+    <div class="quiz-result" id="result2">
+      <div class="result-score" id="resultScore2"></div>
+      <div class="result-msg" id="resultMsg2"></div>
+    </div>
+  </div>
+
+  <!-- TEORIA 3 -->
+  <div class="card">
+    <div class="card-title">📖 3. Evolução do Windows</div>
+    <div class="teoria-item">
+      <h3>🕰️ Windows 1.0 a 3.11 (1985–1994)</h3>
+      <p>O Windows começou como uma "casca gráfica" em cima do MS-DOS. Windows 1.0 (1985) era bem simples — apenas janelas básicas. Windows 3.1 (1992) foi o primeiro a ser realmente popular, com ícones e mouse funcionando bem. Ainda dependia do MS-DOS para funcionar.</p>
+    </div>
+    <div class="teoria-item">
+      <h3>🕰️ Windows 95 a ME (1995–2000)</h3>
+      <p>Windows 95 foi REVOLUCIONÁRIO: inventou o botão Iniciar, a barra de tarefas e o conceito de plug-and-play. Windows 98 melhorou a compatibilidade com internet. Windows ME (Millennium Edition) tentou ser o "Windows do novo milênio" mas ficou famoso por ser instável.</p>
+      <div class="tip-box">💡 Curiosidade: o som de inicialização do Windows 95 foi composto por Brian Eno, um músico famoso, contratado pela Microsoft!</div>
+    </div>
+    <div class="teoria-item">
+      <h3>🕰️ Windows XP a Vista (2001–2007)</h3>
+      <p>Windows XP (2001) é considerado o melhor Windows até hoje por muitos técnicos — foi estável, popular e durou mais de 12 anos no mercado! Windows Vista (2007) tentou ser mais bonito mas exigia muito hardware e ficou com reputação negativa.</p>
+    </div>
+    <div class="teoria-item">
+      <h3>🕰️ Windows 7 a 10 (2009–2015)</h3>
+      <p>Windows 7 "consertou" os erros do Vista e voltou a ser amado. Windows 8 foi polêmico por remover o botão Iniciar. Windows 8.1 corrigiu isso. Windows 10 (2015) trouxe de volta o Iniciar, atualizações automáticas e integração com nuvem. Suporte ao Win 10 encerrou em outubro de 2025.</p>
+    </div>
+    <div class="teoria-item">
+      <h3>🕰️ Windows 11 (2021–atual)</h3>
+      <p>Windows 11 redesenhou a interface: botão Iniciar centralizado, novo menu Iniciar, Snap Layouts para organizar janelas, e requisitos de hardware mais altos (precisa de TPM 2.0). É o Windows atual nos notebooks novos. Como técnico, você precisará dominar o Win 11!</p>
+      <div class="tip-box">💡 Para verificar se seu notebook roda Win 11: <kbd>Win</kbd> + <kbd>R</kbd> → <code>winver</code> → aparece sua versão atual.</div>
+    </div>
+  </div>
+
+  <!-- QUIZ 3 -->
+  <div class="quiz-card" id="quiz3">
+    <div class="quiz-header">
+      <span style="font-size:1.5em;">🎮</span>
+      <h3>Quiz 3 – História do Windows</h3>
+      <span class="xp-reward">⚡ +50 XP</span>
+      <span class="quiz-score-display" id="score3">0/4</span>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">1</div>Qual versão do Windows inventou o botão Iniciar e a barra de tarefas?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q3-1" data-val="a"><span class="opt-letter">A</span>Windows 3.1</button>
+        <button class="opt-btn" data-q="q3-1" data-val="b"><span class="opt-letter">B</span>Windows 95</button>
+        <button class="opt-btn" data-q="q3-1" data-val="c"><span class="opt-letter">C</span>Windows XP</button>
+        <button class="opt-btn" data-q="q3-1" data-val="d"><span class="opt-letter">D</span>Windows 10</button>
+      </div>
+      <div class="feedback" id="fb-q3-1-b" data-for="q3-1">✅ Windows 95 revolucionou a interface! O botão Iniciar existe até hoje por causa dele.</div>
+      <div class="feedback fail" id="fb-q3-1-wrong" data-for="q3-1-wrong">❌ Foi o Windows 95! Ele criou o botão Iniciar e a barra de tarefas — recursos que usamos até hoje.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">2</div>Qual Windows é considerado por muitos técnicos o mais estável e duradouro da história?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q3-2" data-val="a"><span class="opt-letter">A</span>Windows Vista</button>
+        <button class="opt-btn" data-q="q3-2" data-val="b"><span class="opt-letter">B</span>Windows ME</button>
+        <button class="opt-btn" data-q="q3-2" data-val="c"><span class="opt-letter">C</span>Windows XP</button>
+        <button class="opt-btn" data-q="q3-2" data-val="d"><span class="opt-letter">D</span>Windows 8</button>
+      </div>
+      <div class="feedback" id="fb-q3-2-c" data-for="q3-2">✅ Windows XP! Lançado em 2001, ficou em produção por mais de 12 anos. Um clássico!</div>
+      <div class="feedback fail" id="fb-q3-2-wrong" data-for="q3-2-wrong">❌ Foi o Windows XP (2001)! Vista e ME ficaram famosos por problemas. Windows 8 por remover o Iniciar.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">3</div>Qual novidade o Windows 11 trouxe para a barra de tarefas?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q3-3" data-val="a"><span class="opt-letter">A</span>Removeu o botão Iniciar</button>
+        <button class="opt-btn" data-q="q3-3" data-val="b"><span class="opt-letter">B</span>Centralizou o botão Iniciar</button>
+        <button class="opt-btn" data-q="q3-3" data-val="c"><span class="opt-letter">C</span>Colocou o Iniciar no canto direito</button>
+        <button class="opt-btn" data-q="q3-3" data-val="d"><span class="opt-letter">D</span>Removeu a barra de tarefas</button>
+      </div>
+      <div class="feedback" id="fb-q3-3-b" data-for="q3-3">✅ Correto! O Win 11 centralizou o botão Iniciar (embora você possa mover para a esquerda nas configurações).</div>
+      <div class="feedback fail" id="fb-q3-3-wrong" data-for="q3-3-wrong">❌ Errou! O Win 11 CENTRALIZOU o botão Iniciar na barra de tarefas. É uma das mudanças mais visíveis.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">4</div>O suporte ao Windows 10 foi encerrado em:</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q3-4" data-val="a"><span class="opt-letter">A</span>Janeiro de 2023</button>
+        <button class="opt-btn" data-q="q3-4" data-val="b"><span class="opt-letter">B</span>Outubro de 2025</button>
+        <button class="opt-btn" data-q="q3-4" data-val="c"><span class="opt-letter">C</span>Dezembro de 2024</button>
+        <button class="opt-btn" data-q="q3-4" data-val="d"><span class="opt-letter">D</span>Março de 2026</button>
+      </div>
+      <div class="feedback" id="fb-q3-4-b" data-for="q3-4">✅ Outubro de 2025! Máquinas com Win 10 agora ficam sem atualizações de segurança da Microsoft.</div>
+      <div class="feedback fail" id="fb-q3-4-wrong" data-for="q3-4-wrong">❌ Foi Outubro de 2025! Como técnico, você vai encontrar muitas máquinas precisando migrar para Win 11.</div>
+    </div>
+
+    <button class="quiz-submit" id="submit3" onclick="submitQuiz(3)" disabled>✅ Ver Resultado</button>
+    <div class="quiz-result" id="result3">
+      <div class="result-score" id="resultScore3"></div>
+      <div class="result-msg" id="resultMsg3"></div>
+    </div>
+  </div>
+
+  <!-- LABORATÓRIO PRÁTICO -->
+  <div class="card">
+    <div class="card-title">🔬 Laboratório Prático <span class="badge-mini">Faça no seu notebook!</span></div>
+    <p style="font-size:.9em;color:var(--gray-500);margin-bottom:16px;">Estas atividades são para fazer agora no seu notebook. Marque como concluído ao terminar cada uma!</p>
+
+    <div class="lab-card" id="lab1">
+      <div class="lab-header">
+        <div class="lab-num">1</div>
+        <div class="lab-info">
+          <div class="lab-title">🖥️ Identificando seu Sistema Operacional</div>
+          <div class="lab-meta">
+            <span class="lab-tag">⏱ 10 min</span>
+            <span class="lab-tag">⚡ +50 XP</span>
+            <span class="lab-tag">🎯 Iniciante</span>
+          </div>
+        </div>
+      </div>
+      <div class="lab-desc">Vamos descobrir todas as informações sobre o SO instalado no seu notebook. Você vai aprender a usar ferramentas nativas do Windows que todo técnico precisa conhecer!</div>
+      <div class="lab-steps">
+        <h4>📋 Passo a Passo</h4>
+        <ol>
+          <li>Pressione <kbd>Win</kbd> + <kbd>R</kbd> para abrir o "Executar"</li>
+          <li>Digite <code>winver</code> e pressione Enter → veja a versão do Windows</li>
+          <li>Feche essa janela e aperte <kbd>Win</kbd> + <kbd>R</kbd> novamente</li>
+          <li>Digite <code>msinfo32</code> e pressione Enter → veja informações completas do sistema</li>
+          <li>Procure: "Versão do SO", "Processador", "Memória RAM instalada"</li>
+          <li>Anote o que você encontrou (versão, processador, RAM)</li>
+        </ol>
+      </div>
+      <button class="lab-complete-btn" id="lab1-btn" onclick="completeLab(1)">✅ Marquei como Concluído!</button>
+    </div>
+
+    <div class="lab-card" id="lab2">
+      <div class="lab-header">
+        <div class="lab-num">2</div>
+        <div class="lab-info">
+          <div class="lab-title">🗺️ Mapa Mental dos Tipos de SO</div>
+          <div class="lab-meta">
+            <span class="lab-tag">⏱ 20 min</span>
+            <span class="lab-tag">⚡ +50 XP</span>
+            <span class="lab-tag">🎯 Criativo</span>
+          </div>
+        </div>
+      </div>
+      <div class="lab-desc">Crie um mapa mental (no papel ou no computador) mostrando os 4 tipos de SO com exemplos do mundo real para cada um. Use cores diferentes para cada tipo!</div>
+      <div class="lab-steps">
+        <h4>📋 O que incluir no seu mapa</h4>
+        <ol>
+          <li>Centro: "Tipos de Sistemas Operacionais"</li>
+          <li>4 ramos: Monotarefa, Multitarefa, Multiusuário, Multiprocessado</li>
+          <li>Para cada ramo: pelo menos 1 exemplo real + 1 situação do dia a dia</li>
+          <li>Dica: use o <a href="https://app.diagrams.net" target="_blank" style="color:var(--blue);font-weight:700;">draw.io (grátis)</a> para fazer digital</li>
+        </ol>
+      </div>
+      <button class="lab-complete-btn" id="lab2-btn" onclick="completeLab(2)">✅ Marquei como Concluído!</button>
+    </div>
+
+    <div class="lab-card" id="lab3">
+      <div class="lab-header">
+        <div class="lab-num">3</div>
+        <div class="lab-info">
+          <div class="lab-title">📅 Linha do Tempo do Windows</div>
+          <div class="lab-meta">
+            <span class="lab-tag">⏱ 25 min</span>
+            <span class="lab-tag">⚡ +50 XP</span>
+            <span class="lab-tag">🎯 Pesquisa</span>
+          </div>
+        </div>
+      </div>
+      <div class="lab-desc">Crie uma linha do tempo visual mostrando as versões do Windows de 1985 até hoje. Para cada versão, inclua o ano e um fato curioso ou importante.</div>
+      <div class="lab-steps">
+        <h4>📋 Versões para incluir</h4>
+        <ol>
+          <li>Windows 1.0 (1985), 3.1 (1992), 95 (1995)</li>
+          <li>Windows 98, ME, XP (2001), Vista (2007)</li>
+          <li>Windows 7 (2009), 8/8.1 (2012/2013)</li>
+          <li>Windows 10 (2015) e Windows 11 (2021)</li>
+          <li>Pesquise 1 curiosidade de cada versão no Google!</li>
+        </ol>
+      </div>
+      <button class="lab-complete-btn" id="lab3-btn" onclick="completeLab(3)">✅ Marquei como Concluído!</button>
+    </div>
+  </div>
+
+  <!-- RECURSOS -->
+  <div class="card">
+    <div class="card-title">🔗 Links Úteis</div>
+    <div class="link-grid">
+      <a href="https://learn.microsoft.com" target="_blank" class="link-card">
+        <div class="link-icon">🎓</div>
+        <div class="link-title">Microsoft Learn</div>
+        <div class="link-url">learn.microsoft.com — cursos gratuitos</div>
+      </a>
+      <a href="https://docs.microsoft.com" target="_blank" class="link-card">
+        <div class="link-icon">📄</div>
+        <div class="link-title">Microsoft Docs</div>
+        <div class="link-url">Documentação oficial do Windows</div>
+      </a>
+      <a href="https://www.youtube.com/results?search_query=sistema+operacional+introducao+portugues" target="_blank" class="link-card">
+        <div class="link-icon">▶️</div>
+        <div class="link-title">YouTube – Mais Vídeos</div>
+        <div class="link-url">Buscar: "sistema operacional introdução"</div>
+      </a>
+      <a href="https://app.diagrams.net" target="_blank" class="link-card">
+        <div class="link-icon">🗺️</div>
+        <div class="link-title">draw.io – Mapas Mentais</div>
+        <div class="link-url">Grátis, sem cadastro, no navegador</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <nav class="nav-bar">
+    <span class="nav-btn btn-secondary" style="opacity:.4;pointer-events:none;">⬅ Anterior</span>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Início</a>
+    <span class="nav-spacer"></span>
+    <a href="semana02_aula.html" class="nav-btn btn-primary">Semana 02 ➡</a>
+  </nav>
+
+</div>
+
+<script>
+// ── STATE ──
+const state = {
+  xp: 0,
+  quizDone: [false, false, false],
+  labDone: [false, false, false],
+  quizScores: [0, 0, 0],
+  answers: {}
+};
+
+const quizConfig = {
+  1: { questions: ['1','2','3','4','5'], correct: {1:'b',2:'c',3:'b',4:'c',5:'b'}, total: 5 },
+  2: { questions: ['q2-1','q2-2','q2-3','q2-4'], correct: {'q2-1':'b','q2-2':'c','q2-3':'b','q2-4':'c'}, total: 4 },
+  3: { questions: ['q3-1','q3-2','q3-3','q3-4'], correct: {'q3-1':'b','q3-2':'c','q3-3':'b','q3-4':'b'}, total: 4 }
+};
+
+// ── OPTION CLICK ──
+document.querySelectorAll('.opt-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const q = this.dataset.q;
+    const val = this.dataset.val;
+    // Disable all options for this question
+    document.querySelectorAll(`.opt-btn[data-q="${q}"]`).forEach(b => b.disabled = true);
+    state.answers[q] = val;
+    // Determine which quiz
+    let quiz = 1;
+    if (q.startsWith('q2')) quiz = 2;
+    else if (q.startsWith('q3')) quiz = 3;
+    const correct = quizConfig[quiz].correct[q];
+    if (val === correct) {
+      this.classList.add('correct');
+      const fb = document.getElementById(`fb-${q}-${correct}`);
+      if (fb) { fb.classList.add('show', 'ok'); }
+    } else {
+      this.classList.add('wrong');
+      const fb = document.getElementById(`fb-${q}-wrong`);
+      if (fb) { fb.classList.add('show'); }
+      // Show correct
+      document.querySelectorAll(`.opt-btn[data-q="${q}"][data-val="${correct}"]`).forEach(b => b.classList.add('correct'));
+    }
+    // Check if all answered for this quiz
+    checkQuizReady(quiz);
+  });
+});
+
+function checkQuizReady(quiz) {
+  const cfg = quizConfig[quiz];
+  const allAnswered = cfg.questions.every(q => state.answers[q] !== undefined);
+  if (allAnswered) {
+    document.getElementById(`submit${quiz}`).disabled = false;
+  }
+}
+
+function submitQuiz(quiz) {
+  const cfg = quizConfig[quiz];
+  let score = 0;
+  cfg.questions.forEach(q => {
+    if (state.answers[q] === cfg.correct[q]) score++;
+  });
+  const pct = Math.round(score / cfg.total * 100);
+  const xpEarned = 50;
+  if (!state.quizDone[quiz-1]) {
+    state.quizDone[quiz-1] = true;
+    state.quizScores[quiz-1] = score;
+    addXP(xpEarned);
+    document.getElementById(`score${quiz}`).textContent = `${score}/${cfg.total}`;
+    document.getElementById(`score${quiz}`).classList.add('visible');
+    document.getElementById(`submit${quiz}`).disabled = true;
+    document.getElementById(`quiz${quiz}`).classList.add('quiz-done');
+    const msgs = ['Tente novamente na próxima aula!','Bom começo, mas você pode mais!','Muito bom! Continue assim!','Quase perfeito!','🏆 Perfeito! Parabéns!'];
+    const msgIdx = Math.min(Math.floor(pct/25), 4);
+    const res = document.getElementById(`result${quiz}`);
+    res.querySelector('.result-score').textContent = `${score} / ${cfg.total} corretas`;
+    res.querySelector('.result-msg').textContent = msgs[msgIdx];
+    res.classList.add('show');
+    if (score === cfg.total) earnBadge('perfect');
+    checkBadges();
+    updateUI();
+  }
+}
+
+// ── LABS ──
+function completeLab(n) {
+  if (state.labDone[n-1]) return;
+  state.labDone[n-1] = true;
+  addXP(50);
+  const card = document.getElementById(`lab${n}`);
+  card.classList.add('done');
+  const btn = document.getElementById(`lab${n}-btn`);
+  btn.textContent = '🎉 Concluído!';
+  btn.classList.add('done-btn');
+  if (!state.labDone.includes(false)) earnBadge('lab');
+  checkBadges();
+  updateUI();
+  celebrate();
+}
+
+// ── XP ──
+function addXP(amount) {
+  state.xp += amount;
+  showToast(`+${amount} XP`);
+  updateUI();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('xpToast');
+  t.textContent = `⚡ ${msg}`;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── BADGES ──
+function earnBadge(id) {
+  const el = document.getElementById(`badge-${id}`);
+  if (el && !el.classList.contains('earned')) {
+    el.classList.add('earned');
+    setTimeout(() => showToast(`🏅 Badge: ${el.title}`), 400);
+  }
+}
+
+function checkBadges() {
+  if (state.quizDone.some(v => v)) earnBadge('curious');
+  if (state.quizDone[0]) earnBadge('quiz1');
+  if (!state.quizDone.includes(false) && !state.labDone.includes(false)) earnBadge('week1');
+}
+
+// ── UI UPDATE ──
+function updateUI() {
+  document.getElementById('header-xp').textContent = state.xp;
+  document.getElementById('statXP').textContent = state.xp;
+  document.getElementById('statQuiz').textContent = `${state.quizDone.filter(Boolean).length}/3`;
+  document.getElementById('statLab').textContent = `${state.labDone.filter(Boolean).length}/3`;
+  const maxXP = 400;
+  const pct = Math.min(Math.round(state.xp / maxXP * 100), 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct;
+}
+
+// ── CELEBRATE ──
+function celebrate() {
+  const emojis = ['🎉','⭐','✨','🌟','💫','🎊'];
+  for (let i = 0; i < 8; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-emoji';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = '0';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2200);
+    }, i * 120);
+  }
+}
+</script>
+</body>
+</html>

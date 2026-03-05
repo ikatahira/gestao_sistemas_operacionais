@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Semana 11 – PowerShell Avançado – Remoting e Cmdlets | GSO I 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --dark:#0f172a; --navy:#1e3a5f; --blue:#2a5298; --azure:#3b82f6;
+  --teal:#0891b2; --green:#16a34a; --amber:#d97706; --purple:#7c3aed;
+  --gray-50:#f8fafc; --gray-100:#f1f5f9; --gray-200:#e2e8f0;
+  --gray-500:#64748b; --gray-700:#334155; --white:#fff;
+  --radius:12px; --radius-sm:8px; --shadow:0 4px 16px rgba(0,0,0,.1);
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(--gray-700);line-height:1.7;}
+
+.header{background:linear-gradient(135deg,#1e1b4b 0%,#3730a3 50%,#4f46e5 100%);color:var(--white);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.3);}
+.header-inner{max-width:1200px;margin:0 auto;padding:18px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.week-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:600;white-space:nowrap;font-family:'IBM Plex Mono',monospace;}
+.header-text{flex:1;}
+.header-text h1{font-size:clamp(1.1em,2.5vw,1.7em);font-weight:700;letter-spacing:-.02em;}
+.header-text p{opacity:.7;font-size:.85em;margin-top:3px;}
+.guide-tag{background:linear-gradient(135deg,var(--amber),#b45309);border-radius:50px;padding:5px 14px;font-size:.75em;font-weight:600;}
+
+.container{max-width:1200px;margin:0 auto;padding:28px 32px;}
+.card{background:var(--white);border-radius:var(--radius);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--gray-200);}
+
+.nav-bar{background:var(--white);border-radius:var(--radius);padding:16px 22px;box-shadow:var(--shadow);border:1px solid var(--gray-200);display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px;}
+.nav-btn{padding:9px 18px;border-radius:var(--radius-sm);text-decoration:none;font-weight:600;font-size:.88em;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+.btn-primary{background:linear-gradient(135deg,#1e1b4b,#4f46e5);color:var(--white);box-shadow:0 2px 8px rgba(79,70,229,.3);}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-200);}
+.btn-secondary:hover{background:var(--gray-200);}
+.btn-blue{background:linear-gradient(135deg,var(--navy),var(--blue));color:var(--white);}
+.btn-disabled{opacity:.4;pointer-events:none;background:var(--gray-100);color:var(--gray-500);}
+.nav-spacer{flex:1;}
+
+.ex-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--gray-100);}
+.ex-num-circle{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1.1em;font-weight:700;flex-shrink:0;}
+.ex-title-wrap h2{font-size:1.2em;font-weight:700;color:var(--navy);}
+.ex-title-wrap .meta{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;}
+.meta-tag{background:var(--gray-100);border-radius:50px;padding:2px 9px;font-size:.78em;color:var(--gray-500);font-weight:500;}
+.avaliacao-label{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid var(--amber);border-radius:50px;padding:2px 12px;font-size:.78em;font-weight:700;color:#92400e;}
+
+.enunciado{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-radius:var(--radius-sm);padding:18px 22px;margin-bottom:18px;}
+.enunciado h3{color:var(--navy);font-size:.95em;font-weight:700;margin-bottom:7px;}
+.enunciado p{color:#1e40af;font-size:.92em;}
+
+.rubric-wrap{margin-bottom:20px;overflow-x:auto;}
+.rubric-title{font-size:.98em;font-weight:700;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+table.rubric{width:100%;border-collapse:collapse;min-width:560px;border-radius:var(--radius-sm);overflow:hidden;}
+table.rubric thead tr{background:linear-gradient(135deg,var(--navy),var(--blue));}
+table.rubric thead th{color:var(--white);padding:11px 13px;text-align:left;font-size:.82em;font-weight:600;}
+table.rubric tbody tr:nth-child(even){background:var(--gray-50);}
+table.rubric tbody td{padding:10px 13px;border-bottom:1px solid var(--gray-100);font-size:.85em;vertical-align:top;}
+table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:nowrap;}
+.lv0{color:#dc2626;}.lv1{color:#d97706;}.lv2{color:#0369a1;}.lv3{color:#15803d;font-weight:600;}
+
+.solution{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #86efac;border-radius:var(--radius-sm);padding:22px;margin-top:18px;}
+.solution h3{color:#065f46;font-size:1em;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+.solution ol{margin-left:18px;}
+.solution ol li{color:#14532d;font-size:.9em;margin-bottom:7px;padding-left:3px;font-family:'IBM Plex Mono',monospace;}
+.solution ol li strong{color:#065f46;font-family:'IBM Plex Sans',sans-serif;}
+
+.tip-box{background:linear-gradient(135deg,#fefce8,#fef9c3);border:1px solid #fde047;border-radius:var(--radius-sm);padding:14px 18px;margin-top:14px;}
+.tip-box p{font-size:.88em;color:#713f12;}
+
+.check-wrap{margin-top:14px;}
+.check-wrap h4{font-size:.92em;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.check-item{display:flex;align-items:flex-start;gap:7px;margin-bottom:5px;font-size:.87em;color:var(--gray-500);}
+.check-box{width:15px;height:15px;border:2px solid var(--green);border-radius:3px;flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;background:var(--green);}
+.check-box::after{content:'✓';color:white;font-size:9px;font-weight:700;}
+
+@media(max-width:768px){.container{padding:14px;}.card{padding:18px;}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <span class="week-badge">📝 Guia · S11/20</span>
+    <div class="header-text">
+      <h1>Guia – PowerShell Avançado – Remoting e Cmdlets</h1>
+      <p>Rubricas · Resoluções · GSO I · Prof. Isaque Katahira · 2026</p>
+    </div>
+    <span class="guide-tag">📊 3 Exercícios</span>
+  </div>
+</header>
+
+<div class="container">
+  <nav class="nav-bar">
+    <a href="semana10_guia.html" class="nav-btn btn-secondary">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Índice</a>
+    <a href="semana11_aula.html" class="nav-btn btn-blue">📖 Ver Aula</a>
+    <span class="nav-spacer"></span>
+    <a href="semana12_guia.html" class="nav-btn btn-primary">Próximo ➡</a>
+  </nav>
+
+  <div class="card" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:#bfdbfe;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-size:1.8em;">📝</span>
+      <div>
+        <div style="font-weight:700;color:#1e3a5f;font-size:1em;">Como usar este Guia</div>
+        <div style="color:#1e40af;font-size:.88em;margin-top:3px;">
+          Tente resolver os exercícios <strong>por conta própria primeiro</strong>. Consulte a resolução para comparar e aprender — nunca para copiar! Use a rubrica como guia de qualidade antes de entregar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  
+  <div class="card" >
+    <div class="ex-header">
+      <div class="ex-num-circle" style="background:linear-gradient(135deg,#2a5298,#2a5298bb);">1</div>
+      <div class="ex-title-wrap">
+        <h2>🔵 Habilitando e Testando o WinRM</h2>
+        <div class="meta">
+          <span class="meta-tag">🔬 Laboratório</span>
+          <span class="meta-tag">⏱ 30 min</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="enunciado">
+      <h3>📋 Enunciado</h3>
+      <p>Configure o WinRM no computador local e teste as conexões remotas dentro do ambiente do laboratório.</p>
+    </div>
+
+    <div class="rubric-wrap">
+      <div class="rubric-title">📊 Rubrica de Avaliação</div>
+      <table class="rubric">
+        <thead>
+          <tr>
+            <th>Critério</th>
+            <th>Insuficiente (0–5)</th>
+            <th>Básico (6–7)</th>
+            <th>Proficiente (8–9)</th>
+            <th>Excelente (10)</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+              <td>Execução Técnica</td>
+              <td class="lv0">Não conseguiu executar</td>
+              <td class="lv1">Execução parcial com erros graves</td>
+              <td class="lv2">Execução correta com minor issues</td>
+              <td class="lv3">Execução exemplar e eficiente</td>
+            </tr><tr>
+              <td>Precisão</td>
+              <td class="lv0">Resultado incorreto ou ausente</td>
+              <td class="lv1">Imprecisão comprometeu o resultado</td>
+              <td class="lv2">Resultado correto com pequenas falhas</td>
+              <td class="lv3">Precisão perfeita e profissional</td>
+            </tr><tr>
+              <td>Documentação</td>
+              <td class="lv0">Sem documentação ou prints</td>
+              <td class="lv1">Documentação mínima e incompleta</td>
+              <td class="lv2">Documentação clara e organizada</td>
+              <td class="lv3">Documentação profissional e completa</td>
+            </tr><tr>
+              <td>Metodologia</td>
+              <td class="lv0">Sem método identificável</td>
+              <td class="lv1">Método básico sem planejamento</td>
+              <td class="lv2">Bom método de trabalho</td>
+              <td class="lv3">Metodologia exemplar e sistematizada</td>
+            </tr><tr>
+              <td>Resultado Final</td>
+              <td class="lv0">Objetivo não atingido</td>
+              <td class="lv1">Objetivo parcialmente atingido</td>
+              <td class="lv2">Objetivo atingido satisfatoriamente</td>
+              <td class="lv3">Objetivo superado com excelência</td>
+            </tr><tr>
+              <td>Apresentação</td>
+              <td class="lv0">Trabalho mal apresentado</td>
+              <td class="lv1">Apresentação básica e legível</td>
+              <td class="lv2">Apresentação clara e organizada</td>
+              <td class="lv3">Apresentação profissional</td>
+            </tr></tbody>
+      </table>
+    </div>
+
+    <div class="solution">
+      <h3>✅ Resolução Passo a Passo</h3>
+      <ol><li><strong>▸</strong> Abra PowerShell como Administrador</li>
+<li><strong>▸</strong> Verifique o status atual: Get-Service WinRM</li>
+<li><strong>▸</strong> Habilite o Remoting: Enable-PSRemoting -Force</li>
+<li><strong>▸</strong> Confirme que está ativo: Get-Service WinRM — deve mostrar 'Running'</li>
+<li><strong>▸</strong> Teste conexão com localhost: Test-WSMan localhost</li>
+<li><strong>▸</strong> Execute um comando remoto no localhost: Invoke-Command -ComputerName localhost -ScriptBlock { Get-Date }</li>
+<li><strong>▸</strong> Abra uma sessão interativa: Enter-PSSession -ComputerName localhost</li>
+<li><strong>▸</strong> Observe que o prompt muda para [localhost]: — você está 'dentro' da sessão remota</li>
+<li><strong>▸</strong> Execute alguns comandos e depois saia: Exit-PSSession</li>
+<li><strong>▸</strong> Documente cada etapa com prints. Salve: 'sem11_ex1_SeuNome.docx'</li></ol>
+    </div>
+
+    <div class="tip-box">
+      <p><strong>💡 Dica Profissional:</strong> Sempre documente o que você fez durante o laboratório. Um técnico sem registros não consegue reproduzir soluções nem comprovar seu trabalho.</p>
+    </div>
+
+    <div class="check-wrap">
+      <h4>☑️ Checklist de Entrega:</h4>
+      <div class="check-item"><div class="check-box"></div><span>Abra PowerShell como Administrador</span></div>
+<div class="check-item"><div class="check-box"></div><span>Verifique o status atual: Get-Service WinRM</span></div>
+<div class="check-item"><div class="check-box"></div><span>Habilite o Remoting: Enable-PSRemoting -Force</span></div>
+<div class="check-item"><div class="check-box"></div><span>Confirme que está ativo: Get-Service WinRM — deve mostrar 'Running'</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Arquivo salvo com nomenclatura correta (sem11_ex1_SeuNome)</span></div>
+    </div>
+  </div>
+  <div class="card" >
+    <div class="ex-header">
+      <div class="ex-num-circle" style="background:linear-gradient(135deg,#0891b2,#0891b2bb);">2</div>
+      <div class="ex-title-wrap">
+        <h2>🔷 Gerenciamento Remoto de Serviços</h2>
+        <div class="meta">
+          <span class="meta-tag">🔬 Laboratório</span>
+          <span class="meta-tag">⏱ 35 min</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="enunciado">
+      <h3>📋 Enunciado</h3>
+      <p>Use o PowerShell Remoting para verificar e gerenciar serviços em um computador remoto (ou no localhost como simulação).</p>
+    </div>
+
+    <div class="rubric-wrap">
+      <div class="rubric-title">📊 Rubrica de Avaliação</div>
+      <table class="rubric">
+        <thead>
+          <tr>
+            <th>Critério</th>
+            <th>Insuficiente (0–5)</th>
+            <th>Básico (6–7)</th>
+            <th>Proficiente (8–9)</th>
+            <th>Excelente (10)</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+              <td>Funcionamento</td>
+              <td class="lv0">Não funciona</td>
+              <td class="lv1">Funciona parcialmente</td>
+              <td class="lv2">Funciona corretamente</td>
+              <td class="lv3">Funciona perfeitamente e supera</td>
+            </tr><tr>
+              <td>Estrutura Técnica</td>
+              <td class="lv0">Estrutura inadequada</td>
+              <td class="lv1">Estrutura básica funcional</td>
+              <td class="lv2">Boa estrutura técnica</td>
+              <td class="lv3">Estrutura exemplar e profissional</td>
+            </tr><tr>
+              <td>Tratamento de Erros</td>
+              <td class="lv0">Sem tratamento de erros</td>
+              <td class="lv1">Tratamento mínimo presente</td>
+              <td class="lv2">Erros bem tratados</td>
+              <td class="lv3">Tratamento robusto e completo</td>
+            </tr><tr>
+              <td>Eficiência</td>
+              <td class="lv0">Ineficiente e redundante</td>
+              <td class="lv1">Pouco eficiente</td>
+              <td class="lv2">Eficiente</td>
+              <td class="lv3">Altamente eficiente e otimizado</td>
+            </tr><tr>
+              <td>Documentação</td>
+              <td class="lv0">Sem comentários ou README</td>
+              <td class="lv1">Documentação básica</td>
+              <td class="lv2">Bem documentado</td>
+              <td class="lv3">Documentação completa e exemplar</td>
+            </tr><tr>
+              <td>Boas Práticas</td>
+              <td class="lv0">Sem boas práticas</td>
+              <td class="lv1">Algumas boas práticas</td>
+              <td class="lv2">Boas práticas aplicadas</td>
+              <td class="lv3">Segue padrões profissionais</td>
+            </tr></tbody>
+      </table>
+    </div>
+
+    <div class="solution">
+      <h3>✅ Resolução Passo a Passo</h3>
+      <ol><li><strong>▸</strong> # Listar serviços remotamente:</li>
+<li><strong>▸</strong> Invoke-Command -ComputerName localhost -ScriptBlock { Get-Service | Where-Object {$_.Status -eq 'Running'} }</li>
+<li><strong>▸</strong> </li>
+<li><strong>▸</strong> # Verificar um serviço específico:</li>
+<li><strong>▸</strong> Invoke-Command -ComputerName localhost -ScriptBlock { Get-Service -Name Spooler }</li>
+<li><strong>▸</strong> </li>
+<li><strong>▸</strong> # Parar e iniciar um serviço remotamente:</li>
+<li><strong>▸</strong> Invoke-Command -ComputerName localhost -ScriptBlock { Stop-Service -Name Spooler -Force }</li>
+<li><strong>▸</strong> Invoke-Command -ComputerName localhost -ScriptBlock { Start-Service -Name Spooler }</li>
+<li><strong>▸</strong> </li>
+<li><strong>▸</strong> # Usar sessão persistente:</li>
+<li><strong>▸</strong> $sessao = New-PSSession -ComputerName localhost</li>
+<li><strong>▸</strong> Invoke-Command -Session $sessao -ScriptBlock { $env:COMPUTERNAME }</li>
+<li><strong>▸</strong> Remove-PSSession $sessao</li>
+<li><strong>▸</strong> Documente. Salve: 'sem11_ex2_SeuNome.docx'</li></ol>
+    </div>
+
+    <div class="tip-box">
+      <p><strong>💡 Dica Profissional:</strong> Sempre documente o que você fez durante o laboratório. Um técnico sem registros não consegue reproduzir soluções nem comprovar seu trabalho.</p>
+    </div>
+
+    <div class="check-wrap">
+      <h4>☑️ Checklist de Entrega:</h4>
+      <div class="check-item"><div class="check-box"></div><span># Listar serviços remotamente:</span></div>
+<div class="check-item"><div class="check-box"></div><span>Invoke-Command -ComputerName localhost -ScriptBlock { Get-Service | Where-Object {$_.Status -eq 'Running'} }</span></div>
+<div class="check-item"><div class="check-box"></div><span></span></div>
+<div class="check-item"><div class="check-box"></div><span># Verificar um serviço específico:</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Arquivo salvo com nomenclatura correta (sem11_ex2_SeuNome)</span></div>
+    </div>
+  </div>
+  <div class="card" >
+    <div class="ex-header">
+      <div class="ex-num-circle" style="background:linear-gradient(135deg,#16a34a,#16a34abb);">3</div>
+      <div class="ex-title-wrap">
+        <h2>🟢 Script de Auditoria Remota</h2>
+        <div class="meta">
+          <span class="meta-tag">🔬 Laboratório</span>
+          <span class="meta-tag">⏱ 25 min</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="enunciado">
+      <h3>📋 Enunciado</h3>
+      <p>Crie um script que coleta informações de auditoria de um ou mais computadores remotamente e gera um relatório consolidado.</p>
+    </div>
+
+    <div class="rubric-wrap">
+      <div class="rubric-title">📊 Rubrica de Avaliação</div>
+      <table class="rubric">
+        <thead>
+          <tr>
+            <th>Critério</th>
+            <th>Insuficiente (0–5)</th>
+            <th>Básico (6–7)</th>
+            <th>Proficiente (8–9)</th>
+            <th>Excelente (10)</th>
+          </tr>
+        </thead>
+        <tbody><tr>
+              <td>Diagnóstico</td>
+              <td class="lv0">Não identificou o problema</td>
+              <td class="lv1">Diagnóstico superficial</td>
+              <td class="lv2">Bom diagnóstico</td>
+              <td class="lv3">Diagnóstico preciso e completo</td>
+            </tr><tr>
+              <td>Raciocínio Técnico</td>
+              <td class="lv0">Sem raciocínio lógico</td>
+              <td class="lv1">Raciocínio básico</td>
+              <td class="lv2">Bom raciocínio técnico</td>
+              <td class="lv3">Raciocínio exemplar e sistemático</td>
+            </tr><tr>
+              <td>Solução Aplicada</td>
+              <td class="lv0">Solução incorreta ou ausente</td>
+              <td class="lv1">Solução parcial</td>
+              <td class="lv2">Solução adequada</td>
+              <td class="lv3">Solução ótima e elegante</td>
+            </tr><tr>
+              <td>Documentação do Processo</td>
+              <td class="lv0">Sem registro do processo</td>
+              <td class="lv1">Registro mínimo</td>
+              <td class="lv2">Processo bem documentado</td>
+              <td class="lv3">Documentação técnica completa</td>
+            </tr><tr>
+              <td>Eficácia</td>
+              <td class="lv0">Problema não resolvido</td>
+              <td class="lv1">Parcialmente resolvido</td>
+              <td class="lv2">Resolvido satisfatoriamente</td>
+              <td class="lv3">Resolvido com excelência</td>
+            </tr><tr>
+              <td>Comunicação</td>
+              <td class="lv0">Incapaz de explicar</td>
+              <td class="lv1">Explicação básica</td>
+              <td class="lv2">Explicação clara</td>
+              <td class="lv3">Comunicação técnica exemplar</td>
+            </tr></tbody>
+      </table>
+    </div>
+
+    <div class="solution">
+      <h3>✅ Resolução Passo a Passo</h3>
+      <ol><li><strong>▸</strong> $computadores = @('localhost') # Em produção: lista de PCs da rede</li>
+<li><strong>▸</strong> $auditoria = @()</li>
+<li><strong>▸</strong> </li>
+<li><strong>▸</strong> foreach ($pc in $computadores) {</li>
+<li><strong>▸</strong>     try {</li>
+<li><strong>▸</strong>         $dados = Invoke-Command -ComputerName $pc -ScriptBlock {</li>
+<li><strong>▸</strong>             [PSCustomObject]@{</li>
+<li><strong>▸</strong>                 Computador = $env:COMPUTERNAME</li>
+<li><strong>▸</strong>                 SO = (Get-WmiObject Win32_OperatingSystem).Caption</li>
+<li><strong>▸</strong>                 UltimoLogin = (Get-WmiObject Win32_OperatingSystem).LastBootUpTime</li>
+<li><strong>▸</strong>                 Processos = (Get-Process).Count</li>
+<li><strong>▸</strong>             }</li>
+<li><strong>▸</strong>         } -ErrorAction Stop</li>
+<li><strong>▸</strong>         $auditoria += $dados</li>
+<li><strong>▸</strong>     } catch {</li>
+<li><strong>▸</strong>         Write-Warning "Falha ao conectar em $pc"</li>
+<li><strong>▸</strong>     }</li>
+<li><strong>▸</strong> }</li>
+<li><strong>▸</strong> $auditoria | Format-Table -AutoSize</li>
+<li><strong>▸</strong> $auditoria | Export-Csv C:\auditoria.csv -NoTypeInformation</li>
+<li><strong>▸</strong> Salve: 'sem11_ex3_SeuNome.ps1'</li></ol>
+    </div>
+
+    <div class="tip-box">
+      <p><strong>💡 Dica Profissional:</strong> Sempre documente o que você fez durante o laboratório. Um técnico sem registros não consegue reproduzir soluções nem comprovar seu trabalho.</p>
+    </div>
+
+    <div class="check-wrap">
+      <h4>☑️ Checklist de Entrega:</h4>
+      <div class="check-item"><div class="check-box"></div><span>$computadores = @('localhost') # Em produção: lista de PCs da rede</span></div>
+<div class="check-item"><div class="check-box"></div><span>$auditoria = @()</span></div>
+<div class="check-item"><div class="check-box"></div><span></span></div>
+<div class="check-item"><div class="check-box"></div><span>foreach ($pc in $computadores) {</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Arquivo salvo com nomenclatura correta (sem11_ex3_SeuNome)</span></div>
+    </div>
+  </div>
+
+  <nav class="nav-bar">
+    <a href="semana10_guia.html" class="nav-btn btn-secondary">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Índice</a>
+    <a href="semana11_aula.html" class="nav-btn btn-blue">📖 Ver Aula</a>
+    <span class="nav-spacer"></span>
+    <a href="semana12_guia.html" class="nav-btn btn-primary">Próximo ➡</a>
+  </nav>
+</div>
+</body>
+</html>

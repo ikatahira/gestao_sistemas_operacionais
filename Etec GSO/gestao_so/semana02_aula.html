@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 02 – Introdução aos SO – Parte 2 | GSO I 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ink:#0e1117; --navy:#0f2d52; --blue:#1565c0; --sky:#42a5f5;
+  --teal:#00897b; --green:#2e7d32; --lime:#66bb6a;
+  --amber:#f57c00; --orange:#ef6c00; --red:#c62828;
+  --purple:#6a1b9a; --violet:#9c27b0;
+  --gold:#ffc107; --xp:#ff6f00;
+  --bg:#f0f4f8; --surface:#fff;
+  --gray-100:#e8edf2; --gray-300:#c5d0db; --gray-500:#6b7c93; --gray-700:#374151;
+  --radius:16px; --radius-sm:10px; --radius-xs:6px;
+  --shadow:0 4px 20px rgba(0,0,0,.08); --shadow-lg:0 8px 32px rgba(0,0,0,.14);
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--gray-700);line-height:1.7;min-height:100vh;}
+.header{background:linear-gradient(135deg,#0e1117 0%,#0f2d52 60%,#00897b 100%);color:#fff;padding:0;position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,.4);}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.week-pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:4px 14px;font-size:.76em;font-weight:700;font-family:'Space Mono',monospace;white-space:nowrap;}
+.header-text{flex:1;}
+.header-text h1{font-size:clamp(1em,2.5vw,1.5em);font-weight:900;letter-spacing:-.02em;}
+.header-text p{opacity:.65;font-size:.82em;margin-top:2px;}
+.xp-bar-header{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:50px;padding:6px 14px;font-size:.8em;font-weight:700;white-space:nowrap;}
+#header-xp{color:var(--gold);}
+.xp-toast{position:fixed;top:80px;right:24px;background:linear-gradient(135deg,#ff6f00,#ffc107);color:#fff;padding:12px 22px;border-radius:50px;font-weight:800;font-size:1em;z-index:999;box-shadow:0 4px 20px rgba(255,111,0,.5);transform:translateY(-20px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+.xp-toast.show{transform:translateY(0);opacity:1;}
+.progress-tracker{max-width:1100px;margin:0 auto;padding:20px 28px 0;}
+.progress-card{background:var(--surface);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow);border:1px solid var(--gray-100);display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.progress-info{flex:1;min-width:200px;}
+.progress-info h3{font-size:.9em;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+.progress-bar-wrap{background:var(--gray-100);border-radius:50px;height:12px;overflow:hidden;}
+.progress-bar{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--teal),var(--sky));transition:width .6s cubic-bezier(.34,1.56,.64,1);}
+.progress-stats{display:flex;gap:16px;flex-wrap:wrap;}
+.stat-chip{background:var(--bg);border-radius:var(--radius-sm);padding:10px 16px;text-align:center;border:1px solid var(--gray-100);}
+.stat-chip .val{font-size:1.4em;font-weight:900;color:var(--navy);display:block;}
+.stat-chip .lbl{font-size:.72em;color:var(--gray-500);font-weight:600;text-transform:uppercase;}
+.badges-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.badge{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3em;border:2px solid var(--gray-300);background:var(--gray-100);filter:grayscale(1);opacity:.4;transition:all .3s;position:relative;cursor:help;}
+.badge.earned{filter:none;opacity:1;border-color:var(--gold);background:linear-gradient(135deg,#fff8e1,#fff);box-shadow:0 2px 12px rgba(255,193,7,.4);}
+.badge .tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#0e1117;color:#fff;padding:6px 10px;border-radius:6px;font-size:.7em;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;}
+.badge:hover .tooltip{opacity:1;}
+.container{max-width:1100px;margin:0 auto;padding:20px 28px;}
+.card{background:var(--surface);border-radius:var(--radius);padding:26px;margin-bottom:18px;box-shadow:var(--shadow);border:1px solid var(--gray-100);}
+.card-title{font-size:1.15em;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--gray-100);}
+.card-title .badge-mini{background:linear-gradient(135deg,var(--teal),var(--sky));color:#fff;border-radius:50px;padding:2px 10px;font-size:.65em;font-weight:700;}
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+.obj-item{background:linear-gradient(135deg,#e0f2f1,#b2dfdb);border:1px solid #80cbc4;border-radius:var(--radius-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;}
+.obj-num{width:24px;height:24px;background:var(--teal);color:#fff;border-radius:50%;font-size:.72em;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.obj-text{font-size:.88em;font-weight:700;color:#00695c;}
+.teoria-item{background:var(--bg);border-radius:var(--radius-sm);padding:20px 22px;margin-bottom:14px;border-left:5px solid var(--teal);}
+.teoria-item h3{color:var(--navy);font-size:1em;font-weight:800;margin-bottom:8px;}
+.teoria-item p{color:var(--gray-700);font-size:.92em;line-height:1.8;}
+.tip-box{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:1px solid #a5d6a7;border-radius:var(--radius-xs);padding:10px 14px;margin-top:10px;font-size:.85em;font-weight:700;color:var(--green);display:flex;gap:8px;align-items:flex-start;}
+.warn-box{background:linear-gradient(135deg,#fff8e1,#fff3e0);border:1px solid #ffcc02;border-radius:var(--radius-xs);padding:10px 14px;margin-top:10px;font-size:.85em;font-weight:700;color:var(--amber);display:flex;gap:8px;align-items:flex-start;}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;}
+.video-card{background:var(--surface);border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--gray-100);box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;}
+.video-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.video-thumb{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;background:#000;}
+.video-thumb iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+.video-info{padding:14px;}
+.video-title{font-weight:800;color:var(--navy);font-size:.92em;margin-bottom:4px;}
+.video-desc{font-size:.8em;color:var(--gray-500);}
+.video-tag{display:inline-block;background:linear-gradient(135deg,var(--teal),#00695c);color:#fff;border-radius:50px;padding:2px 8px;font-size:.7em;font-weight:700;margin-bottom:6px;}
+.quiz-card{background:linear-gradient(135deg,#e0f2f1,#fff);border:2px solid #80cbc4;border-radius:var(--radius);padding:24px;margin-bottom:18px;}
+.quiz-card.quiz-done{border-color:var(--lime);background:linear-gradient(135deg,#f1f8e9,#fff);}
+.quiz-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.quiz-header h3{font-size:1.1em;font-weight:900;color:var(--navy);flex:1;}
+.xp-reward{background:linear-gradient(135deg,var(--xp),var(--gold));color:#fff;border-radius:50px;padding:4px 12px;font-size:.78em;font-weight:800;white-space:nowrap;}
+.quiz-score-display{background:var(--navy);color:#fff;border-radius:50px;padding:4px 12px;font-size:.78em;font-weight:800;display:none;}
+.quiz-score-display.visible{display:inline-block;}
+.q-block{margin-bottom:20px;}
+.q-text{font-weight:700;color:var(--navy);font-size:.95em;margin-bottom:10px;display:flex;gap:8px;}
+.q-num{background:var(--teal);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0;margin-top:2px;}
+.options{display:flex;flex-direction:column;gap:7px;}
+.opt-btn{background:var(--bg);border:2px solid var(--gray-300);border-radius:var(--radius-xs);padding:10px 16px;text-align:left;font-family:'Nunito',sans-serif;font-size:.88em;font-weight:600;color:var(--gray-700);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;}
+.opt-btn:hover:not(:disabled){background:#e0f2f1;border-color:var(--teal);color:var(--navy);}
+.opt-btn.correct{background:linear-gradient(135deg,#e8f5e9,#c8e6c9)!important;border-color:var(--lime)!important;color:var(--green)!important;font-weight:800;}
+.opt-btn.wrong{background:linear-gradient(135deg,#ffebee,#ffcdd2)!important;border-color:#e57373!important;color:var(--red)!important;}
+.opt-btn:disabled{cursor:default;}
+.opt-letter{width:24px;height:24px;border-radius:50%;background:var(--gray-300);display:flex;align-items:center;justify-content:center;font-size:.78em;font-weight:800;flex-shrink:0;transition:background .2s;}
+.opt-btn.correct .opt-letter{background:var(--lime);}
+.opt-btn.wrong .opt-letter{background:#e57373;}
+.feedback{margin-top:8px;padding:10px 14px;border-radius:var(--radius-xs);font-size:.85em;font-weight:700;display:none;}
+.feedback.show{display:block;}
+.feedback.ok{background:#e8f5e9;color:var(--green);border:1px solid #a5d6a7;}
+.feedback{background:#ffebee;color:var(--red);border:1px solid #ffcdd2;}
+.quiz-submit{background:linear-gradient(135deg,var(--teal),#00695c);color:#fff;border:none;border-radius:var(--radius-sm);padding:12px 28px;font-family:'Nunito',sans-serif;font-size:.95em;font-weight:800;cursor:pointer;transition:all .2s;margin-top:8px;}
+.quiz-submit:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,137,123,.4);}
+.quiz-submit:disabled{opacity:.5;cursor:default;transform:none;}
+.quiz-result{background:linear-gradient(135deg,var(--navy),var(--teal));color:#fff;border-radius:var(--radius-sm);padding:16px 20px;margin-top:14px;display:none;text-align:center;}
+.quiz-result.show{display:block;}
+.quiz-result .result-score{font-size:2em;font-weight:900;}
+.quiz-result .result-msg{font-size:.9em;opacity:.85;margin-top:4px;}
+.lab-card{border:2px solid var(--gray-100);border-radius:var(--radius-sm);padding:20px;margin-bottom:14px;position:relative;overflow:hidden;transition:border-color .3s;}
+.lab-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--teal),var(--sky));}
+.lab-card.done{border-color:var(--lime);}
+.lab-card.done::before{background:linear-gradient(180deg,var(--green),var(--lime));}
+.lab-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+.lab-num{width:32px;height:32px;background:var(--teal);color:#fff;border-radius:50%;font-size:.8em;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lab-info{flex:1;}
+.lab-title{font-size:1em;font-weight:800;color:var(--navy);margin-bottom:4px;}
+.lab-meta{display:flex;gap:7px;flex-wrap:wrap;}
+.lab-tag{background:var(--gray-100);border-radius:50px;padding:2px 10px;font-size:.75em;font-weight:700;color:var(--gray-500);}
+.lab-desc{color:var(--gray-700);font-size:.9em;margin-bottom:12px;line-height:1.7;}
+.lab-steps{background:var(--bg);border-radius:var(--radius-xs);padding:14px 16px;margin-bottom:12px;}
+.lab-steps h4{font-size:.82em;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.lab-steps ol{padding-left:18px;}
+.lab-steps li{font-size:.88em;color:var(--gray-700);margin-bottom:6px;font-weight:600;}
+.lab-steps li code{background:var(--navy);color:#fff;padding:2px 6px;border-radius:4px;font-family:'Space Mono',monospace;font-size:.85em;}
+.lab-complete-btn{background:linear-gradient(135deg,var(--teal),var(--green));color:#fff;border:none;border-radius:var(--radius-xs);padding:10px 20px;font-family:'Nunito',sans-serif;font-size:.88em;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.lab-complete-btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,137,123,.4);}
+.lab-complete-btn.done-btn{background:linear-gradient(135deg,var(--green),#1b5e20);cursor:default;transform:none;}
+kbd{background:var(--navy);color:#fff;border-radius:4px;padding:2px 8px;font-family:'Space Mono',monospace;font-size:.82em;font-weight:700;border-bottom:3px solid #040d1f;}
+.nav-bar{background:var(--surface);border-radius:var(--radius);padding:14px 20px;box-shadow:var(--shadow);border:1px solid var(--gray-100);display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;}
+.nav-btn{padding:9px 18px;border-radius:var(--radius-sm);text-decoration:none;font-weight:800;font-size:.86em;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:linear-gradient(135deg,var(--navy),var(--teal));color:#fff;box-shadow:0 2px 8px rgba(15,45,82,.3);}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-300);}
+.btn-green{background:linear-gradient(135deg,var(--green),#1b5e20);color:#fff;}
+.nav-spacer{flex:1;}
+.link-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.link-card{background:var(--bg);border-radius:var(--radius-sm);padding:16px;border:1px solid var(--gray-100);text-decoration:none;color:inherit;transition:all .2s;display:block;}
+.link-card:hover{border-color:var(--teal);box-shadow:var(--shadow);transform:translateY(-2px);}
+.link-icon{font-size:1.6em;margin-bottom:6px;}
+.link-title{font-weight:800;font-size:.9em;color:var(--navy);margin-bottom:2px;}
+.link-url{font-size:.78em;color:var(--gray-500);}
+.diagram-box{background:linear-gradient(135deg,#f3f4f6,#e5e7eb);border-radius:var(--radius-sm);padding:20px;text-align:center;border:2px dashed var(--gray-300);margin:14px 0;}
+.arch-layers{display:flex;flex-direction:column;gap:6px;max-width:500px;margin:0 auto;}
+.arch-layer{padding:12px 20px;border-radius:var(--radius-xs);font-weight:800;font-size:.88em;text-align:center;}
+.layer-user{background:linear-gradient(135deg,#e3f2fd,#bbdefb);color:var(--navy);border:2px solid #90caf9;}
+.layer-apps{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:var(--green);border:2px solid #a5d6a7;}
+.layer-os{background:linear-gradient(135deg,#fff3e0,#ffe0b2);color:var(--amber);border:2px solid #ffcc02;}
+.layer-kernel{background:linear-gradient(135deg,#fce4ec,#f8bbd9);color:var(--red);border:2px solid #f48fb1;}
+.layer-hw{background:linear-gradient(135deg,#0f2d52,#1565c0);color:#fff;border:2px solid #1565c0;}
+.arch-arrow{text-align:center;font-size:1.2em;color:var(--gray-500);}
+.confetti-emoji{position:fixed;pointer-events:none;font-size:1.5em;z-index:9999;animation:fall 2s forwards;}
+@keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0deg);}100%{opacity:0;transform:translateY(100vh) rotate(720deg);}}
+@media(max-width:768px){.container,.progress-tracker{padding:12px 14px;}.card,.quiz-card{padding:16px;}.obj-grid,.video-grid{grid-template-columns:1fr;}.header-inner{padding:12px 16px;}}
+</style>
+</head>
+<body>
+
+<div class="xp-toast" id="xpToast">⚡ +0 XP</div>
+
+<header class="header">
+  <div class="header-inner">
+    <span class="week-pill">S02/20</span>
+    <div class="header-text">
+      <h1>Introdução aos SO – Parte 2: Arquitetura e Processos</h1>
+      <p>Gestão de Sistemas Operacionais I · Prof. Isaque Katahira · 2026</p>
+    </div>
+    <div class="xp-bar-header">
+      <span>⚡ XP: </span><span id="header-xp">0</span><span style="opacity:.6"> / 400</span>
+    </div>
+  </div>
+</header>
+
+<div class="progress-tracker">
+  <div class="progress-card">
+    <div class="progress-info">
+      <h3>Seu progresso na Semana 02</h3>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div style="font-size:.8em;color:var(--gray-500);margin-top:4px;font-weight:600;"><span id="progressPct">0</span>% concluído</div>
+    </div>
+    <div class="progress-stats">
+      <div class="stat-chip"><span class="val" id="statXP">0</span><span class="lbl">⚡ XP</span></div>
+      <div class="stat-chip"><span class="val" id="statQuiz">0/2</span><span class="lbl">📝 Quizzes</span></div>
+      <div class="stat-chip"><span class="val" id="statLab">0/3</span><span class="lbl">🔬 Labs</span></div>
+    </div>
+    <div>
+      <div style="font-size:.8em;font-weight:700;color:var(--gray-500);margin-bottom:6px;">CONQUISTAS</div>
+      <div class="badges-row">
+        <div class="badge" id="badge-kernel">⚙️<span class="tooltip">Mestre do Kernel</span></div>
+        <div class="badge" id="badge-process">📊<span class="tooltip">Caçador de Processos</span></div>
+        <div class="badge" id="badge-lab">🔬<span class="tooltip">Laboratório Completo</span></div>
+        <div class="badge" id="badge-week2">⭐<span class="tooltip">Semana 2 Concluída</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <nav class="nav-bar">
+    <a href="semana01_aula.html" class="nav-btn btn-secondary">⬅ Semana 01</a>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Início</a>
+    <span class="nav-spacer"></span>
+    <a href="semana03_aula.html" class="nav-btn btn-primary">Semana 03 ➡</a>
+  </nav>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <div class="card-title">🎯 O que você vai aprender hoje</div>
+    <div class="obj-grid">
+      <div class="obj-item"><div class="obj-num">1</div><span class="obj-text">Entender a arquitetura interna do SO: Kernel e User Mode</span></div>
+      <div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Aprender o que são processos e como o SO os gerencia</span></div>
+      <div class="obj-item"><div class="obj-num">3</div><span class="obj-text">Compreender como a memória RAM é distribuída pelo SO</span></div>
+      <div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Identificar as edições do Windows e quando usar cada uma</span></div>
+    </div>
+  </div>
+
+  <!-- VÍDEOS -->
+  <div class="card">
+    <div class="card-title">▶️ Vídeos da Semana <span class="badge-mini">Assista primeiro!</span></div>
+    <p style="font-size:.9em;color:var(--gray-500);margin-bottom:14px;">Estes vídeos ajudam a visualizar conceitos mais técnicos antes da leitura.</p>
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/26QPDBe-NB8" allowfullscreen loading="lazy" title="Kernel Mode vs User Mode"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">▶ Obrigatório</div>
+          <div class="video-title">Kernel Mode vs User Mode</div>
+          <div class="video-desc">Entenda a diferença entre o núcleo do SO e os programas do usuário de forma simples e visual.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/TKCzeXMDPrY" allowfullscreen loading="lazy" title="Gerenciador de Tarefas Windows"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">▶ Obrigatório</div>
+          <div class="video-title">Gerenciador de Tarefas – Guia Completo</div>
+          <div class="video-desc">Aprenda a usar todas as abas do Gerenciador de Tarefas: CPU, memória, disco, rede e processos.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/t1qg-j1Jc4o" allowfullscreen loading="lazy" title="Memória Virtual Windows"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">▶ Recomendado</div>
+          <div class="video-title">Memória RAM e Virtual no Windows</div>
+          <div class="video-desc">Entenda por que o computador fica lento quando a RAM está cheia e o que é o arquivo de paginação.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEORIA 1: ARQUITETURA -->
+  <div class="card">
+    <div class="card-title">📖 1. Arquitetura do SO: Kernel e User Mode</div>
+    
+    <div class="teoria-item">
+      <h3>🏗️ A ideia de "camadas"</h3>
+      <p>O SO é organizado em camadas, como as camadas de uma cebola. As camadas mais internas têm mais poder (e mais responsabilidade). As mais externas são onde você interage. Isso é importante para <strong>segurança</strong>: um programa que trava não pode travar o sistema todo, porque está em uma camada mais externa.</p>
+    </div>
+
+    <div class="diagram-box">
+      <div style="font-weight:800;color:var(--navy);margin-bottom:14px;font-size:.95em;">🏗️ Arquitetura em Camadas do Windows</div>
+      <div class="arch-layers">
+        <div class="arch-layer layer-user">👤 Usuário — Você, usando o computador</div>
+        <div class="arch-arrow">⬇️</div>
+        <div class="arch-layer layer-apps">📱 Aplicativos — Word, Chrome, Spotify, Jogos</div>
+        <div class="arch-arrow">⬇️</div>
+        <div class="arch-layer layer-os">🪟 User Mode (SO) — Interface, APIs, Serviços</div>
+        <div class="arch-arrow">⬇️</div>
+        <div class="arch-layer layer-kernel">⚙️ Kernel Mode — Núcleo do SO (acesso total ao hardware)</div>
+        <div class="arch-arrow">⬇️</div>
+        <div class="arch-layer layer-hw">🔧 Hardware — CPU, RAM, Disco, Placa Mãe</div>
+      </div>
+    </div>
+
+    <div class="teoria-item" style="margin-top:14px;">
+      <h3>⚙️ Kernel Mode — O "núcleo duro" do SO</h3>
+      <p>O Kernel tem <strong>acesso total ao hardware</strong>. Ele controla diretamente o processador, a memória e os dispositivos. É o componente mais crítico — se o Kernel travar, o sistema inteiro trava (a famosa "tela azul da morte" ou BSOD no Windows). Por isso, apenas componentes do próprio SO rodam no modo Kernel.</p>
+      <div class="tip-box">💡 A "Tela Azul da Morte" (BSOD) acontece quando um problema ocorre no Kernel Mode. Como técnico, você vai aprender a diagnosticá-la!</div>
+    </div>
+    
+    <div class="teoria-item">
+      <h3>👤 User Mode — Onde seus programas rodam</h3>
+      <p>Todo programa que você instala (Word, Chrome, jogos) roda no User Mode, com <strong>acesso restrito</strong>. Isso é segurança: se o Chrome travar, o Windows continua funcionando porque o Chrome não tem acesso direto ao hardware. Ele precisa "pedir" ao Kernel para fazer coisas mais críticas.</p>
+      <div class="warn-box">⚠️ Curiosidade: vírus e malwares tentam "sair" do User Mode e entrar no Kernel Mode para ter mais poder. Por isso o Windows tem proteções como o UAC (Controle de Conta de Usuário).</div>
+    </div>
+  </div>
+
+  <!-- QUIZ 1 -->
+  <div class="quiz-card" id="quiz1">
+    <div class="quiz-header">
+      <span style="font-size:1.5em;">🎮</span>
+      <h3>Quiz 1 – Arquitetura do SO</h3>
+      <span class="xp-reward">⚡ +50 XP</span>
+      <span class="quiz-score-display" id="score1"></span>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">1</div>Um programa com acesso TOTAL ao hardware roda em qual modo?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="1" data-val="a"><span class="opt-letter">A</span>User Mode</button>
+        <button class="opt-btn" data-q="1" data-val="b"><span class="opt-letter">B</span>Kernel Mode</button>
+        <button class="opt-btn" data-q="1" data-val="c"><span class="opt-letter">C</span>Safe Mode</button>
+        <button class="opt-btn" data-q="1" data-val="d"><span class="opt-letter">D</span>Admin Mode</button>
+      </div>
+      <div class="feedback ok" id="fb-1-b">✅ Correto! Kernel Mode tem acesso total ao hardware — é o modo mais privilegiado.</div>
+      <div class="feedback" id="fb-1-wrong">❌ Não! Kernel Mode é o que tem acesso total. User Mode é restrito para segurança.</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">2</div>Por que o Chrome não pode "travar" o Windows inteiro quando crasheia?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="2" data-val="a"><span class="opt-letter">A</span>Porque o Chrome é muito bem programado</button>
+        <button class="opt-btn" data-q="2" data-val="b"><span class="opt-letter">B</span>Porque roda em User Mode com acesso restrito ao hardware</button>
+        <button class="opt-btn" data-q="2" data-val="c"><span class="opt-letter">C</span>Porque o Windows protege o Chrome especificamente</button>
+        <button class="opt-btn" data-q="2" data-val="d"><span class="opt-letter">D</span>Porque o Chrome roda no Kernel Mode</button>
+      </div>
+      <div class="feedback ok" id="fb-2-b">✅ Perfeito! User Mode isola os programas — um crash não afeta o Kernel ou outros programas.</div>
+      <div class="feedback" id="fb-2-wrong">❌ Errou! É porque o Chrome roda em User Mode, isolado. O Kernel Mode continua funcionando.</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">3</div>A "Tela Azul da Morte" (BSOD) indica um problema em qual parte do SO?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="3" data-val="a"><span class="opt-letter">A</span>No Microsoft Word</button>
+        <button class="opt-btn" data-q="3" data-val="b"><span class="opt-letter">B</span>Na conexão Wi-Fi</button>
+        <button class="opt-btn" data-q="3" data-val="c"><span class="opt-letter">C</span>No Kernel Mode do SO</button>
+        <button class="opt-btn" data-q="3" data-val="d"><span class="opt-letter">D</span>No User Mode</button>
+      </div>
+      <div class="feedback ok" id="fb-3-c">✅ Correto! A BSOD acontece quando há um erro crítico no Kernel — o sistema não consegue continuar.</div>
+      <div class="feedback" id="fb-3-wrong">❌ Errou! BSOD = problema no Kernel Mode. Como técnico, você vai aprender a diagnosticar isso!</div>
+    </div>
+    <button class="quiz-submit" id="submit1" onclick="submitQuiz(1)" disabled>✅ Ver Resultado</button>
+    <div class="quiz-result" id="result1"><div class="result-score" id="resultScore1"></div><div class="result-msg" id="resultMsg1"></div></div>
+  </div>
+
+  <!-- TEORIA 2: PROCESSOS -->
+  <div class="card">
+    <div class="card-title">📖 2. Gerenciamento de Processos e Memória</div>
+    <div class="teoria-item">
+      <h3>⚙️ O que é um processo?</h3>
+      <p>Um <strong>processo</strong> é um programa em execução. Quando você abre o Word, o SO cria um processo chamado "WINWORD.EXE". Esse processo tem um <strong>PID</strong> (Process ID — número único), usa uma quantidade de RAM, CPU e pode ter prioridade diferente. O SO decide qual processo usa o processador a cada milissegundo.</p>
+      <div class="tip-box">💡 Abra o Gerenciador de Tarefas agora: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd> → aba "Detalhes" para ver todos os PIDs dos processos!</div>
+    </div>
+    <div class="teoria-item">
+      <h3>📊 Estados de um processo</h3>
+      <p>Um processo pode estar em 3 estados: <strong>Executando</strong> (usando o processador agora), <strong>Pronto</strong> (esperando sua vez para usar o processador) ou <strong>Bloqueado/Aguardando</strong> (esperando algo externo, como uma resposta de internet ou leitura de disco). O escalonador decide quem roda quando.</p>
+    </div>
+    <div class="teoria-item">
+      <h3>💾 Gerenciamento de Memória RAM</h3>
+      <p>O SO distribui a RAM entre todos os processos ativos. Cada processo tem sua área de memória isolada (um processo não pode ler a memória de outro — segurança!). Quando a RAM está cheia, o Windows cria o <strong>arquivo de paginação</strong> no disco (memória virtual) para compensar — mas é muito mais lento.</p>
+      <div class="warn-box">⚠️ Por isso o computador fica lento quando a RAM enche! O disco é ~100x mais lento que a RAM. A solução: mais RAM ou fechar programas que não está usando.</div>
+    </div>
+    <div class="teoria-item">
+      <h3>🪟 Edições do Windows no Mercado</h3>
+      <p><strong>Windows 11 Home:</strong> para uso doméstico, notebooks pessoais. <strong>Windows 11 Pro:</strong> adiciona BitLocker (criptografia), domínio de rede, Hyper-V — ideal para empresas. <strong>Windows 11 Enterprise:</strong> para grandes corporações, com gerenciamento centralizado. <strong>Windows Server 2022:</strong> para servidores e data centers. No mercado, ainda há muitas máquinas com Win 10 aguardando migração!</p>
+    </div>
+  </div>
+
+  <!-- QUIZ 2 -->
+  <div class="quiz-card" id="quiz2">
+    <div class="quiz-header">
+      <span style="font-size:1.5em;">🎮</span>
+      <h3>Quiz 2 – Processos, Memória e Edições</h3>
+      <span class="xp-reward">⚡ +50 XP</span>
+      <span class="quiz-score-display" id="score2"></span>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">1</div>O que é o PID de um processo?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-1" data-val="a"><span class="opt-letter">A</span>O nome do processo (ex: Chrome.exe)</button>
+        <button class="opt-btn" data-q="q2-1" data-val="b"><span class="opt-letter">B</span>Um número único que identifica cada processo em execução</button>
+        <button class="opt-btn" data-q="q2-1" data-val="c"><span class="opt-letter">C</span>A quantidade de RAM que o processo usa</button>
+        <button class="opt-btn" data-q="q2-1" data-val="d"><span class="opt-letter">D</span>A velocidade do processador</button>
+      </div>
+      <div class="feedback ok" id="fb-q2-1-b">✅ Correto! PID = Process ID. É o "RG" do processo — número único para identificá-lo no sistema.</div>
+      <div class="feedback" id="fb-q2-1-wrong">❌ Errou! PID (Process ID) é um número único para cada processo, como um RG. Veja no Gerenciador de Tarefas!</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">2</div>Por que o computador fica lento quando a RAM está cheia?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-2" data-val="a"><span class="opt-letter">A</span>O processador para de funcionar</button>
+        <button class="opt-btn" data-q="q2-2" data-val="b"><span class="opt-letter">B</span>O Windows passa a usar o disco como memória virtual, que é muito mais lento</button>
+        <button class="opt-btn" data-q="q2-2" data-val="c"><span class="opt-letter">C</span>A tela fica escura automaticamente</button>
+        <button class="opt-btn" data-q="q2-2" data-val="d"><span class="opt-letter">D</span>O Wi-Fi desconecta</button>
+      </div>
+      <div class="feedback ok" id="fb-q2-2-b">✅ Perfeito! O disco é ~100x mais lento que a RAM. Memória virtual = lentidão!</div>
+      <div class="feedback" id="fb-q2-2-wrong">❌ Não! Quando a RAM enche, o Windows usa o disco como memória virtual (arquivo de paginação) — e disco é muito mais lento!</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">3</div>Qual edição do Windows tem recursos como BitLocker e Hyper-V, sendo ideal para empresas?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-3" data-val="a"><span class="opt-letter">A</span>Windows 11 Home</button>
+        <button class="opt-btn" data-q="q2-3" data-val="b"><span class="opt-letter">B</span>Windows 11 SE</button>
+        <button class="opt-btn" data-q="q2-3" data-val="c"><span class="opt-letter">C</span>Windows 11 Pro</button>
+        <button class="opt-btn" data-q="q2-3" data-val="d"><span class="opt-letter">D</span>Windows 7 Pro</button>
+      </div>
+      <div class="feedback ok" id="fb-q2-3-c">✅ Windows 11 Pro! BitLocker para criptografia, Hyper-V para virtualização, entrada em domínio.</div>
+      <div class="feedback" id="fb-q2-3-wrong">❌ Errou! Windows 11 Pro é a edição voltada para empresas com BitLocker, domínio e Hyper-V.</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">4</div>Um processo "Bloqueado" está em qual estado?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-4" data-val="a"><span class="opt-letter">A</span>Usando o processador ativamente</button>
+        <button class="opt-btn" data-q="q2-4" data-val="b"><span class="opt-letter">B</span>Aguardando algum evento externo (ex: resposta da rede)</button>
+        <button class="opt-btn" data-q="q2-4" data-val="c"><span class="opt-letter">C</span>Com vírus</button>
+        <button class="opt-btn" data-q="q2-4" data-val="d"><span class="opt-letter">D</span>Sem memória RAM</button>
+      </div>
+      <div class="feedback ok" id="fb-q2-4-b">✅ Correto! Bloqueado = aguardando evento externo (dados do disco, rede, input do usuário).</div>
+      <div class="feedback" id="fb-q2-4-wrong">❌ Não! Bloqueado significa que o processo está esperando algo externo (como resposta de uma chamada de rede) antes de continuar.</div>
+    </div>
+    <button class="quiz-submit" id="submit2" onclick="submitQuiz(2)" disabled>✅ Ver Resultado</button>
+    <div class="quiz-result" id="result2"><div class="result-score" id="resultScore2"></div><div class="result-msg" id="resultMsg2"></div></div>
+  </div>
+
+  <!-- LABORATÓRIO -->
+  <div class="card">
+    <div class="card-title">🔬 Laboratório Prático <span class="badge-mini">Faça agora no notebook!</span></div>
+    
+    <div class="lab-card" id="lab1">
+      <div class="lab-header">
+        <div class="lab-num">1</div>
+        <div class="lab-info">
+          <div class="lab-title">📊 Explorando o Gerenciador de Tarefas</div>
+          <div class="lab-meta"><span class="lab-tag">⏱ 30 min</span><span class="lab-tag">⚡ +50 XP</span></div>
+        </div>
+      </div>
+      <div class="lab-desc">Explore TODAS as abas do Gerenciador de Tarefas e documente o que cada seção mostra sobre o estado atual do seu sistema.</div>
+      <div class="lab-steps">
+        <h4>📋 Passo a Passo</h4>
+        <ol>
+          <li>Pressione <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd> para abrir o Gerenciador de Tarefas</li>
+          <li><strong>Aba Processos:</strong> ordene por CPU e veja qual processo está usando mais</li>
+          <li><strong>Aba Desempenho:</strong> veja uso de CPU, RAM, Disco e Rede em tempo real</li>
+          <li><strong>Aba Inicialização:</strong> programas que iniciam com o Windows — anote os pesados!</li>
+          <li><strong>Aba Detalhes:</strong> veja o PID de 3 processos diferentes</li>
+          <li>Anote: quantos processos estão rodando? Quanto % da RAM está em uso?</li>
+        </ol>
+      </div>
+      <button class="lab-complete-btn" id="lab1-btn" onclick="completeLab(1)">✅ Concluído!</button>
+    </div>
+
+    <div class="lab-card" id="lab2">
+      <div class="lab-header">
+        <div class="lab-num">2</div>
+        <div class="lab-info">
+          <div class="lab-title">🪟 Comparativo de Edições do Windows 11</div>
+          <div class="lab-meta"><span class="lab-tag">⏱ 35 min</span><span class="lab-tag">⚡ +50 XP</span></div>
+        </div>
+      </div>
+      <div class="lab-desc">Crie uma tabela comparativa entre as edições do Windows 11 indicando quando usar cada uma. Use o Word ou uma planilha Excel.</div>
+      <div class="lab-steps">
+        <h4>📋 O que sua tabela deve ter</h4>
+        <ol>
+          <li>Colunas: Recurso | Home | Pro | Enterprise</li>
+          <li>Linhas: Preço, BitLocker, Hyper-V, Domínio, Windows Sandbox, Destino de uso</li>
+          <li>Pesquise no <a href="https://www.microsoft.com/pt-br/windows/compare-windows-11-home-vs-pro" target="_blank" style="color:var(--teal);font-weight:700;">site oficial Microsoft ↗</a></li>
+          <li>Adicione uma coluna "Recomendo quando..." com suas conclusões</li>
+        </ol>
+      </div>
+      <button class="lab-complete-btn" id="lab2-btn" onclick="completeLab(2)">✅ Concluído!</button>
+    </div>
+
+    <div class="lab-card" id="lab3">
+      <div class="lab-header">
+        <div class="lab-num">3</div>
+        <div class="lab-info">
+          <div class="lab-title">🏗️ Diagrama de Arquitetura do SO</div>
+          <div class="lab-meta"><span class="lab-tag">⏱ 25 min</span><span class="lab-tag">⚡ +50 XP</span></div>
+        </div>
+      </div>
+      <div class="lab-desc">Crie um diagrama visual mostrando as camadas do SO (da aula de hoje) usando o draw.io ou desenhado no papel. Inclua exemplos reais em cada camada.</div>
+      <div class="lab-steps">
+        <h4>📋 Camadas para incluir</h4>
+        <ol>
+          <li>Hardware (CPU Intel Core, RAM DDR5, SSD NVMe)</li>
+          <li>Kernel Mode (Gerenciador de processos, drivers, HAL)</li>
+          <li>User Mode (APIs do Windows, Serviços)</li>
+          <li>Aplicativos (Word, Chrome, jogos)</li>
+          <li>Use <a href="https://app.diagrams.net" target="_blank" style="color:var(--teal);font-weight:700;">draw.io grátis ↗</a> para criar digital</li>
+        </ol>
+      </div>
+      <button class="lab-complete-btn" id="lab3-btn" onclick="completeLab(3)">✅ Concluído!</button>
+    </div>
+  </div>
+
+  <!-- LINKS -->
+  <div class="card">
+    <div class="card-title">🔗 Links Úteis</div>
+    <div class="link-grid">
+      <a href="https://learn.microsoft.com/pt-br/windows/win32/procthread/processes-and-threads" target="_blank" class="link-card">
+        <div class="link-icon">⚙️</div>
+        <div class="link-title">Processos no Windows</div>
+        <div class="link-url">Documentação oficial Microsoft</div>
+      </a>
+      <a href="https://www.microsoft.com/pt-br/windows/compare-windows-11-home-vs-pro" target="_blank" class="link-card">
+        <div class="link-icon">🪟</div>
+        <div class="link-title">Home vs Pro vs Enterprise</div>
+        <div class="link-url">Comparação oficial das edições</div>
+      </a>
+      <a href="https://app.diagrams.net" target="_blank" class="link-card">
+        <div class="link-icon">🗺️</div>
+        <div class="link-title">draw.io – Diagramas</div>
+        <div class="link-url">Grátis, sem cadastro</div>
+      </a>
+      <a href="https://learn.microsoft.com" target="_blank" class="link-card">
+        <div class="link-icon">🎓</div>
+        <div class="link-title">Microsoft Learn</div>
+        <div class="link-url">Cursos gratuitos certificados</div>
+      </a>
+    </div>
+  </div>
+
+  <nav class="nav-bar">
+    <a href="semana01_aula.html" class="nav-btn btn-secondary">⬅ Semana 01</a>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Início</a>
+    <span class="nav-spacer"></span>
+    <a href="semana03_aula.html" class="nav-btn btn-primary">Semana 03 ➡</a>
+  </nav>
+</div>
+
+<script>
+const state = { xp:0, quizDone:[false,false], labDone:[false,false,false], answers:{} };
+const quizConfig = {
+  1:{ questions:['1','2','3'], correct:{1:'b',2:'b',3:'c'}, total:3 },
+  2:{ questions:['q2-1','q2-2','q2-3','q2-4'], correct:{'q2-1':'b','q2-2':'b','q2-3':'c','q2-4':'b'}, total:4 }
+};
+document.querySelectorAll('.opt-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const q=this.dataset.q, val=this.dataset.val;
+    document.querySelectorAll(`.opt-btn[data-q="${q}"]`).forEach(b=>b.disabled=true);
+    state.answers[q]=val;
+    let quiz=q.startsWith('q2')?2:1;
+    const correct=quizConfig[quiz].correct[q];
+    if(val===correct){
+      this.classList.add('correct');
+      const fb=document.getElementById(`fb-${q}-${correct}`);
+      if(fb){fb.classList.add('show');}
+    } else {
+      this.classList.add('wrong');
+      const fb=document.getElementById(`fb-${q}-wrong`);
+      if(fb){fb.classList.add('show');}
+      document.querySelectorAll(`.opt-btn[data-q="${q}"][data-val="${correct}"]`).forEach(b=>b.classList.add('correct'));
+    }
+    checkQuizReady(quiz);
+  });
+});
+function checkQuizReady(quiz){
+  const cfg=quizConfig[quiz];
+  if(cfg.questions.every(q=>state.answers[q]!==undefined)) document.getElementById(`submit${quiz}`).disabled=false;
+}
+function submitQuiz(quiz){
+  const cfg=quizConfig[quiz];
+  let score=0;
+  cfg.questions.forEach(q=>{if(state.answers[q]===cfg.correct[q])score++;});
+  if(!state.quizDone[quiz-1]){
+    state.quizDone[quiz-1]=true;
+    addXP(50);
+    document.getElementById(`score${quiz}`).textContent=`${score}/${cfg.total}`;
+    document.getElementById(`score${quiz}`).classList.add('visible');
+    document.getElementById(`submit${quiz}`).disabled=true;
+    document.getElementById(`quiz${quiz}`).classList.add('quiz-done');
+    const msgs=['Continue tentando!','Bom início!','Muito bom!','Quase perfeito!','🏆 Perfeito!'];
+    const idx=Math.min(Math.floor(score/cfg.total*4),4);
+    const res=document.getElementById(`result${quiz}`);
+    res.querySelector('.result-score').textContent=`${score} / ${cfg.total} corretas`;
+    res.querySelector('.result-msg').textContent=msgs[idx];
+    res.classList.add('show');
+    if(score===cfg.total) earnBadge('kernel');
+    checkBadges();updateUI();
+  }
+}
+function completeLab(n){
+  if(state.labDone[n-1])return;
+  state.labDone[n-1]=true;
+  addXP(50);
+  document.getElementById(`lab${n}`).classList.add('done');
+  const btn=document.getElementById(`lab${n}-btn`);
+  btn.textContent='🎉 Concluído!';btn.classList.add('done-btn');
+  if(!state.labDone.includes(false)) earnBadge('lab');
+  checkBadges();updateUI();celebrate();
+}
+function addXP(n){state.xp+=n;showToast(`+${n} XP`);updateUI();}
+function showToast(msg){const t=document.getElementById('xpToast');t.textContent=`⚡ ${msg}`;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function earnBadge(id){const el=document.getElementById(`badge-${id}`);if(el&&!el.classList.contains('earned')){el.classList.add('earned');setTimeout(()=>showToast(`🏅 ${el.title}`),400);}}
+function checkBadges(){
+  if(state.quizDone[0]) earnBadge('kernel');
+  if(state.labDone[0]) earnBadge('process');
+  if(!state.quizDone.includes(false)&&!state.labDone.includes(false)) earnBadge('week2');
+}
+function updateUI(){
+  document.getElementById('header-xp').textContent=state.xp;
+  document.getElementById('statXP').textContent=state.xp;
+  document.getElementById('statQuiz').textContent=`${state.quizDone.filter(Boolean).length}/2`;
+  document.getElementById('statLab').textContent=`${state.labDone.filter(Boolean).length}/3`;
+  const pct=Math.min(Math.round(state.xp/400*100),100);
+  document.getElementById('progressBar').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct;
+}
+function celebrate(){const emojis=['🎉','⭐','✨','🌟','💫'];for(let i=0;i<8;i++){setTimeout(()=>{const el=document.createElement('div');el.className='confetti-emoji';el.textContent=emojis[Math.floor(Math.random()*emojis.length)];el.style.left=Math.random()*100+'vw';el.style.top='0';document.body.appendChild(el);setTimeout(()=>el.remove(),2200);},i*120);}}
+</script>
+</body>
+</html>

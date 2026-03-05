@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 05 – Gerenciamento de Arquivos e Pastas – Parte 1 | GSO I 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --dark:#0f172a; --navy:#1e3a5f; --blue:#2a5298; --azure:#3b82f6;
+  --teal:#0891b2; --green:#16a34a; --amber:#d97706; --red:#dc2626;
+  --gray-50:#f8fafc; --gray-100:#f1f5f9; --gray-200:#e2e8f0;
+  --gray-500:#64748b; --gray-700:#334155; --white:#fff;
+  --radius:12px; --radius-sm:8px;
+  --shadow:0 4px 16px rgba(0,0,0,.1);
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(--gray-700);line-height:1.7;}
+
+.header{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#2a5298 100%);color:var(--white);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.3);}
+.header-inner{max-width:1200px;margin:0 auto;padding:18px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.week-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:600;white-space:nowrap;font-family:'IBM Plex Mono',monospace;}
+.header-text{flex:1;}
+.header-text h1{font-size:clamp(1.1em,2.5vw,1.7em);font-weight:700;letter-spacing:-.02em;}
+.header-text p{opacity:.7;font-size:.85em;margin-top:3px;}
+.bloco-tag{background:linear-gradient(135deg,var(--teal),var(--azure));border-radius:50px;padding:5px 14px;font-size:.75em;font-weight:600;white-space:nowrap;}
+.avaliacao-badge{background:linear-gradient(135deg,var(--amber),#b45309);border-radius:50px;padding:5px 14px;font-size:.72em;font-weight:700;white-space:nowrap;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+
+.container{max-width:1200px;margin:0 auto;padding:28px 32px;}
+
+.card{background:var(--white);border-radius:var(--radius);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--gray-200);transition:box-shadow .2s;}
+.card:hover{box-shadow:0 8px 28px rgba(0,0,0,.14);}
+.card-title{font-size:1.25em;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--gray-100);}
+
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;}
+.obj-item{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-radius:var(--radius-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;}
+.obj-num{width:22px;height:22px;background:var(--blue);color:var(--white);border-radius:50%;font-size:.72em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.obj-text{font-size:.9em;font-weight:500;color:var(--navy);}
+
+.teoria-item{background:var(--gray-50);border-radius:var(--radius-sm);padding:18px 22px;margin-bottom:14px;border-left:4px solid var(--teal);}
+.teoria-item h3{color:var(--navy);font-size:1em;font-weight:700;margin-bottom:6px;}
+.teoria-item p{color:var(--gray-500);font-size:.92em;}
+
+.ex-card{border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:18px;margin-bottom:14px;position:relative;overflow:hidden;}
+.ex-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--blue),var(--teal));}
+.ex-card.avaliacao-card::before{background:linear-gradient(180deg,var(--amber),var(--red));}
+.ex-card.avaliacao-card{background:linear-gradient(135deg,#fefce8,#fff7ed);border-color:#fde68a;}
+.ex-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--navy);color:var(--white);border-radius:50%;font-size:.78em;font-weight:700;margin-bottom:7px;}
+.ex-title{font-size:1em;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.ex-meta{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+.ex-tag{background:var(--gray-100);border-radius:50px;padding:2px 9px;font-size:.76em;font-weight:500;color:var(--gray-500);}
+.ex-desc{color:var(--gray-500);font-size:.9em;}
+
+.nav-bar{background:var(--white);border-radius:var(--radius);padding:16px 22px;box-shadow:var(--shadow);border:1px solid var(--gray-200);display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px;}
+.nav-btn{padding:9px 18px;border-radius:var(--radius-sm);text-decoration:none;font-weight:600;font-size:.88em;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+.btn-primary{background:linear-gradient(135deg,var(--navy),var(--blue));color:var(--white);box-shadow:0 2px 8px rgba(30,58,95,.3);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(30,58,95,.4);}
+.btn-secondary{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-200);}
+.btn-secondary:hover{background:var(--gray-200);}
+.btn-green{background:linear-gradient(135deg,var(--green),#15803d);color:var(--white);}
+.btn-disabled{opacity:.4;pointer-events:none;background:var(--gray-100);color:var(--gray-500);}
+.nav-spacer{flex:1;}
+
+@media(max-width:768px){.container{padding:14px;}.card{padding:18px;}.obj-grid{grid-template-columns:1fr;}.nav-bar{gap:7px;}.nav-btn{padding:7px 12px;font-size:.82em;}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <span class="week-badge">S05/20</span>
+    <div class="header-text">
+      <h1>Gerenciamento de Arquivos e Pastas – Parte 1</h1>
+      <p>Gestão de Sistemas Operacionais I · Prof. Isaque Katahira · 2026</p>
+    </div>
+    <span class="bloco-tag">🗂 Ferramentas de Gestão</span>
+    
+  </div>
+</header>
+
+<div class="container">
+  <nav class="nav-bar">
+    <a href="semana04_aula.html" class="nav-btn btn-secondary">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Índice</a>
+    <a href="semana05_guia.html" class="nav-btn btn-green">📝 Guia</a>
+    <span class="nav-spacer"></span>
+    <a href="semana06_aula.html" class="nav-btn btn-primary">Próxima ➡</a>
+  </nav>
+
+  <div class="card">
+    <div class="card-title">🎯 Objetivos de Aprendizagem</div>
+    <div class="obj-grid"><div class="obj-item"><div class="obj-num">1</div><span class="obj-text">Dominar o Explorador de Arquivos do Windows</span></div>
+<div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Compreender atributos e propriedades de arquivos</span></div>
+<div class="obj-item"><div class="obj-num">3</div><span class="obj-text">Organizar estruturas de pastas profissionalmente</span></div>
+<div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Utilizar a pesquisa avançada do Windows</span></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📖 Conteúdo da Aula</div>
+    <div class="teoria-item"><h3>📁 O Explorador de Arquivos</h3><p>O Explorador de Arquivos (Win+E) é a ferramenta central para gerenciar arquivos no Windows. O painel esquerdo mostra a árvore de diretórios; o painel direito mostra o conteúdo. No Windows 11, a barra de ferramentas foi redesenhada mas mantém as funções essenciais: Novo, Recortar, Copiar, Colar, Renomear, Excluir, Classificar, Visualizar.</p></div>
+<div class="teoria-item"><h3>🏷️ Atributos de Arquivos</h3><p>Todo arquivo tem atributos que controlam seu comportamento: Somente Leitura (não pode ser modificado), Oculto (não aparece na listagem normal), Sistema (arquivos críticos do SO — não mexa!), Arquivo (marcado para backup). Para ver arquivos ocultos: Explorador → Ver → Itens Ocultos. Para ver arquivos de sistema: Explorador → Opções → Ver → desmarque 'Ocultar arquivos protegidos'.</p></div>
+<div class="teoria-item"><h3>🗂️ Organização Profissional de Pastas</h3><p>Boas práticas para estrutura de pastas: use nomenclatura consistente (sem acentos, sem espaços quando possível), organize por projeto ou por data, mantenha uma profundidade máxima de 4-5 níveis de subpastas (mais que isso dificulta a navegação), use datas no formato AAAA-MM-DD para facilitar ordenação automática.</p></div>
+<div class="teoria-item"><h3>🔍 Pesquisa Avançada no Windows</h3><p>O Windows oferece pesquisa poderosa: use a barra de pesquisa do Explorador para buscar dentro de uma pasta. Filtros úteis: tipo:*.pdf (busca PDFs), data:>2024 (arquivos de 2024), tamanho:>10MB. A busca indexada (configurável via Opções de indexação) é mais rápida mas não cobre todos os locais do disco.</p></div>
+  </div>
+
+  
+
+  <div class="card">
+    <div class="card-title">🔬 Atividades Práticas</div>
+    <p style="color:var(--gray-500);margin-bottom:16px;font-size:.9em;">Acesse o <a href="semana05_guia.html" style="color:var(--blue);font-weight:600;">Guia de Exercícios</a> para ver as rubricas e resoluções detalhadas.</p>
+    
+    <div class="ex-card ">
+      <div class="ex-num">1</div>
+      <div class="ex-title">Navegação Avançada no Explorador</div>
+      <div class="ex-meta">
+        <span class="ex-tag">⏱ 30 min</span>
+        <span class="ex-tag">🔬 Laboratório</span>
+      </div>
+      <div class="ex-desc">Explore as funcionalidades avançadas do Explorador de Arquivos do Windows 11, testando diferentes modos de visualização e opções de organização.</div>
+    </div>
+    <div class="ex-card ">
+      <div class="ex-num">2</div>
+      <div class="ex-title">Investigando Atributos de Arquivos</div>
+      <div class="ex-meta">
+        <span class="ex-tag">⏱ 35 min</span>
+        <span class="ex-tag">🔬 Laboratório</span>
+      </div>
+      <div class="ex-desc">Crie arquivos com diferentes atributos e observe como o Windows os trata de formas distintas.</div>
+    </div>
+    <div class="ex-card ">
+      <div class="ex-num">3</div>
+      <div class="ex-title">Pesquisa Avançada com Filtros</div>
+      <div class="ex-meta">
+        <span class="ex-tag">⏱ 25 min</span>
+        <span class="ex-tag">🔬 Laboratório</span>
+      </div>
+      <div class="ex-desc">Utilize os filtros de pesquisa avançada do Windows para encontrar arquivos específicos usando critérios como tipo, tamanho e data.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔗 Recursos Complementares</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
+      <div style="background:var(--gray-50);border-radius:8px;padding:14px;border:1px solid var(--gray-200);">
+        <div style="font-size:1.4em;margin-bottom:6px;">📄</div>
+        <div style="font-weight:600;font-size:.88em;color:var(--navy);margin-bottom:3px;">Microsoft Docs</div>
+        <div style="font-size:.82em;color:var(--gray-500);">docs.microsoft.com</div>
+      </div>
+      <div style="background:var(--gray-50);border-radius:8px;padding:14px;border:1px solid var(--gray-200);">
+        <div style="font-size:1.4em;margin-bottom:6px;">💻</div>
+        <div style="font-weight:600;font-size:.88em;color:var(--navy);margin-bottom:3px;">PowerShell Docs</div>
+        <div style="font-size:.82em;color:var(--gray-500);">learn.microsoft.com/powershell</div>
+      </div>
+      <div style="background:var(--gray-50);border-radius:8px;padding:14px;border:1px solid var(--gray-200);">
+        <div style="font-size:1.4em;margin-bottom:6px;">▶️</div>
+        <div style="font-weight:600;font-size:.88em;color:var(--navy);margin-bottom:3px;">YouTube</div>
+        <div style="font-size:.82em;color:var(--gray-500);">Pesquise: "Gerenciamento de Arquivos..."</div>
+      </div>
+      <div style="background:var(--gray-50);border-radius:8px;padding:14px;border:1px solid var(--gray-200);">
+        <div style="font-size:1.4em;margin-bottom:6px;">🎓</div>
+        <div style="font-weight:600;font-size:.88em;color:var(--navy);margin-bottom:3px;">Microsoft Learn</div>
+        <div style="font-size:.82em;color:var(--gray-500);">learn.microsoft.com — cursos gratuitos</div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav-bar">
+    <a href="semana04_aula.html" class="nav-btn btn-secondary">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Índice</a>
+    <a href="semana05_guia.html" class="nav-btn btn-green">📝 Guia</a>
+    <span class="nav-spacer"></span>
+    <a href="semana06_aula.html" class="nav-btn btn-primary">Próxima ➡</a>
+  </nav>
+</div>
+</body>
+</html>
