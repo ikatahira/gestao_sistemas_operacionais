@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana 03 – Área de Trabalho e Interface | GSO I 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0f2d52; --blue:#1565c0; --sky:#42a5f5;
+  --purple:#7c3aed; --violet:#a78bfa;
+  --teal:#00897b; --green:#2e7d32; --lime:#66bb6a;
+  --amber:#f57c00; --red:#c62828; --gold:#ffc107; --xp:#ff6f00;
+  --bg:#f0f4f8; --surface:#fff;
+  --gray-100:#e8edf2; --gray-300:#c5d0db; --gray-500:#6b7c93; --gray-700:#374151;
+  --radius:16px; --radius-sm:10px; --radius-xs:6px;
+  --shadow:0 4px 20px rgba(0,0,0,.08); --shadow-lg:0 8px 32px rgba(0,0,0,.14);
+}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--gray-700);line-height:1.7;min-height:100vh;}
+.header{background:linear-gradient(135deg,#0e1117 0%,#3b0764 60%,#7c3aed 100%);color:#fff;position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,.4);}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.week-pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:4px 14px;font-size:.76em;font-weight:700;font-family:'Space Mono',monospace;white-space:nowrap;}
+.header-text{flex:1;}
+.header-text h1{font-size:clamp(1em,2.5vw,1.5em);font-weight:900;letter-spacing:-.02em;}
+.header-text p{opacity:.65;font-size:.82em;margin-top:2px;}
+.xp-bar-header{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:50px;padding:6px 14px;font-size:.8em;font-weight:700;white-space:nowrap;}
+#header-xp{color:var(--gold);}
+.xp-toast{position:fixed;top:80px;right:24px;background:linear-gradient(135deg,#ff6f00,#ffc107);color:#fff;padding:12px 22px;border-radius:50px;font-weight:800;font-size:1em;z-index:999;box-shadow:0 4px 20px rgba(255,111,0,.5);transform:translateY(-20px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+.xp-toast.show{transform:translateY(0);opacity:1;}
+.progress-tracker{max-width:1100px;margin:0 auto;padding:20px 28px 0;}
+.progress-card{background:var(--surface);border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow);border:1px solid var(--gray-100);display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.progress-info{flex:1;min-width:200px;}
+.progress-info h3{font-size:.9em;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+.progress-bar-wrap{background:var(--gray-100);border-radius:50px;height:12px;overflow:hidden;}
+.progress-bar{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--violet),var(--purple));transition:width .6s cubic-bezier(.34,1.56,.64,1);}
+.progress-stats{display:flex;gap:16px;flex-wrap:wrap;}
+.stat-chip{background:var(--bg);border-radius:var(--radius-sm);padding:10px 16px;text-align:center;border:1px solid var(--gray-100);}
+.stat-chip .val{font-size:1.4em;font-weight:900;color:var(--navy);display:block;}
+.stat-chip .lbl{font-size:.72em;color:var(--gray-500);font-weight:600;text-transform:uppercase;}
+.badges-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.badge{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3em;border:2px solid var(--gray-300);background:var(--gray-100);filter:grayscale(1);opacity:.4;transition:all .3s;position:relative;cursor:help;}
+.badge.earned{filter:none;opacity:1;border-color:var(--gold);background:linear-gradient(135deg,#fff8e1,#fff);box-shadow:0 2px 12px rgba(255,193,7,.4);}
+.badge .tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#0e1117;color:#fff;padding:6px 10px;border-radius:6px;font-size:.7em;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;}
+.badge:hover .tooltip{opacity:1;}
+.container{max-width:1100px;margin:0 auto;padding:20px 28px;}
+.card{background:var(--surface);border-radius:var(--radius);padding:26px;margin-bottom:18px;box-shadow:var(--shadow);border:1px solid var(--gray-100);}
+.card-title{font-size:1.15em;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--gray-100);}
+.card-title .badge-mini{background:linear-gradient(135deg,var(--purple),var(--violet));color:#fff;border-radius:50px;padding:2px 10px;font-size:.65em;font-weight:700;}
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+.obj-item{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1px solid #c4b5fd;border-radius:var(--radius-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;}
+.obj-num{width:24px;height:24px;background:var(--purple);color:#fff;border-radius:50%;font-size:.72em;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.obj-text{font-size:.88em;font-weight:700;color:#4c1d95;}
+.teoria-item{background:var(--bg);border-radius:var(--radius-sm);padding:20px 22px;margin-bottom:14px;border-left:5px solid var(--purple);}
+.teoria-item h3{color:var(--navy);font-size:1em;font-weight:800;margin-bottom:8px;}
+.teoria-item p{color:var(--gray-700);font-size:.92em;line-height:1.8;}
+.tip-box{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:1px solid #a5d6a7;border-radius:var(--radius-xs);padding:10px 14px;margin-top:10px;font-size:.85em;font-weight:700;color:var(--green);display:flex;gap:8px;align-items:flex-start;}
+.shortcut-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:10px;}
+.shortcut-item{background:var(--surface);border-radius:var(--radius-xs);padding:12px 16px;border:1px solid var(--gray-100);display:flex;align-items:center;gap:12px;}
+.shortcut-keys{display:flex;gap:4px;align-items:center;flex-shrink:0;}
+.shortcut-desc{font-size:.85em;font-weight:700;color:var(--gray-700);}
+kbd{background:var(--navy);color:#fff;border-radius:4px;padding:2px 8px;font-family:'Space Mono',monospace;font-size:.82em;font-weight:700;border-bottom:3px solid #040d1f;}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;}
+.video-card{background:var(--surface);border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--gray-100);box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;}
+.video-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.video-thumb{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;}
+.video-thumb iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+.video-info{padding:14px;}
+.video-title{font-weight:800;color:var(--navy);font-size:.92em;margin-bottom:4px;}
+.video-desc{font-size:.8em;color:var(--gray-500);}
+.video-tag{display:inline-block;background:linear-gradient(135deg,var(--purple),#6d28d9);color:#fff;border-radius:50px;padding:2px 8px;font-size:.7em;font-weight:700;margin-bottom:6px;}
+
+/* SHORTCUT CHALLENGE */
+.challenge-card{background:linear-gradient(135deg,#1e1b4b,#312e81);color:#fff;border-radius:var(--radius);padding:24px;margin-bottom:18px;}
+.challenge-card h3{font-size:1.2em;font-weight:900;margin-bottom:6px;}
+.challenge-card p{opacity:.8;font-size:.9em;margin-bottom:18px;}
+.challenge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.challenge-item{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);border-radius:var(--radius-sm);padding:14px;cursor:pointer;transition:all .2s;text-align:center;}
+.challenge-item:hover{background:rgba(255,255,255,.15);border-color:var(--violet);}
+.challenge-item.done{background:rgba(102,187,106,.2);border-color:var(--lime);}
+.challenge-item.done .ch-icon{filter:none;}
+.ch-icon{font-size:1.5em;margin-bottom:6px;display:block;}
+.ch-keys{font-family:'Space Mono',monospace;font-size:.82em;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.ch-desc{font-size:.78em;opacity:.8;}
+.ch-check{font-size:1.2em;display:none;}
+.challenge-item.done .ch-check{display:block;}
+.challenge-xp{text-align:center;margin-top:14px;font-size:.9em;opacity:.7;}
+
+.quiz-card{background:linear-gradient(135deg,#f5f3ff,#fff);border:2px solid #c4b5fd;border-radius:var(--radius);padding:24px;margin-bottom:18px;}
+.quiz-card.quiz-done{border-color:var(--lime);background:linear-gradient(135deg,#f1f8e9,#fff);}
+.quiz-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.quiz-header h3{font-size:1.1em;font-weight:900;color:var(--navy);flex:1;}
+.xp-reward{background:linear-gradient(135deg,var(--xp),var(--gold));color:#fff;border-radius:50px;padding:4px 12px;font-size:.78em;font-weight:800;white-space:nowrap;}
+.quiz-score-display{background:var(--navy);color:#fff;border-radius:50px;padding:4px 12px;font-size:.78em;font-weight:800;display:none;}
+.quiz-score-display.visible{display:inline-block;}
+.q-block{margin-bottom:20px;}
+.q-text{font-weight:700;color:var(--navy);font-size:.95em;margin-bottom:10px;display:flex;gap:8px;}
+.q-num{background:var(--purple);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:800;flex-shrink:0;margin-top:2px;}
+.options{display:flex;flex-direction:column;gap:7px;}
+.opt-btn{background:var(--bg);border:2px solid var(--gray-300);border-radius:var(--radius-xs);padding:10px 16px;text-align:left;font-family:'Nunito',sans-serif;font-size:.88em;font-weight:600;color:var(--gray-700);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;}
+.opt-btn:hover:not(:disabled){background:#f5f3ff;border-color:var(--purple);color:var(--navy);}
+.opt-btn.correct{background:linear-gradient(135deg,#e8f5e9,#c8e6c9)!important;border-color:var(--lime)!important;color:var(--green)!important;font-weight:800;}
+.opt-btn.wrong{background:linear-gradient(135deg,#ffebee,#ffcdd2)!important;border-color:#e57373!important;color:var(--red)!important;}
+.opt-btn:disabled{cursor:default;}
+.opt-letter{width:24px;height:24px;border-radius:50%;background:var(--gray-300);display:flex;align-items:center;justify-content:center;font-size:.78em;font-weight:800;flex-shrink:0;}
+.opt-btn.correct .opt-letter{background:var(--lime);}
+.opt-btn.wrong .opt-letter{background:#e57373;}
+.feedback{margin-top:8px;padding:10px 14px;border-radius:var(--radius-xs);font-size:.85em;font-weight:700;display:none;}
+.feedback.show{display:block;}
+.feedback.ok{background:#e8f5e9;color:var(--green);border:1px solid #a5d6a7;}
+.feedback{background:#ffebee;color:var(--red);border:1px solid #ffcdd2;}
+.quiz-submit{background:linear-gradient(135deg,var(--purple),#4c1d95);color:#fff;border:none;border-radius:var(--radius-sm);padding:12px 28px;font-family:'Nunito',sans-serif;font-size:.95em;font-weight:800;cursor:pointer;transition:all .2s;margin-top:8px;}
+.quiz-submit:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(124,58,237,.4);}
+.quiz-submit:disabled{opacity:.5;cursor:default;transform:none;}
+.quiz-result{background:linear-gradient(135deg,var(--navy),var(--purple));color:#fff;border-radius:var(--radius-sm);padding:16px 20px;margin-top:14px;display:none;text-align:center;}
+.quiz-result.show{display:block;}
+.quiz-result .result-score{font-size:2em;font-weight:900;}
+.quiz-result .result-msg{font-size:.9em;opacity:.85;margin-top:4px;}
+.lab-card{border:2px solid var(--gray-100);border-radius:var(--radius-sm);padding:20px;margin-bottom:14px;position:relative;overflow:hidden;transition:border-color .3s;}
+.lab-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--purple),var(--violet));}
+.lab-card.done{border-color:var(--lime);}
+.lab-card.done::before{background:linear-gradient(180deg,var(--green),var(--lime));}
+.lab-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+.lab-num{width:32px;height:32px;background:var(--purple);color:#fff;border-radius:50%;font-size:.8em;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lab-info{flex:1;}
+.lab-title{font-size:1em;font-weight:800;color:var(--navy);margin-bottom:4px;}
+.lab-meta{display:flex;gap:7px;flex-wrap:wrap;}
+.lab-tag{background:var(--gray-100);border-radius:50px;padding:2px 10px;font-size:.75em;font-weight:700;color:var(--gray-500);}
+.lab-desc{color:var(--gray-700);font-size:.9em;margin-bottom:12px;line-height:1.7;}
+.lab-steps{background:var(--bg);border-radius:var(--radius-xs);padding:14px 16px;margin-bottom:12px;}
+.lab-steps h4{font-size:.82em;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.lab-steps ol{padding-left:18px;}
+.lab-steps li{font-size:.88em;color:var(--gray-700);margin-bottom:6px;font-weight:600;}
+.lab-complete-btn{background:linear-gradient(135deg,var(--purple),#4c1d95);color:#fff;border:none;border-radius:var(--radius-xs);padding:10px 20px;font-family:'Nunito',sans-serif;font-size:.88em;font-weight:800;cursor:pointer;transition:all .2s;}
+.lab-complete-btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(124,58,237,.4);}
+.lab-complete-btn.done-btn{background:linear-gradient(135deg,var(--green),#1b5e20);cursor:default;transform:none;}
+.nav-bar{background:var(--surface);border-radius:var(--radius);padding:14px 20px;box-shadow:var(--shadow);border:1px solid var(--gray-100);display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;}
+.nav-btn{padding:9px 18px;border-radius:var(--radius-sm);text-decoration:none;font-weight:800;font-size:.86em;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:linear-gradient(135deg,var(--navy),var(--purple));color:#fff;}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-secondary{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-300);}
+.nav-spacer{flex:1;}
+.link-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.link-card{background:var(--bg);border-radius:var(--radius-sm);padding:16px;border:1px solid var(--gray-100);text-decoration:none;color:inherit;transition:all .2s;display:block;}
+.link-card:hover{border-color:var(--purple);box-shadow:var(--shadow);transform:translateY(-2px);}
+.link-icon{font-size:1.6em;margin-bottom:6px;}
+.link-title{font-weight:800;font-size:.9em;color:var(--navy);margin-bottom:2px;}
+.link-url{font-size:.78em;color:var(--gray-500);}
+.confetti-emoji{position:fixed;pointer-events:none;font-size:1.5em;z-index:9999;animation:fall 2s forwards;}
+@keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0deg);}100%{opacity:0;transform:translateY(100vh) rotate(720deg);}}
+@media(max-width:768px){.container,.progress-tracker{padding:12px 14px;}.card,.quiz-card{padding:16px;}.header-inner{padding:12px 16px;}.shortcut-grid,.video-grid{grid-template-columns:1fr;}.challenge-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div class="xp-toast" id="xpToast">⚡ +0 XP</div>
+
+<header class="header">
+  <div class="header-inner">
+    <span class="week-pill">S03/20</span>
+    <div class="header-text">
+      <h1>Área de Trabalho e Interface – Domínio Total do Windows 11</h1>
+      <p>Gestão de Sistemas Operacionais I · Prof. Isaque Katahira · 2026</p>
+    </div>
+    <div class="xp-bar-header">
+      <span>⚡ XP: </span><span id="header-xp">0</span><span style="opacity:.6"> / 450</span>
+    </div>
+  </div>
+</header>
+
+<div class="progress-tracker">
+  <div class="progress-card">
+    <div class="progress-info">
+      <h3>Seu progresso na Semana 03</h3>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+      <div style="font-size:.8em;color:var(--gray-500);margin-top:4px;font-weight:600;"><span id="progressPct">0</span>% concluído</div>
+    </div>
+    <div class="progress-stats">
+      <div class="stat-chip"><span class="val" id="statXP">0</span><span class="lbl">⚡ XP</span></div>
+      <div class="stat-chip"><span class="val" id="statQuiz">0/2</span><span class="lbl">📝 Quizzes</span></div>
+      <div class="stat-chip"><span class="val" id="statChallenge">0/6</span><span class="lbl">⌨️ Atalhos</span></div>
+      <div class="stat-chip"><span class="val" id="statLab">0/3</span><span class="lbl">🔬 Labs</span></div>
+    </div>
+    <div>
+      <div style="font-size:.8em;font-weight:700;color:var(--gray-500);margin-bottom:6px;">CONQUISTAS</div>
+      <div class="badges-row">
+        <div class="badge" id="badge-snap">🪟<span class="tooltip">Mestre do Snap</span></div>
+        <div class="badge" id="badge-keyboard">⌨️<span class="tooltip">Ninja do Teclado</span></div>
+        <div class="badge" id="badge-lab">🔬<span class="tooltip">Laboratório Completo</span></div>
+        <div class="badge" id="badge-week3">⭐<span class="tooltip">Semana 3 Concluída</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <nav class="nav-bar">
+    <a href="semana02_aula.html" class="nav-btn btn-secondary">⬅ Semana 02</a>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Início</a>
+    <span class="nav-spacer"></span>
+    <a href="semana04_aula.html" class="nav-btn btn-primary">Semana 04 ➡</a>
+  </nav>
+
+  <!-- OBJETIVOS -->
+  <div class="card">
+    <div class="card-title">🎯 O que você vai aprender hoje</div>
+    <div class="obj-grid">
+      <div class="obj-item"><div class="obj-num">1</div><span class="obj-text">Conhecer todos os elementos da área de trabalho do Windows 11</span></div>
+      <div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Configurar barra de tarefas, ícones e o botão Iniciar</span></div>
+      <div class="obj-item"><div class="obj-num">3</div><span class="obj-text">Dominar os atalhos de teclado para gerenciar janelas</span></div>
+      <div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Personalizar o ambiente para diferentes tipos de usuários</span></div>
+    </div>
+  </div>
+
+  <!-- VÍDEOS -->
+  <div class="card">
+    <div class="card-title">▶️ Vídeos da Semana <span class="badge-mini">Assista primeiro!</span></div>
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/6T_5ICZKKf0" allowfullscreen loading="lazy" title="Windows 11 área de trabalho completo"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">▶ Obrigatório</div>
+          <div class="video-title">Windows 11 – Tour Completo da Interface</div>
+          <div class="video-desc">Conheça todos os elementos da área de trabalho, barra de tarefas e o novo menu Iniciar do Win 11.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/Ei3rGXgkBgM" allowfullscreen loading="lazy" title="Snap Layouts Windows 11"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">▶ Obrigatório</div>
+          <div class="video-title">Snap Layouts – Organizar Janelas no Win 11</div>
+          <div class="video-desc">Aprenda a usar o Snap Layouts para trabalhar com 2, 3 ou 4 janelas lado a lado como um profissional.</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <div class="video-thumb">
+          <iframe src="https://www.youtube.com/embed/p7NJnE3GBBY" allowfullscreen loading="lazy" title="Atalhos teclado Windows 11"></iframe>
+        </div>
+        <div class="video-info">
+          <div class="video-tag">▶ Recomendado</div>
+          <div class="video-title">Os 20 Atalhos Mais Úteis do Windows 11</div>
+          <div class="video-desc">Atalhos de teclado que todo técnico e usuário avançado precisa conhecer para ser mais produtivo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEORIA 1 -->
+  <div class="card">
+    <div class="card-title">📖 1. A Área de Trabalho do Windows 11</div>
+    <div class="teoria-item">
+      <h3>🖥️ O que mudou no Windows 11?</h3>
+      <p>O Windows 11 trouxe mudanças visuais importantes em relação ao Windows 10: o <strong>botão Iniciar foi centralizado</strong> (em vez de ficar no canto esquerdo), a barra de tarefas foi redesenhada com novo visual, o menu Iniciar ganhou um layout diferente com apps fixados e recomendados, e as janelas ficaram com cantos arredondados. Como técnico, você precisa dominar isso para configurar estações de trabalho!</p>
+    </div>
+    <div class="teoria-item">
+      <h3>📌 Elementos da Barra de Tarefas</h3>
+      <p>A barra de tarefas é a barra horizontal na parte de baixo da tela. Ela contém: <strong>Botão Iniciar</strong> (acesso a todos os programas e configurações), <strong>Campo de Pesquisa</strong> (busca no computador e na web), <strong>Ícones fixados</strong> (atalhos para programas favoritos), <strong>Área de Notificação</strong> (relógio, ícones de Wi-Fi, bateria, volume) e <strong>Central de Ações</strong> (painel com Wi-Fi, Bluetooth, brilho, modo noturno).</p>
+      <div class="tip-box">💡 Para fixar um programa na barra: abra o programa → clique com botão direito no ícone da barra → "Fixar na barra de tarefas". Ou então: Menu Iniciar → botão direito no app → "Fixar na barra de tarefas".</div>
+    </div>
+    <div class="teoria-item">
+      <h3>🔲 Snap Layouts – Organização Profissional de Janelas</h3>
+      <p>O Windows 11 introduziu o <strong>Snap Layouts</strong>: passe o mouse sobre o botão maximizar (⬜) de qualquer janela e aparecerá um menu com opções de layout (2, 3 ou 4 janelas lado a lado). Isso é muito útil para técnicos que precisam consultar documentação enquanto trabalham, ou para usuários que trabalham com várias planilhas ao mesmo tempo.</p>
+    </div>
+    <div class="teoria-item">
+      <h3>🎨 Personalização do Ambiente</h3>
+      <p>Clique com botão direito na área de trabalho → <strong>Personalizar</strong>. Você pode mudar: Plano de fundo (foto, cor sólida, slideshow), Cores do tema (modo claro/escuro, cor de destaque), Fontes, Protetor de tela. Para empresas: a personalização é padronizada via <strong>Política de Grupo (Group Policy)</strong> — o técnico configura um padrão que vale para toda a empresa!</p>
+    </div>
+  </div>
+
+  <!-- CHALLENGE: ATALHOS -->
+  <div class="challenge-card">
+    <h3>⌨️ Desafio: Pratique os Atalhos de Janelas!</h3>
+    <p>Tente cada atalho no seu notebook agora. Quando conseguir usar, clique no card para marcar! Cada atalho = +25 XP.</p>
+    <div class="challenge-grid">
+      <div class="challenge-item" id="ch-1" onclick="completeChallenge(1)">
+        <span class="ch-icon">🏠</span>
+        <div class="ch-keys"><kbd>Win</kbd> + <kbd>D</kbd></div>
+        <div class="ch-desc">Mostrar área de trabalho</div>
+        <div class="ch-check">✅</div>
+      </div>
+      <div class="challenge-item" id="ch-2" onclick="completeChallenge(2)">
+        <span class="ch-icon">◀️</span>
+        <div class="ch-keys"><kbd>Win</kbd> + <kbd>←</kbd></div>
+        <div class="ch-desc">Janela para metade esquerda</div>
+        <div class="ch-check">✅</div>
+      </div>
+      <div class="challenge-item" id="ch-3" onclick="completeChallenge(3)">
+        <span class="ch-icon">▶️</span>
+        <div class="ch-keys"><kbd>Win</kbd> + <kbd>→</kbd></div>
+        <div class="ch-desc">Janela para metade direita</div>
+        <div class="ch-check">✅</div>
+      </div>
+      <div class="challenge-item" id="ch-4" onclick="completeChallenge(4)">
+        <span class="ch-icon">⬆️</span>
+        <div class="ch-keys"><kbd>Win</kbd> + <kbd>↑</kbd></div>
+        <div class="ch-desc">Maximizar janela</div>
+        <div class="ch-check">✅</div>
+      </div>
+      <div class="challenge-item" id="ch-5" onclick="completeChallenge(5)">
+        <span class="ch-icon">🔄</span>
+        <div class="ch-keys"><kbd>Alt</kbd> + <kbd>Tab</kbd></div>
+        <div class="ch-desc">Alternar entre janelas</div>
+        <div class="ch-check">✅</div>
+      </div>
+      <div class="challenge-item" id="ch-6" onclick="completeChallenge(6)">
+        <span class="ch-icon">🗂️</span>
+        <div class="ch-keys"><kbd>Win</kbd> + <kbd>Tab</kbd></div>
+        <div class="ch-desc">Visão de todas as tarefas</div>
+        <div class="ch-check">✅</div>
+      </div>
+    </div>
+    <div class="challenge-xp">Completados: <span id="challengeCount">0</span>/6 atalhos · <span id="challengeXP">0</span>/150 XP</div>
+  </div>
+
+  <!-- REFERÊNCIA DE ATALHOS -->
+  <div class="card">
+    <div class="card-title">⌨️ Guia de Referência: Atalhos Essenciais</div>
+    <p style="font-size:.9em;color:var(--gray-500);margin-bottom:14px;">Salve esta seção nos favoritos ou tire um print! Todo técnico precisa saber estes atalhos de cor.</p>
+    <div class="shortcut-grid">
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd>+<kbd>D</kbd></div><div class="shortcut-desc">Mostrar/ocultar área de trabalho</div></div>
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd>+<kbd>L</kbd></div><div class="shortcut-desc">Bloquear o computador (segurança!)</div></div>
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd>+<kbd>E</kbd></div><div class="shortcut-desc">Abrir o Explorador de Arquivos</div></div>
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd>+<kbd>R</kbd></div><div class="shortcut-desc">Abrir o "Executar"</div></div>
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd>+<kbd>I</kbd></div><div class="shortcut-desc">Abrir as Configurações do Windows</div></div>
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd>+<kbd>←/→</kbd></div><div class="shortcut-desc">Mover janela para metade da tela</div></div>
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>Alt</kbd>+<kbd>F4</kbd></div><div class="shortcut-desc">Fechar o programa atual</div></div>
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>Ctrl</kbd>+<kbd>Z</kbd></div><div class="shortcut-desc">Desfazer última ação (universal!)</div></div>
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>PrtScn</kbd></div><div class="shortcut-desc">Print Screen (captura de tela)</div></div>
+      <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></div><div class="shortcut-desc">Recorte de tela personalizado</div></div>
+    </div>
+  </div>
+
+  <!-- QUIZ 1 -->
+  <div class="quiz-card" id="quiz1">
+    <div class="quiz-header">
+      <span style="font-size:1.5em;">🎮</span>
+      <h3>Quiz 1 – Área de Trabalho e Interface</h3>
+      <span class="xp-reward">⚡ +50 XP</span>
+      <span class="quiz-score-display" id="score1"></span>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">1</div>Qual é a principal mudança visual do Windows 11 na barra de tarefas?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="1" data-val="a"><span class="opt-letter">A</span>Removeu o botão Iniciar</button>
+        <button class="opt-btn" data-q="1" data-val="b"><span class="opt-letter">B</span>Centralizou o botão Iniciar (era no canto esquerdo)</button>
+        <button class="opt-btn" data-q="1" data-val="c"><span class="opt-letter">C</span>Colocou a barra de tarefas no lado esquerdo</button>
+        <button class="opt-btn" data-q="1" data-val="d"><span class="opt-letter">D</span>Removeu a área de notificação</button>
+      </div>
+      <div class="feedback ok" id="fb-1-b">✅ Correto! O Win 11 centralizou o Iniciar — mas nas Configurações você pode mover de volta para a esquerda!</div>
+      <div class="feedback" id="fb-1-wrong">❌ Errou! A mudança mais notável do Win 11 é o botão Iniciar centralizado na barra de tarefas.</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">2</div>O que é o Snap Layouts no Windows 11?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="2" data-val="a"><span class="opt-letter">A</span>Uma ferramenta para criar fotos de tela</button>
+        <button class="opt-btn" data-q="2" data-val="b"><span class="opt-letter">B</span>Sistema que permite organizar janelas lado a lado em vários layouts</button>
+        <button class="opt-btn" data-q="2" data-val="c"><span class="opt-letter">C</span>Um aplicativo de edição de fotos</button>
+        <button class="opt-btn" data-q="2" data-val="d"><span class="opt-letter">D</span>Recurso de backup automático</button>
+      </div>
+      <div class="feedback ok" id="fb-2-b">✅ Snap Layouts! Passe o mouse no botão maximizar para ver os layouts disponíveis (2, 3 ou 4 janelas).</div>
+      <div class="feedback" id="fb-2-wrong">❌ Errou! Snap Layouts é o sistema que organiza janelas lado a lado — fica no botão maximizar (⬜) de qualquer janela!</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">3</div>Como você fixa um programa na barra de tarefas do Windows 11?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="3" data-val="a"><span class="opt-letter">A</span>Arrastando o ícone do programa direto para a barra</button>
+        <button class="opt-btn" data-q="3" data-val="b"><span class="opt-letter">B</span>Clicando com botão direito no ícone e escolhendo "Fixar na barra de tarefas"</button>
+        <button class="opt-btn" data-q="3" data-val="c"><span class="opt-letter">C</span>Através do Gerenciador de Tarefas</button>
+        <button class="opt-btn" data-q="3" data-val="d"><span class="opt-letter">D</span>Reiniciando o computador</button>
+      </div>
+      <div class="feedback ok" id="fb-3-b">✅ Correto! Botão direito no ícone → "Fixar na barra de tarefas". Funciona em apps abertos ou no menu Iniciar!</div>
+      <div class="feedback" id="fb-3-wrong">❌ Não! Para fixar: clique com botão DIREITO no ícone do programa → "Fixar na barra de tarefas".</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">4</div>Em empresas, como a personalização da área de trabalho é padronizada para todos os computadores?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="4" data-val="a"><span class="opt-letter">A</span>Cada funcionário configura manualmente</button>
+        <button class="opt-btn" data-q="4" data-val="b"><span class="opt-letter">B</span>Através da Política de Grupo (Group Policy)</button>
+        <button class="opt-btn" data-q="4" data-val="c"><span class="opt-letter">C</span>Usando o aplicativo Personalizar</button>
+        <button class="opt-btn" data-q="4" data-val="d"><span class="opt-letter">D</span>Via Gerenciador de Tarefas</button>
+      </div>
+      <div class="feedback ok" id="fb-4-b">✅ Exato! Group Policy (GPO) permite ao TI configurar e bloquear personalizações em todos os computadores da empresa de uma vez.</div>
+      <div class="feedback" id="fb-4-wrong">❌ Errou! Política de Grupo (Group Policy / GPO) é a ferramenta que o TI usa para padronizar configurações em toda a empresa.</div>
+    </div>
+    <button class="quiz-submit" id="submit1" onclick="submitQuiz(1)" disabled>✅ Ver Resultado</button>
+    <div class="quiz-result" id="result1"><div class="result-score" id="resultScore1"></div><div class="result-msg" id="resultMsg1"></div></div>
+  </div>
+
+  <!-- QUIZ 2: ATALHOS -->
+  <div class="quiz-card" id="quiz2">
+    <div class="quiz-header">
+      <span style="font-size:1.5em;">⌨️</span>
+      <h3>Quiz 2 – Atalhos de Teclado</h3>
+      <span class="xp-reward">⚡ +50 XP</span>
+      <span class="quiz-score-display" id="score2"></span>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">1</div>Qual atalho bloqueia o computador imediatamente? (Essencial para segurança em empresa)</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-1" data-val="a"><span class="opt-letter">A</span><kbd>Win</kbd> + <kbd>D</kbd></button>
+        <button class="opt-btn" data-q="q2-1" data-val="b"><span class="opt-letter">B</span><kbd>Win</kbd> + <kbd>L</kbd></button>
+        <button class="opt-btn" data-q="q2-1" data-val="c"><span class="opt-letter">C</span><kbd>Alt</kbd> + <kbd>F4</kbd></button>
+        <button class="opt-btn" data-q="q2-1" data-val="d"><span class="opt-letter">D</span><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Delete</kbd></button>
+      </div>
+      <div class="feedback ok" id="fb-q2-1-b">✅ Win + L bloqueia instantaneamente. Todo profissional deve usar quando se afasta do computador!</div>
+      <div class="feedback" id="fb-q2-1-wrong">❌ Errou! Win + L bloqueia o computador. Isso é fundamental: sempre bloquear antes de se afastar!</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">2</div>Qual atalho abre o Explorador de Arquivos (pastas do Windows)?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-2" data-val="a"><span class="opt-letter">A</span><kbd>Win</kbd> + <kbd>R</kbd></button>
+        <button class="opt-btn" data-q="q2-2" data-val="b"><span class="opt-letter">B</span><kbd>Win</kbd> + <kbd>E</kbd></button>
+        <button class="opt-btn" data-q="q2-2" data-val="c"><span class="opt-letter">C</span><kbd>Win</kbd> + <kbd>I</kbd></button>
+        <button class="opt-btn" data-q="q2-2" data-val="d"><span class="opt-letter">D</span><kbd>Win</kbd> + <kbd>Tab</kbd></button>
+      </div>
+      <div class="feedback ok" id="fb-q2-2-b">✅ Win + E abre o Explorador! "E" de Explorer. Pense: E de Explorador de arquivos.</div>
+      <div class="feedback" id="fb-q2-2-wrong">❌ Não! Win + E = Explorador de arquivos. Win + I = Configurações. Win + R = Executar.</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">3</div>Você quer mover uma janela para a metade ESQUERDA da tela. Qual atalho usar?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-3" data-val="a"><span class="opt-letter">A</span><kbd>Win</kbd> + <kbd>↑</kbd></button>
+        <button class="opt-btn" data-q="q2-3" data-val="b"><span class="opt-letter">B</span><kbd>Win</kbd> + <kbd>↓</kbd></button>
+        <button class="opt-btn" data-q="q2-3" data-val="c"><span class="opt-letter">C</span><kbd>Win</kbd> + <kbd>←</kbd></button>
+        <button class="opt-btn" data-q="q2-3" data-val="d"><span class="opt-letter">D</span><kbd>Win</kbd> + <kbd>→</kbd></button>
+      </div>
+      <div class="feedback ok" id="fb-q2-3-c">✅ Win + ← move para a esquerda. Win + → move para a direita. Intuitivo!</div>
+      <div class="feedback" id="fb-q2-3-wrong">❌ Errou! Win + ← move a janela para a metade ESQUERDA. Pense: a seta aponta para onde a janela vai!</div>
+    </div>
+    <div class="q-block">
+      <div class="q-text"><div class="q-num">4</div>Qual atalho tira um recorte de tela personalizado (você escolhe a área)?</div>
+      <div class="options">
+        <button class="opt-btn" data-q="q2-4" data-val="a"><span class="opt-letter">A</span>Só pressionar Print Screen</button>
+        <button class="opt-btn" data-q="q2-4" data-val="b"><span class="opt-letter">B</span><kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></button>
+        <button class="opt-btn" data-q="q2-4" data-val="c"><span class="opt-letter">C</span><kbd>Alt</kbd> + <kbd>Tab</kbd></button>
+        <button class="opt-btn" data-q="q2-4" data-val="d"><span class="opt-letter">D</span><kbd>Win</kbd> + <kbd>D</kbd></button>
+      </div>
+      <div class="feedback ok" id="fb-q2-4-b">✅ Win + Shift + S abre a ferramenta de recorte! Você seleciona a área exata que quer capturar.</div>
+      <div class="feedback" id="fb-q2-4-wrong">❌ Errou! Win + Shift + S é o atalho para recorte personalizado. Print Screen sozinho captura a tela toda.</div>
+    </div>
+    <button class="quiz-submit" id="submit2" onclick="submitQuiz(2)" disabled>✅ Ver Resultado</button>
+    <div class="quiz-result" id="result2"><div class="result-score" id="resultScore2"></div><div class="result-msg" id="resultMsg2"></div></div>
+  </div>
+
+  <!-- LABORATÓRIO -->
+  <div class="card">
+    <div class="card-title">🔬 Laboratório Prático <span class="badge-mini">Faça no seu notebook!</span></div>
+
+    <div class="lab-card" id="lab1">
+      <div class="lab-header">
+        <div class="lab-num">1</div>
+        <div class="lab-info">
+          <div class="lab-title">🖥️ Configuração Completa da Área de Trabalho</div>
+          <div class="lab-meta"><span class="lab-tag">⏱ 30 min</span><span class="lab-tag">⚡ +50 XP</span></div>
+        </div>
+      </div>
+      <div class="lab-desc">Configure a área de trabalho como um técnico configuraria para um novo funcionário. Siga as especificações abaixo.</div>
+      <div class="lab-steps">
+        <h4>📋 Especificações para Configurar</h4>
+        <ol>
+          <li>Mude o plano de fundo para uma cor sólida azul escura (profissional)</li>
+          <li>Fixe na barra de tarefas: Edge, Explorador de Arquivos, e Bloco de Notas</li>
+          <li>Mova o botão Iniciar para o lado esquerdo: Configurações → Personalização → Barra de Tarefas</li>
+          <li>Ative o modo escuro: Configurações → Personalização → Cores → Modo Escuro</li>
+          <li>Tire um print da sua área de trabalho configurada (<kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>)</li>
+        </ol>
+      </div>
+      <button class="lab-complete-btn" id="lab1-btn" onclick="completeLab(1)">✅ Concluído!</button>
+    </div>
+
+    <div class="lab-card" id="lab2">
+      <div class="lab-header">
+        <div class="lab-num">2</div>
+        <div class="lab-info">
+          <div class="lab-title">⌨️ Guia de Referência de Atalhos</div>
+          <div class="lab-meta"><span class="lab-tag">⏱ 35 min</span><span class="lab-tag">⚡ +50 XP</span></div>
+        </div>
+      </div>
+      <div class="lab-desc">Crie um documento Word ou PDF com todos os atalhos do Windows 11 que você testar e confirmar que funcionam. Organize por categoria.</div>
+      <div class="lab-steps">
+        <h4>📋 Categorias do guia</h4>
+        <ol>
+          <li><strong>Janelas:</strong> Win+↑↓←→, Win+D, Alt+Tab, Win+Tab</li>
+          <li><strong>Sistema:</strong> Win+L, Win+E, Win+I, Win+R</li>
+          <li><strong>Capturas:</strong> PrtScn, Win+Shift+S, Win+G (Xbox Game Bar)</li>
+          <li><strong>Produtividade:</strong> Ctrl+Z, Ctrl+Y, Alt+F4, Ctrl+Shift+Esc</li>
+          <li>Para cada atalho: escreva o que faz + quando usar no trabalho técnico</li>
+        </ol>
+      </div>
+      <button class="lab-complete-btn" id="lab2-btn" onclick="completeLab(2)">✅ Concluído!</button>
+    </div>
+
+    <div class="lab-card" id="lab3">
+      <div class="lab-header">
+        <div class="lab-num">3</div>
+        <div class="lab-info">
+          <div class="lab-title">👤 Configurando para um Usuário Específico</div>
+          <div class="lab-meta"><span class="lab-tag">⏱ 25 min</span><span class="lab-tag">⚡ +50 XP</span></div>
+        </div>
+      </div>
+      <div class="lab-desc">Simule a configuração do ambiente para uma contadora que trabalha com 3 planilhas Excel e o sistema financeiro da empresa simultaneamente.</div>
+      <div class="lab-steps">
+        <h4>📋 O que configurar</h4>
+        <ol>
+          <li>Abra 3 janelas (pode ser o Bloco de Notas simulando planilhas)</li>
+          <li>Use o Snap Layout para organizar as 3 janelas lado a lado</li>
+          <li>Fixe o Excel (ou Bloco de Notas) na barra de tarefas</li>
+          <li>Configure a resolução para máxima: Configurações → Sistema → Tela</li>
+          <li>Documente a configuração que você fez, explicando POR QUE cada escolha ajuda a contadora</li>
+        </ol>
+      </div>
+      <button class="lab-complete-btn" id="lab3-btn" onclick="completeLab(3)">✅ Concluído!</button>
+    </div>
+  </div>
+
+  <!-- LINKS -->
+  <div class="card">
+    <div class="card-title">🔗 Links Úteis</div>
+    <div class="link-grid">
+      <a href="https://support.microsoft.com/pt-br/windows/atalhos-de-teclado-no-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec" target="_blank" class="link-card">
+        <div class="link-icon">⌨️</div>
+        <div class="link-title">Lista Completa de Atalhos</div>
+        <div class="link-url">Suporte oficial Microsoft</div>
+      </a>
+      <a href="https://support.microsoft.com/pt-br/windows/personalizar-a-barra-de-tarefas-no-windows-11" target="_blank" class="link-card">
+        <div class="link-icon">📌</div>
+        <div class="link-title">Personalizar a Barra de Tarefas</div>
+        <div class="link-url">Guia passo a passo oficial</div>
+      </a>
+      <a href="https://learn.microsoft.com/pt-br/windows/apps/design/basics/design-and-ui-intro" target="_blank" class="link-card">
+        <div class="link-icon">🎨</div>
+        <div class="link-title">Design da Interface Win 11</div>
+        <div class="link-url">Microsoft Learn</div>
+      </a>
+      <a href="https://www.youtube.com/results?search_query=windows+11+dicas+produtividade+atalhos" target="_blank" class="link-card">
+        <div class="link-icon">▶️</div>
+        <div class="link-title">YouTube – Produtividade Win 11</div>
+        <div class="link-url">Buscar: "windows 11 dicas produtividade"</div>
+      </a>
+    </div>
+  </div>
+
+  <nav class="nav-bar">
+    <a href="semana02_aula.html" class="nav-btn btn-secondary">⬅ Semana 02</a>
+    <a href="index.html" class="nav-btn btn-secondary">🏠 Início</a>
+    <span class="nav-spacer"></span>
+    <a href="semana04_aula.html" class="nav-btn btn-primary">Semana 04 ➡</a>
+  </nav>
+</div>
+
+<script>
+const state = {
+  xp:0, quizDone:[false,false], labDone:[false,false,false],
+  challenges:[false,false,false,false,false,false], answers:{}
+};
+const quizConfig = {
+  1:{ questions:['1','2','3','4'], correct:{1:'b',2:'b',3:'b',4:'b'}, total:4 },
+  2:{ questions:['q2-1','q2-2','q2-3','q2-4'], correct:{'q2-1':'b','q2-2':'b','q2-3':'c','q2-4':'b'}, total:4 }
+};
+
+document.querySelectorAll('.opt-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const q=this.dataset.q, val=this.dataset.val;
+    document.querySelectorAll(`.opt-btn[data-q="${q}"]`).forEach(b=>b.disabled=true);
+    state.answers[q]=val;
+    let quiz=q.startsWith('q2')?2:1;
+    const correct=quizConfig[quiz].correct[q];
+    if(val===correct){
+      this.classList.add('correct');
+      const fb=document.getElementById(`fb-${q}-${correct}`);
+      if(fb){fb.classList.add('show');}
+    } else {
+      this.classList.add('wrong');
+      const fb=document.getElementById(`fb-${q}-wrong`);
+      if(fb){fb.classList.add('show');}
+      document.querySelectorAll(`.opt-btn[data-q="${q}"][data-val="${correct}"]`).forEach(b=>b.classList.add('correct'));
+    }
+    checkQuizReady(quiz);
+  });
+});
+
+function checkQuizReady(quiz){
+  const cfg=quizConfig[quiz];
+  if(cfg.questions.every(q=>state.answers[q]!==undefined)) document.getElementById(`submit${quiz}`).disabled=false;
+}
+
+function submitQuiz(quiz){
+  const cfg=quizConfig[quiz];
+  let score=0;
+  cfg.questions.forEach(q=>{if(state.answers[q]===cfg.correct[q])score++;});
+  if(!state.quizDone[quiz-1]){
+    state.quizDone[quiz-1]=true;
+    addXP(50);
+    document.getElementById(`score${quiz}`).textContent=`${score}/${cfg.total}`;
+    document.getElementById(`score${quiz}`).classList.add('visible');
+    document.getElementById(`submit${quiz}`).disabled=true;
+    document.getElementById(`quiz${quiz}`).classList.add('quiz-done');
+    const msgs=['Continue praticando!','Bom início!','Muito bom!','Quase perfeito!','🏆 Perfeito!'];
+    const idx=Math.min(Math.floor(score/cfg.total*4),4);
+    const res=document.getElementById(`result${quiz}`);
+    res.querySelector('.result-score').textContent=`${score} / ${cfg.total} corretas`;
+    res.querySelector('.result-msg').textContent=msgs[idx];
+    res.classList.add('show');
+    if(quiz===2&&score===cfg.total) earnBadge('keyboard');
+    checkBadges();updateUI();
+  }
+}
+
+function completeChallenge(n){
+  if(state.challenges[n-1]) return;
+  state.challenges[n-1]=true;
+  addXP(25);
+  document.getElementById(`ch-${n}`).classList.add('done');
+  const count=state.challenges.filter(Boolean).length;
+  document.getElementById('challengeCount').textContent=count;
+  document.getElementById('challengeXP').textContent=count*25;
+  if(count>=4) earnBadge('snap');
+  if(count===6){ earnBadge('keyboard'); celebrate(); }
+  checkBadges();updateUI();
+}
+
+function completeLab(n){
+  if(state.labDone[n-1]) return;
+  state.labDone[n-1]=true;
+  addXP(50);
+  document.getElementById(`lab${n}`).classList.add('done');
+  const btn=document.getElementById(`lab${n}-btn`);
+  btn.textContent='🎉 Concluído!'; btn.classList.add('done-btn');
+  if(!state.labDone.includes(false)) earnBadge('lab');
+  checkBadges();updateUI();celebrate();
+}
+
+function addXP(n){state.xp+=n;showToast(`+${n} XP`);updateUI();}
+function showToast(msg){const t=document.getElementById('xpToast');t.textContent=`⚡ ${msg}`;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function earnBadge(id){const el=document.getElementById(`badge-${id}`);if(el&&!el.classList.contains('earned')){el.classList.add('earned');setTimeout(()=>showToast(`🏅 ${el.title||id}`),400);}}
+function checkBadges(){
+  if(state.quizDone[0]) earnBadge('snap');
+  if(!state.quizDone.includes(false)&&!state.labDone.includes(false)&&state.challenges.every(Boolean)) earnBadge('week3');
+}
+function updateUI(){
+  document.getElementById('header-xp').textContent=state.xp;
+  document.getElementById('statXP').textContent=state.xp;
+  document.getElementById('statQuiz').textContent=`${state.quizDone.filter(Boolean).length}/2`;
+  document.getElementById('statLab').textContent=`${state.labDone.filter(Boolean).length}/3`;
+  document.getElementById('statChallenge').textContent=`${state.challenges.filter(Boolean).length}/6`;
+  const pct=Math.min(Math.round(state.xp/450*100),100);
+  document.getElementById('progressBar').style.width=pct+'%';
+  document.getElementById('progressPct').textContent=pct;
+}
+function celebrate(){const emojis=['🎉','⭐','✨','🌟','💫','🎊','🏆'];for(let i=0;i<10;i++){setTimeout(()=>{const el=document.createElement('div');el.className='confetti-emoji';el.textContent=emojis[Math.floor(Math.random()*emojis.length)];el.style.left=Math.random()*100+'vw';el.style.top='0';document.body.appendChild(el);setTimeout(()=>el.remove(),2200);},i*100);}}
+</script>
+</body>
+</html>

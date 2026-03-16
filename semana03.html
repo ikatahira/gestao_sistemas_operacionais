@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semana 03 — Interface e Atalhos do Windows 11 | GSO I</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d14; --surface: #13131f; --surface2: #1a1a2e;
+            --accent: #f7a26a; --accent2: #7c6af7; --accent3: #6af7c8;
+            --text: #e8e8f0; --muted: #6b6b8a; --border: #2a2a40;
+            --xp: #f7d76a; --danger: #f76a8a; --success: #6af7c8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+        .hero { position: relative; padding: 60px 40px 50px; background: linear-gradient(135deg, #1a0e08 0%, #0d0d14 60%); border-bottom: 1px solid var(--border); overflow: hidden; }
+        .hero::after { content: ''; position: absolute; top: -80px; right: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(247,162,106,0.14) 0%, transparent 70%); pointer-events: none; }
+        .hero-top { display: flex; justify-content: space-between; align-items: flex-start; max-width: 900px; margin: 0 auto; gap: 20px; flex-wrap: wrap; }
+        .breadcrumb { font-family: 'Space Mono', monospace; font-size: 0.75em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+        .breadcrumb a { color: var(--accent); text-decoration: none; }
+        .week-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #1a0800; font-family: 'Space Mono', monospace; font-size: 0.72em; padding: 6px 14px; border-radius: 30px; letter-spacing: 0.05em; margin-bottom: 14px; font-weight: 700; }
+        h1.hero-title { font-size: clamp(1.8em, 5vw, 3em); font-weight: 800; line-height: 1.1; margin-bottom: 8px; }
+        .hero-subtitle { color: var(--accent2); font-weight: 600; font-size: 1.05em; margin-bottom: 20px; }
+        .xp-bar-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; min-width: 220px; text-align: right; }
+        .xp-label { font-family: 'Space Mono', monospace; font-size: 0.7em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .xp-count { font-size: 2em; font-weight: 800; color: var(--xp); font-family: 'Space Mono', monospace; }
+        .xp-count span { font-size: 0.5em; color: var(--muted); }
+        .xp-track { height: 6px; background: var(--border); border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .xp-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--xp)); border-radius: 10px; width: 0%; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+        main { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 28px; position: relative; overflow: hidden; transition: border-color 0.3s; }
+        .card:hover { border-color: var(--accent); }
+        .card-tag { font-family: 'Space Mono', monospace; font-size: 0.68em; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .card-tag::before { content: ''; width: 20px; height: 2px; background: var(--accent); display: inline-block; }
+        .card h2 { font-size: 1.5em; font-weight: 700; margin-bottom: 16px; color: var(--text); }
+        .card p, .card li { color: #b0b0cc; line-height: 1.75; }
+        .recap-card { background: linear-gradient(135deg, #1a1428 0%, #131328 100%); border-color: #3a2a60; }
+        .recap-card .card-tag { color: #b38af7; }
+        .recap-card .card-tag::before { background: #b38af7; }
+        .recap-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 18px 0; }
+        .recap-item { background: rgba(124,106,247,0.1); border: 1px solid rgba(124,106,247,0.2); border-radius: 10px; padding: 14px 16px; font-size: 0.9em; }
+        .recap-item .ri-icon { font-size: 1.4em; margin-bottom: 6px; }
+        .recap-item .ri-label { color: var(--muted); font-size: 0.75em; font-family: 'Space Mono', monospace; text-transform: uppercase; }
+        .recap-item .ri-value { font-weight: 700; color: var(--text); margin-top: 4px; }
+        .recap-quiz-mini { background: rgba(124,106,247,0.07); border: 1px solid rgba(124,106,247,0.15); border-radius: 12px; padding: 20px; margin-top: 16px; }
+        .recap-quiz-mini p { font-weight: 600; color: var(--text) !important; margin-bottom: 12px; }
+        .mini-options { display: flex; gap: 10px; flex-wrap: wrap; }
+        .mini-opt { padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-family: 'Syne', sans-serif; font-size: 0.9em; cursor: pointer; transition: all 0.2s; }
+        .mini-opt:hover { border-color: var(--accent); background: rgba(247,162,106,0.1); }
+        .mini-opt.correct { border-color: var(--success); background: rgba(106,247,200,0.15); color: var(--success); }
+        .mini-opt.wrong { border-color: var(--danger); background: rgba(247,106,138,0.15); color: var(--danger); }
+        .mini-feedback { margin-top: 10px; font-size: 0.88em; display: none; }
+        .mini-feedback.show { display: block; }
+        .obj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+        .obj-item { background: rgba(247,162,106,0.07); border: 1px solid rgba(247,162,106,0.18); border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+        .obj-num { min-width: 28px; height: 28px; background: var(--accent); color: #1a0800; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 0.78em; font-weight: 700; flex-shrink: 0; }
+        .obj-text { font-size: 0.88em; color: #c8c8e8; font-weight: 600; }
+        .tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 24px; overflow-x: auto; }
+        .tab-btn { flex-shrink: 0; padding: 11px 20px; background: none; border: none; color: var(--muted); font-family: 'Syne', sans-serif; font-size: 0.92em; font-weight: 700; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* WIN11 INTERFACE */
+        .interface-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 16px 0; }
+        .iface-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; cursor: pointer; transition: all 0.2s; }
+        .iface-item:hover { border-color: var(--accent); background: rgba(247,162,106,0.08); }
+        .iface-item.open { border-color: var(--accent); background: rgba(247,162,106,0.1); }
+        .iface-icon { font-size: 1.6em; margin-bottom: 6px; }
+        .iface-name { font-weight: 700; font-size: 0.9em; color: var(--text); }
+        .iface-desc { font-size: 0.78em; color: var(--muted); margin-top: 4px; display: none; }
+        .iface-item.open .iface-desc { display: block; color: #b0b0cc; }
+
+        /* SHORTCUTS GRID */
+        .shortcut-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin: 16px 0; }
+        .shortcut-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; gap: 14px; align-items: center; }
+        .shortcut-keys { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
+        kbd { background: var(--surface); color: var(--accent); border: 1px solid var(--border); border-bottom: 3px solid var(--border); border-radius: 5px; padding: 3px 8px; font-family: 'Space Mono', monospace; font-size: 0.8em; font-weight: 700; white-space: nowrap; }
+        .shortcut-desc { font-size: 0.85em; color: #b0b0cc; }
+        .shortcut-category { font-family: 'Space Mono', monospace; font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin: 18px 0 10px; }
+
+        /* PILLS */
+        .pills-grid { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+        .pill { padding: 9px 18px; background: var(--surface2); border: 1px solid var(--border); border-radius: 30px; color: var(--text); font-size: 0.88em; font-weight: 600; cursor: pointer; transition: all 0.25s; }
+        .pill:hover { border-color: var(--accent); background: rgba(247,162,106,0.08); }
+        .pill.open { border-color: var(--accent); background: rgba(247,162,106,0.12); color: var(--accent); }
+        .pill-detail { display: none; background: rgba(247,162,106,0.05); border: 1px solid rgba(247,162,106,0.12); border-radius: 10px; padding: 16px; margin-top: 10px; font-size: 0.88em; color: #b0b0cc; line-height: 1.7; }
+        .pill-detail.show { display: block; }
+
+        .mission-steps { counter-reset: step; list-style: none; padding: 0; margin-top: 16px; }
+        .mission-steps li { counter-increment: step; display: flex; gap: 16px; align-items: flex-start; margin-bottom: 18px; color: #b0b0cc; }
+        .mission-steps li::before { content: counter(step); min-width: 32px; height: 32px; background: rgba(247,162,106,0.1); border: 1px solid rgba(247,162,106,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 0.8em; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+        .xp-reward { display: inline-flex; align-items: center; gap: 6px; background: rgba(247,215,106,0.12); border: 1px solid rgba(247,215,106,0.25); border-radius: 20px; padding: 4px 12px; font-family: 'Space Mono', monospace; font-size: 0.78em; color: var(--xp); margin-top: 12px; }
+        .quiz-card { border-color: rgba(124,106,247,0.2); }
+        .quiz-card .card-tag { color: var(--accent2); }
+        .quiz-card .card-tag::before { background: var(--accent2); }
+        .quiz-progress { display: flex; gap: 6px; margin-bottom: 24px; }
+        .qp-dot { width: 28px; height: 6px; background: var(--border); border-radius: 4px; transition: background 0.3s; }
+        .qp-dot.done { background: var(--accent2); }
+        .qp-dot.active { background: var(--accent); }
+        .question-block { display: none; }
+        .question-block.active { display: block; }
+        .question-num { font-family: 'Space Mono', monospace; font-size: 0.72em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .question-text { font-size: 1.1em; font-weight: 600; color: var(--text); margin-bottom: 18px; line-height: 1.5; }
+        .answer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 520px) { .answer-grid { grid-template-columns: 1fr; } }
+        .answer-btn { padding: 14px 16px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Syne', sans-serif; font-size: 0.9em; text-align: left; cursor: pointer; transition: all 0.2s; line-height: 1.4; }
+        .answer-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(247,162,106,0.08); }
+        .answer-btn.correct { border-color: var(--success); background: rgba(106,247,200,0.1); color: var(--success); }
+        .answer-btn.wrong { border-color: var(--danger); background: rgba(247,106,138,0.1); color: var(--danger); }
+        .answer-btn:disabled { cursor: default; }
+        .question-feedback { margin-top: 14px; padding: 14px 16px; border-radius: 10px; font-size: 0.9em; line-height: 1.5; display: none; }
+        .question-feedback.show { display: block; }
+        .question-feedback.ok { background: rgba(106,247,200,0.08); border: 1px solid rgba(106,247,200,0.2); color: var(--success); }
+        .question-feedback.nok { background: rgba(247,106,138,0.08); border: 1px solid rgba(247,106,138,0.2); color: var(--danger); }
+        .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+        .quiz-score { font-family: 'Space Mono', monospace; font-size: 0.82em; color: var(--muted); }
+        .btn { padding: 11px 28px; background: var(--accent); color: #1a0800; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 0.9em; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+        .quiz-result { display: none; text-align: center; padding: 20px 0; }
+        .quiz-result.show { display: block; }
+        .result-emoji { font-size: 3em; margin-bottom: 12px; }
+        .result-score { font-size: 2.2em; font-weight: 800; color: var(--xp); font-family: 'Space Mono', monospace; margin-bottom: 8px; }
+        .result-msg { color: var(--muted); font-size: 0.9em; margin-bottom: 20px; }
+        .achievement-toast { position: fixed; bottom: 30px; right: 30px; background: var(--surface); border: 1px solid rgba(247,215,106,0.4); border-radius: 14px; padding: 16px 22px; display: flex; align-items: center; gap: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.4); transform: translateY(120px); opacity: 0; transition: all 0.5s cubic-bezier(.4,0,.2,1); z-index: 1000; max-width: 320px; }
+        .achievement-toast.show { transform: translateY(0); opacity: 1; }
+        .ach-icon { font-size: 2em; }
+        .ach-title { font-size: 0.7em; font-family: 'Space Mono', monospace; color: var(--xp); text-transform: uppercase; letter-spacing: 0.1em; }
+        .ach-name { font-weight: 700; color: var(--text); margin-top: 2px; }
+        .page-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border); }
+        .nav-btn { padding: 14px 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .nav-btn:hover { border-color: var(--accent); }
+        .nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #1a0800; }
+        .nav-btn.primary:hover { opacity: 0.9; }
+        .inline-tag { display: inline-block; background: rgba(247,162,106,0.12); border: 1px solid rgba(247,162,106,0.2); color: var(--accent); font-size: 0.8em; border-radius: 5px; padding: 2px 8px; font-family: 'Space Mono', monospace; }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="hero-top">
+        <div>
+            <div class="breadcrumb"><a href="index.html">GSO I</a> › Módulo 1 › Semana 03</div>
+            <div class="week-badge">⬡ SEMANA 03 · MÓDULO 1</div>
+            <h1 class="hero-title">Interface e<br>Atalhos Win 11</h1>
+            <p class="hero-subtitle">Área de trabalho, Snap, atalhos e personalização</p>
+        </div>
+        <div class="xp-bar-wrap">
+            <div class="xp-label">⚡ XP desta semana</div>
+            <div class="xp-count" id="xpDisplay">0 <span>/ 500 XP</span></div>
+            <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+        </div>
+    </div>
+</div>
+
+<main>
+
+    <!-- RECAP S02 -->
+    <div class="card recap-card">
+        <div class="card-tag">🔁 Retomada da Semana 02</div>
+        <h2>O que ficou da semana passada?</h2>
+        <p style="margin-bottom:16px;">Na Semana 02 abrimos o capô do SO. Agora vamos <strong>usar a interface</strong> do Windows 11 como um profissional.</p>
+        <div class="recap-items">
+            <div class="recap-item"><div class="ri-icon">⚙️</div><div class="ri-label">Modo</div><div class="ri-value">Kernel Mode</div></div>
+            <div class="recap-item"><div class="ri-icon">👤</div><div class="ri-label">Modo</div><div class="ri-value">User Mode</div></div>
+            <div class="recap-item"><div class="ri-icon">🔢</div><div class="ri-label">Processo</div><div class="ri-value">PID único</div></div>
+            <div class="recap-item"><div class="ri-icon">💾</div><div class="ri-label">RAM cheia</div><div class="ri-value">Memória Virtual</div></div>
+        </div>
+        <div class="recap-quiz-mini">
+            <p>🧠 Aquecimento — Por que o Chrome não trava o Windows quando crasha?</p>
+            <div class="mini-options">
+                <button class="mini-opt" onclick="miniQuiz(this, false)">Porque o Chrome é muito bem programado</button>
+                <button class="mini-opt" onclick="miniQuiz(this, true)">Roda em User Mode, isolado do Kernel</button>
+                <button class="mini-opt" onclick="miniQuiz(this, false)">Porque o Windows o protege especialmente</button>
+            </div>
+            <p class="mini-feedback" id="miniFeedback"></p>
+        </div>
+    </div>
+
+    <!-- OBJETIVOS -->
+    <div class="card">
+        <div class="card-tag">🎯 Objetivos desta semana</div>
+        <h2>O que você vai aprender</h2>
+        <div class="obj-grid">
+            <div class="obj-item"><div class="obj-num">1</div><span class="obj-text">Conhecer todos os elementos da área de trabalho do Windows 11</span></div>
+            <div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Usar o Snap Layouts para organizar janelas produtivamente</span></div>
+            <div class="obj-item"><div class="obj-num">3</div><span class="obj-text">Dominar atalhos de teclado essenciais para gerenciar janelas</span></div>
+            <div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Personalizar o ambiente para diferentes perfis de usuário</span></div>
+        </div>
+    </div>
+
+    <!-- TEORIA TABS -->
+    <div class="card">
+        <div class="card-tag">📚 Conteúdo Teórico</div>
+        <h2>Windows 11 na Prática</h2>
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="showTab(this,'tab-interface')">Interface</button>
+            <button class="tab-btn" onclick="showTab(this,'tab-snap')">Snap & Janelas</button>
+            <button class="tab-btn" onclick="showTab(this,'tab-atalhos')">Atalhos</button>
+            <button class="tab-btn" onclick="showTab(this,'tab-personal')">Personalização</button>
+        </div>
+
+        <!-- TAB INTERFACE -->
+        <div class="tab-content active" id="tab-interface">
+            <p style="margin-bottom:16px;">O Windows 11 redesenhou a interface em 2021. Conheça os elementos principais — clique em cada um para saber mais:</p>
+            <div class="interface-grid">
+                <div class="iface-item" onclick="toggleIface(this,'if-iniciar')">
+                    <div class="iface-icon">🪟</div>
+                    <div class="iface-name">Botão Iniciar</div>
+                    <div class="iface-desc">Agora centralizado na barra de tarefas. Acessa apps fixos, apps recentes e pesquisa. Você pode mover de volta para a esquerda em Configurações → Barra de Tarefas.</div>
+                </div>
+                <div class="iface-item" onclick="toggleIface(this,'if-taskbar')">
+                    <div class="iface-icon">📋</div>
+                    <div class="iface-name">Barra de Tarefas</div>
+                    <div class="iface-desc">Mostra os programas abertos e fixados. No Win 11 ficou mais limpa e centralizada. Não pode mais ser movida para as laterais (limitação do Win 11).</div>
+                </div>
+                <div class="iface-item" onclick="toggleIface(this,'if-notif')">
+                    <div class="iface-icon">🔔</div>
+                    <div class="iface-name">Central de Notif.</div>
+                    <div class="iface-desc">Clique no canto inferior direito (data/hora) para abrir. Mostra notificações de apps e o Calendário. No Win 11 foi separada da Central de Ações.</div>
+                </div>
+                <div class="iface-item" onclick="toggleIface(this,'if-acoes')">
+                    <div class="iface-icon">⚡</div>
+                    <div class="iface-name">Central de Ações</div>
+                    <div class="iface-desc">Botões de ação rápida: Wi-Fi, Bluetooth, Modo Avião, Brilho, Volume. No Win 11 foi separada das notificações — fica no ícone de rede/volume/bateria.</div>
+                </div>
+                <div class="iface-item" onclick="toggleIface(this,'if-busca')">
+                    <div class="iface-icon">🔍</div>
+                    <div class="iface-name">Pesquisa</div>
+                    <div class="iface-desc">Ícone de lupa na barra de tarefas. Pesquisa arquivos, apps, configurações e a web. Pressione a tecla Windows para abrir o Iniciar com busca ativa.</div>
+                </div>
+                <div class="iface-item" onclick="toggleIface(this,'if-widgets')">
+                    <div class="iface-icon">📊</div>
+                    <div class="iface-name">Widgets</div>
+                    <div class="iface-desc">Painel com notícias, clima, calendário e outras informações personalizadas. Acesse pelo botão de Widgets na barra de tarefas ou pelo atalho Win + W.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB SNAP -->
+        <div class="tab-content" id="tab-snap">
+            <p style="margin-bottom:16px;">O <strong>Snap Layouts</strong> é uma das melhores novidades do Windows 11 — organiza janelas lado a lado de forma intuitiva. Clique em cada recurso para saber mais:</p>
+            <div class="pills-grid">
+                <button class="pill" onclick="togglePill(this,'snap-2')">🔲 Snap 2 janelas</button>
+                <button class="pill" onclick="togglePill(this,'snap-4')">🔲 Snap 4 janelas</button>
+                <button class="pill" onclick="togglePill(this,'snap-monitor')">🖥️ Múltiplos monitores</button>
+                <button class="pill" onclick="togglePill(this,'snap-grupos')">📦 Grupos de Snap</button>
+            </div>
+            <div class="pill-detail" id="snap-2">Para dividir a tela em 2: passe o mouse sobre o botão <strong>Maximizar (⬜)</strong> de qualquer janela e escolha o layout de 2 colunas. Ou use <kbd>Win</kbd> + <kbd>←</kbd> / <kbd>→</kbd> para encaixar na metade esquerda ou direita. O Windows vai sugerir automaticamente qual app colocar na outra metade.</div>
+            <div class="pill-detail" id="snap-4">Para 4 janelas: passe o mouse sobre o botão Maximizar e escolha o layout de 4 quadrantes. Você poderá encaixar cada janela em um canto. Ideal para monitores grandes ou quando precisa acompanhar muitas coisas ao mesmo tempo.</div>
+            <div class="pill-detail" id="snap-monitor">Com 2 monitores, o Windows lembra a posição das janelas em cada tela. Se desconectar o monitor externo, todas as janelas migram para o monitor principal. Ao reconectar, as janelas voltam para as posições originais automaticamente.</div>
+            <div class="pill-detail" id="snap-grupos">O Windows 11 cria <strong>grupos de Snap</strong> — quando você minimiza um grupo de janelas, aparecem juntas na barra de tarefas. Isso facilita alternar entre diferentes "contextos de trabalho" sem perder a organização.</div>
+        </div>
+
+        <!-- TAB ATALHOS -->
+        <div class="tab-content" id="tab-atalhos">
+            <p style="margin-bottom:16px;">Como técnico de suporte, atalhos de teclado são essenciais para trabalhar rapidamente. Pratique até virar automático!</p>
+
+            <div class="shortcut-category">🪟 Janelas e Área de Trabalho</div>
+            <div class="shortcut-grid">
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>←</kbd></div><div class="shortcut-desc">Snap janela para a metade esquerda</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>→</kbd></div><div class="shortcut-desc">Snap janela para a metade direita</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>↑</kbd></div><div class="shortcut-desc">Maximizar janela atual</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>↓</kbd></div><div class="shortcut-desc">Minimizar / restaurar janela</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>D</kbd></div><div class="shortcut-desc">Mostrar/ocultar área de trabalho</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Alt</kbd> + <kbd>F4</kbd></div><div class="shortcut-desc">Fechar janela ou programa atual</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Alt</kbd> + <kbd>Tab</kbd></div><div class="shortcut-desc">Alternar entre janelas abertas</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>Tab</kbd></div><div class="shortcut-desc">Visão de tarefas e múltiplas áreas</div></div>
+            </div>
+
+            <div class="shortcut-category">⚙️ Sistema e Produtividade</div>
+            <div class="shortcut-grid">
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>L</kbd></div><div class="shortcut-desc">🔒 Bloquear o computador (essencial em empresa!)</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>E</kbd></div><div class="shortcut-desc">Abrir o Explorador de Arquivos</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>I</kbd></div><div class="shortcut-desc">Abrir Configurações do Windows</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>R</kbd></div><div class="shortcut-desc">Abrir caixa Executar (cmd, msinfo32...)</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></div><div class="shortcut-desc">Recorte de tela personalizado</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd></div><div class="shortcut-desc">Gerenciador de Tarefas direto</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>.</kbd></div><div class="shortcut-desc">Painel de emojis e símbolos</div></div>
+                <div class="shortcut-item"><div class="shortcut-keys"><kbd>Win</kbd> + <kbd>V</kbd></div><div class="shortcut-desc">Histórico da área de transferência</div></div>
+            </div>
+        </div>
+
+        <!-- TAB PERSONALIZAÇÃO -->
+        <div class="tab-content" id="tab-personal">
+            <p style="margin-bottom:16px;">A personalização do Windows 11 vai além do papel de parede. Como técnico, você vai configurar ambientes para diferentes usuários e empresas:</p>
+            <div class="pills-grid">
+                <button class="pill" onclick="togglePill(this,'pers-modo')">🌙 Modo Escuro</button>
+                <button class="pill" onclick="togglePill(this,'pers-acess')">♿ Acessibilidade</button>
+                <button class="pill" onclick="togglePill(this,'pers-monitor')">🖥️ Config. Monitores</button>
+                <button class="pill" onclick="togglePill(this,'pers-gpo')">🏢 Group Policy</button>
+            </div>
+            <div class="pill-detail" id="pers-modo"><strong>Modo Escuro:</strong> Configurações → Personalização → Cores → "Escuro". Reduz o cansaço visual em ambientes com pouca luz e consome menos bateria em telas OLED. Você pode definir modo escuro apenas para o sistema ou para apps também.</div>
+            <div class="pill-detail" id="pers-acess"><strong>Acessibilidade:</strong> Configurações → Acessibilidade. Inclui Narrador (lê a tela em voz alta), Lupa (zoom), Alto Contraste, legendas ao vivo, e teclas de aderência. Como técnico, você vai configurar isso para usuários com deficiências visuais ou motoras.</div>
+            <div class="pill-detail" id="pers-monitor"><strong>Múltiplos monitores:</strong> Configurações → Sistema → Tela. Configure resolução, orientação, disposição dos monitores (qual fica à esquerda/direita) e modo de exibição: Duplicar, Estender, Somente PC, ou Somente segundo monitor.</div>
+            <div class="pill-detail" id="pers-gpo"><strong>Group Policy (GPO):</strong> em empresas, o TI usa a Política de Grupo para padronizar e bloquear configurações em todos os computadores de uma vez — papel de parede fixo da empresa, restrição de instalar programas, configurações de segurança. Ferramenta poderosa do Windows Pro/Enterprise.</div>
+        </div>
+    </div>
+
+    <!-- MISSÃO -->
+    <div class="card" style="border-color:rgba(247,162,106,0.3); background: linear-gradient(135deg, #1a0e08 0%, #0d0d14 100%);">
+        <div class="card-tag">🚀 Missão da Semana</div>
+        <h2>Configurando como um Profissional</h2>
+        <p style="margin-bottom:20px;">Realize as atividades práticas no seu notebook e entregue no Moodle:</p>
+        <ol class="mission-steps">
+            <li>Configure sua <strong>área de trabalho completa</strong>: papel de parede, ícones da área de trabalho, barra de tarefas com 3+ apps fixados e modo escuro ativado</li>
+            <li>Teste o <strong>Snap Layouts</strong> com pelo menos 3 combinações diferentes de janelas e tire print de cada configuração</li>
+            <li>Crie um <strong>Guia de Atalhos</strong> com pelo menos 15 atalhos categorizados (Janelas / Sistema / Produtividade) — pode ser em Word, PDF ou print</li>
+            <li>Configure um <strong>perfil de usuário</strong> para "Ana do RH" com tema claro, fonte maior (acessibilidade) e apps de trabalho fixados</li>
+            <li>Entregue os materiais (prints + guia) no Moodle</li>
+        </ol>
+        <div class="xp-reward">⚡ +300 XP ao entregar no Moodle</div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="card quiz-card">
+        <div class="card-tag">🎮 Quiz — Teste seu Conhecimento</div>
+        <h2>5 Questões · Semana 03</h2>
+        <div class="quiz-progress" id="quizProgress"></div>
+        <div id="quizBody">
+            <div class="question-block active" data-q="0">
+                <div class="question-num">Questão 1 de 5</div>
+                <div class="question-text">Qual é a principal mudança visual do Windows 11 na barra de tarefas?</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,0,false)">Removeu o botão Iniciar completamente</button>
+                    <button class="answer-btn" onclick="answer(this,0,true)">Centralizou o botão Iniciar (antes ficava no canto esquerdo)</button>
+                    <button class="answer-btn" onclick="answer(this,0,false)">Colocou o Iniciar no canto direito da tela</button>
+                    <button class="answer-btn" onclick="answer(this,0,false)">Removeu a barra de tarefas</button>
+                </div>
+                <div class="question-feedback" id="fb0"></div>
+            </div>
+            <div class="question-block" data-q="1">
+                <div class="question-num">Questão 2 de 5</div>
+                <div class="question-text">O que é o Snap Layouts no Windows 11?</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,1,false)">Um recurso para tirar fotos da tela</button>
+                    <button class="answer-btn" onclick="answer(this,1,true)">Sistema para organizar janelas lado a lado em layouts predefinidos</button>
+                    <button class="answer-btn" onclick="answer(this,1,false)">Um gerenciador de downloads</button>
+                    <button class="answer-btn" onclick="answer(this,1,false)">Uma ferramenta de backup automático</button>
+                </div>
+                <div class="question-feedback" id="fb1"></div>
+            </div>
+            <div class="question-block" data-q="2">
+                <div class="question-num">Questão 3 de 5</div>
+                <div class="question-text">Qual atalho bloqueia o computador imediatamente? (Essencial para segurança em empresa)</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,2,false)">Win + D</button>
+                    <button class="answer-btn" onclick="answer(this,2,true)">Win + L</button>
+                    <button class="answer-btn" onclick="answer(this,2,false)">Ctrl + Alt + Del</button>
+                    <button class="answer-btn" onclick="answer(this,2,false)">Win + E</button>
+                </div>
+                <div class="question-feedback" id="fb2"></div>
+            </div>
+            <div class="question-block" data-q="3">
+                <div class="question-num">Questão 4 de 5</div>
+                <div class="question-text">Você quer mover uma janela para a metade ESQUERDA da tela. Qual atalho usar?</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,3,false)">Win + ↑</button>
+                    <button class="answer-btn" onclick="answer(this,3,false)">Win + →</button>
+                    <button class="answer-btn" onclick="answer(this,3,true)">Win + ←</button>
+                    <button class="answer-btn" onclick="answer(this,3,false)">Win + D</button>
+                </div>
+                <div class="question-feedback" id="fb3"></div>
+            </div>
+            <div class="question-block" data-q="4">
+                <div class="question-num">Questão 5 de 5</div>
+                <div class="question-text">Em empresas, como o TI padroniza a área de trabalho de todos os computadores de uma vez?</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,4,false)">Configurando manualmente cada PC</button>
+                    <button class="answer-btn" onclick="answer(this,4,true)">Usando Group Policy (GPO) no Windows Server</button>
+                    <button class="answer-btn" onclick="answer(this,4,false)">Instalando um app especial da Microsoft Store</button>
+                    <button class="answer-btn" onclick="answer(this,4,false)">Enviando prints por e-mail para os usuários</button>
+                </div>
+                <div class="question-feedback" id="fb4"></div>
+            </div>
+            <div class="quiz-nav">
+                <span class="quiz-score" id="quizScore">Acertos: 0 / 0</span>
+                <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Próxima →</button>
+            </div>
+        </div>
+        <div class="quiz-result" id="quizResult">
+            <div class="result-emoji" id="resultEmoji"></div>
+            <div class="result-score" id="resultScore"></div>
+            <div class="result-msg" id="resultMsg"></div>
+            <button class="btn" onclick="resetQuiz()">🔄 Tentar Novamente</button>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="semana02.html" class="nav-btn">← Semana 02</a>
+        <a href="index.html" class="nav-btn">🏠 Início</a>
+        <a href="semana04.html" class="nav-btn primary">Semana 04 →</a>
+    </div>
+</main>
+
+<div class="achievement-toast" id="achToast">
+    <div class="ach-icon" id="achIcon"></div>
+    <div>
+        <div class="ach-title">🏆 Conquista Desbloqueada</div>
+        <div class="ach-name" id="achName"></div>
+    </div>
+</div>
+
+<script>
+let totalXP = 0;
+const MAX_XP = 500;
+function addXP(amount) {
+    totalXP = Math.min(totalXP + amount, MAX_XP);
+    document.getElementById('xpDisplay').innerHTML = `${totalXP} <span>/ ${MAX_XP} XP</span>`;
+    document.getElementById('xpFill').style.width = (totalXP / MAX_XP * 100) + '%';
+}
+function miniQuiz(el, correct) {
+    el.parentElement.querySelectorAll('.mini-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('miniFeedback');
+    fb.classList.add('show');
+    if (correct) {
+        el.classList.add('correct');
+        fb.style.color = 'var(--success)';
+        fb.textContent = '✅ Correto! User Mode isola os programas — um crash do Chrome não afeta o Kernel que continua funcionando normalmente.';
+        addXP(50); showAchievement('🧠', 'Conceitos Sólidos!');
+    } else {
+        el.classList.add('wrong');
+        el.parentElement.querySelectorAll('.mini-opt').forEach(b => { if (b.onclick.toString().includes(',true)')) b.classList.add('correct'); });
+        fb.style.color = 'var(--danger)';
+        fb.textContent = '❌ O Chrome roda em User Mode — isolado do Kernel. Por isso um crash do Chrome não afeta o sistema operacional.';
+    }
+}
+function showTab(btn, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+    addXP(5);
+}
+function togglePill(btn, detailId) {
+    const wasOpen = btn.classList.contains('open');
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.pill-detail').forEach(d => d.classList.remove('show'));
+    if (!wasOpen) { btn.classList.add('open'); document.getElementById(detailId).classList.add('show'); addXP(10); }
+}
+function toggleIface(el, detailId) {
+    const was = el.classList.contains('open');
+    document.querySelectorAll('.iface-item').forEach(i => i.classList.remove('open'));
+    if (!was) { el.classList.add('open'); addXP(8); }
+}
+const feedbacks = [
+    { ok: '✅ Correto! O Win 11 centralizou o Iniciar — mas você pode mover de volta para a esquerda nas Configurações → Barra de Tarefas.', nok: '❌ A mudança mais notável do Win 11 é o botão Iniciar centralizado. Você pode mover para a esquerda nas configurações.' },
+    { ok: '✅ Snap Layouts! Passe o mouse no botão maximizar (⬜) para ver os layouts disponíveis e organizar janelas lado a lado.', nok: '❌ Snap Layouts é o sistema que organiza janelas lado a lado — fica no botão Maximizar de qualquer janela!' },
+    { ok: '✅ Win + L bloqueia instantaneamente! Todo profissional deve usar ao se afastar do computador — especialmente em ambientes corporativos.', nok: '❌ Win + L bloqueia o computador. Isso é fundamental: sempre bloquear ao se afastar da mesa na empresa!' },
+    { ok: '✅ Win + ← move para a esquerda. Win + → move para a direita. A seta indica para onde a janela vai!', nok: '❌ Win + ← move a janela para a metade ESQUERDA. Pense: a seta aponta para onde a janela vai!' },
+    { ok: '✅ Exato! Group Policy (GPO) permite ao TI configurar e bloquear personalizações em todos os PCs da empresa de uma vez.', nok: '❌ Group Policy (GPO) é a ferramenta que o TI usa para padronizar configurações em toda a empresa.' }
+];
+let currentQ = 0, answers = new Array(5).fill(null), correct = 0;
+function buildQuizProgress() {
+    const prog = document.getElementById('quizProgress');
+    prog.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+        const d = document.createElement('div');
+        d.className = 'qp-dot' + (i === 0 ? ' active' : '');
+        d.id = 'qpd' + i;
+        prog.appendChild(d);
+    }
+}
+function answer(btn, qIdx, isCorrect) {
+    const block = document.querySelector(`.question-block[data-q="${qIdx}"]`);
+    block.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) block.querySelectorAll('.answer-btn').forEach(b => { if (b.onclick.toString().includes(',true)')) b.classList.add('correct'); });
+    const fb = document.getElementById('fb' + qIdx);
+    fb.className = 'question-feedback show ' + (isCorrect ? 'ok' : 'nok');
+    fb.textContent = feedbacks[qIdx][isCorrect ? 'ok' : 'nok'];
+    answers[qIdx] = isCorrect;
+    if (isCorrect) correct++;
+    addXP(isCorrect ? 30 : 10);
+    document.getElementById('quizScore').textContent = `Acertos: ${correct} / ${answers.filter(a=>a!==null).length}`;
+    document.getElementById('nextBtn').disabled = false;
+    const dot = document.getElementById('qpd' + qIdx);
+    if (dot) dot.classList.add('done');
+}
+function nextQuestion() {
+    if (currentQ < 4) {
+        document.querySelector(`.question-block[data-q="${currentQ}"]`).classList.remove('active');
+        currentQ++;
+        document.querySelector(`.question-block[data-q="${currentQ}"]`).classList.add('active');
+        document.getElementById('qpd' + currentQ).classList.add('active');
+        document.getElementById('nextBtn').disabled = true;
+        if (currentQ === 4) document.getElementById('nextBtn').textContent = 'Ver Resultado →';
+    } else { showResult(); }
+}
+function showResult() {
+    document.getElementById('quizBody').style.display = 'none';
+    document.getElementById('quizResult').classList.add('show');
+    const pct = correct / 5;
+    let emoji, msg;
+    if (pct === 1) { emoji = '🏆'; msg = 'Perfeito! Windows 11 dominado!'; }
+    else if (pct >= 0.8) { emoji = '🎯'; msg = 'Muito bem! Pronto para o Módulo 2.'; }
+    else if (pct >= 0.6) { emoji = '📈'; msg = 'Bom! Revise os atalhos e o Snap Layouts.'; }
+    else { emoji = '📚'; msg = 'Pratique os atalhos no notebook e tente novamente!'; }
+    document.getElementById('resultEmoji').textContent = emoji;
+    document.getElementById('resultScore').textContent = `${correct} / 5`;
+    document.getElementById('resultMsg').textContent = msg;
+    if (correct >= 4) showAchievement('⌨️', 'Mestre dos Atalhos!');
+}
+function resetQuiz() {
+    currentQ = 0; answers = new Array(5).fill(null); correct = 0;
+    document.getElementById('quizResult').classList.remove('show');
+    document.getElementById('quizBody').style.display = '';
+    document.querySelectorAll('.question-block').forEach((b,i) => {
+        b.classList.toggle('active', i === 0);
+        b.querySelectorAll('.answer-btn').forEach(btn => { btn.disabled = false; btn.classList.remove('correct','wrong'); });
+        document.getElementById('fb'+i).className = 'question-feedback';
+    });
+    document.getElementById('nextBtn').textContent = 'Próxima →';
+    document.getElementById('nextBtn').disabled = true;
+    document.getElementById('quizScore').textContent = 'Acertos: 0 / 0';
+    buildQuizProgress();
+}
+function showAchievement(icon, name) {
+    const toast = document.getElementById('achToast');
+    document.getElementById('achIcon').textContent = icon;
+    document.getElementById('achName').textContent = name;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+}
+window.addEventListener('DOMContentLoaded', () => { buildQuizProgress(); });
+</script>
+</body>
+</html>

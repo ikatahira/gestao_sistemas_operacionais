@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semana 02 — Arquitetura e Processos | GSO I</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d14; --surface: #13131f; --surface2: #1a1a2e;
+            --accent: #6af7c8; --accent2: #7c6af7; --accent3: #f7a26a;
+            --text: #e8e8f0; --muted: #6b6b8a; --border: #2a2a40;
+            --xp: #f7d76a; --danger: #f76a8a; --success: #6af7c8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+        .hero { position: relative; padding: 60px 40px 50px; background: linear-gradient(135deg, #0a1a14 0%, #0d0d14 60%); border-bottom: 1px solid var(--border); overflow: hidden; }
+        .hero::after { content: ''; position: absolute; top: -80px; right: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(106,247,200,0.12) 0%, transparent 70%); pointer-events: none; }
+        .hero-top { display: flex; justify-content: space-between; align-items: flex-start; max-width: 900px; margin: 0 auto; gap: 20px; flex-wrap: wrap; }
+        .breadcrumb { font-family: 'Space Mono', monospace; font-size: 0.75em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+        .breadcrumb a { color: var(--accent); text-decoration: none; }
+        .week-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #001a10; font-family: 'Space Mono', monospace; font-size: 0.72em; padding: 6px 14px; border-radius: 30px; letter-spacing: 0.05em; margin-bottom: 14px; font-weight: 700; }
+        h1.hero-title { font-size: clamp(1.8em, 5vw, 3em); font-weight: 800; line-height: 1.1; margin-bottom: 8px; }
+        .hero-subtitle { color: var(--accent3); font-weight: 600; font-size: 1.05em; margin-bottom: 20px; }
+        .xp-bar-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; min-width: 220px; text-align: right; }
+        .xp-label { font-family: 'Space Mono', monospace; font-size: 0.7em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .xp-count { font-size: 2em; font-weight: 800; color: var(--xp); font-family: 'Space Mono', monospace; }
+        .xp-count span { font-size: 0.5em; color: var(--muted); }
+        .xp-track { height: 6px; background: var(--border); border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .xp-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--xp)); border-radius: 10px; width: 0%; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+        main { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; position: relative; z-index: 1; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 28px; position: relative; overflow: hidden; transition: border-color 0.3s; }
+        .card:hover { border-color: var(--accent); }
+        .card-tag { font-family: 'Space Mono', monospace; font-size: 0.68em; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .card-tag::before { content: ''; width: 20px; height: 2px; background: var(--accent); display: inline-block; }
+        .card h2 { font-size: 1.5em; font-weight: 700; margin-bottom: 16px; color: var(--text); }
+        .card p, .card li { color: #b0b0cc; line-height: 1.75; }
+        .card ul { padding-left: 20px; }
+        .card ul li { margin-bottom: 8px; }
+        .recap-card { background: linear-gradient(135deg, #1a1428 0%, #131328 100%); border-color: #3a2a60; }
+        .recap-card .card-tag { color: #b38af7; }
+        .recap-card .card-tag::before { background: #b38af7; }
+        .recap-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 18px 0; }
+        .recap-item { background: rgba(124,106,247,0.1); border: 1px solid rgba(124,106,247,0.2); border-radius: 10px; padding: 14px 16px; font-size: 0.9em; }
+        .recap-item .ri-icon { font-size: 1.4em; margin-bottom: 6px; }
+        .recap-item .ri-label { color: var(--muted); font-size: 0.75em; font-family: 'Space Mono', monospace; text-transform: uppercase; }
+        .recap-item .ri-value { font-weight: 700; color: var(--text); margin-top: 4px; }
+        .recap-quiz-mini { background: rgba(124,106,247,0.07); border: 1px solid rgba(124,106,247,0.15); border-radius: 12px; padding: 20px; margin-top: 16px; }
+        .recap-quiz-mini p { font-weight: 600; color: var(--text) !important; margin-bottom: 12px; }
+        .mini-options { display: flex; gap: 10px; flex-wrap: wrap; }
+        .mini-opt { padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-family: 'Syne', sans-serif; font-size: 0.9em; cursor: pointer; transition: all 0.2s; }
+        .mini-opt:hover { border-color: var(--accent); background: rgba(106,247,200,0.1); }
+        .mini-opt.correct { border-color: var(--success); background: rgba(106,247,200,0.15); color: var(--success); }
+        .mini-opt.wrong { border-color: var(--danger); background: rgba(247,106,138,0.15); color: var(--danger); }
+        .mini-feedback { margin-top: 10px; font-size: 0.88em; display: none; }
+        .mini-feedback.show { display: block; }
+        .obj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+        .obj-item { background: rgba(106,247,200,0.07); border: 1px solid rgba(106,247,200,0.18); border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+        .obj-num { min-width: 28px; height: 28px; background: var(--accent); color: #001a10; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 0.78em; font-weight: 700; flex-shrink: 0; }
+        .obj-text { font-size: 0.88em; color: #c8c8e8; font-weight: 600; }
+        .tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 24px; overflow-x: auto; }
+        .tab-btn { flex-shrink: 0; padding: 11px 20px; background: none; border: none; color: var(--muted); font-family: 'Syne', sans-serif; font-size: 0.92em; font-weight: 700; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ARCH LAYERS */
+        .arch-layers { display: flex; flex-direction: column; gap: 4px; margin: 20px 0; max-width: 520px; }
+        .arch-layer { padding: 13px 20px; border-radius: 8px; font-weight: 700; font-size: 0.88em; text-align: center; position: relative; }
+        .layer-user { background: rgba(106,247,200,0.1); border: 1px solid rgba(106,247,200,0.25); color: var(--accent); }
+        .layer-apps { background: rgba(124,106,247,0.1); border: 1px solid rgba(124,106,247,0.25); color: var(--accent2); }
+        .layer-usermode { background: rgba(247,162,106,0.1); border: 1px solid rgba(247,162,106,0.25); color: var(--accent3); }
+        .layer-kernel { background: rgba(247,106,138,0.1); border: 1px solid rgba(247,106,138,0.25); color: #f76a8a; }
+        .layer-hw { background: rgba(247,215,106,0.1); border: 1px solid rgba(247,215,106,0.25); color: var(--xp); }
+        .arch-arrow { text-align: center; color: var(--muted); font-size: 1em; margin: 2px 0; }
+
+        /* PROCESS STATES */
+        .process-flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 20px 0; }
+        .proc-state { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; text-align: center; cursor: pointer; transition: all 0.2s; min-width: 110px; }
+        .proc-state:hover { border-color: var(--accent); }
+        .proc-state.running { border-color: var(--success); background: rgba(106,247,200,0.08); }
+        .proc-state.ready { border-color: var(--xp); background: rgba(247,215,106,0.08); }
+        .proc-state.blocked { border-color: var(--accent2); background: rgba(124,106,247,0.08); }
+        .proc-state .ps-icon { font-size: 1.4em; margin-bottom: 4px; }
+        .proc-state .ps-name { font-weight: 700; font-size: 0.85em; }
+        .proc-state .ps-desc { font-size: 0.72em; color: var(--muted); margin-top: 2px; }
+        .proc-arrow { color: var(--muted); font-size: 1.2em; }
+
+        /* PILLS */
+        .pills-grid { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+        .pill { padding: 9px 18px; background: var(--surface2); border: 1px solid var(--border); border-radius: 30px; color: var(--text); font-size: 0.88em; font-weight: 600; cursor: pointer; transition: all 0.25s; }
+        .pill:hover { border-color: var(--accent); background: rgba(106,247,200,0.08); }
+        .pill.open { border-color: var(--accent); background: rgba(106,247,200,0.12); color: var(--accent); }
+        .pill-detail { display: none; background: rgba(106,247,200,0.05); border: 1px solid rgba(106,247,200,0.12); border-radius: 10px; padding: 16px; margin-top: 10px; font-size: 0.88em; color: #b0b0cc; line-height: 1.7; }
+        .pill-detail.show { display: block; }
+
+        .mission-steps { counter-reset: step; list-style: none; padding: 0; margin-top: 16px; }
+        .mission-steps li { counter-increment: step; display: flex; gap: 16px; align-items: flex-start; margin-bottom: 18px; color: #b0b0cc; }
+        .mission-steps li::before { content: counter(step); min-width: 32px; height: 32px; background: rgba(106,247,200,0.08); border: 1px solid rgba(106,247,200,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 0.8em; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+        .xp-reward { display: inline-flex; align-items: center; gap: 6px; background: rgba(247,215,106,0.12); border: 1px solid rgba(247,215,106,0.25); border-radius: 20px; padding: 4px 12px; font-family: 'Space Mono', monospace; font-size: 0.78em; color: var(--xp); margin-top: 12px; }
+        .quiz-card { border-color: rgba(247,162,106,0.2); }
+        .quiz-card .card-tag { color: var(--accent3); }
+        .quiz-card .card-tag::before { background: var(--accent3); }
+        .quiz-progress { display: flex; gap: 6px; margin-bottom: 24px; }
+        .qp-dot { width: 28px; height: 6px; background: var(--border); border-radius: 4px; transition: background 0.3s; }
+        .qp-dot.done { background: var(--accent3); }
+        .qp-dot.active { background: var(--accent); }
+        .question-block { display: none; }
+        .question-block.active { display: block; }
+        .question-num { font-family: 'Space Mono', monospace; font-size: 0.72em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .question-text { font-size: 1.1em; font-weight: 600; color: var(--text); margin-bottom: 18px; line-height: 1.5; }
+        .answer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 520px) { .answer-grid { grid-template-columns: 1fr; } }
+        .answer-btn { padding: 14px 16px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Syne', sans-serif; font-size: 0.9em; text-align: left; cursor: pointer; transition: all 0.2s; line-height: 1.4; }
+        .answer-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(106,247,200,0.08); }
+        .answer-btn.correct { border-color: var(--success); background: rgba(106,247,200,0.1); color: var(--success); }
+        .answer-btn.wrong { border-color: var(--danger); background: rgba(247,106,138,0.1); color: var(--danger); }
+        .answer-btn:disabled { cursor: default; }
+        .question-feedback { margin-top: 14px; padding: 14px 16px; border-radius: 10px; font-size: 0.9em; line-height: 1.5; display: none; }
+        .question-feedback.show { display: block; }
+        .question-feedback.ok { background: rgba(106,247,200,0.08); border: 1px solid rgba(106,247,200,0.2); color: var(--success); }
+        .question-feedback.nok { background: rgba(247,106,138,0.08); border: 1px solid rgba(247,106,138,0.2); color: var(--danger); }
+        .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+        .quiz-score { font-family: 'Space Mono', monospace; font-size: 0.82em; color: var(--muted); }
+        .btn { padding: 11px 28px; background: var(--accent); color: #001a10; border: none; border-radius: 8px; font-family: 'Syne', sans-serif; font-size: 0.9em; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+        .quiz-result { display: none; text-align: center; padding: 20px 0; }
+        .quiz-result.show { display: block; }
+        .result-emoji { font-size: 3em; margin-bottom: 12px; }
+        .result-score { font-size: 2.2em; font-weight: 800; color: var(--xp); font-family: 'Space Mono', monospace; margin-bottom: 8px; }
+        .result-msg { color: var(--muted); font-size: 0.9em; margin-bottom: 20px; }
+        .achievement-toast { position: fixed; bottom: 30px; right: 30px; background: var(--surface); border: 1px solid rgba(247,215,106,0.4); border-radius: 14px; padding: 16px 22px; display: flex; align-items: center; gap: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.4); transform: translateY(120px); opacity: 0; transition: all 0.5s cubic-bezier(.4,0,.2,1); z-index: 1000; max-width: 320px; }
+        .achievement-toast.show { transform: translateY(0); opacity: 1; }
+        .ach-icon { font-size: 2em; }
+        .ach-title { font-size: 0.7em; font-family: 'Space Mono', monospace; color: var(--xp); text-transform: uppercase; letter-spacing: 0.1em; }
+        .ach-name { font-weight: 700; color: var(--text); margin-top: 2px; }
+        .page-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--border); }
+        .nav-btn { padding: 14px 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .nav-btn:hover { border-color: var(--accent); }
+        .nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #001a10; }
+        .nav-btn.primary:hover { opacity: 0.9; }
+        .inline-tag { display: inline-block; background: rgba(106,247,200,0.1); border: 1px solid rgba(106,247,200,0.2); color: var(--accent); font-size: 0.8em; border-radius: 5px; padding: 2px 8px; font-family: 'Space Mono', monospace; }
+        kbd { background: var(--surface2); color: var(--accent); border: 1px solid var(--border); border-bottom: 3px solid var(--border); border-radius: 5px; padding: 2px 8px; font-family: 'Space Mono', monospace; font-size: 0.82em; }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="hero-top">
+        <div>
+            <div class="breadcrumb"><a href="index.html">GSO I</a> › Módulo 1 › Semana 02</div>
+            <div class="week-badge">⬡ SEMANA 02 · MÓDULO 1</div>
+            <h1 class="hero-title">Arquitetura e<br>Processos</h1>
+            <p class="hero-subtitle">Kernel, User Mode, processos e edições do Windows</p>
+        </div>
+        <div class="xp-bar-wrap">
+            <div class="xp-label">⚡ XP desta semana</div>
+            <div class="xp-count" id="xpDisplay">0 <span>/ 500 XP</span></div>
+            <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+        </div>
+    </div>
+</div>
+
+<main>
+
+    <!-- RECAP S01 -->
+    <div class="card recap-card">
+        <div class="card-tag">🔁 Retomada da Semana 01</div>
+        <h2>O que ficou da semana passada?</h2>
+        <p style="margin-bottom:16px;">Na Semana 01 entendemos o que é um SO e como o Windows evoluiu. Agora vamos <strong>abrir o capô</strong> e entender o que acontece por dentro.</p>
+        <div class="recap-items">
+            <div class="recap-item"><div class="ri-icon">🖥️</div><div class="ri-label">Conceito</div><div class="ri-value">SO = intermediário HW/SW</div></div>
+            <div class="recap-item"><div class="ri-icon">📋</div><div class="ri-label">Tipos</div><div class="ri-value">Mono · Multi · Usuário</div></div>
+            <div class="recap-item"><div class="ri-icon">🕰️</div><div class="ri-label">Marcos Win</div><div class="ri-value">Win95 · XP · Win11</div></div>
+            <div class="recap-item"><div class="ri-icon">⚡</div><div class="ri-label">Suporte Win10</div><div class="ri-value">Encerrou Out/2025</div></div>
+        </div>
+        <div class="recap-quiz-mini">
+            <p>🧠 Aquecimento — Qual componente do SO decide qual programa usa o processador a cada momento?</p>
+            <div class="mini-options">
+                <button class="mini-opt" onclick="miniQuiz(this, false)">Driver</button>
+                <button class="mini-opt" onclick="miniQuiz(this, true)">Escalonador (Kernel)</button>
+                <button class="mini-opt" onclick="miniQuiz(this, false)">RAM</button>
+                <button class="mini-opt" onclick="miniQuiz(this, false)">User Mode</button>
+            </div>
+            <p class="mini-feedback" id="miniFeedback"></p>
+        </div>
+    </div>
+
+    <!-- OBJETIVOS -->
+    <div class="card">
+        <div class="card-tag">🎯 Objetivos desta semana</div>
+        <h2>O que você vai aprender</h2>
+        <div class="obj-grid">
+            <div class="obj-item"><div class="obj-num">1</div><span class="obj-text">Entender a arquitetura interna do SO: Kernel e User Mode</span></div>
+            <div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Aprender o que são processos e como o SO os gerencia</span></div>
+            <div class="obj-item"><div class="obj-num">3</div><span class="obj-text">Compreender como a memória RAM é distribuída pelo SO</span></div>
+            <div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Identificar as edições do Windows e quando usar cada uma</span></div>
+        </div>
+    </div>
+
+    <!-- TEORIA TABS -->
+    <div class="card">
+        <div class="card-tag">📚 Conteúdo Teórico</div>
+        <h2>Arquitetura Interna do Windows</h2>
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="showTab(this,'tab-arq')">Arquitetura</button>
+            <button class="tab-btn" onclick="showTab(this,'tab-proc')">Processos</button>
+            <button class="tab-btn" onclick="showTab(this,'tab-mem')">Memória</button>
+            <button class="tab-btn" onclick="showTab(this,'tab-edicoes')">Edições Win</button>
+        </div>
+
+        <!-- TAB ARQUITETURA -->
+        <div class="tab-content active" id="tab-arq">
+            <p style="margin-bottom:16px;">O SO é organizado em camadas, como as camadas de uma cebola. As camadas mais internas têm mais poder — e mais responsabilidade. Isso garante segurança: um programa que trava não derruba o sistema todo.</p>
+            <div class="arch-layers">
+                <div class="arch-layer layer-user">👤 Usuário — Você, usando o computador</div>
+                <div class="arch-arrow">↓</div>
+                <div class="arch-layer layer-apps">📱 Aplicativos — Word, Chrome, Spotify, Jogos</div>
+                <div class="arch-arrow">↓</div>
+                <div class="arch-layer layer-usermode">🪟 User Mode — Interface, APIs, Serviços Windows</div>
+                <div class="arch-arrow">↓</div>
+                <div class="arch-layer layer-kernel">⚙️ Kernel Mode — Núcleo do SO (acesso total ao hardware)</div>
+                <div class="arch-arrow">↓</div>
+                <div class="arch-layer layer-hw">🔧 Hardware — CPU, RAM, Disco, Placa Mãe</div>
+            </div>
+            <div class="pills-grid" style="margin-top:20px;">
+                <button class="pill" onclick="togglePill(this,'pill-kernel')">⚙️ Kernel Mode</button>
+                <button class="pill" onclick="togglePill(this,'pill-user')">👤 User Mode</button>
+                <button class="pill" onclick="togglePill(this,'pill-bsod')">💙 BSOD</button>
+            </div>
+            <div class="pill-detail" id="pill-kernel">O <strong>Kernel</strong> tem acesso total ao hardware — controla diretamente o processador, a memória e os dispositivos. É o componente mais crítico. Se o Kernel travar, o sistema inteiro trava (famosa "tela azul da morte"). Por isso, apenas componentes do próprio SO rodam nesse modo.</div>
+            <div class="pill-detail" id="pill-user">Todo programa que você instala (Word, Chrome, jogos) roda no <strong>User Mode</strong>, com acesso restrito. Isso é segurança: se o Chrome travar, o Windows continua funcionando porque o Chrome não tem acesso direto ao hardware. Ele precisa "pedir" ao Kernel para fazer coisas críticas.</div>
+            <div class="pill-detail" id="pill-bsod">A <strong>Tela Azul da Morte (BSOD)</strong> acontece quando há um erro crítico no Kernel Mode — o sistema não consegue continuar. Pode ser causada por drivers com bug, hardware com defeito ou corrupção do sistema. Como técnico, você vai aprender a diagnosticar e resolver BSODs!</div>
+        </div>
+
+        <!-- TAB PROCESSOS -->
+        <div class="tab-content" id="tab-proc">
+            <p style="margin-bottom:16px;">Um <strong>processo</strong> é um programa em execução. Quando você abre o Word, o SO cria um processo "WINWORD.EXE" com um <strong>PID</strong> (Process ID — número único), uso de RAM, CPU e prioridade. Um processo pode estar em 3 estados — clique em cada um:</p>
+            <div class="process-flow">
+                <div class="proc-state running" onclick="togglePill(this,'estado-running')">
+                    <div class="ps-icon">🟢</div>
+                    <div class="ps-name">Executando</div>
+                    <div class="ps-desc">Usando a CPU agora</div>
+                </div>
+                <div class="proc-arrow">⇄</div>
+                <div class="proc-state ready" onclick="togglePill(this,'estado-ready')">
+                    <div class="ps-icon">🟡</div>
+                    <div class="ps-name">Pronto</div>
+                    <div class="ps-desc">Aguardando a vez</div>
+                </div>
+                <div class="proc-arrow">→</div>
+                <div class="proc-state blocked" onclick="togglePill(this,'estado-blocked')">
+                    <div class="ps-icon">🔵</div>
+                    <div class="ps-name">Bloqueado</div>
+                    <div class="ps-desc">Esperando evento</div>
+                </div>
+            </div>
+            <div class="pill-detail" id="estado-running"><strong>Executando:</strong> o processo está usando o processador neste momento. Em um sistema com 1 núcleo, apenas 1 processo pode estar executando por vez. O <strong>escalonador</strong> decide por quanto tempo cada processo fica nesse estado.</div>
+            <div class="pill-detail" id="estado-ready"><strong>Pronto:</strong> o processo está pronto para rodar, mas esperando o processador ficar disponível. Quando o escalonador decidir, ele passa para "Executando". A maioria dos processos fica nesse estado a maior parte do tempo.</div>
+            <div class="pill-detail" id="estado-blocked"><strong>Bloqueado / Aguardando:</strong> o processo está esperando algo externo acontecer — resposta da rede, leitura do disco, input do usuário. Enquanto espera, não consome CPU. Quando o evento ocorre, volta para "Pronto".</div>
+            <p style="margin-top:16px; font-size:0.88em; color:#b0b0cc;">💡 Abra o Gerenciador de Tarefas (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd>) → aba "Detalhes" para ver o PID de cada processo em execução.</p>
+        </div>
+
+        <!-- TAB MEMÓRIA -->
+        <div class="tab-content" id="tab-mem">
+            <p style="margin-bottom:16px;">O SO distribui a RAM entre todos os processos ativos. Cada processo tem sua <strong>área de memória isolada</strong> — um processo não pode ler a memória de outro. Isso é segurança fundamental.</p>
+            <div class="pills-grid">
+                <button class="pill" onclick="togglePill(this,'mem-ram')">💾 RAM</button>
+                <button class="pill" onclick="togglePill(this,'mem-virtual')">💿 Memória Virtual</button>
+                <button class="pill" onclick="togglePill(this,'mem-paginacao')">📄 Paginação</button>
+            </div>
+            <div class="pill-detail" id="mem-ram"><strong>RAM (Random Access Memory)</strong> é a memória de trabalho do computador — muito rápida, mas volátil (perde tudo ao desligar). Quanto mais programas abertos, mais RAM é consumida. O SO gerencia qual processo usa qual área da RAM.</div>
+            <div class="pill-detail" id="mem-virtual">Quando a RAM acaba, o Windows cria o <strong>arquivo de paginação</strong> (pagefile.sys) no disco rígido/SSD para simular mais memória. É chamado de memória virtual. Funciona, mas é muito mais lento — o disco é ~100x mais lento que a RAM!</div>
+            <div class="pill-detail" id="mem-paginacao">A <strong>paginação</strong> é o mecanismo de mover dados entre RAM e disco conforme necessário. Quando você percebe o computador "travando" ou o disco trabalhando muito sem motivo aparente, provavelmente a paginação está acontecendo. Solução: fechar programas ou adicionar mais RAM.</div>
+        </div>
+
+        <!-- TAB EDIÇÕES -->
+        <div class="tab-content" id="tab-edicoes">
+            <p style="margin-bottom:16px;">O Windows 11 existe em várias edições para diferentes usos. Como técnico, você precisa saber qual recomendar:</p>
+            <div class="pills-grid">
+                <button class="pill" onclick="togglePill(this,'ed-home')">🏠 Home</button>
+                <button class="pill" onclick="togglePill(this,'ed-pro')">💼 Pro</button>
+                <button class="pill" onclick="togglePill(this,'ed-enterprise')">🏢 Enterprise</button>
+                <button class="pill" onclick="togglePill(this,'ed-server')">🖧 Server</button>
+            </div>
+            <div class="pill-detail" id="ed-home"><strong>Windows 11 Home:</strong> para uso doméstico e notebooks pessoais. Tem todos os recursos básicos mas não inclui BitLocker, domínio de rede nem Hyper-V. É a versão que vem pré-instalada em notebooks novos para consumidor.</div>
+            <div class="pill-detail" id="ed-pro"><strong>Windows 11 Pro:</strong> adiciona recursos corporativos — <strong>BitLocker</strong> (criptografia de disco), entrada em <strong>domínio de rede</strong> (Active Directory), <strong>Hyper-V</strong> (virtualização), Windows Sandbox e Group Policy. Ideal para empresas e profissionais de TI.</div>
+            <div class="pill-detail" id="ed-enterprise"><strong>Windows 11 Enterprise:</strong> para grandes corporações. Inclui tudo do Pro mais recursos de gerenciamento centralizado, segurança avançada (Windows Defender Credential Guard) e implantação em larga escala. Geralmente licenciado por volume.</div>
+            <div class="pill-detail" id="ed-server"><strong>Windows Server 2022:</strong> não é para estações de trabalho — é para servidores e data centers. Gerencia Active Directory, DNS, DHCP, hospeda aplicações e serviços para outros computadores da rede. É diferente do Windows de desktop.</div>
+        </div>
+    </div>
+
+    <!-- MISSÃO -->
+    <div class="card" style="border-color:rgba(106,247,200,0.25); background: linear-gradient(135deg, #0a1a13 0%, #0d0d14 100%);">
+        <div class="card-tag">🚀 Missão da Semana</div>
+        <h2>Explorando Processos e Edições</h2>
+        <p style="margin-bottom:20px;">Realize as atividades práticas e entregue no Moodle:</p>
+        <ol class="mission-steps">
+            <li>Abra o Gerenciador de Tarefas (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd>) e explore TODAS as abas — anote quantos processos estão rodando e qual % da RAM está em uso</li>
+            <li>Na aba "Detalhes", registre o <strong>PID de 3 processos</strong> diferentes que você reconhece</li>
+            <li>Verifique quanto de RAM seu notebook tem e quanto está sendo usado — há paginação ativa?</li>
+            <li>Crie uma <strong>tabela comparativa</strong> das edições do Windows 11 (Home · Pro · Enterprise) com recursos, preço e "Recomendo quando..."</li>
+            <li>Desenhe um <strong>diagrama das camadas do SO</strong> (Usuário → Apps → User Mode → Kernel → Hardware) com explicação de cada camada</li>
+        </ol>
+        <div class="xp-reward">⚡ +300 XP ao entregar no Moodle</div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="card quiz-card">
+        <div class="card-tag">🎮 Quiz — Teste seu Conhecimento</div>
+        <h2>5 Questões · Semana 02</h2>
+        <div class="quiz-progress" id="quizProgress"></div>
+        <div id="quizBody">
+            <div class="question-block active" data-q="0">
+                <div class="question-num">Questão 1 de 5</div>
+                <div class="question-text">Um programa com acesso TOTAL ao hardware roda em qual modo?</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,0,false)">User Mode</button>
+                    <button class="answer-btn" onclick="answer(this,0,true)">Kernel Mode</button>
+                    <button class="answer-btn" onclick="answer(this,0,false)">Safe Mode</button>
+                    <button class="answer-btn" onclick="answer(this,0,false)">Admin Mode</button>
+                </div>
+                <div class="question-feedback" id="fb0"></div>
+            </div>
+            <div class="question-block" data-q="1">
+                <div class="question-num">Questão 2 de 5</div>
+                <div class="question-text">Por que o Chrome não "trava" o Windows inteiro quando crasha?</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,1,false)">Porque o Chrome é muito bem programado</button>
+                    <button class="answer-btn" onclick="answer(this,1,true)">Porque roda em User Mode, isolado do Kernel</button>
+                    <button class="answer-btn" onclick="answer(this,1,false)">Porque o Windows protege o Chrome especificamente</button>
+                    <button class="answer-btn" onclick="answer(this,1,false)">Porque o Chrome roda no Kernel Mode</button>
+                </div>
+                <div class="question-feedback" id="fb1"></div>
+            </div>
+            <div class="question-block" data-q="2">
+                <div class="question-num">Questão 3 de 5</div>
+                <div class="question-text">O que é o PID de um processo?</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,2,false)">O nome do processo (ex: Chrome.exe)</button>
+                    <button class="answer-btn" onclick="answer(this,2,true)">Um número único que identifica cada processo em execução</button>
+                    <button class="answer-btn" onclick="answer(this,2,false)">A quantidade de RAM que o processo usa</button>
+                    <button class="answer-btn" onclick="answer(this,2,false)">A velocidade do processador</button>
+                </div>
+                <div class="question-feedback" id="fb2"></div>
+            </div>
+            <div class="question-block" data-q="3">
+                <div class="question-num">Questão 4 de 5</div>
+                <div class="question-text">Por que o computador fica lento quando a RAM está cheia?</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,3,false)">O processador para de funcionar</button>
+                    <button class="answer-btn" onclick="answer(this,3,true)">O Windows passa a usar o disco como memória virtual, que é muito mais lento</button>
+                    <button class="answer-btn" onclick="answer(this,3,false)">A tela fica escura automaticamente</button>
+                    <button class="answer-btn" onclick="answer(this,3,false)">O Wi-Fi desconecta</button>
+                </div>
+                <div class="question-feedback" id="fb3"></div>
+            </div>
+            <div class="question-block" data-q="4">
+                <div class="question-num">Questão 5 de 5</div>
+                <div class="question-text">Qual edição do Windows tem BitLocker e Hyper-V, sendo ideal para empresas?</div>
+                <div class="answer-grid">
+                    <button class="answer-btn" onclick="answer(this,4,false)">Windows 11 Home</button>
+                    <button class="answer-btn" onclick="answer(this,4,false)">Windows 11 SE</button>
+                    <button class="answer-btn" onclick="answer(this,4,true)">Windows 11 Pro</button>
+                    <button class="answer-btn" onclick="answer(this,4,false)">Windows 7 Pro</button>
+                </div>
+                <div class="question-feedback" id="fb4"></div>
+            </div>
+            <div class="quiz-nav">
+                <span class="quiz-score" id="quizScore">Acertos: 0 / 0</span>
+                <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Próxima →</button>
+            </div>
+        </div>
+        <div class="quiz-result" id="quizResult">
+            <div class="result-emoji" id="resultEmoji"></div>
+            <div class="result-score" id="resultScore"></div>
+            <div class="result-msg" id="resultMsg"></div>
+            <button class="btn" onclick="resetQuiz()">🔄 Tentar Novamente</button>
+        </div>
+    </div>
+
+    <div class="page-nav">
+        <a href="semana01.html" class="nav-btn">← Semana 01</a>
+        <a href="index.html" class="nav-btn">🏠 Início</a>
+        <a href="semana03.html" class="nav-btn primary">Semana 03 →</a>
+    </div>
+</main>
+
+<div class="achievement-toast" id="achToast">
+    <div class="ach-icon" id="achIcon"></div>
+    <div>
+        <div class="ach-title">🏆 Conquista Desbloqueada</div>
+        <div class="ach-name" id="achName"></div>
+    </div>
+</div>
+
+<script>
+let totalXP = 0;
+const MAX_XP = 500;
+function addXP(amount) {
+    totalXP = Math.min(totalXP + amount, MAX_XP);
+    document.getElementById('xpDisplay').innerHTML = `${totalXP} <span>/ ${MAX_XP} XP</span>`;
+    document.getElementById('xpFill').style.width = (totalXP / MAX_XP * 100) + '%';
+}
+function miniQuiz(el, correct) {
+    el.parentElement.querySelectorAll('.mini-opt').forEach(b => b.disabled = true);
+    const fb = document.getElementById('miniFeedback');
+    fb.classList.add('show');
+    if (correct) {
+        el.classList.add('correct');
+        fb.style.color = 'var(--success)';
+        fb.textContent = '✅ Correto! O escalonador é parte do Kernel — decide qual processo usa o processador e por quanto tempo.';
+        addXP(50); showAchievement('🧠', 'Memória Ativa!');
+    } else {
+        el.classList.add('wrong');
+        el.parentElement.querySelectorAll('.mini-opt').forEach(b => { if (b.onclick.toString().includes(',true)')) b.classList.add('correct'); });
+        fb.style.color = 'var(--danger)';
+        fb.textContent = '❌ O escalonador (parte do Kernel) é quem decide isso — alterna entre processos milissegundo a milissegundo.';
+    }
+}
+function showTab(btn, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+    addXP(5);
+}
+function togglePill(btn, detailId) {
+    const wasOpen = btn.classList.contains('open');
+    document.querySelectorAll('.pill, .proc-state').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.pill-detail').forEach(d => d.classList.remove('show'));
+    if (!wasOpen) { btn.classList.add('open'); document.getElementById(detailId).classList.add('show'); addXP(10); }
+}
+const feedbacks = [
+    { ok: '✅ Correto! Kernel Mode tem acesso total ao hardware — é o modo mais privilegiado do sistema.', nok: '❌ Kernel Mode é o que tem acesso total. User Mode é restrito para garantir segurança.' },
+    { ok: '✅ Perfeito! User Mode isola os programas — um crash não afeta o Kernel nem outros programas.', nok: '❌ É porque o Chrome roda em User Mode, isolado. O Kernel continua funcionando mesmo com o crash.' },
+    { ok: '✅ Correto! PID = Process ID. É o "RG" do processo — número único para identificá-lo no sistema.', nok: '❌ PID (Process ID) é um número único para cada processo — como um RG. Veja no Gerenciador de Tarefas!' },
+    { ok: '✅ Perfeito! O disco é ~100x mais lento que a RAM. Memória virtual = lentidão visível!', nok: '❌ Quando a RAM enche, o Windows usa o disco como memória virtual (paginação) — e disco é muito mais lento!' },
+    { ok: '✅ Windows 11 Pro! BitLocker para criptografia, Hyper-V para virtualização e entrada em domínio corporativo.', nok: '❌ Windows 11 Pro é a edição voltada para empresas com BitLocker, Hyper-V e entrada em domínio.' }
+];
+let currentQ = 0, answers = new Array(5).fill(null), correct = 0;
+function buildQuizProgress() {
+    const prog = document.getElementById('quizProgress');
+    prog.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+        const d = document.createElement('div');
+        d.className = 'qp-dot' + (i === 0 ? ' active' : '');
+        d.id = 'qpd' + i;
+        prog.appendChild(d);
+    }
+}
+function answer(btn, qIdx, isCorrect) {
+    const block = document.querySelector(`.question-block[data-q="${qIdx}"]`);
+    block.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect) block.querySelectorAll('.answer-btn').forEach(b => { if (b.onclick.toString().includes(',true)')) b.classList.add('correct'); });
+    const fb = document.getElementById('fb' + qIdx);
+    fb.className = 'question-feedback show ' + (isCorrect ? 'ok' : 'nok');
+    fb.textContent = feedbacks[qIdx][isCorrect ? 'ok' : 'nok'];
+    answers[qIdx] = isCorrect;
+    if (isCorrect) correct++;
+    addXP(isCorrect ? 30 : 10);
+    document.getElementById('quizScore').textContent = `Acertos: ${correct} / ${answers.filter(a=>a!==null).length}`;
+    document.getElementById('nextBtn').disabled = false;
+    const dot = document.getElementById('qpd' + qIdx);
+    if (dot) dot.classList.add('done');
+}
+function nextQuestion() {
+    if (currentQ < 4) {
+        document.querySelector(`.question-block[data-q="${currentQ}"]`).classList.remove('active');
+        currentQ++;
+        document.querySelector(`.question-block[data-q="${currentQ}"]`).classList.add('active');
+        document.getElementById('qpd' + currentQ).classList.add('active');
+        document.getElementById('nextBtn').disabled = true;
+        if (currentQ === 4) document.getElementById('nextBtn').textContent = 'Ver Resultado →';
+    } else { showResult(); }
+}
+function showResult() {
+    document.getElementById('quizBody').style.display = 'none';
+    document.getElementById('quizResult').classList.add('show');
+    const pct = correct / 5;
+    let emoji, msg;
+    if (pct === 1) { emoji = '🏆'; msg = 'Perfeito! Você entendeu o núcleo do SO!'; }
+    else if (pct >= 0.8) { emoji = '🎯'; msg = 'Muito bem! Pronto para a Semana 03.'; }
+    else if (pct >= 0.6) { emoji = '📈'; msg = 'Bom! Revise Kernel Mode vs User Mode e edições.'; }
+    else { emoji = '📚'; msg = 'Reveja o conteúdo teórico e tente novamente!'; }
+    document.getElementById('resultEmoji').textContent = emoji;
+    document.getElementById('resultScore').textContent = `${correct} / 5`;
+    document.getElementById('resultMsg').textContent = msg;
+    if (correct >= 4) showAchievement('⚙️', 'Mestre do Kernel!');
+}
+function resetQuiz() {
+    currentQ = 0; answers = new Array(5).fill(null); correct = 0;
+    document.getElementById('quizResult').classList.remove('show');
+    document.getElementById('quizBody').style.display = '';
+    document.querySelectorAll('.question-block').forEach((b,i) => {
+        b.classList.toggle('active', i === 0);
+        b.querySelectorAll('.answer-btn').forEach(btn => { btn.disabled = false; btn.classList.remove('correct','wrong'); });
+        document.getElementById('fb'+i).className = 'question-feedback';
+    });
+    document.getElementById('nextBtn').textContent = 'Próxima →';
+    document.getElementById('nextBtn').disabled = true;
+    document.getElementById('quizScore').textContent = 'Acertos: 0 / 0';
+    buildQuizProgress();
+}
+function showAchievement(icon, name) {
+    const toast = document.getElementById('achToast');
+    document.getElementById('achIcon').textContent = icon;
+    document.getElementById('achName').textContent = name;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+}
+window.addEventListener('DOMContentLoaded', () => { buildQuizProgress(); });
+</script>
+</body>
+</html>

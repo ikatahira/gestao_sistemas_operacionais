@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S05 – Gerenciamento de Arquivos | GSO I 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & VARS ─────────────────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0d1117; --surface:#161b22; --surface2:#1c2330; --border:#21262d;
+  --green:#39d353; --green-dim:#1a4731; --blue:#58a6ff; --blue-dim:#0d2139;
+  --purple:#bc8cff; --purple-dim:#2a1f42; --amber:#f0b429; --amber-dim:#3d2c00;
+  --red:#f85149; --teal:#3fb950;
+  --text:#e6edf3; --text-muted:#8b949e; --text-dim:#484f58;
+  --xp:#ffd700; --r:12px; --r-sm:8px; --r-lg:20px;
+  --glow-green:0 0 20px rgba(57,211,83,.25);
+  --glow-blue:0 0 20px rgba(88,166,255,.25);
+  --glow-purple:0 0 20px rgba(188,140,255,.25);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;}
+
+/* ── SCROLLBAR ────────────────────────────────────────────────────── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ── HEADER / HUD ─────────────────────────────────────────────────── */
+.hud{position:sticky;top:0;z-index:200;background:rgba(13,17,23,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:10px 24px;}
+.hud-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.hud-week{font-family:'DM Mono',monospace;font-size:.78em;background:var(--green-dim);color:var(--green);border:1px solid rgba(57,211,83,.3);border-radius:50px;padding:4px 12px;white-space:nowrap;}
+.hud-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1em;color:var(--text);flex:1;min-width:0;}
+.hud-title span{color:var(--green);}
+.hud-xp{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:5px 12px;}
+.hud-xp .xp-icon{font-size:.9em;}
+.hud-xp .xp-val{font-family:'DM Mono',monospace;font-size:.82em;font-weight:500;color:var(--xp);}
+.hud-xp .xp-label{font-size:.72em;color:var(--text-muted);}
+.progress-bar-outer{height:6px;background:var(--surface2);border-radius:3px;flex:1;min-width:80px;}
+.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:3px;transition:width .5s ease;width:0%;}
+
+/* ── HERO ─────────────────────────────────────────────────────────── */
+.hero{position:relative;overflow:hidden;padding:60px 24px 48px;text-align:center;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(57,211,83,.08), transparent 70%),radial-gradient(ellipse 40% 40% at 80% 100%, rgba(88,166,255,.06), transparent 60%);}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(57,211,83,.03) 1px, transparent 1px),linear-gradient(90deg, rgba(57,211,83,.03) 1px, transparent 1px);background-size:40px 40px;pointer-events:none;}
+.hero-inner{position:relative;max-width:700px;margin:0 auto;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--green-dim);border:1px solid rgba(57,211,83,.3);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600;color:var(--green);margin-bottom:18px;}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2em,5vw,3.2em);line-height:1.1;letter-spacing:-.03em;margin-bottom:14px;}
+.hero h1 .accent{color:var(--green);}
+.hero-sub{color:var(--text-muted);font-size:1em;margin-bottom:28px;}
+.hero-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
+.pill{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.82em;}
+.pill.green{border-color:rgba(57,211,83,.3);color:var(--green);}
+.pill.blue{border-color:rgba(88,166,255,.3);color:var(--blue);}
+.pill.purple{border-color:rgba(188,140,255,.3);color:var(--purple);}
+
+/* ── CONTAINER ────────────────────────────────────────────────────── */
+.container{max-width:900px;margin:0 auto;padding:0 24px 60px;}
+
+/* ── SECTION HEADER ───────────────────────────────────────────────── */
+.section-header{display:flex;align-items:center;gap:10px;margin:40px 0 16px;}
+.section-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0;}
+.section-icon.green{background:var(--green-dim);border:1px solid rgba(57,211,83,.3);}
+.section-icon.blue{background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);}
+.section-icon.purple{background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);}
+.section-icon.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.3);}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.25em;}
+.section-xp{margin-left:auto;font-family:'DM Mono',monospace;font-size:.78em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:3px 10px;}
+
+/* ── OBJECTIVE CARDS ──────────────────────────────────────────────── */
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:24px;}
+.obj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;transition:border-color .2s,box-shadow .2s;}
+.obj-card:hover{border-color:rgba(57,211,83,.4);box-shadow:var(--glow-green);}
+.obj-num{width:26px;height:26px;background:var(--green-dim);border:1px solid rgba(57,211,83,.4);color:var(--green);border-radius:8px;font-size:.75em;font-weight:700;font-family:'DM Mono',monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.obj-text{font-size:.88em;color:var(--text);line-height:1.4;}
+
+/* ── LORE CARD (intro box) ────────────────────────────────────────── */
+.lore-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:var(--r);padding:20px 22px;margin-bottom:20px;display:flex;gap:16px;}
+.lore-emoji{font-size:2.2em;flex-shrink:0;line-height:1;}
+.lore-body{}
+.lore-body strong{color:var(--green);font-family:'Syne',sans-serif;}
+.lore-body p{color:var(--text-muted);font-size:.9em;margin-top:4px;}
+
+/* ── CONTENT CARDS (teoria) ───────────────────────────────────────── */
+.content-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;transition:box-shadow .2s;}
+.content-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.3);}
+.cc-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none;background:var(--surface2);}
+.cc-icon{font-size:1.3em;}
+.cc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--text);flex:1;}
+.cc-xp{font-family:'DM Mono',monospace;font-size:.73em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:2px 9px;}
+.cc-chevron{color:var(--text-dim);transition:transform .3s;font-size:.85em;}
+.cc-header.open .cc-chevron{transform:rotate(180deg);}
+.cc-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .4s ease, padding .3s;}
+.cc-body.open{max-height:1000px;padding:20px;}
+
+/* Content body visual elements */
+.concept-visual{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;margin:12px 0;}
+.concept-visual img{width:100%;border-radius:8px;display:block;}
+.img-caption{font-size:.78em;color:var(--text-muted);margin-top:8px;text-align:center;}
+.key-point{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.key-point:last-child{border:none;}
+.kp-icon{font-size:1em;flex-shrink:0;margin-top:2px;}
+.kp-text{font-size:.88em;color:var(--text-muted);line-height:1.5;}
+.kp-text strong{color:var(--text);}
+.tip-box{background:rgba(57,211,83,.05);border:1px solid rgba(57,211,83,.2);border-radius:var(--r-sm);padding:12px 14px;margin-top:14px;display:flex;gap:10px;}
+.tip-box .tip-icon{font-size:1.1em;flex-shrink:0;}
+.tip-box p{font-size:.85em;color:var(--text-muted);}
+.tip-box p strong{color:var(--green);}
+.warn-box{background:rgba(240,180,41,.05);border:1px solid rgba(240,180,41,.2);border-radius:var(--r-sm);padding:12px 14px;margin-top:10px;display:flex;gap:10px;}
+.warn-box p{font-size:.85em;color:var(--text-muted);}
+.warn-box p strong{color:var(--amber);}
+
+/* Shortcut pill */
+.shortcut-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.shortcut{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:6px 12px;font-size:.82em;}
+.shortcut kbd{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-family:'DM Mono',monospace;font-size:.88em;color:var(--blue);}
+.shortcut span{color:var(--text-muted);}
+
+/* ── ILUSTRAÇÃO ───────────────────────────────────────────────────── */
+.illus-block{border-radius:var(--r);overflow:hidden;margin-bottom:16px;border:1px solid var(--border);position:relative;}
+.illus-block img{width:100%;display:block;}
+.illus-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.8));padding:20px 16px 12px;font-size:.8em;color:rgba(255,255,255,.8);}
+
+/* SVG Illustration placeholders (generated inline) */
+.svg-illus{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:20px;text-align:center;margin:12px 0;}
+
+/* ── QUIZ SECTION ─────────────────────────────────────────────────── */
+.quiz-wrapper{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px;}
+.quiz-header{background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));border-bottom:1px solid var(--border);padding:20px 24px;display:flex;align-items:center;gap:12px;}
+.quiz-icon{font-size:1.8em;}
+.quiz-header-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05em;color:var(--text);}
+.quiz-header-text p{font-size:.82em;color:var(--text-muted);margin-top:2px;}
+.quiz-reward{margin-left:auto;text-align:right;}
+.quiz-reward .xp-big{font-family:'DM Mono',monospace;font-size:1.3em;font-weight:700;color:var(--xp);}
+.quiz-reward .xp-label{font-size:.73em;color:var(--text-muted);}
+.quiz-body{padding:24px;}
+.quiz-progress{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.quiz-dots{display:flex;gap:5px;}
+.quiz-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all .3s;}
+.quiz-dot.done{background:var(--green);}
+.quiz-dot.current{background:var(--blue);box-shadow:0 0 8px rgba(88,166,255,.5);}
+.quiz-counter{font-family:'DM Mono',monospace;font-size:.78em;color:var(--text-muted);margin-left:auto;}
+.question-card{animation:fadeInUp .35s ease;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.question-text{font-weight:600;font-size:.97em;line-height:1.5;margin-bottom:18px;color:var(--text);}
+.options{display:flex;flex-direction:column;gap:8px;}
+.option-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px 16px;text-align:left;cursor:pointer;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9em;transition:all .2s;display:flex;align-items:center;gap:10px;}
+.option-btn:hover:not([disabled]){border-color:var(--blue);background:rgba(88,166,255,.05);transform:translateX(4px);}
+.option-btn.correct{border-color:var(--green);background:rgba(57,211,83,.08);color:var(--green);}
+.option-btn.wrong{border-color:var(--red);background:rgba(248,81,73,.08);color:var(--red);}
+.option-letter{width:24px;height:24px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.75em;font-weight:700;flex-shrink:0;}
+.option-btn.correct .option-letter{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+.option-btn.wrong .option-letter{background:rgba(248,81,73,.1);border-color:var(--red);color:var(--red);}
+.quiz-feedback{margin-top:16px;padding:12px 16px;border-radius:var(--r-sm);font-size:.88em;display:none;}
+.quiz-feedback.show{display:flex;gap:8px;animation:fadeInUp .3s ease;}
+.quiz-feedback.ok{background:rgba(57,211,83,.08);border:1px solid rgba(57,211,83,.2);color:var(--green);}
+.quiz-feedback.err{background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.2);color:var(--red);}
+.quiz-next{margin-top:16px;background:var(--blue);color:var(--bg);border:none;border-radius:var(--r-sm);padding:10px 22px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9em;cursor:pointer;display:none;transition:all .2s;}
+.quiz-next:hover{background:#79b9ff;transform:translateY(-1px);}
+.quiz-result{text-align:center;padding:10px 0;}
+.quiz-result .score{font-family:'Syne',sans-serif;font-size:3em;font-weight:800;color:var(--xp);}
+.quiz-result .score-label{color:var(--text-muted);font-size:.9em;margin-bottom:16px;}
+.quiz-result .xp-earn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:50px;padding:6px 16px;color:var(--xp);font-weight:700;font-size:1em;margin-bottom:20px;}
+.quiz-restart{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:var(--r-sm);padding:9px 20px;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:.88em;transition:all .2s;}
+.quiz-restart:hover{border-color:var(--blue);color:var(--blue);}
+
+/* ── MISSION / LAB CARDS ──────────────────────────────────────────── */
+.missions-grid{display:flex;flex-direction:column;gap:14px;}
+.mission-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;gap:16px;align-items:flex-start;transition:all .2s;cursor:pointer;position:relative;overflow:hidden;}
+.mission-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--green),var(--blue));}
+.mission-card:hover{border-color:rgba(57,211,83,.3);box-shadow:var(--glow-green);}
+.mission-num{width:44px;height:44px;background:var(--green-dim);border:1.5px solid rgba(57,211,83,.4);color:var(--green);border-radius:12px;font-family:'Syne',sans-serif;font-size:1.1em;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.mission-content{flex:1;}
+.mission-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.98em;color:var(--text);margin-bottom:5px;}
+.mission-desc{font-size:.86em;color:var(--text-muted);line-height:1.5;margin-bottom:10px;}
+.mission-meta{display:flex;gap:8px;flex-wrap:wrap;}
+.mission-tag{background:var(--bg);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:500;color:var(--text-muted);display:flex;align-items:center;gap:4px;}
+.mission-tag.xp{color:var(--xp);border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.05);}
+.mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .2s;cursor:pointer;font-size:.9em;}
+.mission-check.done{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+
+/* ── ACHIEVEMENT BANNER ───────────────────────────────────────────── */
+.achievement-popup{position:fixed;top:80px;right:24px;background:var(--surface);border:1px solid rgba(255,215,0,.4);border-radius:var(--r);padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 20px rgba(255,215,0,.15);z-index:999;display:flex;gap:12px;align-items:center;transform:translateX(160%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:280px;}
+.achievement-popup.show{transform:translateX(0);}
+.ach-icon{font-size:2em;}
+.ach-text strong{font-family:'Syne',sans-serif;font-size:.88em;color:var(--xp);display:block;}
+.ach-text span{font-size:.78em;color:var(--text-muted);}
+
+/* ── CHECKPOINT CARD ──────────────────────────────────────────────── */
+.checkpoint{background:linear-gradient(135deg,rgba(57,211,83,.06),rgba(88,166,255,.04));border:1px solid rgba(57,211,83,.2);border-radius:var(--r-lg);padding:28px 24px;text-align:center;margin:32px 0;}
+.checkpoint h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3em;color:var(--text);margin-bottom:8px;}
+.checkpoint p{color:var(--text-muted);font-size:.9em;margin-bottom:20px;}
+.checkpoint-stars{font-size:2em;margin-bottom:12px;letter-spacing:4px;}
+.xp-total-display{display:inline-flex;align-items:center;gap:8px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.3);border-radius:50px;padding:8px 20px;font-family:'DM Mono',monospace;color:var(--xp);font-size:1.1em;font-weight:700;}
+
+/* ── NAV BAR ──────────────────────────────────────────────────────── */
+.nav-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:32px;}
+.nav-btn{padding:8px 16px;border-radius:var(--r-sm);text-decoration:none;font-weight:600;font-size:.85em;transition:all .2s;display:inline-flex;align-items:center;gap:5px;border:none;cursor:pointer;}
+.btn-ghost{background:var(--bg);color:var(--text-muted);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+.btn-primary{background:var(--green);color:var(--bg);font-family:'Syne',sans-serif;font-weight:700;}
+.btn-primary:hover{background:#4ae568;transform:translateY(-1px);box-shadow:var(--glow-green);}
+.btn-guide{background:rgba(88,166,255,.12);color:var(--blue);border:1px solid rgba(88,166,255,.25);}
+.btn-guide:hover{background:rgba(88,166,255,.2);}
+.nav-spacer{flex:1;}
+
+/* ── RESOURCES ────────────────────────────────────────────────────── */
+.resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;}
+.res-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;transition:all .2s;}
+.res-card:hover{border-color:rgba(88,166,255,.3);box-shadow:var(--glow-blue);}
+.res-icon{font-size:1.4em;margin-bottom:7px;}
+.res-title{font-weight:600;font-size:.85em;color:var(--text);margin-bottom:3px;}
+.res-desc{font-size:.78em;color:var(--text-muted);}
+
+/* ── FLOATING STARS ───────────────────────────────────────────────── */
+.star{position:fixed;pointer-events:none;font-size:1.4em;animation:floatStar 1.5s ease forwards;z-index:9999;}
+@keyframes floatStar{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.5);}}
+
+/* ── FOOTER ───────────────────────────────────────────────────────── */
+.footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--text-dim);font-size:.8em;max-width:900px;margin:0 auto;}
+
+/* ── SVG ILLUSTRATIONS (inline) ────────────────────────────────────── */
+.svg-container{border-radius:var(--r-sm);overflow:hidden;margin:12px 0;border:1px solid var(--border);background:var(--bg);}
+.svg-container svg{display:block;width:100%;}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────── */
+@media(max-width:640px){
+  .hero h1{font-size:1.8em;}
+  .hud-title{display:none;}
+  .obj-grid{grid-template-columns:1fr 1fr;}
+  .container{padding:0 14px 40px;}
+  .quiz-body{padding:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Achievement popup -->
+<div class="achievement-popup" id="achPopup">
+  <div class="ach-icon" id="achIcon">🏆</div>
+  <div class="ach-text">
+    <strong id="achTitle">Conquista!</strong>
+    <span id="achDesc">Você desbloqueou algo!</span>
+  </div>
+</div>
+
+<!-- HUD -->
+<header class="hud">
+  <div class="hud-inner">
+    <span class="hud-week">S05/20</span>
+    <span class="hud-title">Gerenciamento de <span>Arquivos</span> – Pt. 1</span>
+    <div class="hud-xp">
+      <span class="xp-icon">⚡</span>
+      <span class="xp-val" id="xpDisplay">0</span>
+      <span class="xp-label">XP</span>
+    </div>
+    <div class="progress-bar-outer" style="max-width:120px;">
+      <div class="progress-bar-inner" id="mainProgress"></div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">📁 Missão 5 de 20 · Ferramentas de Gestão</div>
+    <h1>Domine o <span class="accent">Explorador</span><br>de Arquivos</h1>
+    <p class="hero-sub">Gestão de Sistemas Operacionais I · Prof. Isaque Katahira · 2026</p>
+    <div class="hero-pills">
+      <span class="pill green">⚡ 250 XP disponíveis</span>
+      <span class="pill blue">⏱ ~90 min</span>
+      <span class="pill purple">🔬 3 laboratórios</span>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- NAV -->
+  <nav class="nav-bar">
+    <a href="semana04_aula.html" class="nav-btn btn-ghost">← Anterior</a>
+    <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
+    <a href="semana05_guia.html" class="nav-btn btn-guide">📝 Guia</a>
+    <span class="nav-spacer"></span>
+    <a href="semana06_aula.html" class="nav-btn btn-primary">Próxima →</a>
+  </nav>
+
+  <!-- OBJETIVOS -->
+  <div class="section-header">
+    <div class="section-icon green">🎯</div>
+    <h2 class="section-title">O que você vai aprender hoje</h2>
+    <span class="section-xp">+40 XP</span>
+  </div>
+  <div class="obj-grid" id="objGrid">
+    <div class="obj-card" onclick="markObj(this,10)">
+      <div class="obj-num">1</div>
+      <span class="obj-text">Dominar o Explorador de Arquivos do Windows</span>
+    </div>
+    <div class="obj-card" onclick="markObj(this,10)">
+      <div class="obj-num">2</div>
+      <span class="obj-text">Entender atributos e propriedades de arquivos</span>
+    </div>
+    <div class="obj-card" onclick="markObj(this,10)">
+      <div class="obj-num">3</div>
+      <span class="obj-text">Organizar pastas de forma profissional</span>
+    </div>
+    <div class="obj-card" onclick="markObj(this,10)">
+      <div class="obj-num">4</div>
+      <span class="obj-text">Usar a pesquisa avançada do Windows</span>
+    </div>
+  </div>
+  <p style="font-size:.8em;color:var(--text-dim);margin-bottom:4px;">💡 Clique nos objetivos conforme for aprendendo para ganhar XP!</p>
+
+  <!-- INTRO LORE -->
+  <div class="lore-card" style="margin-top:24px;">
+    <div class="lore-emoji">🧭</div>
+    <div class="lore-body">
+      <strong>Por que isso importa?</strong>
+      <p>Todo técnico de TI passa boa parte do dia gerenciando arquivos. Saber usar o Explorador com maestria e encontrar qualquer arquivo em segundos faz TODA a diferença no trabalho real. Vamos transformar você em um especialista!</p>
+    </div>
+  </div>
+
+  <!-- ── CONTEÚDO ── -->
+  <div class="section-header">
+    <div class="section-icon blue">📖</div>
+    <h2 class="section-title">Conteúdo da Aula</h2>
+    <span class="section-xp">+80 XP</span>
+  </div>
+
+  <!-- Card 1: Explorador -->
+  <div class="content-card">
+    <div class="cc-header" onclick="toggleCard(this)">
+      <span class="cc-icon">📁</span>
+      <span class="cc-title">1. O Explorador de Arquivos</span>
+      <span class="cc-xp">+20 XP</span>
+      <span class="cc-chevron">▼</span>
+    </div>
+    <div class="cc-body">
+      <!-- SVG Illustration -->
+      <div class="svg-container">
+        <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="640" height="200" fill="#0d1117"/>
+          <!-- Window frame -->
+          <rect x="20" y="16" width="600" height="168" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <!-- Title bar -->
+          <rect x="20" y="16" width="600" height="32" rx="8" fill="#1c2330"/>
+          <rect x="20" y="32" width="600" height="16" fill="#1c2330"/>
+          <!-- Traffic lights -->
+          <circle cx="40" cy="32" r="6" fill="#f85149" opacity=".8"/>
+          <circle cx="58" cy="32" r="6" fill="#f0b429" opacity=".8"/>
+          <circle cx="76" cy="32" r="6" fill="#3fb950" opacity=".8"/>
+          <!-- Title -->
+          <text x="320" y="37" font-family="monospace" font-size="11" fill="#8b949e" text-anchor="middle">📁 Explorador de Arquivos — C:\Users\Aluno</text>
+          <!-- Toolbar -->
+          <rect x="20" y="48" width="600" height="28" fill="#161b22" stroke="#21262d" stroke-width="0" stroke-bottom="1"/>
+          <line x1="20" y1="76" x2="620" y2="76" stroke="#21262d" stroke-width="1"/>
+          <text x="36" y="66" font-family="monospace" font-size="10" fill="#58a6ff">←</text>
+          <text x="52" y="66" font-family="monospace" font-size="10" fill="#58a6ff">→</text>
+          <text x="68" y="66" font-family="monospace" font-size="10" fill="#58a6ff">↑</text>
+          <rect x="90" y="55" width="200" height="14" rx="3" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
+          <text x="100" y="65" font-family="monospace" font-size="9" fill="#8b949e">C:\Users\Aluno\Documentos</text>
+          <rect x="500" y="55" width="110" height="14" rx="3" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
+          <text x="545" y="65" font-family="monospace" font-size="9" fill="#8b949e">🔍 Pesquisar</text>
+          <!-- Left panel -->
+          <rect x="20" y="76" width="130" height="108" fill="#161b22" stroke="#21262d" stroke-width="1" stroke-right="1"/>
+          <text x="32" y="96" font-family="monospace" font-size="9" fill="#58a6ff">▸ 🖥️ Este PC</text>
+          <text x="32" y="110" font-family="monospace" font-size="9" fill="#39d353">▾ 📁 Documentos</text>
+          <text x="44" y="123" font-family="monospace" font-size="9" fill="#8b949e"> 📂 Escola</text>
+          <text x="44" y="136" font-family="monospace" font-size="9" fill="#8b949e"> 📂 Projetos</text>
+          <text x="32" y="149" font-family="monospace" font-size="9" fill="#8b949e">▸ 📥 Downloads</text>
+          <text x="32" y="162" font-family="monospace" font-size="9" fill="#8b949e">▸ 🖼️ Imagens</text>
+          <!-- Right panel - files grid -->
+          <rect x="150" y="76" width="470" height="108" fill="#0d1117"/>
+          <!-- File icons row 1 -->
+          <rect x="166" y="86" width="56" height="52" rx="4" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <text x="194" y="110" font-family="monospace" font-size="16" text-anchor="middle">📄</text>
+          <text x="194" y="130" font-family="monospace" font-size="7" fill="#8b949e" text-anchor="middle">relatorio.docx</text>
+          <rect x="234" y="86" width="56" height="52" rx="4" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <text x="262" y="110" font-family="monospace" font-size="16" text-anchor="middle">📊</text>
+          <text x="262" y="130" font-family="monospace" font-size="7" fill="#8b949e" text-anchor="middle">notas.xlsx</text>
+          <rect x="302" y="86" width="56" height="52" rx="4" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <text x="330" y="110" font-family="monospace" font-size="16" text-anchor="middle">🖼️</text>
+          <text x="330" y="130" font-family="monospace" font-size="7" fill="#8b949e" text-anchor="middle">foto.jpg</text>
+          <rect x="370" y="86" width="56" height="52" rx="4" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <text x="398" y="110" font-family="monospace" font-size="16" text-anchor="middle">📦</text>
+          <text x="398" y="130" font-family="monospace" font-size="7" fill="#8b949e" text-anchor="middle">backup.zip</text>
+          <rect x="438" y="86" width="56" height="52" rx="4" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <text x="466" y="110" font-family="monospace" font-size="16" text-anchor="middle">📁</text>
+          <text x="466" y="130" font-family="monospace" font-size="7" fill="#39d353" text-anchor="middle">2025-Escola</text>
+          <!-- Labels -->
+          <text x="32" y="97" font-family="monospace" font-size="7" fill="#3fb950">◄ Painel Esquerdo</text>
+          <text x="460" y="172" font-family="monospace" font-size="7" fill="#58a6ff" text-anchor="middle">Painel Direito (conteúdo) ►</text>
+        </svg>
+      </div>
+      <p class="img-caption">Interface do Explorador de Arquivos do Windows 11</p>
+
+      <div class="key-point">
+        <span class="kp-icon">🪟</span>
+        <div class="kp-text">Abra rápido com <strong>Win + E</strong>. O painel <strong>esquerdo</strong> mostra a árvore de diretórios, o <strong>direito</strong> mostra o conteúdo da pasta selecionada.</div>
+      </div>
+      <div class="key-point">
+        <span class="kp-icon">🔧</span>
+        <div class="kp-text">A barra de ferramentas do Windows 11 foi redesenhada: <strong>Novo, Recortar, Copiar, Colar, Renomear, Excluir, Classificar e Visualizar</strong> — tudo ali em cima.</div>
+      </div>
+      <div class="key-point">
+        <span class="kp-icon">📌</span>
+        <div class="kp-text">Use <strong>Acesso Rápido</strong> (no painel esquerdo) para fixar as pastas que você usa com mais frequência.</div>
+      </div>
+
+      <div class="shortcut-row">
+        <div class="shortcut"><kbd>Win+E</kbd><span>Abrir Explorador</span></div>
+        <div class="shortcut"><kbd>Alt+↑</kbd><span>Pasta acima</span></div>
+        <div class="shortcut"><kbd>Alt+←</kbd><span>Voltar</span></div>
+        <div class="shortcut"><kbd>F5</kbd><span>Atualizar</span></div>
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <p><strong>Dica pro:</strong> Clique na barra de endereço e digite um caminho direto (ex: <code>C:\Windows\System32</code>) para navegar instantaneamente sem usar o mouse.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: Atributos -->
+  <div class="content-card">
+    <div class="cc-header" onclick="toggleCard(this)">
+      <span class="cc-icon">🏷️</span>
+      <span class="cc-title">2. Atributos de Arquivos</span>
+      <span class="cc-xp">+20 XP</span>
+      <span class="cc-chevron">▼</span>
+    </div>
+    <div class="cc-body">
+      <div class="svg-container">
+        <svg viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="640" height="160" fill="#0d1117"/>
+          <!-- 4 attribute boxes -->
+          <!-- R - Read Only -->
+          <rect x="20" y="20" width="140" height="120" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <rect x="20" y="20" width="140" height="4" rx="2" fill="#58a6ff"/>
+          <text x="90" y="60" font-family="monospace" font-size="24" text-anchor="middle">🔒</text>
+          <text x="90" y="82" font-family="monospace" font-size="11" fill="#58a6ff" text-anchor="middle" font-weight="bold">Somente</text>
+          <text x="90" y="95" font-family="monospace" font-size="11" fill="#58a6ff" text-anchor="middle" font-weight="bold">Leitura</text>
+          <text x="90" y="112" font-family="monospace" font-size="8" fill="#8b949e" text-anchor="middle">Não pode editar</text>
+          <text x="90" y="124" font-family="monospace" font-size="8" fill="#8b949e" text-anchor="middle">o conteúdo</text>
+          <!-- H - Hidden -->
+          <rect x="175" y="20" width="140" height="120" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <rect x="175" y="20" width="140" height="4" rx="2" fill="#8b949e"/>
+          <text x="245" y="60" font-family="monospace" font-size="24" text-anchor="middle">👁️</text>
+          <text x="245" y="82" font-family="monospace" font-size="11" fill="#8b949e" text-anchor="middle" font-weight="bold">Oculto</text>
+          <text x="245" y="95" font-family="monospace" font-size="11" fill="#8b949e" text-anchor="middle" font-weight="bold">(Hidden)</text>
+          <text x="245" y="112" font-family="monospace" font-size="8" fill="#8b949e" text-anchor="middle">Não aparece na</text>
+          <text x="245" y="124" font-family="monospace" font-size="8" fill="#8b949e" text-anchor="middle">listagem normal</text>
+          <!-- S - System -->
+          <rect x="330" y="20" width="140" height="120" rx="8" fill="#161b22" stroke="#f85149" stroke-width="1" opacity=".8"/>
+          <rect x="330" y="20" width="140" height="4" rx="2" fill="#f85149"/>
+          <text x="400" y="60" font-family="monospace" font-size="24" text-anchor="middle">⚠️</text>
+          <text x="400" y="82" font-family="monospace" font-size="11" fill="#f85149" text-anchor="middle" font-weight="bold">Sistema</text>
+          <text x="400" y="95" font-family="monospace" font-size="11" fill="#f85149" text-anchor="middle" font-weight="bold">(System)</text>
+          <text x="400" y="112" font-family="monospace" font-size="8" fill="#8b949e" text-anchor="middle">Arquivo crítico do SO</text>
+          <text x="400" y="124" font-family="monospace" font-size="8" fill="#f85149" text-anchor="middle">⛔ NÃO MEXA!</text>
+          <!-- A - Archive -->
+          <rect x="485" y="20" width="140" height="120" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <rect x="485" y="20" width="140" height="4" rx="2" fill="#39d353"/>
+          <text x="555" y="60" font-family="monospace" font-size="24" text-anchor="middle">📦</text>
+          <text x="555" y="82" font-family="monospace" font-size="11" fill="#39d353" text-anchor="middle" font-weight="bold">Arquivo</text>
+          <text x="555" y="95" font-family="monospace" font-size="11" fill="#39d353" text-anchor="middle" font-weight="bold">(Archive)</text>
+          <text x="555" y="112" font-family="monospace" font-size="8" fill="#8b949e" text-anchor="middle">Marcado para</text>
+          <text x="555" y="124" font-family="monospace" font-size="8" fill="#8b949e" text-anchor="middle">backup</text>
+        </svg>
+      </div>
+      <p class="img-caption">Os 4 atributos principais de arquivos no Windows</p>
+
+      <div class="key-point">
+        <span class="kp-icon">🔍</span>
+        <div class="kp-text">Para ver arquivos ocultos: <strong>Explorador → Ver → Mostrar → Itens Ocultos</strong>. Uma caixinha de seleção simples!</div>
+      </div>
+      <div class="key-point">
+        <span class="kp-icon">⚙️</span>
+        <div class="kp-text">Para ver arquivos de sistema: <strong>Explorador → Opções → Exibir → desmarque "Ocultar arquivos protegidos do sistema operacional"</strong>.</div>
+      </div>
+
+      <div class="warn-box">
+        <span style="font-size:1em;flex-shrink:0;">⚠️</span>
+        <p><strong>Cuidado:</strong> Arquivos com atributo Sistema são críticos para o Windows funcionar. Modifique-os somente se souber exatamente o que está fazendo!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: Organização -->
+  <div class="content-card">
+    <div class="cc-header" onclick="toggleCard(this)">
+      <span class="cc-icon">🗂️</span>
+      <span class="cc-title">3. Organização Profissional de Pastas</span>
+      <span class="cc-xp">+20 XP</span>
+      <span class="cc-chevron">▼</span>
+    </div>
+    <div class="cc-body">
+      <div class="svg-container">
+        <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
+          <rect width="640" height="200" fill="#0d1117"/>
+          <!-- Ruim vs Bom -->
+          <!-- LEFT: Bad -->
+          <text x="160" y="20" font-family="monospace" font-size="11" fill="#f85149" text-anchor="middle">❌ ORGANIZAÇÃO RUIM</text>
+          <rect x="20" y="28" width="280" height="162" rx="6" fill="#161b22" stroke="#f85149" stroke-width="1" opacity=".5"/>
+          <text x="36" y="50" font-family="monospace" font-size="9" fill="#8b949e">📄 documento final FINAL v3.docx</text>
+          <text x="36" y="65" font-family="monospace" font-size="9" fill="#8b949e">📄 documento final FINAL v3 CERTO.docx</text>
+          <text x="36" y="80" font-family="monospace" font-size="9" fill="#8b949e">🖼️ IMG_20240312_143522.jpg</text>
+          <text x="36" y="95" font-family="monospace" font-size="9" fill="#8b949e">📁 nova pasta</text>
+          <text x="36" y="110" font-family="monospace" font-size="9" fill="#8b949e">📁 nova pasta (2)</text>
+          <text x="36" y="125" font-family="monospace" font-size="9" fill="#8b949e">📄 aula.docx</text>
+          <text x="36" y="140" font-family="monospace" font-size="9" fill="#8b949e">📄 aula2.docx</text>
+          <text x="36" y="155" font-family="monospace" font-size="9" fill="#8b949e">📄 aula_novo.docx</text>
+          <text x="36" y="170" font-family="monospace" font-size="9" fill="#f85149">😵 Onde está o arquivo certo?!</text>
+
+          <!-- RIGHT: Good -->
+          <text x="480" y="20" font-family="monospace" font-size="11" fill="#39d353" text-anchor="middle">✅ ORGANIZAÇÃO BOA</text>
+          <rect x="340" y="28" width="280" height="162" rx="6" fill="#161b22" stroke="#39d353" stroke-width="1" opacity=".5"/>
+          <text x="356" y="50" font-family="monospace" font-size="9" fill="#39d353">📁 Escola</text>
+          <text x="372" y="65" font-family="monospace" font-size="9" fill="#39d353"> 📁 GSO-I</text>
+          <text x="388" y="80" font-family="monospace" font-size="9" fill="#8b949e">   📁 2026-03 Semana05</text>
+          <text x="404" y="93" font-family="monospace" font-size="9" fill="#8b949e">    📄 2026-03-11_relatorio.docx</text>
+          <text x="388" y="108" font-family="monospace" font-size="9" fill="#8b949e">   📁 2026-03 Semana06</text>
+          <text x="356" y="123" font-family="monospace" font-size="9" fill="#58a6ff">📁 Pessoal</text>
+          <text x="372" y="137" font-family="monospace" font-size="9" fill="#8b949e"> 📁 Fotos</text>
+          <text x="372" y="151" font-family="monospace" font-size="9" fill="#8b949e"> 📁 Documentos</text>
+          <text x="356" y="169" font-family="monospace" font-size="9" fill="#39d353">😌 Tudo organizado!</text>
+        </svg>
+      </div>
+      <p class="img-caption">Comparação: organização ruim vs. organização profissional</p>
+
+      <div class="key-point">
+        <span class="kp-icon">📅</span>
+        <div class="kp-text">Use datas no formato <strong>AAAA-MM-DD</strong> (ex: 2026-03-11). Assim os arquivos ficam ordenados cronologicamente de forma automática!</div>
+      </div>
+      <div class="key-point">
+        <span class="kp-icon">🚫</span>
+        <div class="kp-text">Evite <strong>acentos e espaços</strong> em nomes de pastas e arquivos quando for trabalhar com programação ou linha de comando. Use underline (_) ou hífen (-).</div>
+      </div>
+      <div class="key-point">
+        <span class="kp-icon">📏</span>
+        <div class="kp-text">Mantenha no máximo <strong>4-5 níveis de subpastas</strong>. Mais que isso dificulta a navegação e aumenta a chance de errar o caminho.</div>
+      </div>
+
+      <div class="tip-box">
+        <span class="tip-icon">🏆</span>
+        <p><strong>Regra de ouro:</strong> Uma pessoa que nunca viu seus arquivos deve conseguir encontrar qualquer coisa em menos de 30 segundos.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4: Pesquisa -->
+  <div class="content-card">
+    <div class="cc-header" onclick="toggleCard(this)">
+      <span class="cc-icon">🔍</span>
+      <span class="cc-title">4. Pesquisa Avançada no Windows</span>
+      <span class="cc-xp">+20 XP</span>
+      <span class="cc-chevron">▼</span>
+    </div>
+    <div class="cc-body">
+      <div class="svg-container">
+        <svg viewBox="0 0 640 140" xmlns="http://www.w3.org/2000/svg">
+          <rect width="640" height="140" fill="#0d1117"/>
+          <!-- Search bar mock -->
+          <rect x="20" y="16" width="600" height="36" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <text x="42" y="38" font-family="monospace" font-size="12" fill="#8b949e">🔍</text>
+          <text x="62" y="38" font-family="monospace" font-size="11" fill="#39d353">tipo:*.pdf  data:>2025  tamanho:>5MB</text>
+          <text x="580" y="38" font-family="monospace" font-size="11" fill="#58a6ff" text-anchor="end">↵</text>
+          <!-- Results -->
+          <rect x="20" y="64" width="600" height="64" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+          <text x="36" y="85" font-family="monospace" font-size="9" fill="#8b949e">Resultados para "tipo:*.pdf  data:>2025  tamanho:>5MB"  —  3 arquivos encontrados</text>
+          <rect x="36" y="92" width="170" height="24" rx="4" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
+          <text x="120" y="108" font-family="monospace" font-size="9" fill="#39d353" text-anchor="middle">📄 relatorio_final.pdf</text>
+          <rect x="218" y="92" width="170" height="24" rx="4" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
+          <text x="303" y="108" font-family="monospace" font-size="9" fill="#39d353" text-anchor="middle">📄 apostila_gso.pdf</text>
+          <rect x="400" y="92" width="170" height="24" rx="4" fill="#0d1117" stroke="#21262d" stroke-width="1"/>
+          <text x="485" y="108" font-family="monospace" font-size="9" fill="#39d353" text-anchor="middle">📄 manual_windows.pdf</text>
+        </svg>
+      </div>
+      <p class="img-caption">Pesquisa avançada com filtros na barra do Explorador</p>
+
+      <div class="key-point">
+        <span class="kp-icon">📂</span>
+        <div class="kp-text"><strong>Filtros úteis na barra de pesquisa:</strong></div>
+      </div>
+      <div class="shortcut-row" style="margin-top:6px;margin-bottom:12px;">
+        <div class="shortcut"><kbd>tipo:*.pdf</kbd><span>busca PDFs</span></div>
+        <div class="shortcut"><kbd>data:>2025</kbd><span>após 2025</span></div>
+        <div class="shortcut"><kbd>tamanho:>10MB</kbd><span>acima de 10MB</span></div>
+        <div class="shortcut"><kbd>nome:relatorio*</kbd><span>começa com...</span></div>
+      </div>
+      <div class="key-point">
+        <span class="kp-icon">⚡</span>
+        <div class="kp-text">A <strong>busca indexada</strong> é muito mais rápida. Configure em: Painel de Controle → Opções de Indexação. Adicione as pastas que você mais usa!</div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <p><strong>Truque:</strong> Pesquise diretamente pelo menu Iniciar pressionando <strong>Win</strong> e digitando o nome do arquivo. O Windows encontra em milissegundos!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUIZ ── -->
+  <div class="section-header" style="margin-top:40px;">
+    <div class="section-icon purple">🧠</div>
+    <h2 class="section-title">Quiz Rápido</h2>
+    <span class="section-xp">+80 XP</span>
+  </div>
+
+  <div class="quiz-wrapper" id="quizWrapper">
+    <div class="quiz-header">
+      <span class="quiz-icon">⚡</span>
+      <div class="quiz-header-text">
+        <h3>Teste seu conhecimento!</h3>
+        <p>4 perguntas · responda com atenção</p>
+      </div>
+      <div class="quiz-reward">
+        <div class="xp-big">+80</div>
+        <div class="xp-label">XP máx.</div>
+      </div>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-progress">
+        <div class="quiz-dots" id="quizDots"></div>
+        <div class="quiz-counter" id="quizCounter">1 / 4</div>
+      </div>
+      <div id="quizContent"></div>
+    </div>
+  </div>
+
+  <!-- ── MISSÕES / LAB ── -->
+  <div class="section-header">
+    <div class="section-icon amber">🔬</div>
+    <h2 class="section-title">Missões do Laboratório</h2>
+    <span class="section-xp">+90 XP</span>
+  </div>
+  <p style="color:var(--text-muted);font-size:.85em;margin-bottom:16px;">Acesse o <a href="semana05_guia.html" style="color:var(--blue);">📝 Guia de Exercícios</a> para ver as rubricas detalhadas. Marque ✓ ao concluir cada missão!</p>
+
+  <div class="missions-grid">
+    <div class="mission-card">
+      <div class="mission-num">M1</div>
+      <div class="mission-content">
+        <div class="mission-title">🗺️ Navegação Avançada no Explorador</div>
+        <div class="mission-desc">Explore as funcionalidades avançadas do Explorador de Arquivos do Windows 11, testando diferentes modos de visualização (Ícones grandes, Detalhes, Lista) e aprenda os atalhos mais úteis para navegar sem usar o mouse.</div>
+        <div class="mission-meta">
+          <span class="mission-tag">⏱ 30 min</span>
+          <span class="mission-tag">🔬 Laboratório</span>
+          <span class="mission-tag xp">+30 XP</span>
+        </div>
+      </div>
+      <div class="mission-check" id="m1" onclick="completeMission('m1',30)">○</div>
+    </div>
+
+    <div class="mission-card">
+      <div class="mission-num">M2</div>
+      <div class="mission-content">
+        <div class="mission-title">🏷️ Investigando Atributos de Arquivos</div>
+        <div class="mission-desc">Crie arquivos com diferentes atributos (oculto, somente leitura) e observe como o Windows os trata de formas distintas. Use o comando <code style="background:var(--bg);padding:1px 5px;border-radius:3px;font-family:'DM Mono',monospace;color:var(--green);font-size:.85em;">attrib</code> no Prompt de Comando para ver e alterar atributos.</div>
+        <div class="mission-meta">
+          <span class="mission-tag">⏱ 35 min</span>
+          <span class="mission-tag">🔬 Laboratório</span>
+          <span class="mission-tag xp">+30 XP</span>
+        </div>
+      </div>
+      <div class="mission-check" id="m2" onclick="completeMission('m2',30)">○</div>
+    </div>
+
+    <div class="mission-card">
+      <div class="mission-num">M3</div>
+      <div class="mission-content">
+        <div class="mission-title">🔎 Pesquisa Avançada com Filtros</div>
+        <div class="mission-desc">Utilize os filtros de pesquisa avançada do Windows para encontrar arquivos específicos usando critérios como tipo, tamanho e data de modificação. Desafio extra: encontre todos os arquivos maiores que 100MB no seu computador!</div>
+        <div class="mission-meta">
+          <span class="mission-tag">⏱ 25 min</span>
+          <span class="mission-tag">🔬 Laboratório</span>
+          <span class="mission-tag xp">+30 XP</span>
+        </div>
+      </div>
+      <div class="mission-check" id="m3" onclick="completeMission('m3',30)">○</div>
+    </div>
+  </div>
+
+  <!-- ── CHECKPOINT ── -->
+  <div class="checkpoint" id="checkpoint">
+    <div class="checkpoint-stars" id="checkpointStars">⭐⭐⭐</div>
+    <h3>Progresso da Missão 05</h3>
+    <p>Complete as missões e o quiz para acumular XP!</p>
+    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 250 XP</div>
+  </div>
+
+  <!-- RECURSOS -->
+  <div class="section-header">
+    <div class="section-icon green">🔗</div>
+    <h2 class="section-title">Recursos para ir além</h2>
+  </div>
+  <div class="resources-grid">
+    <div class="res-card">
+      <div class="res-icon">📄</div>
+      <div class="res-title">Microsoft Docs</div>
+      <div class="res-desc">docs.microsoft.com — documentação oficial</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">💻</div>
+      <div class="res-title">PowerShell Docs</div>
+      <div class="res-desc">learn.microsoft.com/powershell</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">▶️</div>
+      <div class="res-title">YouTube</div>
+      <div class="res-desc">Pesquise: "Explorador Arquivos Windows 11"</div>
+    </div>
+    <div class="res-card">
+      <div class="res-icon">🎓</div>
+      <div class="res-title">Microsoft Learn</div>
+      <div class="res-desc">learn.microsoft.com — cursos gratuitos</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="nav-bar" style="margin-top:32px;margin-bottom:0;">
+    <a href="semana04_aula.html" class="nav-btn btn-ghost">← Anterior</a>
+    <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
+    <a href="semana05_guia.html" class="nav-btn btn-guide">📝 Guia</a>
+    <span class="nav-spacer"></span>
+    <a href="semana06_aula.html" class="nav-btn btn-primary">Próxima →</a>
+  </nav>
+</div>
+
+<div class="footer">
+  Gestão de Sistemas Operacionais I · GSO I 2026 · Prof. Isaque Katahira<br>
+  ETEC · Centro Paula Souza · Módulo I
+</div>
+
+<script>
+// ── STATE ───────────────────────────────────────────────────────────
+let xp = 0;
+let objDone = new Set();
+let missionDone = new Set();
+let cardXpDone = new Set();
+const totalXP = 250;
+
+// ── XP ──────────────────────────────────────────────────────────────
+function addXP(amount, source) {
+  xp += amount;
+  document.getElementById('xpDisplay').textContent = xp;
+  document.getElementById('xpFinal').textContent = xp;
+  const pct = Math.min(100, (xp / totalXP) * 100);
+  document.getElementById('mainProgress').style.width = pct + '%';
+  // Stars
+  const stars = document.getElementById('checkpointStars');
+  if (pct >= 80) stars.textContent = '🌟🌟🌟';
+  else if (pct >= 50) stars.textContent = '⭐🌟⭐';
+  else stars.textContent = '⭐⭐⭐';
+  spawnStars();
+  checkAchievements();
+}
+
+function spawnStars() {
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'star';
+      el.textContent = ['⭐','✨','💫','⚡'][Math.floor(Math.random()*4)];
+      el.style.left = (Math.random() * 80 + 10) + '%';
+      el.style.top = (window.scrollY + window.innerHeight * 0.5) + 'px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1500);
+    }, i * 150);
+  }
+}
+
+// ── OBJECTIVES ──────────────────────────────────────────────────────
+function markObj(el, pts) {
+  if (el.classList.contains('done')) return;
+  el.classList.add('done');
+  el.style.borderColor = 'rgba(57,211,83,.5)';
+  el.style.background = 'rgba(57,211,83,.05)';
+  el.querySelector('.obj-num').style.background = '#39d353';
+  el.querySelector('.obj-num').style.color = '#0d1117';
+  addXP(pts, 'obj');
+  if ([...document.querySelectorAll('.obj-card.done')].length === 4) {
+    showAchievement('🎯','Objetivos Marcados!','Você leu todos os objetivos!');
+  }
+}
+
+// ── CARD ACCORDION ──────────────────────────────────────────────────
+function toggleCard(header) {
+  const body = header.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  // close all
+  document.querySelectorAll('.cc-body.open').forEach(b => {
+    b.classList.remove('open');
+    b.previousElementSibling.classList.remove('open');
+  });
+  if (!isOpen) {
+    body.classList.add('open');
+    header.classList.add('open');
+    // award xp once per card
+    const title = header.querySelector('.cc-title').textContent;
+    if (!cardXpDone.has(title)) {
+      cardXpDone.add(title);
+      addXP(20, 'card');
+    }
+  }
+}
+
+// ── MISSIONS ────────────────────────────────────────────────────────
+function completeMission(id, pts) {
+  if (missionDone.has(id)) return;
+  missionDone.add(id);
+  const el = document.getElementById(id);
+  el.classList.add('done');
+  el.textContent = '✓';
+  el.closest('.mission-card').style.borderColor = 'rgba(57,211,83,.4)';
+  addXP(pts, 'mission');
+  if (missionDone.size === 3) {
+    showAchievement('🔬','Cientista de Dados!','Todas as missões concluídas!');
+  }
+}
+
+// ── QUIZ ────────────────────────────────────────────────────────────
+const questions = [
+  {
+    q: "Qual atalho de teclado abre o Explorador de Arquivos no Windows?",
+    opts: ["Ctrl + E", "Win + E", "Alt + E", "Shift + E"],
+    ans: 1,
+    exp: "✅ Correto! Win + E abre o Explorador instantaneamente. Um dos atalhos mais úteis do Windows!"
+  },
+  {
+    q: "Um arquivo com atributo 'Oculto' significa que:",
+    opts: [
+      "Ele está encriptado e não pode ser lido",
+      "Ele foi deletado mas ainda está na lixeira",
+      "Ele não aparece na listagem normal do Explorador",
+      "Ele é somente leitura e não pode ser editado"
+    ],
+    ans: 2,
+    exp: "✅ Isso mesmo! Arquivos ocultos existem normalmente no disco, mas ficam invisíveis na listagem padrão. Para vê-los: Ver → Itens Ocultos."
+  },
+  {
+    q: "Qual formato de data é recomendado para nomear arquivos e facilitar a ordenação automática?",
+    opts: ["DD/MM/AAAA", "MM-DD-AAAA", "AAAA-MM-DD", "Qualquer formato, tanto faz"],
+    ans: 2,
+    exp: "✅ Perfeito! O formato AAAA-MM-DD (ex: 2026-03-11) garante que os arquivos fiquem ordenados cronologicamente de forma automática."
+  },
+  {
+    q: "Para pesquisar apenas arquivos PDF no Explorador de Arquivos, qual filtro você usaria?",
+    opts: ["extensão:pdf", "tipo:*.pdf", "arquivo:pdf", "find:*.pdf"],
+    ans: 1,
+    exp: "✅ Correto! O filtro tipo:*.pdf na barra de pesquisa do Explorador filtra apenas arquivos PDF. O * é um curinga que representa qualquer nome."
+  }
+];
+
+let currentQ = 0;
+let quizScore = 0;
+let answered = false;
+
+function initQuiz() {
+  const dots = document.getElementById('quizDots');
+  dots.innerHTML = '';
+  questions.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'quiz-dot' + (i === 0 ? ' current' : '');
+    dots.appendChild(d);
+  });
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (currentQ >= questions.length) {
+    showResult(); return;
+  }
+  answered = false;
+  const q = questions[currentQ];
+  document.getElementById('quizCounter').textContent = `${currentQ+1} / ${questions.length}`;
+  const content = document.getElementById('quizContent');
+  content.innerHTML = `
+    <div class="question-card">
+      <div class="question-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((o,i) => `
+          <button class="option-btn" onclick="selectAnswer(${i})">
+            <span class="option-letter">${'ABCD'[i]}</span>
+            ${o}
+          </button>
+        `).join('')}
+      </div>
+      <div class="quiz-feedback" id="qFeedback"></div>
+      <button class="quiz-next" id="qNext" onclick="nextQuestion()">Próxima →</button>
+    </div>
+  `;
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add('correct');
+    else if (i === idx && idx !== q.ans) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('qFeedback');
+  if (idx === q.ans) {
+    quizScore++;
+    fb.className = 'quiz-feedback show ok';
+    fb.innerHTML = '🎉 ' + q.exp;
+    addXP(20, 'quiz');
+  } else {
+    fb.className = 'quiz-feedback show err';
+    fb.innerHTML = '❌ Ops! ' + q.exp;
+  }
+  document.getElementById('qNext').style.display = 'inline-block';
+  // update dots
+  const dots = document.querySelectorAll('.quiz-dot');
+  dots[currentQ].className = 'quiz-dot done';
+  if (currentQ + 1 < questions.length) dots[currentQ+1].className = 'quiz-dot current';
+}
+
+function nextQuestion() {
+  currentQ++;
+  renderQuestion();
+}
+
+function showResult() {
+  const pct = Math.round((quizScore / questions.length) * 100);
+  let msg = pct === 100 ? '🏆 Perfeito! Mestre dos Arquivos!' :
+            pct >= 75 ? '🌟 Muito bem! Quase lá!' :
+            pct >= 50 ? '👍 Bom começo! Revise o conteúdo.' : '📖 Vamos revisar juntos!';
+  document.getElementById('quizContent').innerHTML = `
+    <div class="quiz-result">
+      <div class="score">${quizScore}/${questions.length}</div>
+      <div class="score-label">${msg}</div>
+      <div class="xp-earn">⚡ +${quizScore * 20} XP conquistados</div><br>
+      <button class="quiz-restart" onclick="restartQuiz()">🔄 Tentar novamente</button>
+    </div>
+  `;
+  if (quizScore === 4) showAchievement('🏆','Quiz Perfeito!','4 de 4 corretas — você arrasou!');
+}
+
+function restartQuiz() {
+  currentQ = 0;
+  quizScore = 0;
+  answered = false;
+  initQuiz();
+}
+
+// ── ACHIEVEMENTS ────────────────────────────────────────────────────
+let achQueue = [];
+let achShowing = false;
+
+function showAchievement(icon, title, desc) {
+  achQueue.push({icon, title, desc});
+  if (!achShowing) processAchQueue();
+}
+
+function processAchQueue() {
+  if (!achQueue.length) { achShowing = false; return; }
+  achShowing = true;
+  const {icon, title, desc} = achQueue.shift();
+  document.getElementById('achIcon').textContent = icon;
+  document.getElementById('achTitle').textContent = title;
+  document.getElementById('achDesc').textContent = desc;
+  const popup = document.getElementById('achPopup');
+  popup.classList.add('show');
+  setTimeout(() => {
+    popup.classList.remove('show');
+    setTimeout(processAchQueue, 400);
+  }, 3500);
+}
+
+function checkAchievements() {
+  if (xp >= 50 && !window._ach50) { window._ach50=1; showAchievement('🌱','Primeiros Passos!','Você ganhou 50 XP!'); }
+  if (xp >= 125 && !window._ach125) { window._ach125=1; showAchievement('🔥','Em Chamas!','Metade do XP da aula!'); }
+  if (xp >= 250 && !window._ach250) { window._ach250=1; showAchievement('💎','Missão Completa!','250 XP — você dominou esta aula!'); }
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────
+initQuiz();
+
+// Open first card automatically after 800ms
+setTimeout(() => {
+  const firstHeader = document.querySelector('.cc-header');
+  if (firstHeader) toggleCard(firstHeader);
+}, 800);
+</script>
+</body>
+</html>

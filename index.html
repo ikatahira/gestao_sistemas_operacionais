@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão de Sistemas Operacionais I – 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#1e3a5f;--blue:#2a5298;--gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;--gray-500:#64748b;--gray-700:#334155;--white:#fff;--radius:12px;--radius-sm:8px;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(--gray-700);line-height:1.6;}
+
+.hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 40%,#2a5298 80%,#3b82f6 100%);color:white;padding:56px 32px;text-align:center;}
+.hero-top{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:50px;padding:6px 18px;font-size:.82em;font-weight:600;}
+.hero h1{font-size:clamp(1.8em,5vw,3em);font-weight:700;letter-spacing:-.04em;margin-bottom:8px;}
+.hero h1 span{color:#60a5fa;}
+.hero-sub{opacity:.75;font-size:.95em;margin-bottom:28px;}
+.hero-prof{display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(255,255,255,.1);border-radius:50px;padding:8px 20px;display:inline-flex;margin-bottom:28px;}
+.hero-stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;}
+.stat{text-align:center;}
+.stat-num{font-size:1.8em;font-weight:700;color:#60a5fa;}
+.stat-label{font-size:.78em;opacity:.7;margin-top:2px;}
+
+.container{max-width:1200px;margin:0 auto;padding:36px 32px;}
+
+.av-section{background:white;border-radius:var(--radius);padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:36px;border-left:4px solid #d97706;}
+.av-section h3{color:#92400e;font-size:1em;font-weight:700;margin-bottom:14px;}
+.av-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--gray-100);}
+.av-item:last-child{border:none;}
+.av-sem{background:#d97706;color:white;border-radius:50px;padding:2px 10px;font-size:.78em;font-weight:700;white-space:nowrap;font-family:monospace;}
+.av-desc{font-size:.88em;color:var(--gray-700);}
+
+.bloco-section{margin-bottom:40px;}
+.bloco-header{display:flex;align-items:center;gap:14px;padding:18px 22px;background:white;border-radius:var(--radius);box-shadow:0 2px 10px rgba(0,0,0,.07);border-left:5px solid var(--bcolor,var(--blue));margin-bottom:14px;}
+.bloco-icon{font-size:1.8em;}
+.bloco-info h2{font-size:1.15em;font-weight:700;color:var(--navy);}
+.bloco-info p{font-size:.85em;color:var(--gray-500);}
+.bloco-count{margin-left:auto;background:var(--gray-100);border-radius:50px;padding:4px 12px;font-size:.8em;font-weight:600;color:var(--gray-500);white-space:nowrap;}
+
+.weeks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:10px;}
+.week-card{background:white;border-radius:var(--radius-sm);padding:14px;border:1px solid var(--gray-200);border-top:3px solid var(--accent,var(--blue));text-decoration:none;color:inherit;display:block;transition:all .2s;cursor:pointer;}
+.week-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.12);}
+.week-num{font-size:.72em;font-weight:700;color:var(--accent,var(--blue));letter-spacing:.05em;margin-bottom:5px;font-family:monospace;}
+.week-title{font-size:.87em;font-weight:600;color:var(--navy);margin-bottom:8px;line-height:1.4;}
+.week-links{display:flex;gap:5px;}
+.wl-aula,.wl-guia{padding:3px 8px;border-radius:4px;font-size:.73em;font-weight:600;text-decoration:none;}
+.wl-aula{background:var(--gray-100);color:var(--gray-500);}
+.wl-guia{background:rgba(124,58,237,.1);color:#6d28d9;}
+.wl-guia:hover{background:rgba(124,58,237,.2);}
+
+footer{text-align:center;padding:28px;color:var(--gray-500);font-size:.82em;border-top:1px solid var(--gray-200);}
+@media(max-width:768px){.hero{padding:36px 16px;}.container{padding:18px 16px;}.hero-stats{gap:14px;}.weeks-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:7px;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-top">
+    <span class="hero-badge">🎓 ETEC · Centro Paula Souza · Módulo I</span>
+  </div>
+  <h1>Gestão de <span>Sistemas Operacionais</span> I</h1>
+  <div class="hero-sub">Técnico em Informática · 1º Semestre de 2026</div>
+  <div class="hero-prof">👨‍🏫 Prof. Isaque Katahira · 20 Semanas · 60 Horas-Aula</div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">20</div><div class="stat-label">Semanas</div></div>
+    <div class="stat"><div class="stat-num">60</div><div class="stat-label">Horas-aula</div></div>
+    <div class="stat"><div class="stat-num">60</div><div class="stat-label">Exercícios</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Avaliações</div></div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="av-section">
+    <h3>🏆 Calendário de Avaliações</h3>
+    <div class="av-item"><span class="av-sem">S07</span><span class="av-desc">Avaliação 1 – Gerenciamento de Arquivos (15%)</span></div><div class="av-item"><span class="av-sem">S12</span><span class="av-desc">Avaliação 2 – Scripts PowerShell (20%)</span></div><div class="av-item"><span class="av-sem">S16</span><span class="av-desc">Avaliação 3 – Manutenção (15%)</span></div><div class="av-item"><span class="av-sem">S20</span><span class="av-desc">Avaliação Final (30%) + Projeto Integrador (20%)</span></div>
+  </div>
+
+  
+  <section class="bloco-section">
+    <div class="bloco-header" style="--bcolor:#2a5298">
+      <span class="bloco-icon">🖥️</span>
+      <div class="bloco-info">
+        <h2>Conceitos de SO</h2>
+        <p>2 semanas</p>
+      </div>
+      <div class="bloco-count">2 sem.</div>
+    </div>
+    <div class="weeks-grid">
+      <a href="semana01_aula.html" class="week-card" style="--accent:#2a5298">
+        <div class="week-num">S01</div>
+        <div class="week-title">Introdução aos Sistemas Operacionais – Parte 1</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana01_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana02_aula.html" class="week-card" style="--accent:#2a5298">
+        <div class="week-num">S02</div>
+        <div class="week-title">Introdução aos Sistemas Operacionais – Parte 2</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana02_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a></div>
+  </section>
+  <section class="bloco-section">
+    <div class="bloco-header" style="--bcolor:#0891b2">
+      <span class="bloco-icon">🖱️</span>
+      <div class="bloco-info">
+        <h2>Área de Trabalho</h2>
+        <p>2 semanas</p>
+      </div>
+      <div class="bloco-count">2 sem.</div>
+    </div>
+    <div class="weeks-grid">
+      <a href="semana03_aula.html" class="week-card" style="--accent:#0891b2">
+        <div class="week-num">S03</div>
+        <div class="week-title">Área de Trabalho e Interface – Parte 1</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana03_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana04_aula.html" class="week-card" style="--accent:#0891b2">
+        <div class="week-num">S04</div>
+        <div class="week-title">Área de Trabalho e Interface – Parte 2</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana04_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a></div>
+  </section>
+  <section class="bloco-section">
+    <div class="bloco-header" style="--bcolor:#16a34a">
+      <span class="bloco-icon">📁</span>
+      <div class="bloco-info">
+        <h2>Ferramentas de Gestão</h2>
+        <p>7 semanas</p>
+      </div>
+      <div class="bloco-count">7 sem.</div>
+    </div>
+    <div class="weeks-grid">
+      <a href="semana05_aula.html" class="week-card" style="--accent:#16a34a">
+        <div class="week-num">S05</div>
+        <div class="week-title">Gerenciamento de Arquivos e Pastas – Parte 1</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana05_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana06_aula.html" class="week-card" style="--accent:#16a34a">
+        <div class="week-num">S06</div>
+        <div class="week-title">Gerenciamento de Arquivos e Pastas – Parte 2</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana06_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana07_aula.html" class="week-card" style="--accent:#16a34a">
+        <div class="week-num">S07</div>
+        <div class="week-title">Permissões, Compactação e Organização</div>
+        <div style="color:#d97706;font-size:.72em;font-weight:700;margin-top:4px;">🏆 Avaliação</div>
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana07_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana13_aula.html" class="week-card" style="--accent:#16a34a">
+        <div class="week-num">S13</div>
+        <div class="week-title">Gerenciamento de Processos e Serviços – Parte 1</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana13_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana14_aula.html" class="week-card" style="--accent:#16a34a">
+        <div class="week-num">S14</div>
+        <div class="week-title">Gerenciamento de Processos e Serviços – Parte 2</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana14_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana15_aula.html" class="week-card" style="--accent:#16a34a">
+        <div class="week-num">S15</div>
+        <div class="week-title">Ferramentas de Manutenção – Parte 1</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana15_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana16_aula.html" class="week-card" style="--accent:#16a34a">
+        <div class="week-num">S16</div>
+        <div class="week-title">Ferramentas de Manutenção – Parte 2</div>
+        <div style="color:#d97706;font-size:.72em;font-weight:700;margin-top:4px;">🏆 Avaliação</div>
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana16_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a></div>
+  </section>
+  <section class="bloco-section">
+    <div class="bloco-header" style="--bcolor:#7c3aed">
+      <span class="bloco-icon">💻</span>
+      <div class="bloco-info">
+        <h2>PowerShell</h2>
+        <p>5 semanas</p>
+      </div>
+      <div class="bloco-count">5 sem.</div>
+    </div>
+    <div class="weeks-grid">
+      <a href="semana08_aula.html" class="week-card" style="--accent:#7c3aed">
+        <div class="week-num">S08</div>
+        <div class="week-title">Introdução ao PowerShell</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana08_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana09_aula.html" class="week-card" style="--accent:#7c3aed">
+        <div class="week-num">S09</div>
+        <div class="week-title">PowerShell – Comandos e Navegação</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana09_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana10_aula.html" class="week-card" style="--accent:#7c3aed">
+        <div class="week-num">S10</div>
+        <div class="week-title">PowerShell – Scripts e Automação Básica</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana10_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana11_aula.html" class="week-card" style="--accent:#7c3aed">
+        <div class="week-num">S11</div>
+        <div class="week-title">PowerShell Avançado – Remoting e Cmdlets</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana11_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana12_aula.html" class="week-card" style="--accent:#7c3aed">
+        <div class="week-num">S12</div>
+        <div class="week-title">PowerShell – Scripts Administrativos</div>
+        <div style="color:#d97706;font-size:.72em;font-weight:700;margin-top:4px;">🏆 Avaliação</div>
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana12_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a></div>
+  </section>
+  <section class="bloco-section">
+    <div class="bloco-header" style="--bcolor:#dc2626">
+      <span class="bloco-icon">🔒</span>
+      <div class="bloco-info">
+        <h2>Segurança e Avançado</h2>
+        <p>3 semanas</p>
+      </div>
+      <div class="bloco-count">3 sem.</div>
+    </div>
+    <div class="weeks-grid">
+      <a href="semana17_aula.html" class="week-card" style="--accent:#dc2626">
+        <div class="week-num">S17</div>
+        <div class="week-title">Segurança, Atualizações e Registro</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana17_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana18_aula.html" class="week-card" style="--accent:#dc2626">
+        <div class="week-num">S18</div>
+        <div class="week-title">Configuração de Inicialização e Solução de Problemas</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana18_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a>
+      <a href="semana19_aula.html" class="week-card" style="--accent:#dc2626">
+        <div class="week-num">S19</div>
+        <div class="week-title">Ferramentas de Acessibilidade</div>
+        
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana19_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a></div>
+  </section>
+  <section class="bloco-section">
+    <div class="bloco-header" style="--bcolor:#d97706">
+      <span class="bloco-icon">🎓</span>
+      <div class="bloco-info">
+        <h2>Encerramento</h2>
+        <p>1 semana</p>
+      </div>
+      <div class="bloco-count">1 sem.</div>
+    </div>
+    <div class="weeks-grid">
+      <a href="semana20_aula.html" class="week-card" style="--accent:#d97706">
+        <div class="week-num">S20</div>
+        <div class="week-title">Revisão Geral e Avaliação Final</div>
+        <div style="color:#d97706;font-size:.72em;font-weight:700;margin-top:4px;">🏆 Avaliação</div>
+        <div class="week-links">
+          <span class="wl-aula">📖 Aula</span>
+          <a href="semana20_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
+        </div>
+      </a></div>
+  </section>
+
+</div>
+
+<footer>
+  <p><strong>Gestão de Sistemas Operacionais I · GSO I 2026</strong></p>
+  <p style="margin-top:4px;">I.4 · Módulo I · Qualificação Profissional · Centro Paula Souza</p>
+</footer>
+</body>
+</html>
