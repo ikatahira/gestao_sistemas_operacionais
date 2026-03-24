@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S05 – Atividades Interativas | GSO I 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0d1117; --surface:#161b22; --surface2:#1c2330; --border:#21262d;
+  --green:#39d353; --green-dim:#1a4731; --blue:#58a6ff; --blue-dim:#0d2139;
+  --purple:#bc8cff; --purple-dim:#2a1f42; --amber:#f0b429; --amber-dim:#3d2c00;
+  --red:#f85149; --teal:#3fb950;
+  --text:#e6edf3; --text-muted:#8b949e; --text-dim:#484f58;
+  --xp:#ffd700; --r:12px; --r-sm:8px; --r-lg:20px;
+  --glow-green:0 0 20px rgba(57,211,83,.25);
+  --glow-blue:0 0 20px rgba(88,166,255,.25);
+  --glow-purple:0 0 20px rgba(188,140,255,.25);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* HUD */
+.hud{position:sticky;top:0;z-index:200;background:rgba(13,17,23,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:10px 24px;}
+.hud-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.hud-week{font-family:'DM Mono',monospace;font-size:.78em;background:var(--purple-dim);color:var(--purple);border:1px solid rgba(188,140,255,.3);border-radius:50px;padding:4px 12px;}
+.hud-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1em;color:var(--text);flex:1;}
+.hud-title span{color:var(--purple);}
+.hud-xp{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:5px 12px;}
+.hud-xp .xp-val{font-family:'DM Mono',monospace;font-size:.82em;font-weight:500;color:var(--xp);}
+.hud-xp .xp-label{font-size:.72em;color:var(--text-muted);}
+.progress-bar-outer{height:6px;background:var(--surface2);border-radius:3px;flex:1;min-width:80px;}
+.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:3px;transition:width .5s ease;width:0%;}
+
+/* HERO */
+.hero{padding:48px 24px 36px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(188,140,255,.08),transparent 70%);}
+.hero-inner{position:relative;max-width:700px;margin:0 auto;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600;color:var(--purple);margin-bottom:16px;}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8em,4vw,2.8em);line-height:1.1;letter-spacing:-.03em;margin-bottom:10px;}
+.hero h1 .accent{color:var(--purple);}
+.hero-sub{color:var(--text-muted);font-size:.95em;margin-bottom:24px;}
+.hero-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+.pill{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.82em;}
+.pill.purple{border-color:rgba(188,140,255,.3);color:var(--purple);}
+.pill.blue{border-color:rgba(88,166,255,.3);color:var(--blue);}
+.pill.green{border-color:rgba(57,211,83,.3);color:var(--green);}
+.pill.amber{border-color:rgba(240,180,41,.3);color:var(--amber);}
+
+/* CONTAINER */
+.container{max-width:960px;margin:0 auto;padding:0 24px 80px;}
+
+/* SECTION HEADER */
+.section-header{display:flex;align-items:center;gap:10px;margin:44px 0 18px;}
+.section-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2em;flex-shrink:0;}
+.section-icon.purple{background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);}
+.section-icon.blue{background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);}
+.section-icon.green{background:var(--green-dim);border:1px solid rgba(57,211,83,.3);}
+.section-icon.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.3);}
+.section-icon.red{background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.25em;}
+.section-xp{margin-left:auto;font-family:'DM Mono',monospace;font-size:.78em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:3px 10px;}
+
+/* ACTIVITY WRAPPER */
+.activity-wrapper{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:24px;}
+.activity-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.activity-header-icon{font-size:1.6em;}
+.activity-header-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1em;}
+.activity-header-text p{font-size:.82em;color:var(--text-muted);margin-top:2px;}
+.activity-header-xp{margin-left:auto;font-family:'DM Mono',monospace;font-size:1.1em;font-weight:700;color:var(--xp);}
+.activity-body{padding:24px;}
+
+/* SCORE & FEEDBACK BADGE */
+.activity-score{display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.25);border-radius:50px;padding:5px 14px;font-family:'DM Mono',monospace;font-size:.85em;color:var(--xp);margin-top:16px;}
+.feedback-msg{padding:10px 14px;border-radius:var(--r-sm);font-size:.88em;margin-top:12px;display:none;}
+.feedback-msg.show{display:flex;gap:8px;align-items:flex-start;animation:fadeUp .3s ease;}
+.feedback-msg.ok{background:rgba(57,211,83,.08);border:1px solid rgba(57,211,83,.2);color:var(--green);}
+.feedback-msg.err{background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.2);color:var(--red);}
+.feedback-msg.warn{background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.2);color:var(--amber);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* RESET BTN */
+.btn-reset{background:var(--surface2);border:1px solid var(--border);color:var(--text-muted);border-radius:var(--r-sm);padding:8px 18px;font-family:'DM Sans',sans-serif;font-size:.85em;cursor:pointer;transition:all .2s;margin-top:12px;}
+.btn-reset:hover{border-color:var(--purple);color:var(--purple);}
+.btn-check{background:var(--purple);color:#fff;border:none;border-radius:var(--r-sm);padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;cursor:pointer;transition:all .2s;margin-top:16px;}
+.btn-check:hover{background:#d0a8ff;transform:translateY(-1px);}
+
+/* ══════════════════════════════════════════════
+   ATIVIDADE 1 — ARRASTAR E SOLTAR (DRAG & DROP)
+══════════════════════════════════════════════ */
+.drag-game{display:flex;flex-direction:column;gap:24px;}
+.drag-bank{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;}
+.drag-bank-label{font-size:.78em;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.drag-pool{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;}
+.drag-item{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:8px 14px;font-size:.88em;cursor:grab;user-select:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.drag-item:hover{border-color:var(--purple);box-shadow:var(--glow-purple);transform:translateY(-2px);}
+.drag-item.dragging{opacity:.4;transform:scale(.96);}
+.drag-item.placed-correct{background:var(--green-dim);border-color:var(--green);color:var(--green);cursor:default;}
+.drag-item.placed-wrong{background:rgba(248,81,73,.08);border-color:var(--red);color:var(--red);}
+
+.drop-zones{display:flex;flex-direction:column;gap:12px;}
+.drop-row{display:flex;align-items:center;gap:12px;}
+.drop-label{font-size:.88em;color:var(--text);flex:1;line-height:1.4;}
+.drop-zone{min-width:160px;min-height:42px;background:var(--bg);border:2px dashed var(--border);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.82em;color:var(--text-dim);transition:all .2s;padding:4px 8px;position:relative;}
+.drop-zone.drag-over{border-color:var(--purple);background:rgba(188,140,255,.05);color:var(--purple);}
+.drop-zone.correct{border-color:var(--green);background:var(--green-dim);border-style:solid;}
+.drop-zone.wrong{border-color:var(--red);background:rgba(248,81,73,.05);border-style:solid;}
+.drop-zone .drop-chip{background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;padding:5px 10px;font-size:.85em;color:var(--text);display:flex;align-items:center;gap:5px;cursor:pointer;}
+.drop-zone.correct .drop-chip{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+.drop-zone.wrong .drop-chip{background:rgba(248,81,73,.08);border-color:var(--red);color:var(--red);}
+
+/* ══════════════════════════════════════════════
+   ATIVIDADE 2 — COMPLETAR FRASES
+══════════════════════════════════════════════ */
+.fill-game{display:flex;flex-direction:column;gap:18px;}
+.word-bank{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:6px;}
+.word-bank-label{font-size:.78em;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.word-chip{background:var(--blue-dim);border:1.5px solid rgba(88,166,255,.3);border-radius:var(--r-sm);padding:6px 12px;font-family:'DM Mono',monospace;font-size:.84em;color:var(--blue);cursor:pointer;transition:all .2s;user-select:none;}
+.word-chip:hover:not(.used){background:rgba(88,166,255,.15);border-color:var(--blue);transform:translateY(-2px);}
+.word-chip.used{opacity:.3;cursor:not-allowed;text-decoration:line-through;}
+.word-chip.selected{background:rgba(188,140,255,.15);border-color:var(--purple);color:var(--purple);transform:scale(1.05);}
+
+.fill-sentence{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;font-size:.92em;line-height:2;display:flex;align-items:center;flex-wrap:wrap;gap:4px;}
+.fill-sentence .sent-num{font-family:'DM Mono',monospace;font-size:.75em;color:var(--text-dim);background:var(--surface2);border-radius:5px;padding:2px 7px;margin-right:4px;}
+.fill-blank{display:inline-flex;align-items:center;justify-content:center;min-width:110px;height:32px;border:2px dashed var(--border);border-radius:6px;padding:0 8px;font-family:'DM Mono',monospace;font-size:.85em;color:var(--text-dim);cursor:pointer;transition:all .2s;vertical-align:middle;margin:0 2px;}
+.fill-blank:hover:not(.locked){border-color:var(--blue);background:rgba(88,166,255,.05);}
+.fill-blank.filled{background:var(--blue-dim);border-color:rgba(88,166,255,.4);border-style:solid;color:var(--blue);}
+.fill-blank.correct{background:var(--green-dim);border-color:var(--green);border-style:solid;color:var(--green);}
+.fill-blank.wrong{background:rgba(248,81,73,.08);border-color:var(--red);border-style:solid;color:var(--red);}
+.fill-blank.locked{cursor:default;}
+
+/* ══════════════════════════════════════════════
+   ATIVIDADE 3 — LIGAR PONTOS (CONNECT)
+══════════════════════════════════════════════ */
+.connect-game{position:relative;}
+.connect-columns{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:start;}
+.connect-col{display:flex;flex-direction:column;gap:10px;}
+.connect-col.right .connect-item{text-align:right;}
+.connect-item{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;font-size:.88em;cursor:pointer;transition:all .2s;position:relative;line-height:1.4;}
+.connect-item:hover:not(.locked-item){border-color:var(--amber);transform:translateX(3px);}
+.connect-col.right .connect-item:hover:not(.locked-item){transform:translateX(-3px);}
+.connect-item.selected{border-color:var(--amber);background:rgba(240,180,41,.08);color:var(--amber);}
+.connect-item.matched{border-color:var(--green);background:var(--green-dim);color:var(--green);cursor:default;}
+.connect-item.wrong-flash{border-color:var(--red);background:rgba(248,81,73,.08);animation:wrongFlash .4s ease;}
+@keyframes wrongFlash{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.connect-item.locked-item{cursor:default;}
+
+.svg-lines{width:60px;align-self:stretch;position:relative;}
+.svg-lines svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;}
+
+.connect-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:.8em;color:var(--text-muted);}
+.legend-dot{width:10px;height:10px;border-radius:50%;}
+
+/* ══════════════════════════════════════════════
+   ATIVIDADE 4 — ORDENAR SEQUÊNCIA
+══════════════════════════════════════════════ */
+.order-game{display:flex;flex-direction:column;gap:10px;}
+.order-item{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:grab;transition:all .2s;user-select:none;}
+.order-item:hover{border-color:var(--green);transform:translateX(4px);}
+.order-item.dragging-order{opacity:.4;border-style:dashed;}
+.order-item.correct-pos{border-color:var(--green);background:var(--green-dim);}
+.order-item.wrong-pos{border-color:var(--red);background:rgba(248,81,73,.05);}
+.order-handle{color:var(--text-dim);font-size:1.1em;cursor:grab;}
+.order-num{width:28px;height:28px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.75em;font-weight:700;color:var(--text-muted);flex-shrink:0;}
+.order-item.correct-pos .order-num{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+.order-text{font-size:.88em;color:var(--text);flex:1;line-height:1.4;}
+.drag-over-order{border-color:var(--purple) !important;background:rgba(188,140,255,.05);}
+
+/* ══════════════════════════════════════════════
+   ATIVIDADE 5 — QUIZ V/F COM JUSTIFICATIVA
+══════════════════════════════════════════════ */
+.vf-game{display:flex;flex-direction:column;gap:14px;}
+.vf-item{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:16px;}
+.vf-statement{font-size:.92em;color:var(--text);margin-bottom:12px;line-height:1.5;}
+.vf-statement .stmt-num{font-family:'DM Mono',monospace;font-size:.78em;color:var(--text-dim);background:var(--surface2);border-radius:5px;padding:2px 7px;margin-right:6px;}
+.vf-btns{display:flex;gap:8px;}
+.vf-btn{flex:1;padding:9px;border-radius:var(--r-sm);border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:'Syne',sans-serif;font-weight:700;font-size:.9em;cursor:pointer;transition:all .2s;}
+.vf-btn.v:hover:not([disabled]){border-color:var(--green);background:var(--green-dim);color:var(--green);}
+.vf-btn.f:hover:not([disabled]){border-color:var(--red);background:rgba(248,81,73,.08);color:var(--red);}
+.vf-btn.selected-v{border-color:var(--green);background:var(--green-dim);color:var(--green);}
+.vf-btn.selected-f{border-color:var(--red);background:rgba(248,81,73,.08);color:var(--red);}
+.vf-btn.correct-answer{border-color:var(--green);background:var(--green-dim);color:var(--green);}
+.vf-btn.wrong-answer{border-color:var(--red);background:rgba(248,81,73,.08);color:var(--red);}
+.vf-explain{font-size:.82em;color:var(--text-muted);margin-top:10px;padding:8px 12px;background:var(--surface2);border-radius:var(--r-sm);display:none;line-height:1.5;}
+.vf-explain.show{display:block;animation:fadeUp .3s ease;}
+.vf-explain.correct{color:var(--green);background:var(--green-dim);}
+.vf-explain.wrong{color:var(--amber);background:var(--amber-dim);}
+
+/* CHECKPOINT */
+.checkpoint{background:linear-gradient(135deg,rgba(188,140,255,.06),rgba(88,166,255,.04));border:1px solid rgba(188,140,255,.2);border-radius:var(--r-lg);padding:28px 24px;text-align:center;margin:32px 0;}
+.checkpoint h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3em;margin-bottom:8px;}
+.checkpoint p{color:var(--text-muted);font-size:.9em;margin-bottom:18px;}
+.xp-total-display{display:inline-flex;align-items:center;gap:8px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.3);border-radius:50px;padding:8px 20px;font-family:'DM Mono',monospace;color:var(--xp);font-size:1.1em;font-weight:700;}
+
+/* NAV */
+.nav-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:32px;}
+.nav-btn{padding:8px 16px;border-radius:var(--r-sm);text-decoration:none;font-weight:600;font-size:.85em;transition:all .2s;display:inline-flex;align-items:center;gap:5px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-ghost{background:var(--bg);color:var(--text-muted);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+.btn-primary{background:var(--purple);color:#fff;font-family:'Syne',sans-serif;font-weight:700;}
+.btn-primary:hover{background:#d0a8ff;transform:translateY(-1px);}
+.btn-back{background:rgba(88,166,255,.12);color:var(--blue);border:1px solid rgba(88,166,255,.25);}
+.nav-spacer{flex:1;}
+
+/* ACHIEVEMENT */
+.achievement-popup{position:fixed;top:80px;right:24px;background:var(--surface);border:1px solid rgba(255,215,0,.4);border-radius:var(--r);padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:999;display:flex;gap:12px;align-items:center;transform:translateX(160%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:280px;}
+.achievement-popup.show{transform:translateX(0);}
+.ach-text strong{font-family:'Syne',sans-serif;font-size:.88em;color:var(--xp);display:block;}
+.ach-text span{font-size:.78em;color:var(--text-muted);}
+
+/* STAR FLOAT */
+.star{position:fixed;pointer-events:none;font-size:1.4em;animation:floatStar 1.5s ease forwards;z-index:9999;}
+@keyframes floatStar{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.5);}}
+
+/* COLOR PALETTE FOR LINES */
+.c0{stroke:#f0b429;} .c1{stroke:#58a6ff;} .c2{stroke:#39d353;} .c3{stroke:#bc8cff;} .c4{stroke:#f85149;}
+
+footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:var(--text-dim);font-size:.8em;}
+
+@media(max-width:640px){
+  .connect-columns{grid-template-columns:1fr auto 1fr;}
+  .connect-item{font-size:.8em;padding:8px 10px;}
+  .drop-row{flex-direction:column;align-items:flex-start;}
+  .drop-zone{min-width:120px;}
+}
+</style>
+</head>
+<body>
+
+<div class="achievement-popup" id="achPopup">
+  <div style="font-size:2em;" id="achIcon">🏆</div>
+  <div class="ach-text">
+    <strong id="achTitle">Conquista!</strong>
+    <span id="achDesc">Você desbloqueou algo!</span>
+  </div>
+</div>
+
+<!-- HUD -->
+<header class="hud">
+  <div class="hud-inner">
+    <span class="hud-week">S05 · Atividades</span>
+    <span class="hud-title">Gerenciamento de <span>Arquivos</span> — Atividades Interativas</span>
+    <div class="hud-xp">
+      <span style="font-size:.9em">⚡</span>
+      <span class="xp-val" id="xpDisplay">0</span>
+      <span class="xp-label">XP</span>
+    </div>
+    <div class="progress-bar-outer" style="max-width:120px;">
+      <div class="progress-bar-inner" id="mainProgress"></div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">🎮 5 Atividades Interativas · Semana 05</div>
+    <h1>Pratique e <span class="accent">Fixe</span><br>o Conteúdo</h1>
+    <p class="hero-sub">Gestão de Sistemas Operacionais I · Prof. Isaque Katahira · 2026</p>
+    <div class="hero-pills">
+      <span class="pill purple">🧩 Arraste e Solte</span>
+      <span class="pill blue">✏️ Complete Frases</span>
+      <span class="pill green">🔗 Ligue os Pontos</span>
+      <span class="pill amber">📋 Ordene Passos</span>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <nav class="nav-bar">
+    <a href="semana05_aula.html" class="nav-btn btn-back">📖 Voltar à Aula</a>
+    <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
+    <span class="nav-spacer"></span>
+    <a href="semana05_guia.html" class="nav-btn btn-ghost">📝 Guia</a>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       ATIVIDADE 1 — ARRASTAR E SOLTAR
+  ══════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon purple">🧩</div>
+    <h2 class="section-title">Atividade 1 — Arraste e Solte</h2>
+    <span class="section-xp">+40 XP</span>
+  </div>
+
+  <div class="activity-wrapper">
+    <div class="activity-header" style="background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));">
+      <span class="activity-header-icon">🧩</span>
+      <div class="activity-header-text">
+        <h3>Atributos de Arquivos</h3>
+        <p>Arraste cada descrição para o atributo correto do Windows</p>
+      </div>
+      <div class="activity-header-xp">+40 XP</div>
+    </div>
+    <div class="activity-body">
+      <div class="drag-game">
+        <!-- Pool de itens -->
+        <div class="drag-bank">
+          <div class="drag-bank-label">📦 Descrições — arraste para o atributo correto</div>
+          <div class="drag-pool" id="dragPool">
+            <div class="drag-item" draggable="true" data-id="d1">🔒 Não pode ser editado</div>
+            <div class="drag-item" draggable="true" data-id="d2">👁️ Não aparece na listagem</div>
+            <div class="drag-item" draggable="true" data-id="d3">⚠️ Arquivo crítico do SO</div>
+            <div class="drag-item" draggable="true" data-id="d4">📦 Marcado para backup</div>
+            <div class="drag-item" draggable="true" data-id="d5">✏️ Permite leitura e escrita</div>
+            <div class="drag-item" draggable="true" data-id="d6">🛡️ Protegido pelo sistema</div>
+          </div>
+        </div>
+
+        <!-- Zonas de soltar -->
+        <div class="drop-zones" id="dropZones">
+          <div class="drop-row">
+            <div class="drop-label"><strong style="color:var(--blue)">🔒 Somente Leitura</strong><br><span style="font-size:.8em;color:var(--text-muted)">(Read-Only)</span></div>
+            <div class="drop-zone" data-accepts="d1" id="zone1">Solte aqui</div>
+          </div>
+          <div class="drop-row">
+            <div class="drop-label"><strong style="color:var(--text-muted)">👁️ Oculto</strong><br><span style="font-size:.8em;color:var(--text-muted)">(Hidden)</span></div>
+            <div class="drop-zone" data-accepts="d2" id="zone2">Solte aqui</div>
+          </div>
+          <div class="drop-row">
+            <div class="drop-label"><strong style="color:var(--red)">⚠️ Sistema</strong><br><span style="font-size:.8em;color:var(--text-muted)">(System)</span></div>
+            <div class="drop-zone" data-accepts="d3,d6" id="zone3">Solte aqui</div>
+          </div>
+          <div class="drop-row">
+            <div class="drop-label"><strong style="color:var(--green)">📦 Arquivo</strong><br><span style="font-size:.8em;color:var(--text-muted)">(Archive)</span></div>
+            <div class="drop-zone" data-accepts="d4" id="zone4">Solte aqui</div>
+          </div>
+        </div>
+
+        <div class="feedback-msg" id="drag-feedback"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+          <button class="btn-check" onclick="checkDrag()">✅ Verificar Respostas</button>
+          <button class="btn-reset" onclick="resetDrag()">🔄 Recomeçar</button>
+        </div>
+        <div id="drag-score" style="display:none;" class="activity-score">⚡ <span id="drag-score-val">0</span> / 40 XP</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ATIVIDADE 2 — COMPLETAR FRASES
+  ══════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon blue">✏️</div>
+    <h2 class="section-title">Atividade 2 — Complete as Frases</h2>
+    <span class="section-xp">+50 XP</span>
+  </div>
+
+  <div class="activity-wrapper">
+    <div class="activity-header" style="background:linear-gradient(135deg,var(--blue-dim),rgba(57,211,83,.08));">
+      <span class="activity-header-icon">✏️</span>
+      <div class="activity-header-text">
+        <h3>Explorador de Arquivos & Pesquisa</h3>
+        <p>Clique em uma palavra do banco, depois clique no espaço em branco para preenchê-lo</p>
+      </div>
+      <div class="activity-header-xp">+50 XP</div>
+    </div>
+    <div class="activity-body">
+      <div class="fill-game">
+        <div class="word-bank">
+          <div class="word-bank-label">🗂️ Banco de Palavras — clique para selecionar</div>
+          <div class="word-chips" id="wordBank">
+            <div class="word-chip" data-word="Win + E" onclick="selectWord(this)">Win + E</div>
+            <div class="word-chip" data-word="Acesso Rápido" onclick="selectWord(this)">Acesso Rápido</div>
+            <div class="word-chip" data-word="AAAA-MM-DD" onclick="selectWord(this)">AAAA-MM-DD</div>
+            <div class="word-chip" data-word="tipo:*.pdf" onclick="selectWord(this)">tipo:*.pdf</div>
+            <div class="word-chip" data-word="Itens Ocultos" onclick="selectWord(this)">Itens Ocultos</div>
+            <div class="word-chip" data-word="attrib" onclick="selectWord(this)">attrib</div>
+            <div class="word-chip" data-word="4-5 níveis" onclick="selectWord(this)">4-5 níveis</div>
+            <div class="word-chip" data-word="Indexação" onclick="selectWord(this)">Indexação</div>
+            <div class="word-chip" data-word="underline" onclick="selectWord(this)">underline</div>
+            <div class="word-chip" data-word="F5" onclick="selectWord(this)">F5</div>
+          </div>
+        </div>
+
+        <div class="fill-sentence" id="fill1" data-index="0">
+          <span class="sent-num">1</span>
+          O atalho de teclado
+          <span class="fill-blank" data-answer="Win + E" onclick="fillBlank(this)">______</span>
+          abre o Explorador de Arquivos instantaneamente no Windows.
+        </div>
+        <div class="fill-sentence" id="fill2" data-index="1">
+          <span class="sent-num">2</span>
+          Para fixar pastas de uso frequente no painel esquerdo, use o
+          <span class="fill-blank" data-answer="Acesso Rápido" onclick="fillBlank(this)">______</span>
+          do Explorador.
+        </div>
+        <div class="fill-sentence" id="fill3" data-index="2">
+          <span class="sent-num">3</span>
+          A tecla
+          <span class="fill-blank" data-answer="F5" onclick="fillBlank(this)">______</span>
+          atualiza a visualização do Explorador de Arquivos.
+        </div>
+        <div class="fill-sentence" id="fill4" data-index="3">
+          <span class="sent-num">4</span>
+          Para visualizar arquivos ocultos, acesse Ver → Mostrar →
+          <span class="fill-blank" data-answer="Itens Ocultos" onclick="fillBlank(this)">______</span>
+          .
+        </div>
+        <div class="fill-sentence" id="fill5" data-index="4">
+          <span class="sent-num">5</span>
+          O formato de data
+          <span class="fill-blank" data-answer="AAAA-MM-DD" onclick="fillBlank(this)">______</span>
+          garante que arquivos se ordenem cronologicamente de forma automática.
+        </div>
+        <div class="fill-sentence" id="fill6" data-index="5">
+          <span class="sent-num">6</span>
+          Para evitar problemas com programação ou linha de comando, use
+          <span class="fill-blank" data-answer="underline" onclick="fillBlank(this)">______</span>
+          ou hífen nos nomes de arquivos, em vez de espaços.
+        </div>
+        <div class="fill-sentence" id="fill7" data-index="6">
+          <span class="sent-num">7</span>
+          Mantenha no máximo
+          <span class="fill-blank" data-answer="4-5 níveis" onclick="fillBlank(this)">______</span>
+          de subpastas para não dificultar a navegação.
+        </div>
+        <div class="fill-sentence" id="fill8" data-index="7">
+          <span class="sent-num">8</span>
+          O filtro
+          <span class="fill-blank" data-answer="tipo:*.pdf" onclick="fillBlank(this)">______</span>
+          na barra de pesquisa do Explorador encontra apenas arquivos PDF.
+        </div>
+        <div class="fill-sentence" id="fill9" data-index="8">
+          <span class="sent-num">9</span>
+          O comando
+          <span class="fill-blank" data-answer="attrib" onclick="fillBlank(this)">______</span>
+          no Prompt de Comando permite visualizar e alterar atributos de arquivos.
+        </div>
+        <div class="fill-sentence" id="fill10" data-index="9">
+          <span class="sent-num">10</span>
+          Configure as Opções de
+          <span class="fill-blank" data-answer="Indexação" onclick="fillBlank(this)">______</span>
+          para tornar a pesquisa de arquivos muito mais rápida no Windows.
+        </div>
+
+        <div class="feedback-msg" id="fill-feedback"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+          <button class="btn-check" onclick="checkFill()">✅ Verificar Respostas</button>
+          <button class="btn-reset" onclick="resetFill()">🔄 Recomeçar</button>
+        </div>
+        <div id="fill-score" style="display:none;" class="activity-score">⚡ <span id="fill-score-val">0</span> / 50 XP</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ATIVIDADE 3 — LIGAR OS PONTOS
+  ══════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon green">🔗</div>
+    <h2 class="section-title">Atividade 3 — Ligue os Pontos</h2>
+    <span class="section-xp">+40 XP</span>
+  </div>
+
+  <div class="activity-wrapper">
+    <div class="activity-header" style="background:linear-gradient(135deg,var(--green-dim),var(--blue-dim));">
+      <span class="activity-header-icon">🔗</span>
+      <div class="activity-header-text">
+        <h3>Atalhos & Funções</h3>
+        <p>Clique em um atalho à esquerda, depois clique na função correspondente à direita</p>
+      </div>
+      <div class="activity-header-xp">+40 XP</div>
+    </div>
+    <div class="activity-body">
+      <div class="connect-game" id="connectGame">
+        <div class="connect-columns">
+          <!-- LEFT -->
+          <div class="connect-col left" id="connectLeft">
+            <div class="connect-item" data-id="L0" data-match="R0" onclick="connectClick(this)">⌨️ Win + E</div>
+            <div class="connect-item" data-id="L1" data-match="R1" onclick="connectClick(this)">⌨️ Alt + ↑</div>
+            <div class="connect-item" data-id="L2" data-match="R2" onclick="connectClick(this)">⌨️ Alt + ←</div>
+            <div class="connect-item" data-id="L3" data-match="R3" onclick="connectClick(this)">⌨️ F5</div>
+            <div class="connect-item" data-id="L4" data-match="R4" onclick="connectClick(this)">🔍 tipo:*.pdf</div>
+            <div class="connect-item" data-id="L5" data-match="R5" onclick="connectClick(this)">🔍 tamanho:>10MB</div>
+            <div class="connect-item" data-id="L6" data-match="R6" onclick="connectClick(this)">🔍 data:>2025</div>
+            <div class="connect-item" data-id="L7" data-match="R7" onclick="connectClick(this)">⌨️ Win (Iniciar)</div>
+          </div>
+
+          <!-- SVG para linhas -->
+          <div class="svg-lines" id="svgLinesWrapper">
+            <svg id="connectSVG" xmlns="http://www.w3.org/2000/svg"></svg>
+          </div>
+
+          <!-- RIGHT -->
+          <div class="connect-col right" id="connectRight">
+            <div class="connect-item" data-id="R3" data-match="L3" onclick="connectClick(this)">Atualizar a pasta atual</div>
+            <div class="connect-item" data-id="R0" data-match="L0" onclick="connectClick(this)">Abrir o Explorador de Arquivos</div>
+            <div class="connect-item" data-id="R6" data-match="L6" onclick="connectClick(this)">Filtrar arquivos após 2025</div>
+            <div class="connect-item" data-id="R1" data-match="L1" onclick="connectClick(this)">Subir para a pasta pai</div>
+            <div class="connect-item" data-id="R7" data-match="L7" onclick="connectClick(this)">Pesquisar arquivos pela barra</div>
+            <div class="connect-item" data-id="R4" data-match="L4" onclick="connectClick(this)">Filtrar apenas arquivos PDF</div>
+            <div class="connect-item" data-id="R2" data-match="L2" onclick="connectClick(this)">Voltar para pasta anterior</div>
+            <div class="connect-item" data-id="R5" data-match="L5" onclick="connectClick(this)">Filtrar arquivos acima de 10MB</div>
+          </div>
+        </div>
+
+        <div class="feedback-msg" id="connect-feedback"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+          <button class="btn-reset" onclick="resetConnect()">🔄 Recomeçar</button>
+        </div>
+        <div id="connect-score" style="display:none;" class="activity-score">⚡ <span id="connect-score-val">0</span> / 40 XP</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ATIVIDADE 4 — ORDENAR SEQUÊNCIA
+  ══════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon amber">📋</div>
+    <h2 class="section-title">Atividade 4 — Ordene os Passos</h2>
+    <span class="section-xp">+30 XP</span>
+  </div>
+
+  <div class="activity-wrapper">
+    <div class="activity-header" style="background:linear-gradient(135deg,var(--amber-dim),rgba(57,211,83,.06));">
+      <span class="activity-header-icon">📋</span>
+      <div class="activity-header-text">
+        <h3>Como revelar arquivos ocultos</h3>
+        <p>Arraste os passos para a ordem correta do procedimento</p>
+      </div>
+      <div class="activity-header-xp">+30 XP</div>
+    </div>
+    <div class="activity-body">
+      <p style="font-size:.85em;color:var(--text-muted);margin-bottom:14px;">🖱️ Arraste os itens para ordená-los do passo 1 ao 5</p>
+      <div class="order-game" id="orderGame">
+        <div class="order-item" draggable="true" data-correct="3">
+          <span class="order-handle">⠿</span>
+          <span class="order-num">?</span>
+          <span class="order-text">Marque a caixa <strong>"Itens ocultos"</strong></span>
+        </div>
+        <div class="order-item" draggable="true" data-correct="1">
+          <span class="order-handle">⠿</span>
+          <span class="order-num">?</span>
+          <span class="order-text">Abra o <strong>Explorador de Arquivos</strong> (Win + E)</span>
+        </div>
+        <div class="order-item" draggable="true" data-correct="5">
+          <span class="order-handle">⠿</span>
+          <span class="order-num">?</span>
+          <span class="order-text">Os arquivos ocultos aparecem <strong>transparentes</strong> na listagem</span>
+        </div>
+        <div class="order-item" draggable="true" data-correct="2">
+          <span class="order-handle">⠿</span>
+          <span class="order-num">?</span>
+          <span class="order-text">Clique na aba <strong>"Ver"</strong> na barra de ferramentas</span>
+        </div>
+        <div class="order-item" draggable="true" data-correct="4">
+          <span class="order-handle">⠿</span>
+          <span class="order-num">?</span>
+          <span class="order-text">Acesse <strong>"Mostrar"</strong> no menu que se abriu</span>
+        </div>
+      </div>
+
+      <div class="feedback-msg" id="order-feedback"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+        <button class="btn-check" onclick="checkOrder()">✅ Verificar Ordem</button>
+        <button class="btn-reset" onclick="resetOrder()">🔄 Embaralhar</button>
+      </div>
+      <div id="order-score" style="display:none;" class="activity-score">⚡ <span id="order-score-val">0</span> / 30 XP</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ATIVIDADE 5 — VERDADEIRO OU FALSO
+  ══════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-icon red">🎯</div>
+    <h2 class="section-title">Atividade 5 — Verdadeiro ou Falso</h2>
+    <span class="section-xp">+40 XP</span>
+  </div>
+
+  <div class="activity-wrapper">
+    <div class="activity-header" style="background:linear-gradient(135deg,rgba(248,81,73,.08),var(--purple-dim));">
+      <span class="activity-header-icon">🎯</span>
+      <div class="activity-header-text">
+        <h3>Conceitos de Gerenciamento de Arquivos</h3>
+        <p>Julgue cada afirmação como Verdadeira (V) ou Falsa (F)</p>
+      </div>
+      <div class="activity-header-xp">+40 XP</div>
+    </div>
+    <div class="activity-body">
+      <div class="vf-game" id="vfGame">
+
+        <div class="vf-item" data-answer="V">
+          <div class="vf-statement"><span class="stmt-num">1</span>O atalho <strong>Win + E</strong> abre o Explorador de Arquivos do Windows.</div>
+          <div class="vf-btns">
+            <button class="vf-btn v" onclick="vfAnswer(this,'V',0)">✓ Verdadeiro</button>
+            <button class="vf-btn f" onclick="vfAnswer(this,'F',0)">✗ Falso</button>
+          </div>
+          <div class="vf-explain" id="vf-exp0">✅ Verdadeiro! Win + E é um dos atalhos mais úteis do Windows e abre o Explorador instantaneamente.</div>
+        </div>
+
+        <div class="vf-item" data-answer="F">
+          <div class="vf-statement"><span class="stmt-num">2</span>Arquivos com atributo <strong>Oculto</strong> são deletados e ficam na Lixeira.</div>
+          <div class="vf-btns">
+            <button class="vf-btn v" onclick="vfAnswer(this,'V',1)">✓ Verdadeiro</button>
+            <button class="vf-btn f" onclick="vfAnswer(this,'F',1)">✗ Falso</button>
+          </div>
+          <div class="vf-explain" id="vf-exp1">❌ Falso! Arquivos ocultos existem normalmente no disco. Eles apenas ficam invisíveis na listagem padrão. Para vê-los: Ver → Mostrar → Itens Ocultos.</div>
+        </div>
+
+        <div class="vf-item" data-answer="V">
+          <div class="vf-statement"><span class="stmt-num">3</span>O formato <strong>AAAA-MM-DD</strong> é recomendado para nomear arquivos pois garante ordenação cronológica automática.</div>
+          <div class="vf-btns">
+            <button class="vf-btn v" onclick="vfAnswer(this,'V',2)">✓ Verdadeiro</button>
+            <button class="vf-btn f" onclick="vfAnswer(this,'F',2)">✗ Falso</button>
+          </div>
+          <div class="vf-explain" id="vf-exp2">✅ Verdadeiro! Por exemplo: 2026-03-11_relatorio.docx. Como os arquivos se ordenam alfabeticamente, o formato do maior para o menor período garante a ordem cronológica.</div>
+        </div>
+
+        <div class="vf-item" data-answer="F">
+          <div class="vf-statement"><span class="stmt-num">4</span>Arquivos com atributo <strong>Sistema</strong> podem ser modificados livremente sem risco algum.</div>
+          <div class="vf-btns">
+            <button class="vf-btn v" onclick="vfAnswer(this,'V',3)">✓ Verdadeiro</button>
+            <button class="vf-btn f" onclick="vfAnswer(this,'F',3)">✗ Falso</button>
+          </div>
+          <div class="vf-explain" id="vf-exp3">❌ Falso! Arquivos de sistema são críticos para o Windows funcionar. Modificá-los sem saber o que está fazendo pode travar ou danificar o sistema operacional.</div>
+        </div>
+
+        <div class="vf-item" data-answer="V">
+          <div class="vf-statement"><span class="stmt-num">5</span>O filtro <strong>tipo:*.pdf</strong> na barra de pesquisa do Explorador encontra apenas arquivos com extensão .pdf.</div>
+          <div class="vf-btns">
+            <button class="vf-btn v" onclick="vfAnswer(this,'V',4)">✓ Verdadeiro</button>
+            <button class="vf-btn f" onclick="vfAnswer(this,'F',4)">✗ Falso</button>
+          </div>
+          <div class="vf-explain" id="vf-exp4">✅ Verdadeiro! O asterisco (*) é um curinga que representa qualquer nome. Então tipo:*.pdf encontra todo_arquivo.pdf, qualquer_nome.pdf, etc.</div>
+        </div>
+
+        <div class="vf-item" data-answer="F">
+          <div class="vf-statement"><span class="stmt-num">6</span>É recomendável usar <strong>acentos e espaços</strong> nos nomes de pastas quando for trabalhar com programação.</div>
+          <div class="vf-btns">
+            <button class="vf-btn v" onclick="vfAnswer(this,'V',5)">✓ Verdadeiro</button>
+            <button class="vf-btn f" onclick="vfAnswer(this,'F',5)">✗ Falso</button>
+          </div>
+          <div class="vf-explain" id="vf-exp5">❌ Falso! Acentos e espaços causam problemas em programação e linha de comando. Use underline (_) ou hífen (-). Ex: minha_pasta ou minha-pasta.</div>
+        </div>
+
+        <div class="vf-item" data-answer="V">
+          <div class="vf-statement"><span class="stmt-num">7</span>Configurar as <strong>Opções de Indexação</strong> torna a pesquisa de arquivos muito mais rápida no Windows.</div>
+          <div class="vf-btns">
+            <button class="vf-btn v" onclick="vfAnswer(this,'V',6)">✓ Verdadeiro</button>
+            <button class="vf-btn f" onclick="vfAnswer(this,'F',6)">✗ Falso</button>
+          </div>
+          <div class="vf-explain" id="vf-exp6">✅ Verdadeiro! A busca indexada é muito mais rápida pois o Windows já tem um mapa de onde está cada arquivo. Configure em: Painel de Controle → Opções de Indexação.</div>
+        </div>
+
+        <div class="vf-item" data-answer="F">
+          <div class="vf-statement"><span class="stmt-num">8</span>Uma boa organização de pastas permite que um usuário desconhecido encontre qualquer arquivo em <strong>mais de 5 minutos</strong>.</div>
+          <div class="vf-btns">
+            <button class="vf-btn v" onclick="vfAnswer(this,'V',7)">✓ Verdadeiro</button>
+            <button class="vf-btn f" onclick="vfAnswer(this,'F',7)">✗ Falso</button>
+          </div>
+          <div class="vf-explain" id="vf-exp7">❌ Falso! A regra de ouro é: uma pessoa que nunca viu seus arquivos deve conseguir encontrar qualquer coisa em menos de 30 segundos!</div>
+        </div>
+
+      </div>
+
+      <div class="feedback-msg" id="vf-feedback"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+        <button class="btn-check" onclick="checkVF()">✅ Ver Resultado</button>
+        <button class="btn-reset" onclick="resetVF()">🔄 Recomeçar</button>
+      </div>
+      <div id="vf-score" style="display:none;" class="activity-score">⚡ <span id="vf-score-val">0</span> / 40 XP</div>
+    </div>
+  </div>
+
+  <!-- CHECKPOINT -->
+  <div class="checkpoint">
+    <div style="font-size:2em;margin-bottom:10px;" id="cpStars">⭐⭐⭐⭐⭐</div>
+    <h3>Seu Progresso nas Atividades</h3>
+    <p>Complete todas as atividades para acumular XP e dominar o conteúdo!</p>
+    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 200 XP</div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="nav-bar" style="margin-top:0;margin-bottom:0;">
+    <a href="semana05_aula.html" class="nav-btn btn-back">📖 Voltar à Aula</a>
+    <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
+    <span class="nav-spacer"></span>
+    <a href="semana06_aula.html" class="nav-btn btn-primary">Próxima Semana →</a>
+  </nav>
+
+</div>
+
+<footer>
+  Gestão de Sistemas Operacionais I · GSO I 2026 · Prof. Isaque Katahira<br>
+  ETEC · Centro Paula Souza · Módulo I — Atividades Interativas S05
+</footer>
+
+<script>
+// ══ GLOBAL STATE ══════════════════════════════════════════════════════
+let totalXP = 0;
+const MAX_XP = 200;
+
+function addXP(amount) {
+  totalXP += amount;
+  document.getElementById('xpDisplay').textContent = totalXP;
+  document.getElementById('xpFinal').textContent = totalXP;
+  const pct = Math.min(100, (totalXP / MAX_XP) * 100);
+  document.getElementById('mainProgress').style.width = pct + '%';
+  const stars = document.getElementById('cpStars');
+  if (pct >= 90) stars.textContent = '🌟🌟🌟🌟🌟';
+  else if (pct >= 70) stars.textContent = '🌟🌟🌟🌟⭐';
+  else if (pct >= 50) stars.textContent = '🌟🌟🌟⭐⭐';
+  else if (pct >= 25) stars.textContent = '🌟🌟⭐⭐⭐';
+  else stars.textContent = '⭐⭐⭐⭐⭐';
+  spawnStars();
+  checkAchievements();
+}
+
+function spawnStars() {
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'star';
+      el.textContent = ['⭐','✨','💫','⚡','🎉'][Math.floor(Math.random()*5)];
+      el.style.left = (Math.random() * 80 + 10) + '%';
+      el.style.top = (window.scrollY + window.innerHeight * 0.5) + 'px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1500);
+    }, i * 150);
+  }
+}
+
+let achQueue = [], achShowing = false;
+function showAchievement(icon, title, desc) {
+  achQueue.push({icon, title, desc});
+  if (!achShowing) processAchQueue();
+}
+function processAchQueue() {
+  if (!achQueue.length) { achShowing = false; return; }
+  achShowing = true;
+  const {icon, title, desc} = achQueue.shift();
+  document.getElementById('achIcon').textContent = icon;
+  document.getElementById('achTitle').textContent = title;
+  document.getElementById('achDesc').textContent = desc;
+  const popup = document.getElementById('achPopup');
+  popup.classList.add('show');
+  setTimeout(() => { popup.classList.remove('show'); setTimeout(processAchQueue, 400); }, 3500);
+}
+function checkAchievements() {
+  if (totalXP >= 50 && !window._a50) { window._a50=1; showAchievement('🌱','Primeiros Passos!','50 XP conquistados!'); }
+  if (totalXP >= 100 && !window._a100) { window._a100=1; showAchievement('🔥','Metade do Caminho!','100 XP — vai lá!'); }
+  if (totalXP >= 200 && !window._a200) { window._a200=1; showAchievement('💎','Mestre dos Arquivos!','200 XP — parabéns!'); }
+}
+
+function showFeedback(id, type, msg) {
+  const el = document.getElementById(id);
+  el.className = 'feedback-msg show ' + type;
+  el.innerHTML = msg;
+  el.style.display = 'flex';
+}
+
+// ══ ATIVIDADE 1 — DRAG & DROP ═════════════════════════════════════════
+let draggingItem = null;
+let dragXpGiven = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.drag-item').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      draggingItem = item;
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      draggingItem = null;
+    });
+  });
+
+  document.querySelectorAll('.drop-zone').forEach(zone => {
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      if (!draggingItem || zone.querySelector('.drop-chip')) return;
+      const chip = document.createElement('div');
+      chip.className = 'drop-chip';
+      chip.textContent = draggingItem.textContent;
+      chip.dataset.id = draggingItem.dataset.id;
+      chip.onclick = () => {
+        // return to pool
+        const pool = document.getElementById('dragPool');
+        const orig = document.querySelector(`.drag-item[data-id="${chip.dataset.id}"]`);
+        if (orig) orig.style.display = '';
+        zone.innerHTML = 'Solte aqui';
+        zone.className = 'drop-zone';
+      };
+      zone.innerHTML = '';
+      zone.appendChild(chip);
+      draggingItem.style.display = 'none';
+    });
+  });
+
+  initOrder();
+});
+
+function checkDrag() {
+  let correct = 0, total = 0;
+  document.querySelectorAll('.drop-zone').forEach(zone => {
+    const accepts = zone.dataset.accepts.split(',');
+    const chip = zone.querySelector('.drop-chip');
+    if (chip) {
+      total++;
+      if (accepts.includes(chip.dataset.id)) {
+        correct++;
+        zone.classList.add('correct');
+        if (chip) { chip.style.background='var(--green-dim)'; chip.style.borderColor='var(--green)'; chip.style.color='var(--green)'; }
+      } else {
+        zone.classList.add('wrong');
+      }
+    }
+  });
+  // Check for missed zones
+  const totalZones = document.querySelectorAll('.drop-zone').length;
+  const filled = document.querySelectorAll('.drop-zone .drop-chip').length;
+  if (filled < totalZones) {
+    showFeedback('drag-feedback','warn','⚠️ Você ainda não preencheu todas as zonas! Arraste todas as descrições.');
+    return;
+  }
+  const xpEarned = Math.round((correct / totalZones) * 40);
+  if (!dragXpGiven) { addXP(xpEarned); dragXpGiven = true; }
+  document.getElementById('drag-score').style.display = 'inline-flex';
+  document.getElementById('drag-score-val').textContent = xpEarned;
+  if (correct === totalZones) {
+    showFeedback('drag-feedback','ok','🎉 Perfeito! Você acertou todos os atributos!');
+    showAchievement('🏷️','Especialista em Atributos!','Drag & Drop perfeito!');
+  } else {
+    showFeedback('drag-feedback','err',`❌ ${correct} de ${totalZones} corretos. As zonas em vermelho estão erradas — tente novamente!`);
+  }
+}
+
+function resetDrag() {
+  dragXpGiven = false;
+  document.querySelectorAll('.drop-zone').forEach(z => {
+    z.innerHTML = 'Solte aqui';
+    z.className = 'drop-zone';
+  });
+  document.querySelectorAll('.drag-item').forEach(i => { i.style.display=''; i.classList.remove('placed-correct','placed-wrong'); });
+  const fb = document.getElementById('drag-feedback');
+  fb.className = 'feedback-msg'; fb.style.display='none';
+  document.getElementById('drag-score').style.display='none';
+}
+
+// ══ ATIVIDADE 2 — COMPLETAR FRASES ════════════════════════════════════
+let selectedWord = null;
+let fillXpGiven = false;
+
+function selectWord(el) {
+  if (el.classList.contains('used')) return;
+  document.querySelectorAll('.word-chip.selected').forEach(c => c.classList.remove('selected'));
+  if (selectedWord === el) { selectedWord = null; return; }
+  selectedWord = el;
+  el.classList.add('selected');
+}
+
+function fillBlank(el) {
+  if (el.classList.contains('locked')) return;
+  if (selectedWord) {
+    // If blank already has a word, return that word first
+    if (el.dataset.filled) {
+      const prevChip = document.querySelector(`.word-chip[data-word="${el.dataset.filled}"]`);
+      if (prevChip) prevChip.classList.remove('used');
+    }
+    el.textContent = selectedWord.dataset.word;
+    el.dataset.filled = selectedWord.dataset.word;
+    el.classList.add('filled');
+    el.classList.remove('correct','wrong');
+    selectedWord.classList.add('used');
+    selectedWord.classList.remove('selected');
+    selectedWord = null;
+  } else if (el.dataset.filled) {
+    // Clicking a filled blank without selection: clear it
+    const prevChip = document.querySelector(`.word-chip[data-word="${el.dataset.filled}"]`);
+    if (prevChip) prevChip.classList.remove('used');
+    el.textContent = '______';
+    delete el.dataset.filled;
+    el.classList.remove('filled','correct','wrong');
+  }
+}
+
+function checkFill() {
+  const blanks = document.querySelectorAll('.fill-blank');
+  let filled = 0;
+  blanks.forEach(b => { if (b.dataset.filled) filled++; });
+  if (filled < blanks.length) {
+    showFeedback('fill-feedback','warn','⚠️ Preencha todos os espaços em branco antes de verificar!');
+    return;
+  }
+  let correct = 0;
+  blanks.forEach(b => {
+    b.classList.add('locked');
+    if (b.dataset.filled === b.dataset.answer) {
+      b.classList.add('correct'); b.classList.remove('filled','wrong'); correct++;
+    } else {
+      b.classList.add('wrong'); b.classList.remove('filled','correct');
+    }
+  });
+  const xpEarned = Math.round((correct / blanks.length) * 50);
+  if (!fillXpGiven) { addXP(xpEarned); fillXpGiven = true; }
+  document.getElementById('fill-score').style.display = 'inline-flex';
+  document.getElementById('fill-score-val').textContent = xpEarned;
+  if (correct === blanks.length) {
+    showFeedback('fill-feedback','ok','🎉 Excelente! Todas as frases completadas corretamente!');
+    showAchievement('✏️','Mestre das Frases!','Complete Frases perfeito!');
+  } else {
+    showFeedback('fill-feedback','err',`❌ ${correct} de ${blanks.length} corretos. As respostas em vermelho estão incorretas.`);
+  }
+}
+
+function resetFill() {
+  fillXpGiven = false; selectedWord = null;
+  document.querySelectorAll('.fill-blank').forEach(b => {
+    b.textContent = '______'; delete b.dataset.filled;
+    b.className = 'fill-blank';
+  });
+  document.querySelectorAll('.word-chip').forEach(c => c.classList.remove('used','selected'));
+  const fb = document.getElementById('fill-feedback');
+  fb.className = 'feedback-msg'; fb.style.display = 'none';
+  document.getElementById('fill-score').style.display = 'none';
+}
+
+// ══ ATIVIDADE 3 — LIGAR OS PONTOS ═════════════════════════════════════
+let connectSelected = null;
+let connectMatches = {};
+let connectXpGiven = false;
+const COLORS = ['#f0b429','#58a6ff','#39d353','#bc8cff','#f85149','#3fb950','#ff7b72','#d2a8ff'];
+
+function connectClick(el) {
+  if (el.classList.contains('matched') || el.classList.contains('locked-item')) return;
+
+  const id = el.dataset.id;
+  const side = id.startsWith('L') ? 'L' : 'R';
+
+  if (!connectSelected) {
+    // First click
+    document.querySelectorAll('.connect-item.selected').forEach(i => i.classList.remove('selected'));
+    connectSelected = el;
+    el.classList.add('selected');
+    return;
+  }
+
+  const selSide = connectSelected.dataset.id.startsWith('L') ? 'L' : 'R';
+
+  // Must select from different sides
+  if (side === selSide) {
+    document.querySelectorAll('.connect-item.selected').forEach(i => i.classList.remove('selected'));
+    connectSelected = el;
+    el.classList.add('selected');
+    return;
+  }
+
+  // Check match
+  const leftEl = side === 'L' ? el : connectSelected;
+  const rightEl = side === 'R' ? el : connectSelected;
+
+  if (leftEl.dataset.match === rightEl.dataset.id) {
+    // Correct!
+    leftEl.classList.remove('selected');
+    rightEl.classList.remove('selected');
+    leftEl.classList.add('matched','locked-item');
+    rightEl.classList.add('matched','locked-item');
+    const colorIdx = Object.keys(connectMatches).length % COLORS.length;
+    leftEl.style.borderColor = COLORS[colorIdx];
+    rightEl.style.borderColor = COLORS[colorIdx];
+    connectMatches[leftEl.dataset.id] = { left: leftEl, right: rightEl, color: COLORS[colorIdx] };
+    connectSelected = null;
+    drawLines();
+    // Check completion
+    const total = document.querySelectorAll('#connectLeft .connect-item').length;
+    const matched = document.querySelectorAll('#connectLeft .connect-item.matched').length;
+    if (matched === total) {
+      const xp = 40;
+      if (!connectXpGiven) { addXP(xp); connectXpGiven = true; }
+      document.getElementById('connect-score').style.display = 'inline-flex';
+      document.getElementById('connect-score-val').textContent = xp;
+      showFeedback('connect-feedback','ok','🎉 Perfeito! Todos os pontos ligados corretamente!');
+      showAchievement('🔗','Conector Mestre!','Ligar Pontos completo!');
+    }
+  } else {
+    // Wrong
+    leftEl.classList.add('wrong-flash');
+    rightEl.classList.add('wrong-flash');
+    setTimeout(() => {
+      leftEl.classList.remove('wrong-flash','selected');
+      rightEl.classList.remove('wrong-flash','selected');
+    }, 400);
+    connectSelected = null;
+  }
+}
+
+function drawLines() {
+  const svg = document.getElementById('connectSVG');
+  const wrapper = document.getElementById('svgLinesWrapper');
+  svg.innerHTML = '';
+  const wRect = wrapper.getBoundingClientRect();
+
+  Object.values(connectMatches).forEach(({left, right, color}) => {
+    const lRect = left.getBoundingClientRect();
+    const rRect = right.getBoundingClientRect();
+    const x1 = lRect.right - wRect.left;
+    const y1 = lRect.top + lRect.height / 2 - wRect.top;
+    const x2 = rRect.left - wRect.left;
+    const y2 = rRect.top + rRect.height / 2 - wRect.top;
+    const cx1 = x1 + 20, cx2 = x2 - 20;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', `M${x1},${y1} C${cx1},${y1} ${cx2},${y2} ${x2},${y2}`);
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width','2.5');
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke-linecap','round');
+    path.style.filter = `drop-shadow(0 0 3px ${color}55)`;
+    svg.appendChild(path);
+  });
+}
+
+window.addEventListener('resize', drawLines);
+
+function resetConnect() {
+  connectSelected = null;
+  connectMatches = {};
+  connectXpGiven = false;
+  document.querySelectorAll('.connect-item').forEach(i => {
+    i.className = 'connect-item';
+    i.style.borderColor = '';
+    if (i.dataset.id.startsWith('R')) i.className = 'connect-item';
+  });
+  document.getElementById('connectSVG').innerHTML = '';
+  const fb = document.getElementById('connect-feedback');
+  fb.className = 'feedback-msg'; fb.style.display='none';
+  document.getElementById('connect-score').style.display='none';
+}
+
+// ══ ATIVIDADE 4 — ORDENAR SEQUÊNCIA ═══════════════════════════════════
+let orderDragging = null;
+let orderXpGiven = false;
+
+function initOrder() {
+  const game = document.getElementById('orderGame');
+  // Shuffle items
+  const items = [...game.querySelectorAll('.order-item')];
+  items.sort(() => Math.random() - 0.5);
+  items.forEach(i => game.appendChild(i));
+  updateOrderNums();
+  setupOrderDrag();
+}
+
+function updateOrderNums() {
+  document.querySelectorAll('#orderGame .order-item').forEach((item, i) => {
+    item.querySelector('.order-num').textContent = i + 1;
+  });
+}
+
+function setupOrderDrag() {
+  const game = document.getElementById('orderGame');
+  game.querySelectorAll('.order-item').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      orderDragging = item;
+      item.classList.add('dragging-order');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging-order','drag-over-order');
+      orderDragging = null;
+      updateOrderNums();
+    });
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (orderDragging && orderDragging !== item) {
+        document.querySelectorAll('.order-item').forEach(i => i.classList.remove('drag-over-order'));
+        item.classList.add('drag-over-order');
+        const rect = item.getBoundingClientRect();
+        const mid = rect.top + rect.height / 2;
+        if (e.clientY < mid) game.insertBefore(orderDragging, item);
+        else game.insertBefore(orderDragging, item.nextSibling);
+      }
+    });
+    item.addEventListener('dragleave', () => item.classList.remove('drag-over-order'));
+  });
+}
+
+function checkOrder() {
+  const items = [...document.querySelectorAll('#orderGame .order-item')];
+  let correct = 0;
+  items.forEach((item, i) => {
+    const expected = parseInt(item.dataset.correct);
+    item.classList.remove('correct-pos','wrong-pos');
+    if (expected === i + 1) { item.classList.add('correct-pos'); correct++; }
+    else item.classList.add('wrong-pos');
+  });
+  const xpEarned = Math.round((correct / items.length) * 30);
+  if (!orderXpGiven) { addXP(xpEarned); orderXpGiven = true; }
+  document.getElementById('order-score').style.display = 'inline-flex';
+  document.getElementById('order-score-val').textContent = xpEarned;
+  if (correct === items.length) {
+    showFeedback('order-feedback','ok','🎉 Sequência perfeita! Você sabe como revelar arquivos ocultos!');
+    showAchievement('📋','Sequenciador!','Ordem perfeita!');
+  } else {
+    showFeedback('order-feedback','err',`❌ ${correct} de ${items.length} na posição certa. Os vermelhos estão fora de ordem!`);
+  }
+}
+
+function resetOrder() {
+  orderXpGiven = false;
+  document.querySelectorAll('#orderGame .order-item').forEach(i => i.classList.remove('correct-pos','wrong-pos'));
+  initOrder();
+  const fb = document.getElementById('order-feedback');
+  fb.className = 'feedback-msg'; fb.style.display='none';
+  document.getElementById('order-score').style.display='none';
+}
+
+// ══ ATIVIDADE 5 — VERDADEIRO OU FALSO ═════════════════════════════════
+let vfAnswers = new Array(8).fill(null);
+let vfChecked = false;
+let vfXpGiven = false;
+
+function vfAnswer(btn, choice, idx) {
+  if (vfChecked) return;
+  const item = btn.closest('.vf-item');
+  item.querySelectorAll('.vf-btn').forEach(b => b.classList.remove('selected-v','selected-f'));
+  btn.classList.add(choice === 'V' ? 'selected-v' : 'selected-f');
+  vfAnswers[idx] = choice;
+}
+
+function checkVF() {
+  const answered = vfAnswers.filter(a => a !== null).length;
+  const total = document.querySelectorAll('.vf-item').length;
+  if (answered < total) {
+    showFeedback('vf-feedback','warn',`⚠️ Você respondeu ${answered} de ${total} afirmações. Responda todas antes de verificar!`);
+    return;
+  }
+  vfChecked = true;
+  let correct = 0;
+  document.querySelectorAll('.vf-item').forEach((item, i) => {
+    const correctAnswer = item.dataset.answer;
+    const userAnswer = vfAnswers[i];
+    const btns = item.querySelectorAll('.vf-btn');
+    btns.forEach(b => b.disabled = true);
+    const exp = document.getElementById(`vf-exp${i}`);
+    if (userAnswer === correctAnswer) {
+      correct++;
+      exp.className = 'vf-explain show correct';
+    } else {
+      exp.className = 'vf-explain show wrong';
+    }
+    exp.style.display = 'block';
+  });
+  const xpEarned = Math.round((correct / total) * 40);
+  if (!vfXpGiven) { addXP(xpEarned); vfXpGiven = true; }
+  document.getElementById('vf-score').style.display = 'inline-flex';
+  document.getElementById('vf-score-val').textContent = xpEarned;
+  if (correct === total) {
+    showFeedback('vf-feedback','ok','🏆 Incrível! Todos os 8 julgamentos corretos!');
+    showAchievement('🎯','Juiz Impecável!','V ou F perfeito!');
+  } else {
+    showFeedback('vf-feedback','err',`📝 ${correct} de ${total} corretos. Veja as explicações para entender os erros.`);
+  }
+}
+
+function resetVF() {
+  vfAnswers = new Array(8).fill(null);
+  vfChecked = false; vfXpGiven = false;
+  document.querySelectorAll('.vf-item').forEach((item, i) => {
+    item.querySelectorAll('.vf-btn').forEach(b => {
+      b.disabled = false;
+      b.classList.remove('selected-v','selected-f','correct-answer','wrong-answer');
+    });
+    const exp = document.getElementById(`vf-exp${i}`);
+    exp.className = 'vf-explain'; exp.style.display='none';
+  });
+  const fb = document.getElementById('vf-feedback');
+  fb.className = 'feedback-msg'; fb.style.display='none';
+  document.getElementById('vf-score').style.display='none';
+}
+</script>
+</body>
+</html>
