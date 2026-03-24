@@ -19,6 +19,8 @@
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* HUD */
 .hud{position:sticky;top:0;z-index:200;background:rgba(13,17,23,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:10px 24px;}
 .hud-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .hud-week{font-family:'DM Mono',monospace;font-size:.78em;background:var(--green-dim);color:var(--green);border:1px solid rgba(57,211,83,.3);border-radius:50px;padding:4px 12px;white-space:nowrap;}
@@ -28,8 +30,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .hud-xp .xp-icon{font-size:.9em;}.hud-xp .xp-val{font-family:'DM Mono',monospace;font-size:.82em;font-weight:500;color:var(--xp);}.hud-xp .xp-label{font-size:.72em;color:var(--text-muted);}
 .progress-bar-outer{height:6px;background:var(--surface2);border-radius:3px;flex:1;min-width:80px;}
 .progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:3px;transition:width .5s ease;width:0%;}
+
+/* HERO */
 .hero{position:relative;overflow:hidden;padding:60px 24px 48px;text-align:center;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,--green-dim,transparent 70%);}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(26,71,49,.4),transparent 70%);}
 .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(57,211,83,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(57,211,83,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
 .hero-inner{position:relative;max-width:700px;margin:0 auto;}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--green-dim);border:1px solid rgba(57,211,83,.3);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600;color:var(--green);margin-bottom:18px;}
@@ -39,33 +43,43 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .hero-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
 .pill{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.82em;}
 .pill.green{border-color:rgba(57,211,83,.3);color:var(--green);}.pill.blue{border-color:rgba(88,166,255,.3);color:var(--blue);}.pill.purple{border-color:rgba(188,140,255,.3);color:var(--purple);}
+
+/* LAYOUT */
 .container{max-width:900px;margin:0 auto;padding:0 24px 60px;}
 .section-header{display:flex;align-items:center;gap:10px;margin:40px 0 16px;}
 .section-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0;}
 .section-icon.green{background:var(--green-dim);border:1px solid rgba(57,211,83,.3);}.section-icon.blue{background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);}.section-icon.purple{background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);}.section-icon.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.3);}
 .section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.25em;}
 .section-xp{margin-left:auto;font-family:'DM Mono',monospace;font-size:.78em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:3px 10px;}
+
+/* OBJECTIVES */
 .obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:24px;}
 .obj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;transition:border-color .2s,box-shadow .2s;cursor:pointer;}
 .obj-card:hover{border-color:rgba(57,211,83,.3);box-shadow:var(--glow-green);}
 .obj-card.done{border-color:rgba(57,211,83,.3);background:var(--green-dim);}
 .obj-num{width:26px;height:26px;background:var(--green-dim);border:1px solid rgba(57,211,83,.3);color:var(--green);border-radius:8px;font-size:.75em;font-weight:700;font-family:'DM Mono',monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .obj-text{font-size:.88em;color:var(--text);line-height:1.4;}
+
+/* LORE */
 .lore-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:var(--r);padding:20px 22px;margin-bottom:20px;display:flex;gap:16px;}
 .lore-emoji{font-size:2.2em;flex-shrink:0;line-height:1;}.lore-body strong{color:var(--green);font-family:'Syne',sans-serif;}.lore-body p{color:var(--text-muted);font-size:.9em;margin-top:4px;}
+
+/* CONTENT CARDS (accordion) */
 .content-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;transition:box-shadow .2s;}
 .content-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.3);}
 .cc-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none;background:var(--surface2);}
 .cc-icon{font-size:1.3em;}.cc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--text);flex:1;}
 .cc-xp{font-family:'DM Mono',monospace;font-size:.73em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:2px 9px;}
 .cc-chevron{color:var(--text-dim);transition:transform .3s;font-size:.85em;}.cc-header.open .cc-chevron{transform:rotate(180deg);}
-.cc-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}.cc-body.open{max-height:1200px;padding:20px;}
+.cc-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}.cc-body.open{max-height:2400px;padding:20px;}
 .key-point{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}.key-point:last-of-type{border:none;}
 .kp-icon{font-size:1em;flex-shrink:0;margin-top:2px;}.kp-text{font-size:.88em;color:var(--text-muted);line-height:1.5;}.kp-text strong{color:var(--text);}
 .tip-box{background:rgba(57,211,83,.05);border:1px solid rgba(57,211,83,.2);border-radius:var(--r-sm);padding:12px 14px;margin-top:14px;display:flex;gap:10px;}.tip-box p{font-size:.85em;color:var(--text-muted);}.tip-box p strong{color:var(--green);}
 .warn-box{background:rgba(240,180,41,.05);border:1px solid rgba(240,180,41,.2);border-radius:var(--r-sm);padding:12px 14px;margin-top:10px;display:flex;gap:10px;}.warn-box p{font-size:.85em;color:var(--text-muted);}.warn-box p strong{color:var(--amber);}
 .shortcut-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}.shortcut{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:6px 12px;font-size:.82em;}
 .shortcut kbd{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-family:'DM Mono',monospace;font-size:.88em;color:var(--blue);}.shortcut span{color:var(--text-muted);}
+
+/* QUIZ */
 .quiz-wrapper{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px;}
 .quiz-header{background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));border-bottom:1px solid var(--border);padding:20px 24px;display:flex;align-items:center;gap:12px;}
 .quiz-icon{font-size:1.8em;}.quiz-header-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05em;}.quiz-header-text p{font-size:.82em;color:var(--text-muted);margin-top:2px;}
@@ -88,6 +102,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .quiz-result{text-align:center;padding:10px 0;}.quiz-result .score{font-family:'Syne',sans-serif;font-size:3em;font-weight:800;color:var(--xp);}.quiz-result .score-label{color:var(--text-muted);font-size:.9em;margin-bottom:16px;}
 .quiz-result .xp-earn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:50px;padding:6px 16px;color:var(--xp);font-weight:700;font-size:1em;margin-bottom:20px;}
 .quiz-restart{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:var(--r-sm);padding:9px 20px;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:.88em;transition:all .2s;}.quiz-restart:hover{border-color:var(--blue);color:var(--blue);}
+
+/* MISSIONS */
 .missions-grid{display:flex;flex-direction:column;gap:14px;}
 .mission-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;gap:16px;align-items:flex-start;transition:all .2s;position:relative;overflow:hidden;}
 .mission-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--green),var(--blue));}
@@ -99,45 +115,190 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .mission-tag.xp{color:var(--xp);border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.05);}
 .mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .2s;cursor:pointer;font-size:.9em;}
 .mission-check.done{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+
+/* ACHIEVEMENT */
 .achievement-popup{position:fixed;top:80px;right:24px;background:var(--surface);border:1px solid rgba(255,215,0,.4);border-radius:var(--r);padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 20px rgba(255,215,0,.15);z-index:999;display:flex;gap:12px;align-items:center;transform:translateX(160%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:280px;}
 .achievement-popup.show{transform:translateX(0);}.ach-icon{font-size:2em;}.ach-text strong{font-family:'Syne',sans-serif;font-size:.88em;color:var(--xp);display:block;}.ach-text span{font-size:.78em;color:var(--text-muted);}
+
+/* CHECKPOINT */
 .checkpoint{background:linear-gradient(135deg,var(--green-dim),var(--green-dim));border:1px solid rgba(57,211,83,.3);border-radius:var(--r-lg);padding:28px 24px;text-align:center;margin:32px 0;}
 .checkpoint h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3em;margin-bottom:8px;}.checkpoint p{color:var(--text-muted);font-size:.9em;margin-bottom:20px;}.checkpoint-stars{font-size:2em;margin-bottom:12px;letter-spacing:4px;}
 .xp-total-display{display:inline-flex;align-items:center;gap:8px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.3);border-radius:50px;padding:8px 20px;font-family:'DM Mono',monospace;color:var(--xp);font-size:1.1em;font-weight:700;}
+
+/* NAV */
 .nav-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:32px;}
 .nav-btn{padding:8px 16px;border-radius:var(--r-sm);text-decoration:none;font-weight:600;font-size:.85em;transition:all .2s;display:inline-flex;align-items:center;gap:5px;border:none;cursor:pointer;}
 .btn-ghost{background:var(--bg);color:var(--text-muted);border:1px solid var(--border);}.btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
 .btn-primary{background:var(--green);color:var(--bg);font-family:'Syne',sans-serif;font-weight:700;}.btn-primary:hover{background:#39d353;transform:translateY(-1px);box-shadow:var(--glow-green);}
 .btn-guide{background:rgba(88,166,255,.12);color:var(--blue);border:1px solid rgba(88,166,255,.25);}.btn-guide:hover{background:rgba(88,166,255,.2);}
 .nav-spacer{flex:1;}
+
+/* RESOURCES */
 .resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;}
 .res-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;transition:all .2s;}.res-card:hover{border-color:rgba(88,166,255,.3);box-shadow:var(--glow-blue);}
 .res-icon{font-size:1.4em;margin-bottom:7px;}.res-title{font-weight:600;font-size:.85em;margin-bottom:3px;}.res-desc{font-size:.78em;color:var(--text-muted);}
+
+/* STAR ANIMATION */
 .star{position:fixed;pointer-events:none;font-size:1.4em;animation:floatStar 1.5s ease forwards;z-index:9999;}
 @keyframes floatStar{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.5);}}
 .footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--text-dim);font-size:.8em;max-width:900px;margin:0 auto;}
-@media(max-width:640px){.hud-title{display:none;}.obj-grid{grid-template-columns:1fr 1fr;}.container{padding:0 14px 40px;}.quiz-body{padding:16px;}}
+
+/* ========================================
+   ATIVIDADES INTERATIVAS (tema dark)
+   ======================================== */
+
+.activity-block{
+  border-radius:var(--r);
+  margin-top:20px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--bg);
+}
+.activity-block-header{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 18px;cursor:pointer;user-select:none;
+  background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  transition:background .2s;
+}
+.activity-block-header:hover{background:#1f2937;}
+.activity-block-header h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.9em;flex:1;}
+.ab-xp{font-family:'DM Mono',monospace;font-size:.72em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:2px 8px;}
+.ab-chevron{color:var(--text-dim);transition:transform .3s;font-size:.8em;}
+.ab-chevron.open{transform:rotate(180deg);}
+.activity-block-body{padding:20px;display:none;}
+.activity-block-body.open{display:block;}
+
+/* DRAG & DROP dark */
+.drag-bank-label{font-size:.78em;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.drag-pool{min-height:60px;background:var(--surface);border:1.5px dashed rgba(188,140,255,.3);border-radius:var(--r-sm);padding:10px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.drag-chip{background:linear-gradient(135deg,var(--purple-dim),#3b1f6a);border:1px solid rgba(188,140,255,.3);color:var(--purple);padding:6px 14px;border-radius:50px;font-size:.8em;font-weight:600;cursor:grab;user-select:none;transition:all .2s;white-space:nowrap;font-family:'DM Mono',monospace;}
+.drag-chip:active{cursor:grabbing;transform:scale(1.06);}
+.drag-chip.dragging-chip{opacity:.45;}
+.drag-zones-wrap{display:flex;flex-direction:column;gap:10px;}
+.drag-zone-row{display:flex;align-items:center;gap:10px;}
+.drag-zone-label{font-size:.83em;color:var(--text-muted);min-width:190px;line-height:1.3;}
+.drop-zone-dark{min-height:38px;min-width:140px;flex:1;background:var(--surface);border:1.5px dashed rgba(88,166,255,.25);border-radius:var(--r-sm);padding:5px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;transition:all .2s;}
+.drop-zone-dark.drag-over-d{background:rgba(88,166,255,.07);border-color:var(--blue);}
+.drop-zone-dark.dz-correct{background:rgba(57,211,83,.07);border-color:var(--green);border-style:solid;}
+.drop-zone-dark.dz-wrong{background:rgba(248,81,73,.07);border-color:var(--red);border-style:solid;}
+.act-btn{padding:9px 20px;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-weight:600;font-size:.85em;cursor:pointer;transition:all .2s;border:none;margin-top:14px;}
+.act-btn-primary{background:var(--purple);color:var(--bg);}
+.act-btn-primary:hover{background:#c89fff;transform:translateY(-2px);}
+.act-btn-ghost{background:var(--surface2);color:var(--text-muted);border:1px solid var(--border);margin-left:8px;}
+.act-btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+.act-btn-green{background:var(--green);color:var(--bg);}
+.act-btn-green:hover{background:#39d353;transform:translateY(-2px);}
+
+/* FILL IN BLANK dark */
+.fill-bank-dark{display:flex;flex-wrap:wrap;gap:8px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);margin-bottom:16px;}
+.fill-chip{background:linear-gradient(135deg,var(--amber-dim),#5a3f00);border:1px solid rgba(240,180,41,.3);color:var(--amber);padding:5px 13px;border-radius:50px;font-size:.8em;font-weight:600;cursor:pointer;transition:all .2s;border-width:1px;}
+.fill-chip:hover{background:rgba(240,180,41,.15);}
+.fill-chip.fc-used{opacity:.35;pointer-events:none;}
+.fill-chip.fc-selected{outline:2px solid var(--amber);outline-offset:2px;}
+.fill-sentence-dark{font-size:.9em;color:var(--text-muted);margin-bottom:14px;line-height:2.2;}
+.blank-dark{display:inline-block;min-width:110px;height:28px;border-bottom:2px solid rgba(240,180,41,.5);background:transparent;border-radius:4px;padding:1px 8px;font-weight:600;color:var(--amber);cursor:pointer;vertical-align:middle;text-align:center;font-size:.82em;font-family:'DM Mono',monospace;transition:all .2s;}
+.blank-dark:hover{background:rgba(240,180,41,.06);}
+.blank-dark.bk-selected{border-color:var(--amber);border-style:solid;background:rgba(240,180,41,.06);}
+.blank-dark.bk-correct{border-color:var(--green);color:var(--green);}
+.blank-dark.bk-wrong{border-color:var(--red);color:var(--red);}
+
+/* MATCH dark */
+.match-wrap-dark{display:flex;gap:24px;flex-wrap:wrap;position:relative;}
+.match-col-dark{flex:1;min-width:170px;}
+.match-col-title{font-size:.78em;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.match-item-dark{
+  padding:10px 14px;margin-bottom:8px;border-radius:var(--r-sm);
+  font-size:.85em;font-weight:500;cursor:pointer;
+  transition:all .2s;position:relative;
+  border:1.5px solid var(--border);background:var(--surface);
+  color:var(--text-muted);
+}
+.match-item-dark:hover{border-color:rgba(57,211,83,.4);color:var(--text);}
+.match-item-dark.mi-left{border-left:3px solid rgba(57,211,83,.4);}
+.match-item-dark.mi-selected{border-color:var(--green);color:var(--green);background:rgba(57,211,83,.06);box-shadow:var(--glow-green);}
+.match-item-dark.mi-matched{border-color:rgba(57,211,83,.5);background:rgba(57,211,83,.05);color:var(--green);opacity:.75;pointer-events:none;}
+.match-item-dark.mi-matched::after{content:'✓';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--green);font-weight:700;}
+.match-item-dark.mi-wrong{border-color:var(--red);animation:shakeD .3s;}
+@keyframes shakeD{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+.match-svg-dark{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+.match-line-dark{stroke:var(--green);stroke-width:2;stroke-dasharray:4,3;fill:none;opacity:.6;}
+.match-score-dark{margin-top:10px;font-size:.85em;color:var(--green);font-family:'DM Mono',monospace;}
+
+/* ORDER dark */
+.order-list-dark{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.order-item-dark{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 16px;
+  background:var(--surface);border-radius:var(--r-sm);
+  border:1.5px solid var(--border);
+  cursor:grab;
+  transition:all .2s;
+  font-size:.87em;color:var(--text-muted);
+}
+.order-item-dark:active{cursor:grabbing;}
+.order-item-dark.oi-dragging{opacity:.4;border-style:dashed;}
+.order-item-dark.oi-target{border-color:var(--purple);}
+.order-handle-dark{color:var(--text-dim);font-size:1.1em;flex-shrink:0;}
+.order-num-dark{width:24px;height:24px;background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);color:var(--purple);border-radius:6px;font-size:.75em;font-family:'DM Mono',monospace;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.order-item-dark.oi-correct{border-color:rgba(57,211,83,.5);color:var(--text);}
+.order-item-dark.oi-wrong{border-color:var(--red);animation:shakeD .3s;}
+
+/* ACTIVITY RESULT */
+.act-result{margin-top:12px;padding:11px 16px;border-radius:var(--r-sm);font-size:.85em;font-weight:600;display:none;}
+.act-result.show{display:flex;align-items:center;gap:8px;animation:fadeInUp .3s ease;}
+.act-result.ar-ok{background:rgba(57,211,83,.08);border:1px solid rgba(57,211,83,.2);color:var(--green);}
+.act-result.ar-partial{background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.2);color:var(--amber);}
+.act-result.ar-bad{background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.2);color:var(--red);}
+
+/* MULTI-DRAG (categories) */
+.drag-cats-wrap{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+.drag-cat-row{display:flex;align-items:flex-start;gap:10px;}
+.drag-cat-label{font-size:.82em;color:var(--text-muted);min-width:180px;padding-top:6px;}
+.drop-zone-multi{min-height:44px;flex:1;background:var(--surface);border:1.5px dashed rgba(88,166,255,.25);border-radius:var(--r-sm);padding:7px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;transition:all .2s;}
+.drop-zone-multi.drag-over-d{background:rgba(88,166,255,.06);border-color:var(--blue);}
+.drop-zone-multi.dz-correct{background:rgba(57,211,83,.06);border-color:var(--green);border-style:solid;}
+.drop-zone-multi.dz-wrong{background:rgba(248,81,73,.06);border-color:var(--red);border-style:solid;}
+
+@media(max-width:640px){
+  .hud-title{display:none;}
+  .obj-grid{grid-template-columns:1fr 1fr;}
+  .container{padding:0 14px 40px;}
+  .quiz-body{padding:16px;}
+  .drag-zone-row{flex-direction:column;align-items:flex-start;}
+  .drop-zone-dark{width:100%;}
+  .match-wrap-dark{flex-direction:column;}
+  .drag-cat-row{flex-direction:column;}
+  .drop-zone-multi{width:100%;}
+}
 </style>
 </head>
 <body>
 <div class="achievement-popup" id="achPopup"><div class="ach-icon" id="achIcon">🏆</div><div class="ach-text"><strong id="achTitle">Conquista!</strong><span id="achDesc">Você desbloqueou algo!</span></div></div>
+
 <header class="hud">
   <div class="hud-inner">
     <span class="hud-week">S06/20</span>
-    <span class="hud-title">Gerenciamento de Arquivos e Pastas ...</span>
+    <span class="hud-title">Gerenciamento de Arquivos e Pastas <span>– Parte 2</span></span>
     <div class="hud-xp"><span class="xp-icon">⚡</span><span class="xp-val" id="xpDisplay">0</span><span class="xp-label">XP</span></div>
     <div class="progress-bar-outer" style="max-width:120px;"><div class="progress-bar-inner" id="mainProgress"></div></div>
   </div>
 </header>
+
 <section class="hero">
   <div class="hero-grid-bg"></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">🗂 Ferramentas de Gestão · Missão 06 de 20</div>
-    <h1>Permissões <span class='accent'>NTFS</span><br>e Operações Essenciais</h1>
+    <h1>Permissões <span class="accent">NTFS</span><br>e Operações Essenciais</h1>
     <p class="hero-sub">Gestão de Sistemas Operacionais I · Prof. Isaque Katahira · 2026</p>
-    <div class="hero-pills"><span class="pill green">⚡ 260 XP disponíveis</span><span class="pill blue">⏱ ~90 min</span><span class="pill purple">🔒 NTFS + Lixeira</span></div>
+    <div class="hero-pills">
+      <span class="pill green">⚡ 420 XP disponíveis</span>
+      <span class="pill blue">⏱ ~90 min</span>
+      <span class="pill purple">🔒 NTFS + Lixeira</span>
+    </div>
   </div>
 </section>
+
 <div class="container">
   <nav class="nav-bar">
     <a href="semana05_aula.html" class="nav-btn btn-ghost">← Anterior</a>
@@ -146,20 +307,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
     <span class="nav-spacer"></span>
     <a href="semana07_aula.html" class="nav-btn btn-primary">Próxima →</a>
   </nav>
+
+  <!-- OBJETIVOS -->
   <div class="section-header"><div class="section-icon green">🎯</div><h2 class="section-title">O que você vai aprender hoje</h2><span class="section-xp">+40 XP</span></div>
   <div class="obj-grid" id="objGrid">
     <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">1</div><span class="obj-text">Entender e configurar permissões NTFS de arquivos e pastas</span></div>
-<div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">2</div><span class="obj-text">Copiar, mover, renomear e excluir arquivos com segurança</span></div>
-<div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">3</div><span class="obj-text">Utilizar a Lixeira e recuperar arquivos excluídos</span></div>
-<div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">4</div><span class="obj-text">Trabalhar com operações em lote usando atalhos</span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">2</div><span class="obj-text">Copiar, mover, renomear e excluir arquivos com segurança</span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">3</div><span class="obj-text">Utilizar a Lixeira e recuperar arquivos excluídos</span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">4</div><span class="obj-text">Trabalhar com operações em lote usando atalhos</span></div>
   </div>
   <p style="font-size:.8em;color:var(--text-dim);margin-bottom:4px;">💡 Clique nos objetivos conforme for aprendendo para ganhar XP!</p>
+
   <div class="lore-card" style="margin-top:24px;">
     <div class="lore-emoji">🧭</div>
     <div class="lore-body"><strong>Por que isso importa?</strong><p>Cada habilidade desta aula aparece no trabalho real de suporte técnico. Dominar esses conceitos vai te destacar no mercado de trabalho desde o primeiro estágio!</p></div>
   </div>
+
+  <!-- CONTEÚDO -->
   <div class="section-header"><div class="section-icon blue">📖</div><h2 class="section-title">Conteúdo da Aula</h2><span class="section-xp">+80 XP</span></div>
-  
+
+  <!-- CARD 1: NTFS -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">🔐</span>
@@ -169,13 +336,50 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
     </div>
     <div class="cc-body">
       <p>O sistema NTFS permite controlar <strong>quem pode fazer o quê</strong> com cada arquivo ou pasta.</p>
-             <div class="key-point"><span class="kp-icon">👁️</span><div class="kp-text"><strong>Leitura:</strong> pode ver o conteúdo, mas não modificar.</div></div>
-             <div class="key-point"><span class="kp-icon">✏️</span><div class="kp-text"><strong>Gravação:</strong> pode modificar o conteúdo do arquivo.</div></div>
-             <div class="key-point"><span class="kp-icon">▶️</span><div class="kp-text"><strong>Execução:</strong> pode rodar o programa (arquivos .exe, .bat).</div></div>
-             <div class="key-point"><span class="kp-icon">👑</span><div class="kp-text"><strong>Controle Total:</strong> pode fazer absolutamente tudo, inclusive alterar as permissões.</div></div>
-             <div class="tip-box"><span class="tip-icon">🔧</span><p><strong>Como configurar:</strong> clique direito → Propriedades → aba <strong>Segurança</strong> → Editar. Em empresas, o admin gerencia isso via Active Directory.</p></div>
+      <div class="key-point"><span class="kp-icon">👁️</span><div class="kp-text"><strong>Leitura:</strong> pode ver o conteúdo, mas não modificar.</div></div>
+      <div class="key-point"><span class="kp-icon">✏️</span><div class="kp-text"><strong>Gravação:</strong> pode modificar o conteúdo do arquivo.</div></div>
+      <div class="key-point"><span class="kp-icon">▶️</span><div class="kp-text"><strong>Execução:</strong> pode rodar o programa (arquivos .exe, .bat).</div></div>
+      <div class="key-point"><span class="kp-icon">👑</span><div class="kp-text"><strong>Controle Total:</strong> pode fazer absolutamente tudo, inclusive alterar as permissões.</div></div>
+      <div class="tip-box"><span>🔧</span><p><strong>Como configurar:</strong> clique direito → Propriedades → aba <strong>Segurança</strong> → Editar. Em empresas, o admin gerencia isso via Active Directory.</p></div>
+
+      <!-- ATIVIDADE: LIGAR PONTOS NTFS -->
+      <div class="activity-block" style="margin-top:20px;">
+        <div class="activity-block-header" onclick="toggleAB('match-ntfs')">
+          <span>🎮</span>
+          <h4>Atividade: Ligue a permissão ao que ela permite fazer</h4>
+          <span class="ab-xp">+15 XP</span>
+          <span class="ab-chevron" id="chev-match-ntfs">▼</span>
+        </div>
+        <div class="activity-block-body" id="body-match-ntfs">
+          <p style="font-size:.82em;color:var(--text-muted);margin-bottom:14px;">Clique em uma permissão (esquerda) e depois na descrição correta (direita).</p>
+          <div style="position:relative;" id="canvas-match-ntfs">
+            <div class="match-wrap-dark" id="container-match-ntfs">
+              <div class="match-col-dark">
+                <div class="match-col-title">🔐 Permissão</div>
+                <div class="match-item-dark mi-left" data-id="mn-l1" data-match="mn-r1">Leitura</div>
+                <div class="match-item-dark mi-left" data-id="mn-l2" data-match="mn-r2">Gravação</div>
+                <div class="match-item-dark mi-left" data-id="mn-l3" data-match="mn-r3">Execução</div>
+                <div class="match-item-dark mi-left" data-id="mn-l4" data-match="mn-r4">Controle Total</div>
+              </div>
+              <div class="match-col-dark">
+                <div class="match-col-title">📝 Permite fazer</div>
+                <div class="match-item-dark" data-id="mn-r3">Rodar programas .exe e .bat</div>
+                <div class="match-item-dark" data-id="mn-r1">Ver arquivos sem alterar nada</div>
+                <div class="match-item-dark" data-id="mn-r4">Acesso total, incluindo alterar permissões</div>
+                <div class="match-item-dark" data-id="mn-r2">Criar e modificar arquivos</div>
+              </div>
+            </div>
+            <svg class="match-svg-dark" id="svg-match-ntfs"></svg>
+          </div>
+          <div class="match-score-dark" id="score-match-ntfs"></div>
+          <button class="act-btn act-btn-ghost" onclick="resetMatchDark('match-ntfs')">🔄 Reiniciar</button>
+          <div class="act-result" id="res-match-ntfs"></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- CARD 2: COPIAR vs MOVER -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">📋</span>
@@ -185,13 +389,91 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
     </div>
     <div class="cc-body">
       <p>Essa é uma das dúvidas mais comuns! A diferença é simples mas importante:</p>
-             <div class="key-point"><span class="kp-icon">📄</span><div class="kp-text"><strong>COPIAR (Ctrl+C → Ctrl+V):</strong> cria uma segunda cópia — o original permanece no lugar!</div></div>
-             <div class="key-point"><span class="kp-icon">✂️</span><div class="kp-text"><strong>MOVER (Ctrl+X → Ctrl+V):</strong> transfere o arquivo — o original SOME do local de origem.</div></div>
-             <div class="key-point"><span class="kp-icon">🖱️</span><div class="kp-text"><strong>Arrastar entre pastas NO MESMO DISCO</strong> = Mover. <strong>Arrastar entre discos diferentes</strong> = Copiar.</div></div>
-             <div class="key-point"><span class="kp-icon">✏️</span><div class="kp-text"><strong>Renomear:</strong> pressione <strong>F2</strong> ou faça um clique lento (não duplo!) no nome do arquivo.</div></div>
-             <div class="shortcut-row"><div class="shortcut"><kbd>Ctrl+C</kbd><span>Copiar</span></div><div class="shortcut"><kbd>Ctrl+X</kbd><span>Recortar</span></div><div class="shortcut"><kbd>Ctrl+V</kbd><span>Colar</span></div><div class="shortcut"><kbd>F2</kbd><span>Renomear</span></div></div>
+      <div class="key-point"><span class="kp-icon">📄</span><div class="kp-text"><strong>COPIAR (Ctrl+C → Ctrl+V):</strong> cria uma segunda cópia — o original permanece no lugar!</div></div>
+      <div class="key-point"><span class="kp-icon">✂️</span><div class="kp-text"><strong>MOVER (Ctrl+X → Ctrl+V):</strong> transfere o arquivo — o original SOME do local de origem.</div></div>
+      <div class="key-point"><span class="kp-icon">🖱️</span><div class="kp-text"><strong>Arrastar entre pastas NO MESMO DISCO</strong> = Mover. <strong>Arrastar entre discos diferentes</strong> = Copiar.</div></div>
+      <div class="key-point"><span class="kp-icon">✏️</span><div class="kp-text"><strong>Renomear:</strong> pressione <strong>F2</strong> ou faça um clique lento (não duplo!) no nome do arquivo.</div></div>
+      <div class="shortcut-row">
+        <div class="shortcut"><kbd>Ctrl+C</kbd><span>Copiar</span></div>
+        <div class="shortcut"><kbd>Ctrl+X</kbd><span>Recortar</span></div>
+        <div class="shortcut"><kbd>Ctrl+V</kbd><span>Colar</span></div>
+        <div class="shortcut"><kbd>F2</kbd><span>Renomear</span></div>
+      </div>
+
+      <!-- ATIVIDADE: ARRASTAR ATALHOS -->
+      <div class="activity-block" style="margin-top:20px;">
+        <div class="activity-block-header" onclick="toggleAB('drag-atalhos')">
+          <span>🎮</span>
+          <h4>Atividade: Arraste o atalho correto para cada ação</h4>
+          <span class="ab-xp">+20 XP</span>
+          <span class="ab-chevron" id="chev-drag-atalhos">▼</span>
+        </div>
+        <div class="activity-block-body" id="body-drag-atalhos">
+          <p style="font-size:.82em;color:var(--text-muted);margin-bottom:10px;">Arraste cada atalho para a operação correspondente.</p>
+          <div class="drag-bank-label">🎯 Atalhos disponíveis</div>
+          <div class="drag-pool" id="pool-drag-atalhos">
+            <div class="drag-chip" draggable="true" data-value="Ctrl+C">Ctrl+C</div>
+            <div class="drag-chip" draggable="true" data-value="Ctrl+X">Ctrl+X</div>
+            <div class="drag-chip" draggable="true" data-value="Ctrl+V">Ctrl+V</div>
+            <div class="drag-chip" draggable="true" data-value="F2">F2</div>
+            <div class="drag-chip" draggable="true" data-value="Ctrl+Z">Ctrl+Z</div>
+            <div class="drag-chip" draggable="true" data-value="Shift+Delete">Shift+Delete</div>
+          </div>
+          <div class="drag-zones-wrap">
+            <div class="drag-zone-row"><span class="drag-zone-label">📋 Copiar arquivo</span><div class="drop-zone-dark" data-answer="Ctrl+C" id="dzA-1"></div></div>
+            <div class="drag-zone-row"><span class="drag-zone-label">✂️ Recortar (mover)</span><div class="drop-zone-dark" data-answer="Ctrl+X" id="dzA-2"></div></div>
+            <div class="drag-zone-row"><span class="drag-zone-label">📌 Colar</span><div class="drop-zone-dark" data-answer="Ctrl+V" id="dzA-3"></div></div>
+            <div class="drag-zone-row"><span class="drag-zone-label">✏️ Renomear</span><div class="drop-zone-dark" data-answer="F2" id="dzA-4"></div></div>
+            <div class="drag-zone-row"><span class="drag-zone-label">↩️ Desfazer</span><div class="drop-zone-dark" data-answer="Ctrl+Z" id="dzA-5"></div></div>
+            <div class="drag-zone-row"><span class="drag-zone-label">💀 Excluir definitivamente</span><div class="drop-zone-dark" data-answer="Shift+Delete" id="dzA-6"></div></div>
+          </div>
+          <button class="act-btn act-btn-primary" onclick="checkDarkDrag('drag-atalhos',15)">✅ Verificar</button>
+          <button class="act-btn act-btn-ghost" onclick="resetDarkDrag('drag-atalhos')">🔄 Reiniciar</button>
+          <div class="act-result" id="res-drag-atalhos"></div>
+        </div>
+      </div>
+
+      <!-- ATIVIDADE: COMPLETAR FRASES - Copiar vs Mover -->
+      <div class="activity-block" style="margin-top:12px;">
+        <div class="activity-block-header" onclick="toggleAB('fill-copiar')">
+          <span>🎮</span>
+          <h4>Atividade: Complete as frases sobre copiar e mover</h4>
+          <span class="ab-xp">+15 XP</span>
+          <span class="ab-chevron" id="chev-fill-copiar">▼</span>
+        </div>
+        <div class="activity-block-body" id="body-fill-copiar">
+          <p style="font-size:.82em;color:var(--text-muted);margin-bottom:10px;">Selecione uma palavra no banco e clique no espaço em branco correto.</p>
+          <div class="fill-bank-dark" id="bank-fill-copiar">
+            <button class="fill-chip" data-word="Ctrl+X" onclick="selFill(this,'fill-copiar')">Ctrl+X</button>
+            <button class="fill-chip" data-word="cópia" onclick="selFill(this,'fill-copiar')">cópia</button>
+            <button class="fill-chip" data-word="origem" onclick="selFill(this,'fill-copiar')">origem</button>
+            <button class="fill-chip" data-word="Mover" onclick="selFill(this,'fill-copiar')">Mover</button>
+            <button class="fill-chip" data-word="Copiar" onclick="selFill(this,'fill-copiar')">Copiar</button>
+            <button class="fill-chip" data-word="mesmo disco" onclick="selFill(this,'fill-copiar')">mesmo disco</button>
+          </div>
+          <div class="fill-sentence-dark">
+            1. <span class="blank-dark" data-answer="Copiar" onclick="placeFill(this,'fill-copiar')">______</span> cria uma nova
+            <span class="blank-dark" data-answer="cópia" onclick="placeFill(this,'fill-copiar')">______</span> do arquivo, mantendo o original no lugar.
+          </div>
+          <div class="fill-sentence-dark">
+            2. Para mover um arquivo, usamos
+            <span class="blank-dark" data-answer="Ctrl+X" onclick="placeFill(this,'fill-copiar')">______</span> seguido de Ctrl+V — o arquivo some da
+            <span class="blank-dark" data-answer="origem" onclick="placeFill(this,'fill-copiar')">______</span>.
+          </div>
+          <div class="fill-sentence-dark">
+            3. Arrastar um arquivo entre pastas do
+            <span class="blank-dark" data-answer="mesmo disco" onclick="placeFill(this,'fill-copiar')">______</span> equivale a
+            <span class="blank-dark" data-answer="Mover" onclick="placeFill(this,'fill-copiar')">______</span>.
+          </div>
+          <button class="act-btn act-btn-green" onclick="checkFillDark('fill-copiar',10)">✅ Verificar</button>
+          <button class="act-btn act-btn-ghost" onclick="resetFillDark('fill-copiar')">🔄 Reiniciar</button>
+          <div class="act-result" id="res-fill-copiar"></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- CARD 3: LIXEIRA -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">🗑️</span>
@@ -201,13 +483,50 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
     </div>
     <div class="cc-body">
       <p>A Lixeira é sua segunda chance! Mas tem regras importantes:</p>
-             <div class="key-point"><span class="kp-icon">✅</span><div class="kp-text">Arquivos excluídos do <strong>disco local</strong> vão para a Lixeira — você pode restaurá-los!</div></div>
-             <div class="key-point"><span class="kp-icon">⚠️</span><div class="kp-text">Arquivos excluídos de <strong>pendrive ou rede</strong> são deletados PERMANENTEMENTE — sem Lixeira!</div></div>
-             <div class="key-point"><span class="kp-icon">💀</span><div class="kp-text"><strong>Shift + Delete</strong> exclui definitivamente sem passar pela Lixeira. Use com cuidado!</div></div>
-             <div class="key-point"><span class="kp-icon">📦</span><div class="kp-text">A Lixeira tem tamanho limitado (configurável). Quando cheia, os <strong>arquivos mais antigos</strong> são deletados permanentemente.</div></div>
-             <div class="warn-box"><span style='font-size:1em;flex-shrink:0;'>⚠️</span><p><strong>Regra de ouro:</strong> Sempre verifique a Lixeira antes de dizer que um arquivo "sumiu"!</p></div>
+      <div class="key-point"><span class="kp-icon">✅</span><div class="kp-text">Arquivos excluídos do <strong>disco local</strong> vão para a Lixeira — você pode restaurá-los!</div></div>
+      <div class="key-point"><span class="kp-icon">⚠️</span><div class="kp-text">Arquivos excluídos de <strong>pendrive ou rede</strong> são deletados PERMANENTEMENTE — sem Lixeira!</div></div>
+      <div class="key-point"><span class="kp-icon">💀</span><div class="kp-text"><strong>Shift + Delete</strong> exclui definitivamente sem passar pela Lixeira. Use com cuidado!</div></div>
+      <div class="key-point"><span class="kp-icon">📦</span><div class="kp-text">A Lixeira tem tamanho limitado (configurável). Quando cheia, os <strong>arquivos mais antigos</strong> são deletados permanentemente.</div></div>
+      <div class="warn-box"><span style="font-size:1em;flex-shrink:0;">⚠️</span><p><strong>Regra de ouro:</strong> Sempre verifique a Lixeira antes de dizer que um arquivo "sumiu"!</p></div>
+
+      <!-- ATIVIDADE: LIGAR PONTOS - Lixeira -->
+      <div class="activity-block" style="margin-top:20px;">
+        <div class="activity-block-header" onclick="toggleAB('match-lixeira')">
+          <span>🎮</span>
+          <h4>Atividade: Ligue a situação ao que acontece com o arquivo</h4>
+          <span class="ab-xp">+15 XP</span>
+          <span class="ab-chevron" id="chev-match-lixeira">▼</span>
+        </div>
+        <div class="activity-block-body" id="body-match-lixeira">
+          <p style="font-size:.82em;color:var(--text-muted);margin-bottom:14px;">Clique em uma situação e depois no resultado correto.</p>
+          <div style="position:relative;" id="canvas-match-lixeira">
+            <div class="match-wrap-dark" id="container-match-lixeira">
+              <div class="match-col-dark">
+                <div class="match-col-title">⚡ Ação</div>
+                <div class="match-item-dark mi-left" data-id="ml-l1" data-match="ml-r1">Delete em arquivo do disco C:</div>
+                <div class="match-item-dark mi-left" data-id="ml-l2" data-match="ml-r2">Shift+Delete em qualquer arquivo</div>
+                <div class="match-item-dark mi-left" data-id="ml-l3" data-match="ml-r3">Delete em arquivo do pendrive</div>
+                <div class="match-item-dark mi-left" data-id="ml-l4" data-match="ml-r4">Restaurar da Lixeira</div>
+              </div>
+              <div class="match-col-dark">
+                <div class="match-col-title">📍 O que acontece</div>
+                <div class="match-item-dark" data-id="ml-r2">Excluído permanentemente, sem Lixeira</div>
+                <div class="match-item-dark" data-id="ml-r4">Volta para o local original</div>
+                <div class="match-item-dark" data-id="ml-r1">Vai para a Lixeira (recuperável)</div>
+                <div class="match-item-dark" data-id="ml-r3">Excluído permanentemente (sem Lixeira)</div>
+              </div>
+            </div>
+            <svg class="match-svg-dark" id="svg-match-lixeira"></svg>
+          </div>
+          <div class="match-score-dark" id="score-match-lixeira"></div>
+          <button class="act-btn act-btn-ghost" onclick="resetMatchDark('match-lixeira')">🔄 Reiniciar</button>
+          <div class="act-result" id="res-match-lixeira"></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- CARD 4: OPERAÇÕES EM LOTE -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">⚡</span>
@@ -217,26 +536,112 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
     </div>
     <div class="cc-body">
       <p>Selecionar e operar em múltiplos arquivos de uma vez economiza horas de trabalho!</p>
-             <div class="key-point"><span class="kp-icon">🖱️</span><div class="kp-text"><strong>Ctrl + clique:</strong> seleciona arquivos individuais (não precisa ser em sequência).</div></div>
-             <div class="key-point"><span class="kp-icon">↕️</span><div class="kp-text"><strong>Shift + clique:</strong> seleciona todos os arquivos entre o primeiro e o último clicado.</div></div>
-             <div class="key-point"><span class="kp-icon">☑️</span><div class="kp-text"><strong>Ctrl + A:</strong> seleciona TODOS os arquivos da pasta de uma vez.</div></div>
-             <div class="key-point"><span class="kp-icon">📦</span><div class="kp-text">Com vários arquivos selecionados, você pode copiar, mover, excluir ou comprimir todos de uma vez!</div></div>
-             <div class="shortcut-row"><div class="shortcut"><kbd>Ctrl+A</kbd><span>Selecionar tudo</span></div><div class="shortcut"><kbd>Ctrl+clique</kbd><span>Seleção individual</span></div><div class="shortcut"><kbd>Shift+clique</kbd><span>Selecionar intervalo</span></div></div>
-             <div class="tip-box"><span class="tip-icon">🚀</span><p><strong>Desafio:</strong> Renomeie 10 arquivos de uma vez! Selecione todos com Ctrl+A, pressione F2, e digite um nome — o Windows numera automaticamente!</p></div>
+      <div class="key-point"><span class="kp-icon">🖱️</span><div class="kp-text"><strong>Ctrl + clique:</strong> seleciona arquivos individuais (não precisa ser em sequência).</div></div>
+      <div class="key-point"><span class="kp-icon">↕️</span><div class="kp-text"><strong>Shift + clique:</strong> seleciona todos os arquivos entre o primeiro e o último clicado.</div></div>
+      <div class="key-point"><span class="kp-icon">☑️</span><div class="kp-text"><strong>Ctrl + A:</strong> seleciona TODOS os arquivos da pasta de uma vez.</div></div>
+      <div class="key-point"><span class="kp-icon">📦</span><div class="kp-text">Com vários arquivos selecionados, você pode copiar, mover, excluir ou comprimir todos de uma vez!</div></div>
+      <div class="shortcut-row">
+        <div class="shortcut"><kbd>Ctrl+A</kbd><span>Selecionar tudo</span></div>
+        <div class="shortcut"><kbd>Ctrl+clique</kbd><span>Seleção individual</span></div>
+        <div class="shortcut"><kbd>Shift+clique</kbd><span>Selecionar intervalo</span></div>
+      </div>
+      <div class="tip-box"><span>🚀</span><p><strong>Desafio:</strong> Renomeie 10 arquivos de uma vez! Selecione todos com Ctrl+A, pressione F2, e digite um nome — o Windows numera automaticamente!</p></div>
+
+      <!-- ATIVIDADE: ORDENAR PASSOS -->
+      <div class="activity-block" style="margin-top:20px;">
+        <div class="activity-block-header" onclick="toggleAB('order-lote')">
+          <span>🎮</span>
+          <h4>Atividade: Ordene os passos para renomear arquivos em lote</h4>
+          <span class="ab-xp">+15 XP</span>
+          <span class="ab-chevron" id="chev-order-lote">▼</span>
+        </div>
+        <div class="activity-block-body" id="body-order-lote">
+          <p style="font-size:.82em;color:var(--text-muted);margin-bottom:12px;">Arraste os passos para a ordem correta.</p>
+          <div class="order-list-dark" id="list-order-lote">
+            <div class="order-item-dark" draggable="true" data-order="3">
+              <span class="order-handle-dark">⠿</span>
+              <div class="order-num-dark" id="onum-order-lote-3">?</div>
+              <span>Pressione F2 para iniciar o renomeio</span>
+            </div>
+            <div class="order-item-dark" draggable="true" data-order="1">
+              <span class="order-handle-dark">⠿</span>
+              <div class="order-num-dark" id="onum-order-lote-1">?</div>
+              <span>Abra a pasta com os arquivos</span>
+            </div>
+            <div class="order-item-dark" draggable="true" data-order="5">
+              <span class="order-handle-dark">⠿</span>
+              <div class="order-num-dark" id="onum-order-lote-5">?</div>
+              <span>Confirme — o Windows numera automaticamente!</span>
+            </div>
+            <div class="order-item-dark" draggable="true" data-order="2">
+              <span class="order-handle-dark">⠿</span>
+              <div class="order-num-dark" id="onum-order-lote-2">?</div>
+              <span>Pressione Ctrl+A para selecionar todos</span>
+            </div>
+            <div class="order-item-dark" draggable="true" data-order="4">
+              <span class="order-handle-dark">⠿</span>
+              <div class="order-num-dark" id="onum-order-lote-4">?</div>
+              <span>Digite o novo nome base (ex: "relatorio")</span>
+            </div>
+          </div>
+          <button class="act-btn act-btn-primary" onclick="checkOrderDark('order-lote',10)">✅ Verificar</button>
+          <button class="act-btn act-btn-ghost" onclick="resetOrderDark('order-lote')">🔄 Reiniciar</button>
+          <div class="act-result" id="res-order-lote"></div>
+        </div>
+      </div>
+
+      <!-- ATIVIDADE: ARRASTAR POR CATEGORIAS -->
+      <div class="activity-block" style="margin-top:12px;">
+        <div class="activity-block-header" onclick="toggleAB('drag-cats')">
+          <span>🎮</span>
+          <h4>Atividade: Classifique os atalhos por tipo de seleção</h4>
+          <span class="ab-xp">+15 XP</span>
+          <span class="ab-chevron" id="chev-drag-cats">▼</span>
+        </div>
+        <div class="activity-block-body" id="body-drag-cats">
+          <p style="font-size:.82em;color:var(--text-muted);margin-bottom:10px;">Arraste cada atalho para a categoria correta.</p>
+          <div class="drag-bank-label">🎯 Atalhos</div>
+          <div class="drag-pool" id="pool-drag-cats">
+            <div class="drag-chip" draggable="true" data-value="Ctrl+A">Ctrl+A</div>
+            <div class="drag-chip" draggable="true" data-value="Ctrl+clique">Ctrl+clique</div>
+            <div class="drag-chip" draggable="true" data-value="Shift+clique">Shift+clique</div>
+            <div class="drag-chip" draggable="true" data-value="Ctrl+C">Ctrl+C</div>
+            <div class="drag-chip" draggable="true" data-value="Ctrl+X">Ctrl+X</div>
+            <div class="drag-chip" draggable="true" data-value="Delete">Delete</div>
+          </div>
+          <div class="drag-cats-wrap">
+            <div class="drag-cat-row">
+              <span class="drag-cat-label">☑️ Seleção de arquivos</span>
+              <div class="drop-zone-multi" data-answer="Ctrl+A|Ctrl+clique|Shift+clique" id="dc-1" data-multi="true"></div>
+            </div>
+            <div class="drag-cat-row">
+              <span class="drag-cat-label">⚙️ Operações em lote</span>
+              <div class="drop-zone-multi" data-answer="Ctrl+C|Ctrl+X|Delete" id="dc-2" data-multi="true"></div>
+            </div>
+          </div>
+          <button class="act-btn act-btn-primary" onclick="checkDarkDragMulti('drag-cats',10)">✅ Verificar</button>
+          <button class="act-btn act-btn-ghost" onclick="resetDarkDrag('drag-cats')">🔄 Reiniciar</button>
+          <div class="act-result" id="res-drag-cats"></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- QUIZ -->
   <div class="section-header" style="margin-top:40px;"><div class="section-icon purple">🧠</div><h2 class="section-title">Quiz Rápido</h2><span class="section-xp">+80 XP</span></div>
   <div class="quiz-wrapper" id="quizWrapper">
     <div class="quiz-header">
       <span class="quiz-icon">⚡</span>
-      <div class="quiz-header-text"><h3>Teste seu conhecimento!</h3><p>4 perguntas · responda com atenção</p></div>
-      <div class="quiz-reward"><div class="xp-big">+80</div><div class="xp-label">XP máx.</div></div>
+      <div class="quiz-header-text"><h3>Teste seu conhecimento!</h3><p>5 perguntas · responda com atenção</p></div>
+      <div class="quiz-reward"><div class="xp-big">+100</div><div class="xp-label">XP máx.</div></div>
     </div>
     <div class="quiz-body">
-      <div class="quiz-progress"><div class="quiz-dots" id="quizDots"></div><div class="quiz-counter" id="quizCounter">1 / 4</div></div>
+      <div class="quiz-progress"><div class="quiz-dots" id="quizDots"></div><div class="quiz-counter" id="quizCounter">1 / 5</div></div>
       <div id="quizContent"></div>
     </div>
   </div>
+
+  <!-- MISSÕES -->
   <div class="section-header"><div class="section-icon amber">🔬</div><h2 class="section-title">Missões do Laboratório</h2><span class="section-xp">+90 XP</span></div>
   <p style="color:var(--text-muted);font-size:.85em;margin-bottom:16px;">Acesse o <a href="semana06_guia.html" style="color:var(--blue);">📝 Guia de Exercícios</a> para ver as rubricas. Marque ✓ ao concluir!</p>
   <div class="missions-grid">
@@ -245,11 +650,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
       <div class="mission-content">
         <div class="mission-title">📁 Gerenciamento Completo de Arquivos</div>
         <div class="mission-desc">Execute uma série de operações simulando o trabalho real: crie pastas, mova arquivos entre elas, copie, renomeie e organize tudo em uma estrutura profissional.</div>
-        <div class="mission-meta">
-          <span class="mission-tag">⏱ 30 min</span>
-          <span class="mission-tag">🔬 Laboratório</span>
-          <span class="mission-tag xp">+30 XP</span>
-        </div>
+        <div class="mission-meta"><span class="mission-tag">⏱ 30 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+30 XP</span></div>
       </div>
       <div class="mission-check" id="m1" onclick="completeMission('m1',30)">○</div>
     </div>
@@ -258,11 +659,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
       <div class="mission-content">
         <div class="mission-title">🔐 Configurando Permissões NTFS</div>
         <div class="mission-desc">Configure permissões NTFS em pastas simulando um ambiente corporativo com dois 'departamentos' com acesso diferente aos arquivos.</div>
-        <div class="mission-meta">
-          <span class="mission-tag">⏱ 35 min</span>
-          <span class="mission-tag">🔬 Laboratório</span>
-          <span class="mission-tag xp">+30 XP</span>
-        </div>
+        <div class="mission-meta"><span class="mission-tag">⏱ 35 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+30 XP</span></div>
       </div>
       <div class="mission-check" id="m2" onclick="completeMission('m2',30)">○</div>
     </div>
@@ -271,20 +668,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
       <div class="mission-content">
         <div class="mission-title">♻️ Recuperação e Segurança de Dados</div>
         <div class="mission-desc">Pratique: delete arquivos, recupere da Lixeira, experimente o Shift+Delete e configure o tamanho máximo da Lixeira.</div>
-        <div class="mission-meta">
-          <span class="mission-tag">⏱ 25 min</span>
-          <span class="mission-tag">🔬 Laboratório</span>
-          <span class="mission-tag xp">+30 XP</span>
-        </div>
+        <div class="mission-meta"><span class="mission-tag">⏱ 25 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+30 XP</span></div>
       </div>
       <div class="mission-check" id="m3" onclick="completeMission('m3',30)">○</div>
-    </div></div>
+    </div>
+  </div>
+
   <div class="checkpoint" id="checkpoint">
     <div class="checkpoint-stars" id="checkpointStars">⭐⭐⭐</div>
     <h3>Progresso da Missão 06</h3>
-    <p>Complete as missões e o quiz para acumular XP!</p>
-    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 260 XP</div>
+    <p>Complete as missões, atividades e o quiz para acumular XP!</p>
+    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 420 XP</div>
   </div>
+
   <div class="section-header"><div class="section-icon green">🔗</div><h2 class="section-title">Recursos para ir além</h2></div>
   <div class="resources-grid">
     <div class="res-card"><div class="res-icon">📄</div><div class="res-title">Microsoft Docs</div><div class="res-desc">docs.microsoft.com</div></div>
@@ -292,6 +688,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
     <div class="res-card"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "Gerenciamento de Arq..."</div></div>
     <div class="res-card"><div class="res-icon">🎓</div><div class="res-title">Microsoft Learn</div><div class="res-desc">learn.microsoft.com — gratuito</div></div>
   </div>
+
   <nav class="nav-bar" style="margin-top:32px;margin-bottom:0;">
     <a href="semana05_aula.html" class="nav-btn btn-ghost">← Anterior</a>
     <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
@@ -300,34 +697,432 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
     <a href="semana07_aula.html" class="nav-btn btn-primary">Próxima →</a>
   </nav>
 </div>
+
 <div class="footer">Gestão de Sistemas Operacionais I · GSO I 2026 · Prof. Isaque Katahira<br>ETEC · Centro Paula Souza · Módulo I</div>
+
 <script>
-let xp=0,objDone=new Set(),missionDone=new Set(),cardXpDone=new Set();
-const totalXP=260;
-function addXP(a){xp+=a;document.getElementById('xpDisplay').textContent=xp;document.getElementById('xpFinal').textContent=xp;const p=Math.min(100,(xp/totalXP)*100);document.getElementById('mainProgress').style.width=p+'%';const s=document.getElementById('checkpointStars');if(p>=80)s.textContent='🌟🌟🌟';else if(p>=50)s.textContent='⭐🌟⭐';spawnStars();checkAch();}
-function spawnStars(){for(let i=0;i<3;i++)setTimeout(()=>{const e=document.createElement('div');e.className='star';e.textContent=['⭐','✨','💫','⚡'][Math.floor(Math.random()*4)];e.style.left=(Math.random()*80+10)+'%';e.style.top=(window.scrollY+window.innerHeight*.5)+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1500);},i*150);}
-function markObj(el,pts){if(el.classList.contains('done'))return;el.classList.add('done');el.querySelector('.obj-num').style.background='var(--green)';el.querySelector('.obj-num').style.color='#0d1117';addXP(pts);if([...document.querySelectorAll('.obj-card.done')].length===4)showAch('🎯','Objetivos Marcados!','Você leu todos os objetivos!');}
-function toggleCard(h){const b=h.nextElementSibling,o=b.classList.contains('open');document.querySelectorAll('.cc-body.open').forEach(x=>{x.classList.remove('open');x.previousElementSibling.classList.remove('open');});if(!o){b.classList.add('open');h.classList.add('open');const t=h.querySelector('.cc-title').textContent;if(!cardXpDone.has(t)){cardXpDone.add(t);addXP(20);}}}
-function completeMission(id,pts){if(missionDone.has(id))return;missionDone.add(id);const e=document.getElementById(id);e.classList.add('done');e.textContent='✓';e.closest('.mission-card').style.borderColor='rgba(57,211,83,.3)';addXP(pts);if(missionDone.size===3)showAch('🔬','Lab Completo!','Todas as missões concluídas!');}
+// ============================================================
+// XP SYSTEM
+// ============================================================
+let xp=0, objDone=new Set(), missionDone=new Set(), cardXpDone=new Set();
+const totalXP=420;
+
+function addXP(a){
+  xp+=a;
+  document.getElementById('xpDisplay').textContent=xp;
+  document.getElementById('xpFinal').textContent=xp;
+  const p=Math.min(100,(xp/totalXP)*100);
+  document.getElementById('mainProgress').style.width=p+'%';
+  const s=document.getElementById('checkpointStars');
+  if(p>=80)s.textContent='🌟🌟🌟';
+  else if(p>=50)s.textContent='⭐🌟⭐';
+  spawnStars();checkAch();
+}
+
+function spawnStars(){
+  for(let i=0;i<3;i++)setTimeout(()=>{
+    const e=document.createElement('div');e.className='star';
+    e.textContent=['⭐','✨','💫','⚡'][Math.floor(Math.random()*4)];
+    e.style.left=(Math.random()*80+10)+'%';
+    e.style.top=(window.scrollY+window.innerHeight*.5)+'px';
+    document.body.appendChild(e);setTimeout(()=>e.remove(),1500);
+  },i*150);
+}
+
+function markObj(el,pts){
+  if(el.classList.contains('done'))return;
+  el.classList.add('done');
+  el.querySelector('.obj-num').style.background='var(--green)';
+  el.querySelector('.obj-num').style.color='#0d1117';
+  addXP(pts);
+  if([...document.querySelectorAll('.obj-card.done')].length===4)
+    showAch('🎯','Objetivos Marcados!','Você leu todos os objetivos!');
+}
+
+function toggleCard(h){
+  const b=h.nextElementSibling,o=b.classList.contains('open');
+  document.querySelectorAll('.cc-body.open').forEach(x=>{x.classList.remove('open');x.previousElementSibling.classList.remove('open');});
+  if(!o){
+    b.classList.add('open');h.classList.add('open');
+    const t=h.querySelector('.cc-title').textContent;
+    if(!cardXpDone.has(t)){cardXpDone.add(t);addXP(20);}
+  }
+}
+
+function completeMission(id,pts){
+  if(missionDone.has(id))return;
+  missionDone.add(id);
+  const e=document.getElementById(id);
+  e.classList.add('done');e.textContent='✓';
+  e.closest('.mission-card').style.borderColor='rgba(57,211,83,.3)';
+  addXP(pts);
+  if(missionDone.size===3)showAch('🔬','Lab Completo!','Todas as missões concluídas!');
+}
+
+// ============================================================
+// ACHIEVEMENTS
+// ============================================================
+let achQ=[],achShow=false;
+function showAch(i,t,d){achQ.push({i,t,d});if(!achShow)procAch();}
+function procAch(){if(!achQ.length){achShow=false;return;}achShow=true;const{i,t,d}=achQ.shift();document.getElementById('achIcon').textContent=i;document.getElementById('achTitle').textContent=t;document.getElementById('achDesc').textContent=d;const p=document.getElementById('achPopup');p.classList.add('show');setTimeout(()=>{p.classList.remove('show');setTimeout(procAch,400);},3500);}
+function checkAch(){if(xp>=50&&!window._a50){window._a50=1;showAch('🌱','Primeiros Passos!','+50 XP!');}if(xp>=Math.floor(totalXP/2)&&!window._a50p){window._a50p=1;showAch('🔥','Em Chamas!','Metade do XP!');}if(xp>=totalXP&&!window._a100){window._a100=1;showAch('💎','Missão Completa!',totalXP+' XP conquistados!');}}
+
+// ============================================================
+// QUIZ
+// ============================================================
 const questions=[
   {q:"O que acontece quando você usa Ctrl+X e depois Ctrl+V para um arquivo?",opts:["O arquivo é copiado (original permanece)","O arquivo é movido (original some da origem)","O arquivo é compactado","O arquivo é renomeado"],ans:1,exp:"✅ Ctrl+X recorta (= mover). O arquivo é transferido para o novo local e removido da origem. Diferente de Ctrl+C que copia!"},
   {q:"Você excluiu um arquivo de um pendrive USB. Onde ele foi parar?",opts:["Lixeira do Windows","Lixeira do pendrive","Foi deletado permanentemente","Pasta Downloads"],ans:2,exp:"✅ Arquivos excluídos de pendrives, HDs externos ou pastas de rede NÃO vão para a Lixeira — são deletados permanentemente! Cuidado!"},
   {q:"Qual atalho seleciona TODOS os arquivos de uma pasta?",opts:["Ctrl + S","Shift + A","Ctrl + A","Win + A"],ans:2,exp:"✅ Ctrl + A (de 'All' — todos) seleciona todos os itens na pasta atual. Um dos atalhos mais úteis!"},
   {q:"Para configurar permissões NTFS de uma pasta, onde você clica?",opts:["Duplo clique → Propriedades → Geral","Botão direito → Propriedades → Segurança","Botão direito → Abrir → Permissões","Explorador → Arquivo → Permissões"],ans:1,exp:"✅ Botão direito → Propriedades → aba Segurança → Editar. Lá você vê e altera as permissões NTFS!"},
+  {q:"Ao arrastar um arquivo entre duas pastas do MESMO disco C:, o que acontece?",opts:["O arquivo é copiado (original permanece)","O arquivo é movido (original some)","Uma janela pergunta se quer copiar ou mover","Depende da versão do Windows"],ans:1,exp:"✅ Arrastar no MESMO disco é equivalente a MOVER (Ctrl+X → Ctrl+V). Para copiar no mesmo disco, segure Ctrl enquanto arrasta!"},
 ];
 let currentQ=0,quizScore=0,answered=false;
-function initQuiz(){const d=document.getElementById('quizDots');d.innerHTML='';questions.forEach((_,i)=>{const dot=document.createElement('div');dot.className='quiz-dot'+(i===0?' current':'');d.appendChild(dot);});renderQuestion();}
-function renderQuestion(){if(currentQ>=questions.length){showResult();return;}answered=false;const q=questions[currentQ];document.getElementById('quizCounter').textContent=`${currentQ+1} / ${questions.length}`;document.getElementById('quizContent').innerHTML=`<div class="question-card"><div class="question-text">${q.q}</div><div class="options">${q.opts.map((o,i)=>`<button class="option-btn" onclick="selectAnswer(${i})"><span class="option-letter">${'ABCD'[i]}</span>${o}</button>`).join('')}</div><div class="quiz-feedback" id="qFeedback"></div><button class="quiz-next" id="qNext" onclick="nextQuestion()">Próxima →</button></div>`;}
-function selectAnswer(idx){if(answered)return;answered=true;const q=questions[currentQ];document.querySelectorAll('.option-btn').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add('correct');else if(i===idx&&idx!==q.ans)b.classList.add('wrong');});const fb=document.getElementById('qFeedback');if(idx===q.ans){quizScore++;fb.className='quiz-feedback show ok';fb.innerHTML='🎉 '+q.exp;addXP(20);}else{fb.className='quiz-feedback show err';fb.innerHTML='❌ Ops! '+q.exp;}document.getElementById('qNext').style.display='inline-block';const dots=document.querySelectorAll('.quiz-dot');dots[currentQ].className='quiz-dot done';if(currentQ+1<questions.length)dots[currentQ+1].className='quiz-dot current';}
+
+function initQuiz(){
+  const d=document.getElementById('quizDots');d.innerHTML='';
+  questions.forEach((_,i)=>{const dot=document.createElement('div');dot.className='quiz-dot'+(i===0?' current':'');d.appendChild(dot);});
+  renderQuestion();
+}
+
+function renderQuestion(){
+  if(currentQ>=questions.length){showQuizResult();return;}
+  answered=false;
+  const q=questions[currentQ];
+  document.getElementById('quizCounter').textContent=`${currentQ+1} / ${questions.length}`;
+  document.getElementById('quizContent').innerHTML=`<div class="question-card"><div class="question-text">${q.q}</div><div class="options">${q.opts.map((o,i)=>`<button class="option-btn" onclick="selectAnswer(${i})"><span class="option-letter">${'ABCD'[i]}</span>${o}</button>`).join('')}</div><div class="quiz-feedback" id="qFeedback"></div><button class="quiz-next" id="qNext" onclick="nextQuestion()">Próxima →</button></div>`;
+}
+
+function selectAnswer(idx){
+  if(answered)return;answered=true;
+  const q=questions[currentQ];
+  document.querySelectorAll('.option-btn').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add('correct');else if(i===idx&&idx!==q.ans)b.classList.add('wrong');});
+  const fb=document.getElementById('qFeedback');
+  if(idx===q.ans){quizScore++;fb.className='quiz-feedback show ok';fb.innerHTML='🎉 '+q.exp;addXP(20);}
+  else{fb.className='quiz-feedback show err';fb.innerHTML='❌ Ops! '+q.exp;}
+  document.getElementById('qNext').style.display='inline-block';
+  const dots=document.querySelectorAll('.quiz-dot');
+  dots[currentQ].className='quiz-dot done';
+  if(currentQ+1<questions.length)dots[currentQ+1].className='quiz-dot current';
+}
+
 function nextQuestion(){currentQ++;renderQuestion();}
-function showResult(){const pct=Math.round((quizScore/questions.length)*100);const msg=pct===100?'🏆 Perfeito! Você arrasou!':pct>=75?'🌟 Muito bem!':pct>=50?'👍 Bom começo!':'📖 Vamos revisar!';document.getElementById('quizContent').innerHTML=`<div class="quiz-result"><div class="score">${quizScore}/${questions.length}</div><div class="score-label">${msg}</div><div class="xp-earn">⚡ +${quizScore*20} XP conquistados</div><br><button class="quiz-restart" onclick="restartQuiz()">🔄 Tentar novamente</button></div>`;if(quizScore===4)showAch('🏆','Quiz Perfeito!','4 de 4 corretas!');}
+
+function showQuizResult(){
+  const pct=Math.round((quizScore/questions.length)*100);
+  const msg=pct===100?'🏆 Perfeito! Você arrasou!':pct>=80?'🌟 Muito bem!':pct>=60?'👍 Bom!':'📖 Vamos revisar!';
+  document.getElementById('quizContent').innerHTML=`<div class="quiz-result"><div class="score">${quizScore}/${questions.length}</div><div class="score-label">${msg}</div><div class="xp-earn">⚡ +${quizScore*20} XP conquistados</div><br><button class="quiz-restart" onclick="restartQuiz()">🔄 Tentar novamente</button></div>`;
+  if(quizScore===questions.length)showAch('🏆','Quiz Perfeito!','5 de 5 corretas!');
+}
+
 function restartQuiz(){currentQ=0;quizScore=0;answered=false;initQuiz();}
-let achQ=[],achShow=false;
-function showAch(i,t,d){achQ.push({i,t,d});if(!achShow)procAch();}
-function procAch(){if(!achQ.length){achShow=false;return;}achShow=true;const {i,t,d}=achQ.shift();document.getElementById('achIcon').textContent=i;document.getElementById('achTitle').textContent=t;document.getElementById('achDesc').textContent=d;const p=document.getElementById('achPopup');p.classList.add('show');setTimeout(()=>{p.classList.remove('show');setTimeout(procAch,400);},3500);}
-function checkAch(){if(xp>=50&&!window._a50){window._a50=1;showAch('🌱','Primeiros Passos!','+50 XP!');}if(xp>=Math.floor(totalXP/2)&&!window._a50p){window._a50p=1;showAch('🔥','Em Chamas!','Metade do XP!');}if(xp>=totalXP&&!window._a100){window._a100=1;showAch('💎','Missão Completa!',totalXP+' XP conquistados!');}}
-initQuiz();
-setTimeout(()=>{const f=document.querySelector('.cc-header');if(f)toggleCard(f);},800);
+
+// ============================================================
+// TOGGLE ACTIVITY BLOCKS
+// ============================================================
+function toggleAB(id){
+  const body=document.getElementById('body-'+id);
+  const chev=document.getElementById('chev-'+id);
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+// ============================================================
+// DRAG & DROP (dark, single)
+// ============================================================
+let draggedChip=null;
+
+document.addEventListener('dragstart',e=>{
+  if(e.target.classList.contains('drag-chip')){
+    draggedChip=e.target;
+    e.target.classList.add('dragging-chip');
+    e.dataTransfer.effectAllowed='move';
+  }
+});
+document.addEventListener('dragend',e=>{
+  if(e.target.classList.contains('drag-chip'))e.target.classList.remove('dragging-chip');
+});
+document.addEventListener('dragover',e=>{
+  const z=e.target.closest('.drop-zone-dark,.drop-zone-multi');
+  if(z){e.preventDefault();z.classList.add('drag-over-d');}
+});
+document.addEventListener('dragleave',e=>{
+  const z=e.target.closest('.drop-zone-dark,.drop-zone-multi');
+  if(z)z.classList.remove('drag-over-d');
+});
+document.addEventListener('drop',e=>{
+  const z=e.target.closest('.drop-zone-dark,.drop-zone-multi');
+  if(z&&draggedChip){
+    e.preventDefault();
+    z.classList.remove('drag-over-d');
+    const isMulti=z.classList.contains('drop-zone-multi')||z.dataset.multi==='true';
+    if(!isMulti){
+      const existing=z.querySelector('.drag-chip');
+      if(existing){
+        const pool=draggedChip.closest('.activity-block-body')?.querySelector('.drag-pool');
+        if(pool)pool.appendChild(existing);
+      }
+      z.appendChild(draggedChip);
+    } else {
+      z.appendChild(draggedChip);
+    }
+    draggedChip=null;
+  }
+});
+
+function checkDarkDrag(id,pts){
+  const body=document.getElementById('body-'+id);
+  const zones=body.querySelectorAll('.drop-zone-dark');
+  let correct=0;
+  zones.forEach(z=>{
+    const chip=z.querySelector('.drag-chip');
+    if(chip&&chip.dataset.value===z.dataset.answer){z.classList.add('dz-correct');z.classList.remove('dz-wrong');correct++;}
+    else{z.classList.add('dz-wrong');z.classList.remove('dz-correct');}
+  });
+  showActResult('res-'+id, correct, zones.length);
+  if(correct===zones.length){addXP(pts);showAch('🎯','Atividade Concluída!','+'+pts+' XP!');}
+}
+
+function checkDarkDragMulti(id,pts){
+  const body=document.getElementById('body-'+id);
+  const zones=body.querySelectorAll('[data-multi="true"]');
+  let correct=0;
+  zones.forEach(z=>{
+    const answers=z.dataset.answer.split('|');
+    const items=Array.from(z.querySelectorAll('.drag-chip')).map(c=>c.dataset.value);
+    const ok=answers.every(a=>items.includes(a))&&items.every(i=>answers.includes(i));
+    if(ok){z.classList.add('dz-correct');z.classList.remove('dz-wrong');correct++;}
+    else{z.classList.add('dz-wrong');z.classList.remove('dz-correct');}
+  });
+  showActResult('res-'+id, correct, zones.length);
+  if(correct===zones.length){addXP(pts);showAch('🎯','Atividade Concluída!','+'+pts+' XP!');}
+}
+
+function resetDarkDrag(id){
+  const body=document.getElementById('body-'+id);
+  const pool=body.querySelector('.drag-pool');
+  body.querySelectorAll('.drop-zone-dark,.drop-zone-multi').forEach(z=>{
+    z.classList.remove('dz-correct','dz-wrong','drag-over-d');
+    z.querySelectorAll('.drag-chip').forEach(c=>pool.appendChild(c));
+  });
+  const r=document.getElementById('res-'+id);
+  r.className='act-result';r.textContent='';
+}
+
+// ============================================================
+// FILL IN THE BLANK (dark)
+// ============================================================
+const fillSelected={};
+
+function selFill(btn,id){
+  const bankId='bank-'+id;
+  document.querySelectorAll(`#${bankId} .fill-chip`).forEach(b=>{b.classList.remove('fc-selected');});
+  document.querySelectorAll(`#body-${id} .blank-dark`).forEach(b=>b.classList.remove('bk-selected'));
+  fillSelected[id]=btn.dataset.word;
+  btn.classList.add('fc-selected');
+}
+
+function placeFill(blank,id){
+  if(!fillSelected[id])return;
+  const current=blank.textContent.trim();
+  if(current&&current!=='______'){
+    const bank=document.getElementById('bank-'+id);
+    bank.querySelectorAll('.fill-chip').forEach(b=>{if(b.dataset.word===current){b.classList.remove('fc-used');}});
+  }
+  blank.textContent=fillSelected[id];
+  blank.className='blank-dark bk-selected';
+  const bank=document.getElementById('bank-'+id);
+  bank.querySelectorAll('.fill-chip').forEach(b=>{if(b.dataset.word===fillSelected[id]){b.classList.add('fc-used');b.classList.remove('fc-selected');}});
+  fillSelected[id]=null;
+}
+
+function checkFillDark(id,pts){
+  const body=document.getElementById('body-'+id);
+  const blanks=body.querySelectorAll('.blank-dark');
+  let correct=0;
+  blanks.forEach(b=>{
+    b.classList.remove('bk-selected');
+    if(b.textContent.trim()===b.dataset.answer){b.classList.add('bk-correct');b.classList.remove('bk-wrong');correct++;}
+    else{b.classList.add('bk-wrong');b.classList.remove('bk-correct');}
+  });
+  showActResult('res-'+id, correct, blanks.length);
+  if(correct===blanks.length){addXP(pts);showAch('✏️','Frases Completas!','+'+pts+' XP!');}
+}
+
+function resetFillDark(id){
+  const body=document.getElementById('body-'+id);
+  body.querySelectorAll('.blank-dark').forEach(b=>{b.textContent='______';b.className='blank-dark';});
+  body.querySelectorAll('.fill-chip').forEach(b=>{b.classList.remove('fc-used','fc-selected');});
+  fillSelected[id]=null;
+  const r=document.getElementById('res-'+id);r.className='act-result';r.textContent='';
+}
+
+// ============================================================
+// MATCH (dark)
+// ============================================================
+const matchStateDark={};
+
+function initMatchDark(id){
+  matchStateDark[id]={selected:null,pairs:[],total:0};
+  const container=document.getElementById('container-'+id);
+  const lefts=container.querySelectorAll('.mi-left');
+  matchStateDark[id].total=lefts.length;
+  container.querySelectorAll('.match-item-dark').forEach(item=>{
+    item.addEventListener('click',()=>handleMatchDark(id,item));
+  });
+}
+
+function handleMatchDark(id,item){
+  const st=matchStateDark[id];
+  if(item.classList.contains('mi-matched'))return;
+  if(!st.selected){
+    if(!item.classList.contains('mi-left'))return;
+    st.selected=item;item.classList.add('mi-selected');
+  } else {
+    if(item===st.selected){item.classList.remove('mi-selected');st.selected=null;return;}
+    if(item.classList.contains('mi-left')){
+      st.selected.classList.remove('mi-selected');
+      st.selected=item;item.classList.add('mi-selected');return;
+    }
+    const leftMatch=st.selected.dataset.match;
+    const rightId=item.dataset.id;
+    if(leftMatch===rightId){
+      st.selected.classList.remove('mi-selected');
+      st.selected.classList.add('mi-matched');
+      item.classList.add('mi-matched');
+      st.pairs.push({l:st.selected,r:item});
+      drawLineDark(id,st.selected,item);
+      st.selected=null;
+      updateMatchDark(id);
+    } else {
+      const sel=st.selected;
+      sel.classList.add('mi-wrong');item.classList.add('mi-wrong');
+      setTimeout(()=>{sel.classList.remove('mi-wrong','mi-selected');item.classList.remove('mi-wrong');},500);
+      st.selected=null;
+    }
+  }
+}
+
+function drawLineDark(id,le,re){
+  const svg=document.getElementById('svg-'+id);
+  const canvas=document.getElementById('canvas-'+id);
+  const cr=canvas.getBoundingClientRect();
+  const lr=le.getBoundingClientRect();
+  const rr=re.getBoundingClientRect();
+  const x1=lr.right-cr.left, y1=lr.top+lr.height/2-cr.top;
+  const x2=rr.left-cr.left, y2=rr.top+rr.height/2-cr.top;
+  svg.setAttribute('viewBox',`0 0 ${canvas.offsetWidth} ${canvas.offsetHeight}`);
+  svg.style.width=canvas.offsetWidth+'px';svg.style.height=canvas.offsetHeight+'px';
+  const cx=(x1+x2)/2;
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d',`M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`);
+  path.setAttribute('class','match-line-dark');
+  svg.appendChild(path);
+}
+
+function updateMatchDark(id){
+  const st=matchStateDark[id];
+  const sc=document.getElementById('score-'+id);
+  sc.textContent=`✅ ${st.pairs.length} / ${st.total} pares corretos`;
+  if(st.pairs.length===st.total){
+    showActResult('res-'+id, st.total, st.total);
+    addXP(15);showAch('🔗','Ligações Perfeitas!','+15 XP!');
+  }
+}
+
+function resetMatchDark(id){
+  const container=document.getElementById('container-'+id);
+  container.querySelectorAll('.match-item-dark').forEach(i=>{
+    i.className=i.classList.contains('mi-left')?'match-item-dark mi-left':'match-item-dark';
+  });
+  document.getElementById('svg-'+id).innerHTML='';
+  document.getElementById('score-'+id).textContent='';
+  matchStateDark[id]={selected:null,pairs:[],total:matchStateDark[id].total};
+  const r=document.getElementById('res-'+id);r.className='act-result';r.textContent='';
+}
+
+// ============================================================
+// ORDER (dark)
+// ============================================================
+let orderDragDark=null;
+
+function initOrderDark(id){
+  const list=document.getElementById('list-'+id);
+  list.querySelectorAll('.order-item-dark').forEach(item=>{
+    item.addEventListener('dragstart',e=>{
+      orderDragDark=item;item.classList.add('oi-dragging');e.dataTransfer.effectAllowed='move';
+    });
+    item.addEventListener('dragend',()=>{
+      item.classList.remove('oi-dragging');
+      list.querySelectorAll('.order-item-dark').forEach(i=>i.classList.remove('oi-target'));
+    });
+    item.addEventListener('dragover',e=>{
+      e.preventDefault();
+      if(item!==orderDragDark){
+        item.classList.add('oi-target');
+        const rect=item.getBoundingClientRect();
+        if(e.clientY>rect.top+rect.height/2)list.insertBefore(orderDragDark,item.nextSibling);
+        else list.insertBefore(orderDragDark,item);
+      }
+    });
+    item.addEventListener('dragleave',()=>item.classList.remove('oi-target'));
+  });
+}
+
+function checkOrderDark(id,pts){
+  const list=document.getElementById('list-'+id);
+  const items=list.querySelectorAll('.order-item-dark');
+  let correct=0;
+  items.forEach((item,idx)=>{
+    const exp=parseInt(item.dataset.order);
+    const numEl=item.querySelector('.order-num-dark');
+    numEl.textContent=idx+1;
+    if(exp===idx+1){item.classList.add('oi-correct');item.classList.remove('oi-wrong');correct++;}
+    else{item.classList.add('oi-wrong');item.classList.remove('oi-correct');}
+  });
+  showActResult('res-'+id, correct, items.length);
+  if(correct===items.length){addXP(pts);showAch('📋','Ordem Perfeita!','+'+pts+' XP!');}
+}
+
+function resetOrderDark(id){
+  const list=document.getElementById('list-'+id);
+  const items=Array.from(list.querySelectorAll('.order-item-dark'));
+  for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));list.insertBefore(items[j],items[i]);}
+  list.querySelectorAll('.order-item-dark').forEach(item=>{
+    item.classList.remove('oi-correct','oi-wrong');
+    item.querySelector('.order-num-dark').textContent='?';
+  });
+  const r=document.getElementById('res-'+id);r.className='act-result';r.textContent='';
+}
+
+// ============================================================
+// RESULT HELPER
+// ============================================================
+function showActResult(elId, correct, total){
+  const el=document.getElementById(elId);
+  const pct=correct/total;
+  if(pct===1){el.textContent='🎉 Perfeito! '+correct+'/'+total+' corretos!';el.className='act-result show ar-ok';}
+  else if(pct>=.5){el.textContent='📚 Quase lá! '+correct+'/'+total+' corretos. Revise os erros!';el.className='act-result show ar-partial';}
+  else{el.textContent='💪 '+correct+'/'+total+' corretos. Tente de novo!';el.className='act-result show ar-bad';}
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded',()=>{
+  initQuiz();
+  initMatchDark('match-ntfs');
+  initMatchDark('match-lixeira');
+  initOrderDark('order-lote');
+
+  // shuffle order on load
+  const ol=document.getElementById('list-order-lote');
+  const oi=Array.from(ol.querySelectorAll('.order-item-dark'));
+  for(let i=oi.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));ol.insertBefore(oi[j],oi[i]);}
+
+  // Open first card
+  setTimeout(()=>{const f=document.querySelector('.cc-header');if(f)toggleCard(f);},800);
+});
 </script>
 </body>
 </html>

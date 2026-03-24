@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+a<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -42,7 +42,6 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(
 .ex-title-wrap h2{font-size:1.2em;font-weight:700;color:var(--navy);}
 .ex-title-wrap .meta{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;}
 .meta-tag{background:var(--gray-100);border-radius:50px;padding:2px 9px;font-size:.78em;color:var(--gray-500);font-weight:500;}
-.avaliacao-label{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid var(--amber);border-radius:50px;padding:2px 12px;font-size:.78em;font-weight:700;color:#92400e;}
 
 .enunciado{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-radius:var(--radius-sm);padding:18px 22px;margin-bottom:18px;}
 .enunciado h3{color:var(--navy);font-size:.95em;font-weight:700;margin-bottom:7px;}
@@ -73,7 +72,183 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
 .check-box{width:15px;height:15px;border:2px solid var(--green);border-radius:3px;flex-shrink:0;margin-top:3px;display:flex;align-items:center;justify-content:center;background:var(--green);}
 .check-box::after{content:'✓';color:white;font-size:9px;font-weight:700;}
 
-@media(max-width:768px){.container{padding:14px;}.card{padding:18px;}}
+/* =============================================
+   SEÇÕES DE ATIVIDADES INTERATIVAS
+   ============================================= */
+
+.activity-section{
+  border-radius:var(--radius);
+  margin-top:24px;
+  overflow:hidden;
+  border:2px solid var(--gray-200);
+}
+.activity-header{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 22px;
+  cursor:pointer;
+  user-select:none;
+  transition:background .2s;
+}
+.activity-header:hover{filter:brightness(0.96);}
+.activity-header h3{font-size:1em;font-weight:700;flex:1;}
+.activity-header .toggle-icon{font-size:1.2em;transition:transform .3s;}
+.activity-header .toggle-icon.open{transform:rotate(180deg);}
+.activity-body{padding:22px;display:none;}
+.activity-body.visible{display:block;}
+
+/* DRAG & DROP */
+.drag-section{background:linear-gradient(135deg,#fdf4ff,#f3e8ff);}
+.drag-section .activity-header{background:linear-gradient(135deg,#7c3aed,#9333ea);color:white;}
+
+.drag-container{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;}
+.drag-bank{flex:1;min-width:200px;}
+.drag-bank h4{font-size:.85em;font-weight:700;color:var(--purple);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;}
+.drag-items{min-height:80px;background:var(--gray-50);border:2px dashed #c4b5fd;border-radius:var(--radius-sm);padding:10px;display:flex;flex-wrap:wrap;gap:8px;}
+.drag-item{background:linear-gradient(135deg,#7c3aed,#9333ea);color:white;padding:7px 14px;border-radius:50px;font-size:.82em;font-weight:600;cursor:grab;user-select:none;transition:all .2s;white-space:nowrap;}
+.drag-item:active{cursor:grabbing;transform:scale(1.05);}
+.drag-item.dragging{opacity:.5;}
+
+.drop-zones{flex:2;min-width:280px;}
+.drop-zones h4{font-size:.85em;font-weight:700;color:var(--purple);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;}
+.drop-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.drop-label{font-size:.88em;font-weight:600;color:var(--gray-700);min-width:180px;}
+.drop-zone{min-height:40px;min-width:160px;flex:1;background:var(--gray-50);border:2px dashed #c4b5fd;border-radius:var(--radius-sm);padding:6px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;transition:all .2s;}
+.drop-zone.drag-over{background:#f3e8ff;border-color:#7c3aed;transform:scale(1.01);}
+.drop-zone.correct{background:#f0fdf4;border-color:#16a34a;border-style:solid;}
+.drop-zone.incorrect{background:#fef2f2;border-color:#dc2626;border-style:solid;}
+
+.drag-check-btn{background:linear-gradient(135deg,#7c3aed,#9333ea);color:white;border:none;padding:10px 22px;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;margin-top:14px;transition:all .2s;}
+.drag-check-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(124,58,237,.4);}
+.drag-reset-btn{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-200);padding:10px 18px;border-radius:var(--radius-sm);font-weight:600;cursor:pointer;margin-top:14px;margin-left:8px;transition:all .2s;}
+.drag-reset-btn:hover{background:var(--gray-200);}
+
+/* COMPLETAR FRASES */
+.fill-section{background:linear-gradient(135deg,#fff7ed,#ffedd5);}
+.fill-section .activity-header{background:linear-gradient(135deg,#d97706,#ea580c);color:white;}
+
+.fill-options{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;padding:14px;background:white;border-radius:var(--radius-sm);border:1px solid #fed7aa;}
+.fill-option{background:linear-gradient(135deg,#d97706,#ea580c);color:white;padding:6px 14px;border-radius:50px;font-size:.82em;font-weight:600;cursor:pointer;transition:all .2s;border:none;}
+.fill-option:hover{transform:translateY(-2px);box-shadow:0 3px 8px rgba(217,119,6,.4);}
+.fill-option.used{opacity:.4;pointer-events:none;}
+
+.fill-sentence{font-size:.92em;color:var(--gray-700);margin-bottom:12px;line-height:2;}
+.fill-blank{display:inline-block;min-width:120px;height:30px;border-bottom:2px solid #d97706;background:#fff7ed;border-radius:4px;padding:2px 8px;font-weight:700;color:#92400e;cursor:pointer;vertical-align:middle;text-align:center;font-size:.85em;transition:all .2s;}
+.fill-blank:hover{background:#ffedd5;}
+.fill-blank.correct{background:#f0fdf4;border-color:#16a34a;color:#15803d;}
+.fill-blank.incorrect{background:#fef2f2;border-color:#dc2626;color:#dc2626;}
+.fill-blank.active{border-color:#d97706;border-style:solid;border-width:2px;box-shadow:0 0 0 3px rgba(217,119,6,.2);}
+
+.fill-check-btn{background:linear-gradient(135deg,#d97706,#ea580c);color:white;border:none;padding:10px 22px;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;margin-top:10px;transition:all .2s;}
+.fill-check-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(217,119,6,.4);}
+.fill-reset-btn{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-200);padding:10px 18px;border-radius:var(--radius-sm);font-weight:600;cursor:pointer;margin-top:10px;margin-left:8px;transition:all .2s;}
+.fill-reset-btn:hover{background:var(--gray-200);}
+
+/* LIGAR PONTOS */
+.match-section{background:linear-gradient(135deg,#ecfdf5,#d1fae5);}
+.match-section .activity-header{background:linear-gradient(135deg,#065f46,#16a34a);color:white;}
+
+.match-container{position:relative;display:flex;gap:30px;align-items:flex-start;flex-wrap:wrap;}
+.match-col{flex:1;min-width:180px;}
+.match-col h4{font-size:.85em;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em;}
+.match-col-left h4{color:#065f46;}
+.match-col-right h4{color:#065f46;}
+
+.match-item{
+  padding:11px 16px;margin-bottom:10px;border-radius:var(--radius-sm);
+  font-size:.88em;font-weight:600;cursor:pointer;
+  transition:all .2s;position:relative;
+  border:2px solid transparent;
+}
+.match-left-item{background:linear-gradient(135deg,#ecfdf5,#d1fae5);color:#065f46;border-color:#6ee7b7;}
+.match-right-item{background:white;color:var(--gray-700);border-color:#d1d5db;}
+.match-item.selected{border-color:#16a34a;background:#f0fdf4;box-shadow:0 0 0 3px rgba(22,163,74,.2);}
+.match-item.matched{border-color:#16a34a;background:#f0fdf4;opacity:.7;pointer-events:none;}
+.match-item.matched::after{content:'✓';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:#16a34a;font-weight:700;}
+.match-item.wrong{border-color:#dc2626;background:#fef2f2;animation:shake .3s;}
+
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+
+.match-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+.match-line{stroke:#16a34a;stroke-width:2.5;stroke-dasharray:5,3;fill:none;opacity:.7;}
+
+.match-canvas-wrap{position:relative;}
+.match-reset-btn{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-200);padding:10px 18px;border-radius:var(--radius-sm);font-weight:600;cursor:pointer;margin-top:14px;transition:all .2s;}
+.match-reset-btn:hover{background:var(--gray-200);}
+
+.match-score{margin-top:12px;font-size:.9em;font-weight:700;color:#065f46;}
+
+/* QUIZ MÚLTIPLA ESCOLHA */
+.quiz-section{background:linear-gradient(135deg,#eff6ff,#dbeafe);}
+.quiz-section .activity-header{background:linear-gradient(135deg,#1e3a5f,#2a5298);color:white;}
+
+.quiz-question{margin-bottom:22px;padding:18px;background:white;border-radius:var(--radius-sm);border:1px solid #dbeafe;}
+.quiz-question p{font-size:.93em;font-weight:600;color:var(--navy);margin-bottom:12px;}
+.quiz-options{display:flex;flex-direction:column;gap:8px;}
+.quiz-option{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-sm);cursor:pointer;border:2px solid #e2e8f0;background:var(--gray-50);transition:all .2s;font-size:.88em;}
+.quiz-option:hover:not(.locked){background:#dbeafe;border-color:#93c5fd;}
+.quiz-option input[type=radio]{accent-color:#2a5298;width:16px;height:16px;flex-shrink:0;}
+.quiz-option.correct{background:#f0fdf4;border-color:#16a34a;color:#15803d;}
+.quiz-option.incorrect{background:#fef2f2;border-color:#dc2626;color:#dc2626;}
+.quiz-option.locked{cursor:default;}
+.quiz-feedback{margin-top:8px;font-size:.82em;font-weight:600;padding:7px 12px;border-radius:var(--radius-sm);}
+.quiz-feedback.correct{background:#f0fdf4;color:#15803d;}
+.quiz-feedback.incorrect{background:#fef2f2;color:#dc2626;}
+
+.quiz-submit-btn{background:linear-gradient(135deg,#1e3a5f,#2a5298);color:white;border:none;padding:11px 26px;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;margin-top:6px;transition:all .2s;}
+.quiz-submit-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(42,82,152,.4);}
+.quiz-submit-btn:disabled{opacity:.5;cursor:default;transform:none;}
+.quiz-score-box{margin-top:16px;padding:16px;border-radius:var(--radius-sm);text-align:center;font-weight:700;font-size:1.1em;}
+.quiz-score-box.good{background:#f0fdf4;border:2px solid #16a34a;color:#15803d;}
+.quiz-score-box.ok{background:#fefce8;border:2px solid var(--amber);color:#92400e;}
+.quiz-score-box.bad{background:#fef2f2;border:2px solid #dc2626;color:#dc2626;}
+
+/* ORDENAR PASSOS */
+.order-section{background:linear-gradient(135deg,#fdf4ff,#ede9fe);}
+.order-section .activity-header{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:white;}
+.order-items{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.order-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;
+  background:white;border-radius:var(--radius-sm);
+  border:2px solid #ddd6fe;
+  cursor:grab;
+  transition:all .2s;
+  font-size:.88em;
+}
+.order-item:active{cursor:grabbing;}
+.order-item.dragging-order{opacity:.4;border-style:dashed;}
+.order-item.drag-target{border-color:#7c3aed;background:#f5f3ff;}
+.order-handle{color:#a78bfa;font-size:1.2em;flex-shrink:0;}
+.order-num{width:26px;height:26px;background:linear-gradient(135deg,#5b21b6,#7c3aed);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78em;font-weight:700;flex-shrink:0;}
+.order-check-btn{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:white;border:none;padding:10px 22px;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;margin-top:14px;transition:all .2s;}
+.order-check-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(91,33,182,.4);}
+.order-reset-btn{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-200);padding:10px 18px;border-radius:var(--radius-sm);font-weight:600;cursor:pointer;margin-top:14px;margin-left:8px;transition:all .2s;}
+.order-item.order-correct{border-color:#16a34a;background:#f0fdf4;}
+.order-item.order-incorrect{border-color:#dc2626;background:#fef2f2;animation:shake .3s;}
+
+/* PONTUAÇÃO GERAL */
+.score-banner{background:linear-gradient(135deg,#1e1b4b,#4f46e5);color:white;border-radius:var(--radius);padding:24px 32px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.score-banner h2{font-size:1.1em;font-weight:700;}
+.score-stats{display:flex;gap:20px;flex-wrap:wrap;}
+.score-stat{text-align:center;}
+.score-stat .num{font-size:2em;font-weight:700;line-height:1;}
+.score-stat .lbl{font-size:.75em;opacity:.7;text-transform:uppercase;letter-spacing:.05em;}
+
+/* FEEDBACK */
+.activity-result{margin-top:14px;padding:14px 18px;border-radius:var(--radius-sm);font-weight:600;font-size:.9em;display:none;}
+.activity-result.show{display:block;}
+.activity-result.correct{background:#f0fdf4;border:1px solid #86efac;color:#15803d;}
+.activity-result.partial{background:#fefce8;border:1px solid #fde047;color:#92400e;}
+.activity-result.incorrect{background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;}
+
+@media(max-width:768px){
+  .container{padding:14px;}
+  .card{padding:18px;}
+  .drag-container{flex-direction:column;}
+  .match-container{flex-direction:column;}
+  .drop-row{flex-direction:column;align-items:flex-start;}
+  .drop-zone{width:100%;}
+}
 </style>
 </head>
 <body>
@@ -82,9 +257,9 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
     <span class="week-badge">📝 Guia · S06/20</span>
     <div class="header-text">
       <h1>Guia – Gerenciamento de Arquivos e Pastas – Parte 2</h1>
-      <p>Rubricas · Resoluções · GSO I · Prof. Isaque Katahira · 2026</p>
+      <p>Rubricas · Resoluções · Atividades Interativas · GSO I · Prof. Isaque Katahira · 2026</p>
     </div>
-    <span class="guide-tag">📊 3 Exercícios</span>
+    <span class="guide-tag">🎮 Interativo</span>
   </div>
 </header>
 
@@ -97,21 +272,34 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
     <a href="semana07_guia.html" class="nav-btn btn-primary">Próximo ➡</a>
   </nav>
 
+  <!-- PLACAR -->
+  <div class="score-banner">
+    <div>
+      <h2>🏆 Seu Progresso nas Atividades</h2>
+      <p style="opacity:.7;font-size:.85em;margin-top:4px;">Complete todas as atividades interativas e acompanhe sua pontuação!</p>
+    </div>
+    <div class="score-stats">
+      <div class="score-stat"><div class="num" id="totalScore">0</div><div class="lbl">Pontos</div></div>
+      <div class="score-stat"><div class="num" id="totalActivities">0</div><div class="lbl">Atividades</div></div>
+    </div>
+  </div>
+
   <div class="card" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:#bfdbfe;">
     <div style="display:flex;align-items:center;gap:12px;">
       <span style="font-size:1.8em;">📝</span>
       <div>
         <div style="font-weight:700;color:#1e3a5f;font-size:1em;">Como usar este Guia</div>
         <div style="color:#1e40af;font-size:.88em;margin-top:3px;">
-          Tente resolver os exercícios <strong>por conta própria primeiro</strong>. Consulte a resolução para comparar e aprender — nunca para copiar! Use a rubrica como guia de qualidade antes de entregar.
+          Tente resolver os exercícios <strong>por conta própria primeiro</strong>. Consulte a resolução para comparar e aprender — nunca para copiar! Use a rubrica como guia de qualidade antes de entregar. As atividades interativas abaixo de cada exercício ajudam a fixar o conteúdo. 🎯
         </div>
       </div>
     </div>
   </div>
 
-  
-  
-  <div class="card" >
+  <!-- ============================
+       EXERCÍCIO 1
+       ============================ -->
+  <div class="card">
     <div class="ex-header">
       <div class="ex-num-circle" style="background:linear-gradient(135deg,#2a5298,#2a5298bb);">1</div>
       <div class="ex-title-wrap">
@@ -140,57 +328,30 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
             <th>Excelente (10)</th>
           </tr>
         </thead>
-        <tbody><tr>
-              <td>Execução Técnica</td>
-              <td class="lv0">Não conseguiu executar</td>
-              <td class="lv1">Execução parcial com erros graves</td>
-              <td class="lv2">Execução correta com minor issues</td>
-              <td class="lv3">Execução exemplar e eficiente</td>
-            </tr><tr>
-              <td>Precisão</td>
-              <td class="lv0">Resultado incorreto ou ausente</td>
-              <td class="lv1">Imprecisão comprometeu o resultado</td>
-              <td class="lv2">Resultado correto com pequenas falhas</td>
-              <td class="lv3">Precisão perfeita e profissional</td>
-            </tr><tr>
-              <td>Documentação</td>
-              <td class="lv0">Sem documentação ou prints</td>
-              <td class="lv1">Documentação mínima e incompleta</td>
-              <td class="lv2">Documentação clara e organizada</td>
-              <td class="lv3">Documentação profissional e completa</td>
-            </tr><tr>
-              <td>Metodologia</td>
-              <td class="lv0">Sem método identificável</td>
-              <td class="lv1">Método básico sem planejamento</td>
-              <td class="lv2">Bom método de trabalho</td>
-              <td class="lv3">Metodologia exemplar e sistematizada</td>
-            </tr><tr>
-              <td>Resultado Final</td>
-              <td class="lv0">Objetivo não atingido</td>
-              <td class="lv1">Objetivo parcialmente atingido</td>
-              <td class="lv2">Objetivo atingido satisfatoriamente</td>
-              <td class="lv3">Objetivo superado com excelência</td>
-            </tr><tr>
-              <td>Apresentação</td>
-              <td class="lv0">Trabalho mal apresentado</td>
-              <td class="lv1">Apresentação básica e legível</td>
-              <td class="lv2">Apresentação clara e organizada</td>
-              <td class="lv3">Apresentação profissional</td>
-            </tr></tbody>
+        <tbody>
+          <tr><td>Execução Técnica</td><td class="lv0">Não conseguiu executar</td><td class="lv1">Execução parcial com erros graves</td><td class="lv2">Execução correta com minor issues</td><td class="lv3">Execução exemplar e eficiente</td></tr>
+          <tr><td>Precisão</td><td class="lv0">Resultado incorreto ou ausente</td><td class="lv1">Imprecisão comprometeu o resultado</td><td class="lv2">Resultado correto com pequenas falhas</td><td class="lv3">Precisão perfeita e profissional</td></tr>
+          <tr><td>Documentação</td><td class="lv0">Sem documentação ou prints</td><td class="lv1">Documentação mínima e incompleta</td><td class="lv2">Documentação clara e organizada</td><td class="lv3">Documentação profissional e completa</td></tr>
+          <tr><td>Metodologia</td><td class="lv0">Sem método identificável</td><td class="lv1">Método básico sem planejamento</td><td class="lv2">Bom método de trabalho</td><td class="lv3">Metodologia exemplar e sistematizada</td></tr>
+          <tr><td>Resultado Final</td><td class="lv0">Objetivo não atingido</td><td class="lv1">Objetivo parcialmente atingido</td><td class="lv2">Objetivo atingido satisfatoriamente</td><td class="lv3">Objetivo superado com excelência</td></tr>
+          <tr><td>Apresentação</td><td class="lv0">Trabalho mal apresentado</td><td class="lv1">Apresentação básica e legível</td><td class="lv2">Apresentação clara e organizada</td><td class="lv3">Apresentação profissional</td></tr>
+        </tbody>
       </table>
     </div>
 
     <div class="solution">
       <h3>✅ Resolução Passo a Passo</h3>
-      <ol><li><strong>▸</strong> Crie a estrutura base: C:\Empresa\{RH, Financeiro, TI, Projetos}</li>
-<li><strong>▸</strong> Dentro de cada pasta, crie subpastas: 2025 e 2026</li>
-<li><strong>▸</strong> Crie pelo menos 3 arquivos de texto em cada pasta com nomes descritivos</li>
-<li><strong>▸</strong> Mova (Ctrl+X, Ctrl+V) 2 arquivos de RH\2025 para RH\2026</li>
-<li><strong>▸</strong> Copie (Ctrl+C, Ctrl+V) toda a pasta Financeiro\2025 para Financeiro\Backup</li>
-<li><strong>▸</strong> Renomeie todos os arquivos da pasta TI adicionando o prefixo 'ti_' (F2 para renomear)</li>
-<li><strong>▸</strong> Exclua a pasta Projetos → confirme que foi para a Lixeira → restaure</li>
-<li><strong>▸</strong> Excluir definitivamente a pasta Projetos (Shift+Delete)</li>
-<li><strong>▸</strong> Documente o resultado com print da estrutura final. Salve: 'sem06_ex1_SeuNome.docx'</li></ol>
+      <ol>
+        <li><strong>▸</strong> Crie a estrutura base: C:\Empresa\{RH, Financeiro, TI, Projetos}</li>
+        <li><strong>▸</strong> Dentro de cada pasta, crie subpastas: 2025 e 2026</li>
+        <li><strong>▸</strong> Crie pelo menos 3 arquivos de texto em cada pasta com nomes descritivos</li>
+        <li><strong>▸</strong> Mova (Ctrl+X, Ctrl+V) 2 arquivos de RH\2025 para RH\2026</li>
+        <li><strong>▸</strong> Copie (Ctrl+C, Ctrl+V) toda a pasta Financeiro\2025 para Financeiro\Backup</li>
+        <li><strong>▸</strong> Renomeie todos os arquivos da pasta TI adicionando o prefixo 'ti_' (F2 para renomear)</li>
+        <li><strong>▸</strong> Exclua a pasta Projetos → confirme que foi para a Lixeira → restaure</li>
+        <li><strong>▸</strong> Excluir definitivamente a pasta Projetos (Shift+Delete)</li>
+        <li><strong>▸</strong> Documente o resultado com print da estrutura final. Salve: 'sem06_ex1_SeuNome.docx'</li>
+      </ol>
     </div>
 
     <div class="tip-box">
@@ -200,13 +361,119 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
     <div class="check-wrap">
       <h4>☑️ Checklist de Entrega:</h4>
       <div class="check-item"><div class="check-box"></div><span>Crie a estrutura base: C:\Empresa\{RH, Financeiro, TI, Projetos}</span></div>
-<div class="check-item"><div class="check-box"></div><span>Dentro de cada pasta, crie subpastas: 2025 e 2026</span></div>
-<div class="check-item"><div class="check-box"></div><span>Crie pelo menos 3 arquivos de texto em cada pasta com nomes descritivos</span></div>
-<div class="check-item"><div class="check-box"></div><span>Mova (Ctrl+X, Ctrl+V) 2 arquivos de RH\2025 para RH\2026</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Dentro de cada pasta, crie subpastas: 2025 e 2026</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Crie pelo menos 3 arquivos de texto em cada pasta com nomes descritivos</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Mova (Ctrl+X, Ctrl+V) 2 arquivos de RH\2025 para RH\2026</span></div>
       <div class="check-item"><div class="check-box"></div><span>Arquivo salvo com nomenclatura correta (sem06_ex1_SeuNome)</span></div>
     </div>
+
+    <!-- ===== ATIVIDADE 1A: ARRASTAR ATALHOS =====  -->
+    <div class="activity-section drag-section" style="margin-top:24px;">
+      <div class="activity-header" onclick="toggleActivity('drag1')">
+        <span>🟣</span>
+        <h3>Atividade: Arraste o Atalho Correto para Cada Ação</h3>
+        <span class="toggle-icon" id="drag1-icon">▼</span>
+      </div>
+      <div class="activity-body" id="drag1-body">
+        <p style="font-size:.88em;color:var(--gray-500);margin-bottom:14px;">Arraste os atalhos de teclado para a ação correspondente.</p>
+        
+        <div class="drag-container">
+          <div class="drag-bank">
+            <h4>🎯 Atalhos Disponíveis</h4>
+            <div class="drag-items" id="drag1-bank">
+              <div class="drag-item" draggable="true" data-value="Ctrl+C">Ctrl+C</div>
+              <div class="drag-item" draggable="true" data-value="Ctrl+X">Ctrl+X</div>
+              <div class="drag-item" draggable="true" data-value="Ctrl+V">Ctrl+V</div>
+              <div class="drag-item" draggable="true" data-value="F2">F2</div>
+              <div class="drag-item" draggable="true" data-value="Shift+Delete">Shift+Delete</div>
+              <div class="drag-item" draggable="true" data-value="Ctrl+Z">Ctrl+Z</div>
+            </div>
+          </div>
+
+          <div class="drop-zones">
+            <h4>📂 Ações</h4>
+            <div class="drop-row">
+              <span class="drop-label">📋 Copiar arquivo</span>
+              <div class="drop-zone" data-answer="Ctrl+C" id="dz1-1"></div>
+            </div>
+            <div class="drop-row">
+              <span class="drop-label">✂️ Mover (recortar) arquivo</span>
+              <div class="drop-zone" data-answer="Ctrl+X" id="dz1-2"></div>
+            </div>
+            <div class="drop-row">
+              <span class="drop-label">📌 Colar arquivo</span>
+              <div class="drop-zone" data-answer="Ctrl+V" id="dz1-3"></div>
+            </div>
+            <div class="drop-row">
+              <span class="drop-label">✏️ Renomear arquivo</span>
+              <div class="drop-zone" data-answer="F2" id="dz1-4"></div>
+            </div>
+            <div class="drop-row">
+              <span class="drop-label">🗑️ Excluir definitivamente</span>
+              <div class="drop-zone" data-answer="Shift+Delete" id="dz1-5"></div>
+            </div>
+            <div class="drop-row">
+              <span class="drop-label">↩️ Desfazer ação</span>
+              <div class="drop-zone" data-answer="Ctrl+Z" id="dz1-6"></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="drag-check-btn" onclick="checkDrag('drag1')">✅ Verificar Respostas</button>
+        <button class="drag-reset-btn" onclick="resetDrag('drag1')">🔄 Reiniciar</button>
+        <div class="activity-result" id="drag1-result"></div>
+      </div>
+    </div>
+
+    <!-- ===== ATIVIDADE 1B: ORDENAR PASSOS =====  -->
+    <div class="activity-section order-section" style="margin-top:16px;">
+      <div class="activity-header" onclick="toggleActivity('order1')">
+        <span>🟣</span>
+        <h3>Atividade: Ordene os Passos Corretamente</h3>
+        <span class="toggle-icon" id="order1-icon">▼</span>
+      </div>
+      <div class="activity-body" id="order1-body">
+        <p style="font-size:.88em;color:var(--gray-500);margin-bottom:12px;">Arraste os passos para colocá-los na ordem correta para criar a estrutura de pastas da empresa.</p>
+        
+        <div class="order-items" id="order1-list">
+          <div class="order-item" draggable="true" data-order="3">
+            <span class="order-handle">⠿</span>
+            <div class="order-num" id="on1-3">?</div>
+            <span>Criar subpastas 2025 e 2026 dentro de cada departamento</span>
+          </div>
+          <div class="order-item" draggable="true" data-order="1">
+            <span class="order-handle">⠿</span>
+            <div class="order-num" id="on1-1">?</div>
+            <span>Criar a pasta principal C:\Empresa</span>
+          </div>
+          <div class="order-item" draggable="true" data-order="5">
+            <span class="order-handle">⠿</span>
+            <div class="order-num" id="on1-5">?</div>
+            <span>Documentar a estrutura final com prints</span>
+          </div>
+          <div class="order-item" draggable="true" data-order="2">
+            <span class="order-handle">⠿</span>
+            <div class="order-num" id="on1-2">?</div>
+            <span>Criar as pastas dos departamentos: RH, Financeiro, TI, Projetos</span>
+          </div>
+          <div class="order-item" draggable="true" data-order="4">
+            <span class="order-handle">⠿</span>
+            <div class="order-num" id="on1-4">?</div>
+            <span>Criar arquivos de texto com nomes descritivos em cada pasta</span>
+          </div>
+        </div>
+
+        <button class="order-check-btn" onclick="checkOrder('order1')">✅ Verificar Ordem</button>
+        <button class="order-reset-btn" onclick="resetOrder('order1')">🔄 Reiniciar</button>
+        <div class="activity-result" id="order1-result"></div>
+      </div>
+    </div>
   </div>
-  <div class="card" >
+
+  <!-- ============================
+       EXERCÍCIO 2
+       ============================ -->
+  <div class="card">
     <div class="ex-header">
       <div class="ex-num-circle" style="background:linear-gradient(135deg,#0891b2,#0891b2bb);">2</div>
       <div class="ex-title-wrap">
@@ -235,57 +502,30 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
             <th>Excelente (10)</th>
           </tr>
         </thead>
-        <tbody><tr>
-              <td>Funcionamento</td>
-              <td class="lv0">Não funciona</td>
-              <td class="lv1">Funciona parcialmente</td>
-              <td class="lv2">Funciona corretamente</td>
-              <td class="lv3">Funciona perfeitamente e supera</td>
-            </tr><tr>
-              <td>Estrutura Técnica</td>
-              <td class="lv0">Estrutura inadequada</td>
-              <td class="lv1">Estrutura básica funcional</td>
-              <td class="lv2">Boa estrutura técnica</td>
-              <td class="lv3">Estrutura exemplar e profissional</td>
-            </tr><tr>
-              <td>Tratamento de Erros</td>
-              <td class="lv0">Sem tratamento de erros</td>
-              <td class="lv1">Tratamento mínimo presente</td>
-              <td class="lv2">Erros bem tratados</td>
-              <td class="lv3">Tratamento robusto e completo</td>
-            </tr><tr>
-              <td>Eficiência</td>
-              <td class="lv0">Ineficiente e redundante</td>
-              <td class="lv1">Pouco eficiente</td>
-              <td class="lv2">Eficiente</td>
-              <td class="lv3">Altamente eficiente e otimizado</td>
-            </tr><tr>
-              <td>Documentação</td>
-              <td class="lv0">Sem comentários ou README</td>
-              <td class="lv1">Documentação básica</td>
-              <td class="lv2">Bem documentado</td>
-              <td class="lv3">Documentação completa e exemplar</td>
-            </tr><tr>
-              <td>Boas Práticas</td>
-              <td class="lv0">Sem boas práticas</td>
-              <td class="lv1">Algumas boas práticas</td>
-              <td class="lv2">Boas práticas aplicadas</td>
-              <td class="lv3">Segue padrões profissionais</td>
-            </tr></tbody>
+        <tbody>
+          <tr><td>Funcionamento</td><td class="lv0">Não funciona</td><td class="lv1">Funciona parcialmente</td><td class="lv2">Funciona corretamente</td><td class="lv3">Funciona perfeitamente e supera</td></tr>
+          <tr><td>Estrutura Técnica</td><td class="lv0">Estrutura inadequada</td><td class="lv1">Estrutura básica funcional</td><td class="lv2">Boa estrutura técnica</td><td class="lv3">Estrutura exemplar e profissional</td></tr>
+          <tr><td>Tratamento de Erros</td><td class="lv0">Sem tratamento de erros</td><td class="lv1">Tratamento mínimo presente</td><td class="lv2">Erros bem tratados</td><td class="lv3">Tratamento robusto e completo</td></tr>
+          <tr><td>Eficiência</td><td class="lv0">Ineficiente e redundante</td><td class="lv1">Pouco eficiente</td><td class="lv2">Eficiente</td><td class="lv3">Altamente eficiente e otimizado</td></tr>
+          <tr><td>Documentação</td><td class="lv0">Sem comentários ou README</td><td class="lv1">Documentação básica</td><td class="lv2">Bem documentado</td><td class="lv3">Documentação completa e exemplar</td></tr>
+          <tr><td>Boas Práticas</td><td class="lv0">Sem boas práticas</td><td class="lv1">Algumas boas práticas</td><td class="lv2">Boas práticas aplicadas</td><td class="lv3">Segue padrões profissionais</td></tr>
+        </tbody>
       </table>
     </div>
 
     <div class="solution">
       <h3>✅ Resolução Passo a Passo</h3>
-      <ol><li><strong>▸</strong> Na pasta C:\Empresa\RH, clique direito → Propriedades → Segurança</li>
-<li><strong>▸</strong> Observe os grupos e usuários que já têm permissões</li>
-<li><strong>▸</strong> Clique em Editar → Adicionar → digite 'Todos' → OK</li>
-<li><strong>▸</strong> Para o grupo 'Todos', configure: Leitura = Permitir, Gravação = Negar</li>
-<li><strong>▸</strong> Isso simula: todos podem ver, mas não podem modificar os arquivos de RH</li>
-<li><strong>▸</strong> Na pasta C:\Empresa\TI, dê Controle Total para seu usuário atual</li>
-<li><strong>▸</strong> Tente criar um arquivo em RH — observe o erro de permissão negada</li>
-<li><strong>▸</strong> Crie normalmente um arquivo em TI — funciona porque tem Controle Total</li>
-<li><strong>▸</strong> Documente com prints e explique o que cada permissão faz. Salve: 'sem06_ex2_SeuNome.docx'</li></ol>
+      <ol>
+        <li><strong>▸</strong> Na pasta C:\Empresa\RH, clique direito → Propriedades → Segurança</li>
+        <li><strong>▸</strong> Observe os grupos e usuários que já têm permissões</li>
+        <li><strong>▸</strong> Clique em Editar → Adicionar → digite 'Todos' → OK</li>
+        <li><strong>▸</strong> Para o grupo 'Todos', configure: Leitura = Permitir, Gravação = Negar</li>
+        <li><strong>▸</strong> Isso simula: todos podem ver, mas não podem modificar os arquivos de RH</li>
+        <li><strong>▸</strong> Na pasta C:\Empresa\TI, dê Controle Total para seu usuário atual</li>
+        <li><strong>▸</strong> Tente criar um arquivo em RH — observe o erro de permissão negada</li>
+        <li><strong>▸</strong> Crie normalmente um arquivo em TI — funciona porque tem Controle Total</li>
+        <li><strong>▸</strong> Documente com prints e explique o que cada permissão faz. Salve: 'sem06_ex2_SeuNome.docx'</li>
+      </ol>
     </div>
 
     <div class="tip-box">
@@ -295,13 +535,105 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
     <div class="check-wrap">
       <h4>☑️ Checklist de Entrega:</h4>
       <div class="check-item"><div class="check-box"></div><span>Na pasta C:\Empresa\RH, clique direito → Propriedades → Segurança</span></div>
-<div class="check-item"><div class="check-box"></div><span>Observe os grupos e usuários que já têm permissões</span></div>
-<div class="check-item"><div class="check-box"></div><span>Clique em Editar → Adicionar → digite 'Todos' → OK</span></div>
-<div class="check-item"><div class="check-box"></div><span>Para o grupo 'Todos', configure: Leitura = Permitir, Gravação = Negar</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Observe os grupos e usuários que já têm permissões</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Clique em Editar → Adicionar → digite 'Todos' → OK</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Para o grupo 'Todos', configure: Leitura = Permitir, Gravação = Negar</span></div>
       <div class="check-item"><div class="check-box"></div><span>Arquivo salvo com nomenclatura correta (sem06_ex2_SeuNome)</span></div>
     </div>
+
+    <!-- ===== ATIVIDADE 2A: LIGAR PONTOS NTFS =====  -->
+    <div class="activity-section match-section" style="margin-top:24px;">
+      <div class="activity-header" onclick="toggleActivity('match1')">
+        <span>🟢</span>
+        <h3>Atividade: Ligue o Tipo de Permissão à sua Descrição</h3>
+        <span class="toggle-icon" id="match1-icon">▼</span>
+      </div>
+      <div class="activity-body" id="match1-body">
+        <p style="font-size:.88em;color:var(--gray-500);margin-bottom:14px;">Clique em uma permissão à esquerda e depois na descrição correta à direita para ligá-las.</p>
+        
+        <div class="match-canvas-wrap" id="match1-canvas">
+          <div class="match-container" id="match1-container">
+            <div class="match-col match-col-left">
+              <h4>🔐 Permissão NTFS</h4>
+              <div class="match-item match-left-item" data-id="m1-l1" data-match="m1-r1">Leitura</div>
+              <div class="match-item match-left-item" data-id="m1-l2" data-match="m1-r2">Gravação</div>
+              <div class="match-item match-left-item" data-id="m1-l3" data-match="m1-r3">Controle Total</div>
+              <div class="match-item match-left-item" data-id="m1-l4" data-match="m1-r4">Modificar</div>
+              <div class="match-item match-left-item" data-id="m1-l5" data-match="m1-r5">Listar Conteúdo</div>
+            </div>
+            <div class="match-col match-col-right">
+              <h4>📝 O que permite fazer</h4>
+              <div class="match-item match-right-item" data-id="m1-r4">Ler, criar, modificar e excluir arquivos</div>
+              <div class="match-item match-right-item" data-id="m1-r1">Ver arquivos e pastas, mas não alterar</div>
+              <div class="match-item match-right-item" data-id="m1-r5">Ver nomes de arquivos sem abrir o conteúdo</div>
+              <div class="match-item match-right-item" data-id="m1-r3">Acesso irrestrito, incluindo mudar permissões</div>
+              <div class="match-item match-right-item" data-id="m1-r2">Criar arquivos novos e escrever em existentes</div>
+            </div>
+          </div>
+          <svg class="match-svg" id="match1-svg" style="position:absolute;top:0;left:0;pointer-events:none;"></svg>
+        </div>
+
+        <div class="match-score" id="match1-score"></div>
+        <button class="match-reset-btn" onclick="resetMatch('match1')">🔄 Reiniciar</button>
+        <div class="activity-result" id="match1-result"></div>
+      </div>
+    </div>
+
+    <!-- ===== ATIVIDADE 2B: COMPLETAR FRASES =====  -->
+    <div class="activity-section fill-section" style="margin-top:16px;">
+      <div class="activity-header" onclick="toggleActivity('fill1')">
+        <span>🟠</span>
+        <h3>Atividade: Complete as Frases sobre Permissões NTFS</h3>
+        <span class="toggle-icon" id="fill1-icon">▼</span>
+      </div>
+      <div class="activity-body" id="fill1-body">
+        <p style="font-size:.88em;color:var(--gray-500);margin-bottom:10px;">Clique em uma palavra-chave no banco abaixo e depois clique no espaço em branco onde ela se encaixa.</p>
+        
+        <div class="fill-options" id="fill1-bank">
+          <button class="fill-option" data-word="Negar" onclick="selectFillWord(this)">Negar</button>
+          <button class="fill-option" data-word="Permitir" onclick="selectFillWord(this)">Permitir</button>
+          <button class="fill-option" data-word="Segurança" onclick="selectFillWord(this)">Segurança</button>
+          <button class="fill-option" data-word="Controle Total" onclick="selectFillWord(this)">Controle Total</button>
+          <button class="fill-option" data-word="NTFS" onclick="selectFillWord(this)">NTFS</button>
+          <button class="fill-option" data-word="herança" onclick="selectFillWord(this)">herança</button>
+          <button class="fill-option" data-word="Leitura" onclick="selectFillWord(this)">Leitura</button>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="fill-sentence">1. As permissões 
+            <span class="fill-blank" data-answer="NTFS" onclick="placeFillWord(this)">_______</span> 
+            controlam quem pode acessar arquivos e pastas no Windows.
+          </div>
+          <div class="fill-sentence">2. Para acessar as permissões, clique com o botão direito → Propriedades → aba 
+            <span class="fill-blank" data-answer="Segurança" onclick="placeFillWord(this)">_______</span>.
+          </div>
+          <div class="fill-sentence">3. Para impedir que o grupo 'Todos' modifique arquivos de RH, configure Gravação como 
+            <span class="fill-blank" data-answer="Negar" onclick="placeFillWord(this)">_______</span>.
+          </div>
+          <div class="fill-sentence">4. Para que o usuário possa apenas visualizar arquivos, a permissão 
+            <span class="fill-blank" data-answer="Leitura" onclick="placeFillWord(this)">_______</span> 
+            deve estar configurada como Permitir.
+          </div>
+          <div class="fill-sentence">5. A permissão 
+            <span class="fill-blank" data-answer="Controle Total" onclick="placeFillWord(this)">_______</span> 
+            inclui a capacidade de alterar as próprias permissões da pasta.
+          </div>
+          <div class="fill-sentence">6. Subpastas herdam as permissões da pasta-mãe por padrão — esse mecanismo se chama 
+            <span class="fill-blank" data-answer="herança" onclick="placeFillWord(this)">_______</span>.
+          </div>
+        </div>
+
+        <button class="fill-check-btn" onclick="checkFill('fill1')">✅ Verificar Respostas</button>
+        <button class="fill-reset-btn" onclick="resetFill('fill1')">🔄 Reiniciar</button>
+        <div class="activity-result" id="fill1-result"></div>
+      </div>
+    </div>
   </div>
-  <div class="card" >
+
+  <!-- ============================
+       EXERCÍCIO 3
+       ============================ -->
+  <div class="card">
     <div class="ex-header">
       <div class="ex-num-circle" style="background:linear-gradient(135deg,#16a34a,#16a34abb);">3</div>
       <div class="ex-title-wrap">
@@ -330,57 +662,30 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
             <th>Excelente (10)</th>
           </tr>
         </thead>
-        <tbody><tr>
-              <td>Diagnóstico</td>
-              <td class="lv0">Não identificou o problema</td>
-              <td class="lv1">Diagnóstico superficial</td>
-              <td class="lv2">Bom diagnóstico</td>
-              <td class="lv3">Diagnóstico preciso e completo</td>
-            </tr><tr>
-              <td>Raciocínio Técnico</td>
-              <td class="lv0">Sem raciocínio lógico</td>
-              <td class="lv1">Raciocínio básico</td>
-              <td class="lv2">Bom raciocínio técnico</td>
-              <td class="lv3">Raciocínio exemplar e sistemático</td>
-            </tr><tr>
-              <td>Solução Aplicada</td>
-              <td class="lv0">Solução incorreta ou ausente</td>
-              <td class="lv1">Solução parcial</td>
-              <td class="lv2">Solução adequada</td>
-              <td class="lv3">Solução ótima e elegante</td>
-            </tr><tr>
-              <td>Documentação do Processo</td>
-              <td class="lv0">Sem registro do processo</td>
-              <td class="lv1">Registro mínimo</td>
-              <td class="lv2">Processo bem documentado</td>
-              <td class="lv3">Documentação técnica completa</td>
-            </tr><tr>
-              <td>Eficácia</td>
-              <td class="lv0">Problema não resolvido</td>
-              <td class="lv1">Parcialmente resolvido</td>
-              <td class="lv2">Resolvido satisfatoriamente</td>
-              <td class="lv3">Resolvido com excelência</td>
-            </tr><tr>
-              <td>Comunicação</td>
-              <td class="lv0">Incapaz de explicar</td>
-              <td class="lv1">Explicação básica</td>
-              <td class="lv2">Explicação clara</td>
-              <td class="lv3">Comunicação técnica exemplar</td>
-            </tr></tbody>
+        <tbody>
+          <tr><td>Diagnóstico</td><td class="lv0">Não identificou o problema</td><td class="lv1">Diagnóstico superficial</td><td class="lv2">Bom diagnóstico</td><td class="lv3">Diagnóstico preciso e completo</td></tr>
+          <tr><td>Raciocínio Técnico</td><td class="lv0">Sem raciocínio lógico</td><td class="lv1">Raciocínio básico</td><td class="lv2">Bom raciocínio técnico</td><td class="lv3">Raciocínio exemplar e sistemático</td></tr>
+          <tr><td>Solução Aplicada</td><td class="lv0">Solução incorreta ou ausente</td><td class="lv1">Solução parcial</td><td class="lv2">Solução adequada</td><td class="lv3">Solução ótima e elegante</td></tr>
+          <tr><td>Documentação do Processo</td><td class="lv0">Sem registro do processo</td><td class="lv1">Registro mínimo</td><td class="lv2">Processo bem documentado</td><td class="lv3">Documentação técnica completa</td></tr>
+          <tr><td>Eficácia</td><td class="lv0">Problema não resolvido</td><td class="lv1">Parcialmente resolvido</td><td class="lv2">Resolvido satisfatoriamente</td><td class="lv3">Resolvido com excelência</td></tr>
+          <tr><td>Comunicação</td><td class="lv0">Incapaz de explicar</td><td class="lv1">Explicação básica</td><td class="lv2">Explicação clara</td><td class="lv3">Comunicação técnica exemplar</td></tr>
+        </tbody>
       </table>
     </div>
 
     <div class="solution">
       <h3>✅ Resolução Passo a Passo</h3>
-      <ol><li><strong>▸</strong> Crie 5 arquivos de texto importantes com conteúdo relevante (simule documentos reais)</li>
-<li><strong>▸</strong> Exclua todos os 5 arquivos normalmente (tecla Delete)</li>
-<li><strong>▸</strong> Verifique: os arquivos estão na Lixeira? (duplo clique na Lixeira da área de trabalho)</li>
-<li><strong>▸</strong> Restaure 3 dos 5 arquivos (clique direito → Restaurar)</li>
-<li><strong>▸</strong> Verifique que os 2 não restaurados ainda estão na Lixeira</li>
-<li><strong>▸</strong> Configure a Lixeira: clique direito na Lixeira → Propriedades → veja o tamanho máximo</li>
-<li><strong>▸</strong> Altere o tamanho para 500 MB e documente</li>
-<li><strong>▸</strong> Pesquise: existe algum software gratuito para recuperar arquivos deletados definitivamente?</li>
-<li><strong>▸</strong> Escreva um parágrafo sobre boas práticas para evitar perda de dados. Salve: 'sem06_ex3_SeuNome.docx'</li></ol>
+      <ol>
+        <li><strong>▸</strong> Crie 5 arquivos de texto importantes com conteúdo relevante (simule documentos reais)</li>
+        <li><strong>▸</strong> Exclua todos os 5 arquivos normalmente (tecla Delete)</li>
+        <li><strong>▸</strong> Verifique: os arquivos estão na Lixeira? (duplo clique na Lixeira da área de trabalho)</li>
+        <li><strong>▸</strong> Restaure 3 dos 5 arquivos (clique direito → Restaurar)</li>
+        <li><strong>▸</strong> Verifique que os 2 não restaurados ainda estão na Lixeira</li>
+        <li><strong>▸</strong> Configure a Lixeira: clique direito na Lixeira → Propriedades → veja o tamanho máximo</li>
+        <li><strong>▸</strong> Altere o tamanho para 500 MB e documente</li>
+        <li><strong>▸</strong> Pesquise: existe algum software gratuito para recuperar arquivos deletados definitivamente?</li>
+        <li><strong>▸</strong> Escreva um parágrafo sobre boas práticas para evitar perda de dados. Salve: 'sem06_ex3_SeuNome.docx'</li>
+      </ol>
     </div>
 
     <div class="tip-box">
@@ -389,11 +694,158 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
 
     <div class="check-wrap">
       <h4>☑️ Checklist de Entrega:</h4>
-      <div class="check-item"><div class="check-box"></div><span>Crie 5 arquivos de texto importantes com conteúdo relevante (simule documentos reais)</span></div>
-<div class="check-item"><div class="check-box"></div><span>Exclua todos os 5 arquivos normalmente (tecla Delete)</span></div>
-<div class="check-item"><div class="check-box"></div><span>Verifique: os arquivos estão na Lixeira? (duplo clique na Lixeira da área de trabalho)</span></div>
-<div class="check-item"><div class="check-box"></div><span>Restaure 3 dos 5 arquivos (clique direito → Restaurar)</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Crie 5 arquivos de texto importantes com conteúdo relevante</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Exclua todos os 5 arquivos normalmente (tecla Delete)</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Verifique: os arquivos estão na Lixeira?</span></div>
+      <div class="check-item"><div class="check-box"></div><span>Restaure 3 dos 5 arquivos (clique direito → Restaurar)</span></div>
       <div class="check-item"><div class="check-box"></div><span>Arquivo salvo com nomenclatura correta (sem06_ex3_SeuNome)</span></div>
+    </div>
+
+    <!-- ===== ATIVIDADE 3A: QUIZ MÚLTIPLA ESCOLHA =====  -->
+    <div class="activity-section quiz-section" style="margin-top:24px;">
+      <div class="activity-header" onclick="toggleActivity('quiz1')">
+        <span>🔵</span>
+        <h3>Quiz: Lixeira e Recuperação de Dados</h3>
+        <span class="toggle-icon" id="quiz1-icon">▼</span>
+      </div>
+      <div class="activity-body" id="quiz1-body">
+        <p style="font-size:.88em;color:var(--gray-500);margin-bottom:16px;">Responda todas as perguntas e clique em "Verificar" para saber sua pontuação.</p>
+        
+        <div class="quiz-question" id="qq1-1">
+          <p>1. Ao pressionar apenas a tecla Delete em um arquivo, o que acontece?</p>
+          <div class="quiz-options">
+            <label class="quiz-option"><input type="radio" name="q1" value="a"> O arquivo é excluído definitivamente</label>
+            <label class="quiz-option"><input type="radio" name="q1" value="b"> O arquivo vai para a Lixeira</label>
+            <label class="quiz-option"><input type="radio" name="q1" value="c"> Uma cópia é criada em backup automático</label>
+            <label class="quiz-option"><input type="radio" name="q1" value="d"> O arquivo é movido para C:\Windows\Temp</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" id="qq1-2">
+          <p>2. Qual atalho exclui um arquivo definitivamente, sem passar pela Lixeira?</p>
+          <div class="quiz-options">
+            <label class="quiz-option"><input type="radio" name="q2" value="a"> Ctrl+Delete</label>
+            <label class="quiz-option"><input type="radio" name="q2" value="b"> Alt+Delete</label>
+            <label class="quiz-option"><input type="radio" name="q2" value="c"> Shift+Delete</label>
+            <label class="quiz-option"><input type="radio" name="q2" value="d"> Win+Delete</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" id="qq1-3">
+          <p>3. Para restaurar um arquivo da Lixeira ao seu local original, você deve:</p>
+          <div class="quiz-options">
+            <label class="quiz-option"><input type="radio" name="q3" value="a"> Copiar e colar do ícone da Lixeira para a área de trabalho</label>
+            <label class="quiz-option"><input type="radio" name="q3" value="b"> Clicar com botão direito no arquivo → Restaurar</label>
+            <label class="quiz-option"><input type="radio" name="q3" value="c"> Pressionar Ctrl+Z na Lixeira</label>
+            <label class="quiz-option"><input type="radio" name="q3" value="d"> Usar o comando "recuperar" no Menu Iniciar</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" id="qq1-4">
+          <p>4. Onde é possível configurar o tamanho máximo de armazenamento da Lixeira?</p>
+          <div class="quiz-options">
+            <label class="quiz-option"><input type="radio" name="q4" value="a"> Painel de Controle → Sistema</label>
+            <label class="quiz-option"><input type="radio" name="q4" value="b"> Clique direito na Lixeira → Propriedades</label>
+            <label class="quiz-option"><input type="radio" name="q4" value="c"> Gerenciador de Dispositivos</label>
+            <label class="quiz-option"><input type="radio" name="q4" value="d"> Configurações → Armazenamento → Lixeira</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" id="qq1-5">
+          <p>5. Um arquivo excluído de um pen drive (dispositivo USB) vai para a Lixeira?</p>
+          <div class="quiz-options">
+            <label class="quiz-option"><input type="radio" name="q5" value="a"> Sim, sempre vai para a Lixeira</label>
+            <label class="quiz-option"><input type="radio" name="q5" value="b"> Não, é excluído definitivamente</label>
+            <label class="quiz-option"><input type="radio" name="q5" value="c"> Sim, mas fica em uma Lixeira separada no próprio pen drive</label>
+            <label class="quiz-option"><input type="radio" name="q5" value="d"> Depende da versão do Windows</label>
+          </div>
+        </div>
+
+        <button class="quiz-submit-btn" id="quiz1-btn" onclick="checkQuiz('quiz1')">✅ Verificar Respostas</button>
+        <div id="quiz1-score"></div>
+      </div>
+    </div>
+
+    <!-- ===== ATIVIDADE 3B: LIGAR PONTOS - SITUAÇÕES =====  -->
+    <div class="activity-section match-section" style="margin-top:16px;">
+      <div class="activity-header" onclick="toggleActivity('match2')">
+        <span>🟢</span>
+        <h3>Atividade: Ligue a Situação à Ação Correta</h3>
+        <span class="toggle-icon" id="match2-icon">▼</span>
+      </div>
+      <div class="activity-body" id="match2-body">
+        <p style="font-size:.88em;color:var(--gray-500);margin-bottom:14px;">Clique em uma situação e depois na ação correspondente para fazer a conexão.</p>
+        
+        <div class="match-canvas-wrap" id="match2-canvas">
+          <div class="match-container" id="match2-container">
+            <div class="match-col match-col-left">
+              <h4>⚠️ Situação</h4>
+              <div class="match-item match-left-item" data-id="m2-l1" data-match="m2-r1">Excluí um arquivo importante por engano</div>
+              <div class="match-item match-left-item" data-id="m2-l2" data-match="m2-r2">Quero copiar um arquivo para outra pasta</div>
+              <div class="match-item match-left-item" data-id="m2-l3" data-match="m2-r3">Quero renomear vários arquivos rapidamente</div>
+              <div class="match-item match-left-item" data-id="m2-l4" data-match="m2-r4">A Lixeira está cheia e preciso liberar espaço</div>
+            </div>
+            <div class="match-col match-col-right">
+              <h4>✅ Ação</h4>
+              <div class="match-item match-right-item" data-id="m2-r3">Selecionar → F2 → renomear → Tab para próximo</div>
+              <div class="match-item match-right-item" data-id="m2-r1">Abrir Lixeira → clicar direito → Restaurar</div>
+              <div class="match-item match-right-item" data-id="m2-r4">Esvaziar a Lixeira via clique direito</div>
+              <div class="match-item match-right-item" data-id="m2-r2">Ctrl+C na origem → Ctrl+V no destino</div>
+            </div>
+          </div>
+          <svg class="match-svg" id="match2-svg" style="position:absolute;top:0;left:0;pointer-events:none;"></svg>
+        </div>
+
+        <div class="match-score" id="match2-score"></div>
+        <button class="match-reset-btn" onclick="resetMatch('match2')">🔄 Reiniciar</button>
+        <div class="activity-result" id="match2-result"></div>
+      </div>
+    </div>
+
+    <!-- ===== ATIVIDADE 3C: DRAG DROP =====  -->
+    <div class="activity-section drag-section" style="margin-top:16px;">
+      <div class="activity-header" onclick="toggleActivity('drag2')">
+        <span>🟣</span>
+        <h3>Atividade: Arraste a Boa Prática para a Categoria Certa</h3>
+        <span class="toggle-icon" id="drag2-icon">▼</span>
+      </div>
+      <div class="activity-body" id="drag2-body">
+        <p style="font-size:.88em;color:var(--gray-500);margin-bottom:14px;">Classifique cada boa prática na categoria correta.</p>
+        
+        <div class="drag-container">
+          <div class="drag-bank">
+            <h4>🎯 Boas Práticas</h4>
+            <div class="drag-items" id="drag2-bank">
+              <div class="drag-item" draggable="true" data-value="Backup regular">Backup regular</div>
+              <div class="drag-item" draggable="true" data-value="Nomes descritivos">Nomes descritivos</div>
+              <div class="drag-item" draggable="true" data-value="Esvaziar Lixeira">Esvaziar Lixeira</div>
+              <div class="drag-item" draggable="true" data-value="Pastas organizadas">Pastas organizadas</div>
+              <div class="drag-item" draggable="true" data-value="Ctrl+Z imediato">Ctrl+Z imediato</div>
+              <div class="drag-item" draggable="true" data-value="Permissões corretas">Permissões corretas</div>
+            </div>
+          </div>
+
+          <div class="drop-zones">
+            <h4>📂 Categorias</h4>
+            <div class="drop-row">
+              <span class="drop-label" style="min-width:160px;">🛡️ Prevenir perda de dados</span>
+              <div class="drop-zone" data-answer="Backup regular|Permissões corretas" id="dz2-1" data-multi="true"></div>
+            </div>
+            <div class="drop-row">
+              <span class="drop-label" style="min-width:160px;">📁 Organização de arquivos</span>
+              <div class="drop-zone" data-answer="Nomes descritivos|Pastas organizadas" id="dz2-2" data-multi="true"></div>
+            </div>
+            <div class="drop-row">
+              <span class="drop-label" style="min-width:160px;">🔧 Recuperar/liberar espaço</span>
+              <div class="drop-zone" data-answer="Esvaziar Lixeira|Ctrl+Z imediato" id="dz2-3" data-multi="true"></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="drag-check-btn" onclick="checkDragMulti('drag2')">✅ Verificar Respostas</button>
+        <button class="drag-reset-btn" onclick="resetDrag('drag2')">🔄 Reiniciar</button>
+        <div class="activity-result" id="drag2-result"></div>
+      </div>
     </div>
   </div>
 
@@ -405,5 +857,412 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
     <a href="semana07_guia.html" class="nav-btn btn-primary">Próximo ➡</a>
   </nav>
 </div>
+
+<script>
+// ============================================================
+// GLOBAL STATE
+// ============================================================
+let totalScore = 0;
+let completedActivities = 0;
+
+function updateScoreBanner(points){
+  totalScore += points;
+  completedActivities++;
+  document.getElementById('totalScore').textContent = totalScore;
+  document.getElementById('totalActivities').textContent = completedActivities;
+}
+
+// ============================================================
+// TOGGLE
+// ============================================================
+function toggleActivity(id){
+  const body = document.getElementById(id+'-body');
+  const icon = document.getElementById(id+'-icon');
+  body.classList.toggle('visible');
+  icon.classList.toggle('open');
+}
+
+// ============================================================
+// DRAG & DROP (single answer per zone)
+// ============================================================
+let draggedItem = null;
+
+document.addEventListener('dragstart', e => {
+  if(e.target.classList.contains('drag-item')){
+    draggedItem = e.target;
+    e.target.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  }
+});
+document.addEventListener('dragend', e => {
+  if(e.target.classList.contains('drag-item')) e.target.classList.remove('dragging');
+});
+document.addEventListener('dragover', e => {
+  const zone = e.target.closest('.drop-zone');
+  if(zone){ e.preventDefault(); zone.classList.add('drag-over'); }
+});
+document.addEventListener('dragleave', e => {
+  const zone = e.target.closest('.drop-zone');
+  if(zone) zone.classList.remove('drag-over');
+});
+document.addEventListener('drop', e => {
+  const zone = e.target.closest('.drop-zone');
+  if(zone && draggedItem){
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    const multi = zone.dataset.multi === 'true';
+    if(!multi){
+      // Return existing item to bank if present
+      const existing = zone.querySelector('.drag-item');
+      if(existing){
+        const bankId = draggedItem.closest('.activity-body')?.querySelector('[id$="-bank"]')?.id;
+        if(bankId) document.getElementById(bankId).appendChild(existing);
+        else zone.parentElement.closest('.drag-container')?.querySelector('.drag-items')?.appendChild(existing);
+      }
+      zone.appendChild(draggedItem);
+    } else {
+      zone.appendChild(draggedItem);
+    }
+    draggedItem = null;
+  }
+});
+
+function checkDrag(id){
+  const body = document.getElementById(id+'-body');
+  const zones = body.querySelectorAll('.drop-zone');
+  let correct = 0; let total = zones.length;
+  zones.forEach(zone => {
+    const item = zone.querySelector('.drag-item');
+    if(item && item.dataset.value === zone.dataset.answer){
+      zone.classList.add('correct'); zone.classList.remove('incorrect'); correct++;
+    } else {
+      zone.classList.add('incorrect'); zone.classList.remove('correct');
+    }
+  });
+  showResult(id+'-result', correct, total);
+  if(correct === total) updateScoreBanner(correct);
+}
+
+function checkDragMulti(id){
+  const body = document.getElementById(id+'-body');
+  const zones = body.querySelectorAll('.drop-zone[data-multi="true"]');
+  let correct = 0; let total = zones.length;
+  zones.forEach(zone => {
+    const answers = zone.dataset.answer.split('|');
+    const items = Array.from(zone.querySelectorAll('.drag-item')).map(i => i.dataset.value);
+    const allCorrect = answers.every(a => items.includes(a)) && items.every(i => answers.includes(i));
+    if(allCorrect){ zone.classList.add('correct'); zone.classList.remove('incorrect'); correct++; }
+    else { zone.classList.add('incorrect'); zone.classList.remove('correct'); }
+  });
+  showResult(id+'-result', correct, total);
+  if(correct === total) updateScoreBanner(correct);
+}
+
+function resetDrag(id){
+  const body = document.getElementById(id+'-body');
+  const bank = body.querySelector('[id$="-bank"]');
+  const zones = body.querySelectorAll('.drop-zone');
+  zones.forEach(zone => {
+    zone.classList.remove('correct','incorrect','drag-over');
+    const items = zone.querySelectorAll('.drag-item');
+    items.forEach(i => bank.appendChild(i));
+  });
+  const res = document.getElementById(id+'-result');
+  res.className='activity-result'; res.textContent='';
+}
+
+// ============================================================
+// FILL IN THE BLANK
+// ============================================================
+let selectedFillWord = null;
+
+function selectFillWord(btn){
+  // deselect previous
+  document.querySelectorAll('.fill-option').forEach(b => b.style.outline='');
+  document.querySelectorAll('.fill-blank').forEach(b => b.classList.remove('active'));
+  selectedFillWord = btn.dataset.word;
+  btn.style.outline = '3px solid #92400e';
+}
+
+function placeFillWord(blank){
+  if(!selectedFillWord) return;
+  // If blank already has a word, return it to bank
+  const current = blank.textContent.trim();
+  if(current && current !== '_______'){
+    const bank = blank.closest('.activity-body').querySelector('.fill-options');
+    bank.querySelectorAll('.fill-option').forEach(b => {
+      if(b.dataset.word === current) b.classList.remove('used');
+    });
+  }
+  blank.textContent = selectedFillWord;
+  blank.classList.add('active');
+  blank.classList.remove('correct','incorrect');
+  // Mark used
+  const bank = blank.closest('.activity-body').querySelector('.fill-options');
+  bank.querySelectorAll('.fill-option').forEach(b => {
+    if(b.dataset.word === selectedFillWord){ b.classList.add('used'); b.style.outline=''; }
+  });
+  selectedFillWord = null;
+}
+
+function checkFill(id){
+  const body = document.getElementById(id+'-body');
+  const blanks = body.querySelectorAll('.fill-blank');
+  let correct = 0;
+  blanks.forEach(b => {
+    b.classList.remove('active');
+    if(b.textContent.trim() === b.dataset.answer){ b.classList.add('correct'); b.classList.remove('incorrect'); correct++; }
+    else { b.classList.add('incorrect'); b.classList.remove('correct'); }
+  });
+  showResult(id+'-result', correct, blanks.length);
+  if(correct === blanks.length) updateScoreBanner(correct);
+}
+
+function resetFill(id){
+  const body = document.getElementById(id+'-body');
+  body.querySelectorAll('.fill-blank').forEach(b => {
+    b.textContent = '_______';
+    b.className = 'fill-blank';
+  });
+  body.querySelectorAll('.fill-option').forEach(b => {
+    b.classList.remove('used'); b.style.outline='';
+  });
+  const res = document.getElementById(id+'-result');
+  res.className='activity-result'; res.textContent='';
+  selectedFillWord = null;
+}
+
+// ============================================================
+// MATCH (ligar pontos)
+// ============================================================
+const matchState = {};
+
+function initMatch(id){
+  matchState[id] = { selected: null, pairs: [], total: 0 };
+  const container = document.getElementById(id+'-container');
+  const lefts = container.querySelectorAll('.match-left-item');
+  matchState[id].total = lefts.length;
+  
+  container.querySelectorAll('.match-item').forEach(item => {
+    item.addEventListener('click', () => handleMatchClick(id, item));
+  });
+}
+
+function handleMatchClick(id, item){
+  const state = matchState[id];
+  if(item.classList.contains('matched')) return;
+  
+  if(!state.selected){
+    // First click - must be left item
+    if(!item.classList.contains('match-left-item')) return;
+    state.selected = item;
+    item.classList.add('selected');
+  } else {
+    if(item === state.selected){ item.classList.remove('selected'); state.selected = null; return; }
+    if(item.classList.contains('match-left-item')){
+      state.selected.classList.remove('selected');
+      state.selected = item;
+      item.classList.add('selected');
+      return;
+    }
+    // Right item clicked — check match
+    const leftId = state.selected.dataset.match;
+    const rightId = item.dataset.id;
+    if(leftId === rightId){
+      state.selected.classList.remove('selected');
+      state.selected.classList.add('matched');
+      item.classList.add('matched');
+      state.pairs.push({left: state.selected, right: item});
+      drawMatchLine(id, state.selected, item);
+      state.selected = null;
+      updateMatchScore(id);
+    } else {
+      state.selected.classList.add('wrong');
+      item.classList.add('wrong');
+      const sel = state.selected;
+      setTimeout(() => { sel.classList.remove('wrong','selected'); item.classList.remove('wrong'); }, 600);
+      state.selected = null;
+    }
+  }
+}
+
+function drawMatchLine(id, leftEl, rightEl){
+  const svg = document.getElementById(id+'-svg');
+  const canvas = document.getElementById(id+'-canvas');
+  const cr = canvas.getBoundingClientRect();
+  const lr = leftEl.getBoundingClientRect();
+  const rr = rightEl.getBoundingClientRect();
+  const x1 = lr.right - cr.left;
+  const y1 = lr.top + lr.height/2 - cr.top;
+  const x2 = rr.left - cr.left;
+  const y2 = rr.top + rr.height/2 - cr.top;
+  svg.setAttribute('viewBox', `0 0 ${canvas.offsetWidth} ${canvas.offsetHeight}`);
+  svg.style.width = canvas.offsetWidth+'px';
+  svg.style.height = canvas.offsetHeight+'px';
+  const line = document.createElementNS('http://www.w3.org/2000/svg','path');
+  const cx = (x1+x2)/2;
+  line.setAttribute('d', `M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`);
+  line.setAttribute('class','match-line');
+  line.dataset.pair = leftEl.dataset.id;
+  svg.appendChild(line);
+}
+
+function updateMatchScore(id){
+  const state = matchState[id];
+  const scoreEl = document.getElementById(id+'-score');
+  const done = state.pairs.length;
+  const total = state.total;
+  scoreEl.textContent = `✅ ${done} de ${total} pares corretos!`;
+  if(done === total){
+    const res = document.getElementById(id+'-result');
+    res.textContent = '🎉 Perfeito! Você ligou todos os pares corretamente!';
+    res.className = 'activity-result show correct';
+    updateScoreBanner(done);
+  }
+}
+
+function resetMatch(id){
+  const container = document.getElementById(id+'-container');
+  container.querySelectorAll('.match-item').forEach(i => {
+    i.className = i.classList.contains('match-left-item') ? 'match-item match-left-item' : 'match-item match-right-item';
+  });
+  const svg = document.getElementById(id+'-svg');
+  svg.innerHTML = '';
+  matchState[id] = { selected: null, pairs: [], total: matchState[id].total };
+  document.getElementById(id+'-score').textContent = '';
+  const res = document.getElementById(id+'-result');
+  res.className='activity-result'; res.textContent='';
+}
+
+// ============================================================
+// ORDER (arrastar para ordenar)
+// ============================================================
+let orderDragEl = null;
+
+function initOrder(id){
+  const list = document.getElementById(id+'-list');
+  list.querySelectorAll('.order-item').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      orderDragEl = item;
+      item.classList.add('dragging-order');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging-order');
+      list.querySelectorAll('.order-item').forEach(i => i.classList.remove('drag-target'));
+    });
+    item.addEventListener('dragover', e => {
+      e.preventDefault();
+      if(item !== orderDragEl){
+        item.classList.add('drag-target');
+        const rect = item.getBoundingClientRect();
+        const after = e.clientY > rect.top + rect.height/2;
+        if(after) list.insertBefore(orderDragEl, item.nextSibling);
+        else list.insertBefore(orderDragEl, item);
+      }
+    });
+    item.addEventListener('dragleave', () => item.classList.remove('drag-target'));
+  });
+}
+
+function checkOrder(id){
+  const list = document.getElementById(id+'-list');
+  const items = list.querySelectorAll('.order-item');
+  let correct = 0;
+  items.forEach((item, idx) => {
+    const expectedOrder = parseInt(item.dataset.order);
+    const numEl = item.querySelector('.order-num');
+    numEl.textContent = idx+1;
+    if(expectedOrder === idx+1){ item.classList.add('order-correct'); item.classList.remove('order-incorrect'); correct++; }
+    else { item.classList.add('order-incorrect'); item.classList.remove('order-correct'); }
+  });
+  showResult(id+'-result', correct, items.length);
+  if(correct === items.length) updateScoreBanner(correct);
+}
+
+function resetOrder(id){
+  const list = document.getElementById(id+'-list');
+  const items = Array.from(list.querySelectorAll('.order-item'));
+  // shuffle
+  for(let i = items.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); list.insertBefore(items[j], items[i]); }
+  list.querySelectorAll('.order-item').forEach(item => {
+    item.classList.remove('order-correct','order-incorrect');
+    item.querySelector('.order-num').textContent = '?';
+  });
+  const res = document.getElementById(id+'-result');
+  res.className='activity-result'; res.textContent='';
+}
+
+// ============================================================
+// QUIZ
+// ============================================================
+const quizAnswers = {
+  quiz1: { q1:'b', q2:'c', q3:'b', q4:'b', q5:'b' },
+  explanations: {
+    q1: 'Pressionar Delete envia o arquivo para a Lixeira, onde pode ser recuperado.',
+    q2: 'Shift+Delete exclui definitivamente, sem passar pela Lixeira.',
+    q3: 'Clique direito → Restaurar retorna o arquivo ao local original.',
+    q4: 'Clique direito na Lixeira → Propriedades permite configurar o tamanho.',
+    q5: 'Arquivos em dispositivos removíveis como pen drives são excluídos definitivamente.'
+  }
+};
+
+function checkQuiz(id){
+  const answers = quizAnswers[id];
+  const body = document.getElementById(id+'-body');
+  let correct = 0; let total = Object.keys(answers).length;
+  
+  Object.keys(answers).forEach(q => {
+    const selected = body.querySelector(`input[name="${q}"]:checked`);
+    const options = body.querySelectorAll(`input[name="${q}"]`);
+    options.forEach(opt => {
+      const lbl = opt.closest('.quiz-option');
+      lbl.classList.add('locked');
+      if(opt.value === answers[q]) lbl.classList.add('correct');
+      else if(opt.checked) lbl.classList.add('incorrect');
+    });
+    const qDiv = body.querySelector(`#qq1-${q.replace('q','')}`);
+    if(selected){
+      let fb = document.createElement('div');
+      fb.className = selected.value === answers[q] ? 'quiz-feedback correct' : 'quiz-feedback incorrect';
+      fb.textContent = selected.value === answers[q] ? '✅ Correto! ' + quizAnswers.explanations[q] : '❌ Incorreto. ' + quizAnswers.explanations[q];
+      qDiv.appendChild(fb);
+      if(selected.value === answers[q]) correct++;
+    }
+  });
+
+  const scoreEl = document.getElementById(id+'-score');
+  const pct = Math.round(correct/total*100);
+  let cls = pct>=80?'good':pct>=50?'ok':'bad';
+  let emoji = pct>=80?'🎉':pct>=50?'📚':'💪';
+  scoreEl.innerHTML = `<div class="quiz-score-box ${cls}">${emoji} Você acertou ${correct} de ${total} (${pct}%)!${pct<80?' Continue estudando!':' Excelente!'}</div>`;
+  document.getElementById(id+'-btn').disabled = true;
+  updateScoreBanner(correct);
+}
+
+// ============================================================
+// RESULT HELPER
+// ============================================================
+function showResult(elId, correct, total){
+  const el = document.getElementById(elId);
+  const pct = correct/total;
+  if(pct === 1){ el.textContent = `🎉 Perfeito! ${correct}/${total} corretos!`; el.className='activity-result show correct'; }
+  else if(pct >= 0.5){ el.textContent = `📚 Bom! ${correct}/${total} corretos. Revise os erros!`; el.className='activity-result show partial'; }
+  else { el.textContent = `💪 ${correct}/${total} corretos. Tente novamente!`; el.className='activity-result show incorrect'; }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initMatch('match1');
+  initMatch('match2');
+  initOrder('order1');
+  // Shuffle order items on load
+  const list = document.getElementById('order1-list');
+  const items = Array.from(list.querySelectorAll('.order-item'));
+  for(let i=items.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));list.insertBefore(items[j],items[i]);}
+});
+</script>
 </body>
 </html>
