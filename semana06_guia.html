@@ -340,18 +340,409 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
     </div>
 
     <div class="solution">
-      <h3>✅ Resolução Passo a Passo</h3>
-      <ol>
-        <li><strong>▸</strong> Crie a estrutura base: C:\Empresa\{RH, Financeiro, TI, Projetos}</li>
-        <li><strong>▸</strong> Dentro de cada pasta, crie subpastas: 2025 e 2026</li>
-        <li><strong>▸</strong> Crie pelo menos 3 arquivos de texto em cada pasta com nomes descritivos</li>
-        <li><strong>▸</strong> Mova (Ctrl+X, Ctrl+V) 2 arquivos de RH\2025 para RH\2026</li>
-        <li><strong>▸</strong> Copie (Ctrl+C, Ctrl+V) toda a pasta Financeiro\2025 para Financeiro\Backup</li>
-        <li><strong>▸</strong> Renomeie todos os arquivos da pasta TI adicionando o prefixo 'ti_' (F2 para renomear)</li>
-        <li><strong>▸</strong> Exclua a pasta Projetos → confirme que foi para a Lixeira → restaure</li>
-        <li><strong>▸</strong> Excluir definitivamente a pasta Projetos (Shift+Delete)</li>
-        <li><strong>▸</strong> Documente o resultado com print da estrutura final. Salve: 'sem06_ex1_SeuNome.docx'</li>
-      </ol>
+      <h3>✅ Resolução Passo a Passo — Detalhada</h3>
+
+      <!-- ── PASSO 1 ─────────────────────────────────────────── -->
+      <div style="background:white;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="min-width:30px;height:30px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85em;">1</div>
+          <span style="font-weight:700;color:#065f46;font-size:.97em;">Criar a estrutura base: <code style="background:#f0fdf4;padding:2px 7px;border-radius:4px;font-size:.9em;color:#15803d;">C:\Empresa\</code></span>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:12px;">Abra o <strong>Explorador de Arquivos</strong> (Win+E), acesse o disco <code>C:\</code> e crie a pasta <code>Empresa</code>. Dentro dela, crie as 4 subpastas. Clique com o botão direito → <strong>Novo → Pasta</strong> para cada uma:</p>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:12px;overflow-x:auto;">
+          <div style="font-size:.75em;font-weight:700;color:#64748b;letter-spacing:.05em;margin-bottom:10px;text-transform:uppercase;">📁 Estrutura esperada após o Passo 1</div>
+          <svg viewBox="0 0 480 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;font-family:'IBM Plex Mono',monospace;">
+            <rect x="10" y="10" width="90" height="28" rx="5" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+            <text x="55" y="28" text-anchor="middle" font-size="12" fill="#1e40af" font-weight="600">C:\</text>
+            <line x1="100" y1="24" x2="130" y2="24" stroke="#94a3b8" stroke-width="1.5"/>
+            <rect x="130" y="10" width="110" height="28" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5"/>
+            <text x="185" y="25" text-anchor="middle" font-size="12" fill="#065f46" font-weight="700">📁 Empresa</text>
+            <line x1="240" y1="24" x2="260" y2="24" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+            <line x1="260" y1="24" x2="260" y2="150" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+            <line x1="260" y1="48" x2="280" y2="48" stroke="#94a3b8" stroke-width="1"/>
+            <line x1="260" y1="80" x2="280" y2="80" stroke="#94a3b8" stroke-width="1"/>
+            <line x1="260" y1="112" x2="280" y2="112" stroke="#94a3b8" stroke-width="1"/>
+            <line x1="260" y1="144" x2="280" y2="144" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="280" y="34" width="90" height="28" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="325" y="52" text-anchor="middle" font-size="12" fill="#92400e" font-weight="600">📁 RH</text>
+            <rect x="280" y="66" width="110" height="28" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="335" y="84" text-anchor="middle" font-size="12" fill="#92400e" font-weight="600">📁 Financeiro</text>
+            <rect x="280" y="98" width="90" height="28" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="325" y="116" text-anchor="middle" font-size="12" fill="#92400e" font-weight="600">📁 TI</text>
+            <rect x="280" y="130" width="110" height="28" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="335" y="148" text-anchor="middle" font-size="12" fill="#92400e" font-weight="600">📁 Projetos</text>
+          </svg>
+        </div>
+        <div style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 14px;font-size:.83em;color:#713f12;">
+          💡 <strong>Atalho rápido:</strong> Com a pasta <code>Empresa</code> aberta, pressione <kbd style="background:#e2e8f0;padding:1px 6px;border-radius:3px;font-family:monospace;">Ctrl+Shift+N</kbd> para criar nova pasta sem usar o mouse.
+        </div>
+      </div>
+
+      <!-- ── PASSO 2 ─────────────────────────────────────────── -->
+      <div style="background:white;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="min-width:30px;height:30px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85em;">2</div>
+          <span style="font-weight:700;color:#065f46;font-size:.97em;">Criar subpastas <code style="background:#f0fdf4;padding:2px 7px;border-radius:4px;font-size:.9em;color:#15803d;">2025</code> e <code style="background:#f0fdf4;padding:2px 7px;border-radius:4px;font-size:.9em;color:#15803d;">2026</code> dentro de cada departamento</span>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:12px;">Entre em cada uma das 4 pastas e crie as duas subpastas de ano. Repita o processo para RH, Financeiro, TI e Projetos:</p>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:12px;overflow-x:auto;">
+          <div style="font-size:.75em;font-weight:700;color:#64748b;letter-spacing:.05em;margin-bottom:10px;text-transform:uppercase;">📁 Estrutura esperada após o Passo 2</div>
+          <svg viewBox="0 0 540 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:540px;font-family:'IBM Plex Mono',monospace;">
+            <rect x="10" y="95" width="110" height="28" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5"/>
+            <text x="65" y="113" text-anchor="middle" font-size="12" fill="#065f46" font-weight="700">📁 Empresa</text>
+            <line x1="120" y1="109" x2="145" y2="109" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+            <line x1="145" y1="30" x2="145" y2="195" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+            <line x1="145" y1="34" x2="165" y2="34" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="165" y="20" width="70" height="28" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="200" y="38" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">📁 RH</text>
+            <line x1="235" y1="34" x2="255" y2="34" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="255" y1="22" x2="255" y2="48" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="255" y1="26" x2="270" y2="26" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="270" y="12" width="55" height="22" rx="4" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+            <text x="297" y="26" text-anchor="middle" font-size="10" fill="#0369a1">📅 2025</text>
+            <line x1="255" y1="44" x2="270" y2="44" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="270" y="34" width="55" height="22" rx="4" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+            <text x="297" y="48" text-anchor="middle" font-size="10" fill="#0369a1">📅 2026</text>
+            <line x1="145" y1="82" x2="165" y2="82" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="165" y="68" width="90" height="28" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="210" y="86" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">📁 Financeiro</text>
+            <line x1="255" y1="82" x2="270" y2="82" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="270" y1="74" x2="270" y2="92" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="270" y1="76" x2="285" y2="76" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="285" y="64" width="55" height="22" rx="4" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+            <text x="312" y="78" text-anchor="middle" font-size="10" fill="#0369a1">📅 2025</text>
+            <line x1="270" y1="90" x2="285" y2="90" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="285" y="80" width="55" height="22" rx="4" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+            <text x="312" y="94" text-anchor="middle" font-size="10" fill="#0369a1">📅 2026</text>
+            <line x1="145" y1="130" x2="165" y2="130" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="165" y="116" width="70" height="28" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="200" y="134" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">📁 TI</text>
+            <line x1="235" y1="130" x2="255" y2="130" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="255" y1="122" x2="255" y2="142" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="255" y1="124" x2="270" y2="124" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="270" y="112" width="55" height="22" rx="4" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+            <text x="297" y="126" text-anchor="middle" font-size="10" fill="#0369a1">📅 2025</text>
+            <line x1="255" y1="140" x2="270" y2="140" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="270" y="130" width="55" height="22" rx="4" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+            <text x="297" y="144" text-anchor="middle" font-size="10" fill="#0369a1">📅 2026</text>
+            <line x1="145" y1="178" x2="165" y2="178" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="165" y="164" width="90" height="28" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="210" y="182" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">📁 Projetos</text>
+            <line x1="255" y1="178" x2="270" y2="178" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="270" y1="170" x2="270" y2="190" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="270" y1="172" x2="285" y2="172" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="285" y="160" width="55" height="22" rx="4" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+            <text x="312" y="174" text-anchor="middle" font-size="10" fill="#0369a1">📅 2025</text>
+            <line x1="270" y1="188" x2="285" y2="188" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="285" y="178" width="55" height="22" rx="4" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+            <text x="312" y="192" text-anchor="middle" font-size="10" fill="#0369a1">📅 2026</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- ── PASSO 3 ─────────────────────────────────────────── -->
+      <div style="background:white;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="min-width:30px;height:30px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85em;">3</div>
+          <span style="font-weight:700;color:#065f46;font-size:.97em;">Criar pelo menos 3 arquivos de texto em cada subpasta com nomes descritivos</span>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:12px;">Dentro de cada subpasta (ex: <code>RH\2025</code>), clique com o botão direito → <strong>Novo → Documento de Texto</strong>. Use os nomes sugeridos abaixo:</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-bottom:12px;">
+          <div style="background:#fef9f0;border:1px solid #fed7aa;border-radius:8px;padding:14px;">
+            <div style="font-weight:700;color:#9a3412;font-size:.82em;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">📁 RH \ 2025</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.78em;color:#374151;line-height:2;">
+              📄 folha_pagamento_jan2025.txt<br>
+              📄 admissao_ana_silva.txt<br>
+              📄 ferias_equipe_2025.txt
+            </div>
+          </div>
+          <div style="background:#fef9f0;border:1px solid #fed7aa;border-radius:8px;padding:14px;">
+            <div style="font-weight:700;color:#9a3412;font-size:.82em;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">📁 RH \ 2026</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.78em;color:#374151;line-height:2;">
+              📄 metas_rh_2026.txt<br>
+              📄 treinamento_jan2026.txt<br>
+              📄 organograma_2026.txt
+            </div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:14px;">
+            <div style="font-weight:700;color:#065f46;font-size:.82em;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">📁 Financeiro \ 2025</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.78em;color:#374151;line-height:2;">
+              📄 orcamento_anual_2025.txt<br>
+              📄 fluxo_caixa_jan2025.txt<br>
+              📄 relatorio_despesas.txt
+            </div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:14px;">
+            <div style="font-weight:700;color:#065f46;font-size:.82em;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">📁 Financeiro \ 2026</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.78em;color:#374151;line-height:2;">
+              📄 previsao_receita_2026.txt<br>
+              📄 contratos_ativos.txt<br>
+              📄 impostos_2026.txt
+            </div>
+          </div>
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px;">
+            <div style="font-weight:700;color:#1e40af;font-size:.82em;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">📁 TI \ 2025</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.78em;color:#374151;line-height:2;">
+              📄 inventario_equipamentos.txt<br>
+              📄 chamados_suporte.txt<br>
+              📄 backup_servidores.txt
+            </div>
+          </div>
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px;">
+            <div style="font-weight:700;color:#1e40af;font-size:.82em;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">📁 TI \ 2026</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.78em;color:#374151;line-height:2;">
+              📄 atualizacoes_sistema.txt<br>
+              📄 plano_seguranca.txt<br>
+              📄 licencas_software.txt
+            </div>
+          </div>
+          <div style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:8px;padding:14px;">
+            <div style="font-weight:700;color:#6b21a8;font-size:.82em;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">📁 Projetos \ 2025</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.78em;color:#374151;line-height:2;">
+              📄 projeto_site_corporativo.txt<br>
+              📄 cronograma_geral.txt<br>
+              📄 ata_reuniao_kickoff.txt
+            </div>
+          </div>
+          <div style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:8px;padding:14px;">
+            <div style="font-weight:700;color:#6b21a8;font-size:.82em;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em;">📁 Projetos \ 2026</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.78em;color:#374151;line-height:2;">
+              📄 projeto_app_mobile.txt<br>
+              📄 escopo_novo_sistema.txt<br>
+              📄 riscos_identificados.txt
+            </div>
+          </div>
+        </div>
+        <div style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 14px;font-size:.83em;color:#713f12;">
+          💡 <strong>Regras de nomenclatura:</strong> Use apenas letras minúsculas e <code>_</code> no lugar de espaços, sem acentos. &nbsp;<code>folha_pagamento_jan2025.txt</code> ✅ &nbsp;|&nbsp; <code>Folha Pagamento.txt</code> ❌
+        </div>
+      </div>
+
+      <!-- ── PASSO 4 ─────────────────────────────────────────── -->
+      <div style="background:white;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="min-width:30px;height:30px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85em;">4</div>
+          <span style="font-weight:700;color:#065f46;font-size:.97em;">Mover 2 arquivos de <code style="background:#f0fdf4;padding:2px 7px;border-radius:4px;font-size:.9em;color:#15803d;">RH\2025</code> para <code style="background:#f0fdf4;padding:2px 7px;border-radius:4px;font-size:.9em;color:#15803d;">RH\2026</code></span>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:10px;">Abra a pasta <code>C:\Empresa\RH\2025</code>. Selecione 2 arquivos (ex: <code>admissao_ana_silva.txt</code> e <code>ferias_equipe_2025.txt</code>). Recorte e cole em <code>RH\2026</code>:</p>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:12px;">
+          <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:12px;">
+            <div style="font-size:.75em;font-weight:700;color:#991b1b;margin-bottom:8px;">📁 RH\2025 — ANTES</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.76em;color:#374151;line-height:2;">
+              📄 folha_pagamento_jan2025.txt<br>
+              <span style="background:#fee2e2;border-radius:3px;padding:1px 4px;">✂️ admissao_ana_silva.txt</span><br>
+              <span style="background:#fee2e2;border-radius:3px;padding:1px 4px;">✂️ ferias_equipe_2025.txt</span>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:.75em;font-weight:700;color:#64748b;margin-bottom:4px;">Ctrl+X</div>
+            <div style="font-size:1.4em;">→</div>
+            <div style="font-size:.75em;font-weight:700;color:#64748b;margin-top:4px;">Ctrl+V</div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px;">
+            <div style="font-size:.75em;font-weight:700;color:#065f46;margin-bottom:8px;">📁 RH\2026 — DEPOIS</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.76em;color:#374151;line-height:2;">
+              📄 metas_rh_2026.txt<br>
+              📄 treinamento_jan2026.txt<br>
+              📄 organograma_2026.txt<br>
+              <span style="background:#dcfce7;border-radius:3px;padding:1px 4px;">📥 admissao_ana_silva.txt</span><br>
+              <span style="background:#dcfce7;border-radius:3px;padding:1px 4px;">📥 ferias_equipe_2025.txt</span>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 14px;font-size:.83em;color:#713f12;">
+          ⚠️ <strong>Mover ≠ Copiar!</strong> Após <kbd style="background:#e2e8f0;padding:1px 5px;border-radius:3px;font-family:monospace;">Ctrl+X</kbd> + <kbd style="background:#e2e8f0;padding:1px 5px;border-radius:3px;font-family:monospace;">Ctrl+V</kbd>, os arquivos <strong>somem</strong> da origem. Confirme que <code>RH\2025</code> ficou só com 1 arquivo.
+        </div>
+      </div>
+
+      <!-- ── PASSO 5 ─────────────────────────────────────────── -->
+      <div style="background:white;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="min-width:30px;height:30px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85em;">5</div>
+          <span style="font-weight:700;color:#065f46;font-size:.97em;">Copiar a pasta <code style="background:#f0fdf4;padding:2px 7px;border-radius:4px;font-size:.9em;color:#15803d;">Financeiro\2025</code> para <code style="background:#f0fdf4;padding:2px 7px;border-radius:4px;font-size:.9em;color:#15803d;">Financeiro\Backup</code></span>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:10px;">Primeiro crie a pasta <code>Backup</code> dentro de <code>Financeiro</code>. Depois, na pasta <code>Financeiro</code>, selecione a pasta <code>2025</code> inteira → <kbd style="background:#e2e8f0;padding:1px 5px;border-radius:3px;font-family:monospace;">Ctrl+C</kbd> → abra <code>Backup</code> → <kbd style="background:#e2e8f0;padding:1px 5px;border-radius:3px;font-family:monospace;">Ctrl+V</kbd>:</p>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:10px;overflow-x:auto;">
+          <svg viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;font-family:'IBM Plex Mono',monospace;">
+            <rect x="10" y="55" width="100" height="28" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5"/>
+            <text x="60" y="73" text-anchor="middle" font-size="11" fill="#065f46" font-weight="700">📁 Financeiro</text>
+            <line x1="110" y1="69" x2="135" y2="69" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+            <line x1="135" y1="25" x2="135" y2="115" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+            <line x1="135" y1="29" x2="155" y2="29" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="155" y="16" width="75" height="26" rx="5" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+            <text x="192" y="32" text-anchor="middle" font-size="11" fill="#1e40af" font-weight="600">📅 2025</text>
+            <line x1="135" y1="70" x2="155" y2="70" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="155" y="57" width="75" height="26" rx="5" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1.5"/>
+            <text x="192" y="73" text-anchor="middle" font-size="11" fill="#1e40af">📅 2026</text>
+            <line x1="135" y1="112" x2="155" y2="112" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="155" y="99" width="75" height="26" rx="5" fill="#fdf4ff" stroke="#d8b4fe" stroke-width="1.5"/>
+            <text x="192" y="115" text-anchor="middle" font-size="11" fill="#6b21a8" font-weight="600">📁 Backup</text>
+            <line x1="230" y1="112" x2="255" y2="112" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <rect x="255" y="99" width="75" height="26" rx="5" fill="#dcfce7" stroke="#6ee7b7" stroke-width="1.5"/>
+            <text x="292" y="115" text-anchor="middle" font-size="11" fill="#15803d" font-weight="600">📅 2025 ✓</text>
+            <text x="270" y="50" font-size="10" fill="#16a34a" font-weight="700">Ctrl+C na pasta 2025</text>
+            <text x="270" y="64" font-size="10" fill="#6b21a8" font-weight="700">Ctrl+V dentro de Backup</text>
+          </svg>
+        </div>
+        <div style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 14px;font-size:.83em;color:#713f12;">
+          💡 A pasta <code>2025</code> original deve <strong>continuar existindo</strong> em <code>Financeiro</code>. O <code>Backup</code> é uma cópia independente — verifique que ambas existem.
+        </div>
+      </div>
+
+      <!-- ── PASSO 6 ─────────────────────────────────────────── -->
+      <div style="background:white;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="min-width:30px;height:30px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85em;">6</div>
+          <span style="font-weight:700;color:#065f46;font-size:.97em;">Renomear arquivos de TI adicionando o prefixo <code style="background:#f0fdf4;padding:2px 7px;border-radius:4px;font-size:.9em;color:#15803d;">ti_</code></span>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:10px;">Abra cada subpasta de TI. Clique uma vez no arquivo para selecioná-lo, pressione <kbd style="background:#e2e8f0;padding:1px 5px;border-radius:3px;font-family:monospace;">F2</kbd> para entrar no modo de edição e adicione <code>ti_</code> no início do nome:</p>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:12px;">
+          <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:12px;">
+            <div style="font-size:.75em;font-weight:700;color:#991b1b;margin-bottom:8px;">📁 TI\2025 — ANTES</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.76em;color:#374151;line-height:2;">
+              📄 inventario_equipamentos.txt<br>
+              📄 chamados_suporte.txt<br>
+              📄 backup_servidores.txt
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:.75em;font-weight:700;color:#64748b;margin-bottom:4px;">F2</div>
+            <div style="font-size:1.4em;">→</div>
+            <div style="font-size:.7em;color:#64748b;margin-top:2px;">+ prefixo</div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px;">
+            <div style="font-size:.75em;font-weight:700;color:#065f46;margin-bottom:8px;">📁 TI\2025 — DEPOIS</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:.76em;color:#374151;line-height:2;">
+              📄 <span style="background:#dcfce7;border-radius:3px;padding:0 3px;color:#15803d;font-weight:700;">ti_</span>inventario_equipamentos.txt<br>
+              📄 <span style="background:#dcfce7;border-radius:3px;padding:0 3px;color:#15803d;font-weight:700;">ti_</span>chamados_suporte.txt<br>
+              📄 <span style="background:#dcfce7;border-radius:3px;padding:0 3px;color:#15803d;font-weight:700;">ti_</span>backup_servidores.txt
+            </div>
+          </div>
+        </div>
+        <div style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 14px;font-size:.83em;color:#713f12;">
+          💡 Repita para <strong>TI\2026</strong> também. Selecione cada arquivo individualmente com F2 para preservar os nomes descritivos. Renomeação em lote (Ctrl+A + F2) cria nomes genéricos como <code>ti_(1).txt</code>.
+        </div>
+      </div>
+
+      <!-- ── PASSO 7 ─────────────────────────────────────────── -->
+      <div style="background:white;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="min-width:30px;height:30px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85em;">7</div>
+          <span style="font-weight:700;color:#065f46;font-size:.97em;">Excluir a pasta Projetos → verificar na Lixeira → Restaurar</span>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:10px;">Este passo tem <strong>3 sub-etapas</strong> obrigatórias:</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:7px;padding:12px;">
+            <div style="min-width:24px;height:24px;background:#ea580c;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.75em;margin-top:1px;">a</div>
+            <div style="font-size:.85em;color:#374151;"><strong>Clique uma vez</strong> na pasta <code>Projetos</code> → pressione <kbd style="background:#e2e8f0;padding:1px 5px;border-radius:3px;font-family:monospace;">Delete</kbd>. A pasta vai para a <strong>Lixeira</strong> — não desaparece permanentemente.</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:7px;padding:12px;">
+            <div style="min-width:24px;height:24px;background:#ea580c;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.75em;margin-top:1px;">b</div>
+            <div style="font-size:.85em;color:#374151;"><strong>Abra a Lixeira</strong> no Desktop (duplo clique no ícone 🗑️). Confirme que a pasta <code>Projetos</code> aparece listada.</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px;background:#f0fdf4;border:1px solid #86efac;border-radius:7px;padding:12px;">
+            <div style="min-width:24px;height:24px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.75em;margin-top:1px;">c</div>
+            <div style="font-size:.85em;color:#374151;"><strong>Clique com o botão direito</strong> na pasta <code>Projetos</code> → <strong>Restaurar</strong>. Ela volta para <code>C:\Empresa\Projetos</code>.</div>
+          </div>
+        </div>
+        <div style="background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:10px 14px;font-size:.83em;color:#713f12;">
+          📸 <strong>Boa hora para o print!</strong> Tire um screenshot da Lixeira com a pasta <code>Projetos</code> visível — isso comprova que o passo foi executado.
+        </div>
+      </div>
+
+      <!-- ── PASSO 8 ─────────────────────────────────────────── -->
+      <div style="background:white;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="min-width:30px;height:30px;background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85em;">8</div>
+          <span style="font-weight:700;color:#991b1b;font-size:.97em;">Excluir definitivamente a pasta Projetos com <kbd style="background:#fee2e2;padding:2px 7px;border-radius:4px;font-size:.85em;color:#dc2626;font-family:monospace;">Shift+Delete</kbd></span>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:10px;">Após restaurar no passo 7, selecione novamente a pasta <code>Projetos</code> e use <kbd style="background:#e2e8f0;padding:1px 5px;border-radius:3px;font-family:monospace;">Shift+Delete</kbd>. Uma caixa de confirmação aparecerá:</p>
+        <div style="max-width:360px;background:#f1f5f9;border:2px solid #cbd5e1;border-radius:8px;overflow:hidden;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,.12);">
+          <div style="background:linear-gradient(135deg,#1e3a5f,#2a5298);color:white;padding:8px 14px;font-size:.8em;font-weight:600;display:flex;align-items:center;gap:8px;"><span>🗑️</span> Excluir Pasta</div>
+          <div style="padding:16px;text-align:center;">
+            <div style="font-size:2em;margin-bottom:8px;">⚠️</div>
+            <p style="font-size:.83em;color:#374151;margin-bottom:14px;">Tem certeza de que deseja excluir permanentemente a pasta <strong>Projetos</strong> e todo o seu conteúdo?</p>
+            <div style="display:flex;gap:10px;justify-content:center;">
+              <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;padding:6px 20px;border-radius:5px;font-size:.82em;font-weight:600;">Sim</div>
+              <div style="background:#e2e8f0;color:#374151;padding:6px 20px;border-radius:5px;font-size:.82em;font-weight:600;">Não</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:10px 14px;font-size:.83em;color:#991b1b;">
+          🚨 <strong>Atenção:</strong> Após clicar em <strong>Sim</strong>, a pasta <strong>não vai para a Lixeira</strong>. Ela é removida permanentemente e não pode ser recuperada pelo Windows.
+        </div>
+      </div>
+
+      <!-- ── PASSO 9 ─────────────────────────────────────────── -->
+      <div style="background:white;border:1px solid #bbf7d0;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <div style="min-width:30px;height:30px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.85em;">9</div>
+          <span style="font-weight:700;color:#065f46;font-size:.97em;">Documentar resultado final e salvar como <code style="background:#f0fdf4;padding:2px 7px;border-radius:4px;font-size:.9em;color:#15803d;">sem06_ex1_SeuNome.docx</code></span>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:10px;">A estrutura final (sem a pasta Projetos) deve ser documentada com print do Explorador de Arquivos. Veja como deve ficar:</p>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:12px;overflow-x:auto;">
+          <div style="font-size:.75em;font-weight:700;color:#64748b;letter-spacing:.05em;margin-bottom:10px;text-transform:uppercase;">📁 Estrutura Final Esperada — C:\Empresa\</div>
+          <svg viewBox="0 0 560 270" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;font-family:'IBM Plex Mono',monospace;">
+            <rect x="10" y="120" width="110" height="28" rx="5" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5"/>
+            <text x="65" y="138" text-anchor="middle" font-size="12" fill="#065f46" font-weight="700">📁 Empresa</text>
+            <line x1="120" y1="134" x2="145" y2="134" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,2"/>
+            <line x1="145" y1="30" x2="145" y2="230" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,2"/>
+            <line x1="145" y1="34" x2="170" y2="34" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="170" y="20" width="70" height="26" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="205" y="36" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">📁 RH</text>
+            <line x1="240" y1="34" x2="260" y2="34" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="260" y1="22" x2="260" y2="48" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="260" y1="26" x2="275" y2="26" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="275" y="14" width="55" height="22" rx="4" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+            <text x="302" y="28" text-anchor="middle" font-size="10" fill="#991b1b">📅 2025¹</text>
+            <line x1="260" y1="46" x2="275" y2="46" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="275" y="34" width="55" height="22" rx="4" fill="#dcfce7" stroke="#6ee7b7" stroke-width="1.5"/>
+            <text x="302" y="48" text-anchor="middle" font-size="10" fill="#15803d" font-weight="600">📅 2026⁺</text>
+            <text x="338" y="36" font-size="9" fill="#15803d">+ 2 arqs de 2025</text>
+            <line x1="145" y1="86" x2="170" y2="86" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="170" y="72" width="90" height="26" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="215" y="88" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">📁 Financeiro</text>
+            <line x1="260" y1="86" x2="280" y2="86" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="280" y1="64" x2="280" y2="112" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="280" y1="68" x2="295" y2="68" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="295" y="56" width="55" height="22" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+            <text x="322" y="70" text-anchor="middle" font-size="10" fill="#1e40af">📅 2025</text>
+            <line x1="280" y1="86" x2="295" y2="86" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="295" y="74" width="55" height="22" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+            <text x="322" y="88" text-anchor="middle" font-size="10" fill="#1e40af">📅 2026</text>
+            <line x1="280" y1="106" x2="295" y2="106" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="295" y="94" width="65" height="22" rx="4" fill="#fdf4ff" stroke="#d8b4fe" stroke-width="1.5"/>
+            <text x="327" y="108" text-anchor="middle" font-size="10" fill="#6b21a8" font-weight="600">📁 Backup</text>
+            <line x1="145" y1="138" x2="170" y2="138" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="170" y="124" width="70" height="26" rx="5" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+            <text x="205" y="140" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">📁 TI</text>
+            <line x1="240" y1="138" x2="260" y2="138" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="260" y1="126" x2="260" y2="154" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="260" y1="130" x2="275" y2="130" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="275" y="118" width="55" height="22" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+            <text x="302" y="132" text-anchor="middle" font-size="10" fill="#1e40af">📅 2025</text>
+            <text x="338" y="130" font-size="9" fill="#1e40af">ti_*.txt</text>
+            <line x1="260" y1="152" x2="275" y2="152" stroke="#94a3b8" stroke-width="1"/>
+            <rect x="275" y="140" width="55" height="22" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+            <text x="302" y="154" text-anchor="middle" font-size="10" fill="#1e40af">📅 2026</text>
+            <text x="338" y="152" font-size="9" fill="#1e40af">ti_*.txt</text>
+            <rect x="170" y="190" width="110" height="26" rx="5" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <text x="225" y="207" text-anchor="middle" font-size="10" fill="#94a3b8" font-style="italic">🗑️ Projetos (excluída)</text>
+            <line x1="145" y1="196" x2="170" y2="196" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,2"/>
+          </svg>
+          <div style="font-size:.75em;color:#64748b;margin-top:6px;">
+            ¹ <code>RH\2025</code> ficou com apenas 1 arquivo &nbsp;·&nbsp; ⁺ <code>RH\2026</code> tem os arquivos originais + 2 vindos de 2025
+          </div>
+        </div>
+        <p style="font-size:.88em;color:#374151;margin-bottom:8px;">Para documentar, abra o Word, cole os prints (<kbd style="background:#e2e8f0;padding:1px 5px;border-radius:3px;font-family:monospace;">Win+Shift+S</kbd> para captura de área) e salve com o nome exato:</p>
+        <div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:8px;padding:14px;display:flex;align-items:center;gap:12px;">
+          <span style="font-size:1.8em;">📄</span>
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:1em;font-weight:700;color:#065f46;">sem06_ex1_SeuNome.docx</div>
+            <div style="font-size:.78em;color:#374151;margin-top:3px;">Exemplo: <code>sem06_ex1_JoaoSilva.docx</code> &nbsp;·&nbsp; Use seu nome completo sem espaços</div>
+          </div>
+        </div>
+      </div>
 
       <!-- VÍDEO DE RESOLUÇÃO -->
       <div style="margin-top:20px;">
@@ -369,6 +760,7 @@ table.rubric tbody td:first-child{font-weight:700;color:var(--navy);white-space:
           </iframe>
         </div>
       </div>
+
     </div>
 
     <div class="tip-box">
