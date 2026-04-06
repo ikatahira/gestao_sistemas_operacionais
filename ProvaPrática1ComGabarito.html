@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVALIAÇÃO PRÁTICA — Semanas 01–06 | GSO I 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+}
+.print-btn-bar {
+  max-width: 840px;
+  margin: 0 auto 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.print-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  background: #111;
+  color: #00ff88;
+  border: 2px solid #00ff88;
+  padding: 10px 26px;
+  font-size: .82em;
+  font-weight: 700;
+  letter-spacing: .06em;
+  cursor: pointer;
+  transition: all .2s;
+}
+.print-btn:hover { background: #00ff88; color: #111; }
+.screen-note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .72em;
+  color: #666;
+}
+
+/* ── PAGE ── */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  max-width: 210mm;
+  margin: 0 auto 20px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,.18);
+  padding: 13mm 14mm 22mm;
+  box-sizing: border-box;
+  position: relative;
+  font-size: 9.4pt;
+  color: #111;
+  line-height: 1.45;
+}
+
+/* ── CABEÇALHO ── */
+.page-header {
+  border-bottom: 2px solid #111;
+  padding-bottom: 7px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.ph-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5pt;
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.15;
+  margin-bottom: 2px;
+}
+.ph-sub {
+  font-size: 8pt;
+  color: #444;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.ph-right {
+  text-align: right;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5pt;
+  color: #555;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+
+/* ── TIPO BADGE ── */
+.tipo-badge {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  background: #111;
+  color: #00ff88;
+  padding: 2px 9px;
+  letter-spacing: .10em;
+  margin-bottom: 8px;
+}
+
+/* ── IDENTIFICAÇÃO ── */
+.id-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #bbb;
+  padding: 6px 10px;
+}
+.id-field {
+  font-size: 8pt;
+  color: #333;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.id-field span {
+  display: inline-block;
+  border-bottom: 1px solid #888;
+  min-width: 200px;
+  margin-left: 4px;
+  vertical-align: bottom;
+}
+.id-nota {
+  text-align: center;
+  border-left: 1px solid #ccc;
+  padding-left: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.id-nota .nota-label { font-size: 7pt; color: #666; }
+.id-nota .nota-box {
+  width: 48px; height: 28px;
+  border: 2px solid #111;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14pt; font-weight: 700; margin-top: 2px;
+}
+
+/* ── INSTRUÇÕES ── */
+.instrucoes {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-left: 3px solid #111;
+  padding: 5px 10px;
+  margin-bottom: 11px;
+  font-size: 7.8pt;
+  color: #333;
+  line-height: 1.5;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.instrucoes strong { color: #111; }
+
+/* ── SEÇÃO HEADER ── */
+.secao-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 11px 0 8px;
+  border-bottom: 1px solid #999;
+  padding-bottom: 4px;
+}
+.secao-letra {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  background: #111;
+  color: #fff;
+  padding: 2px 7px;
+  letter-spacing: .08em;
+}
+.secao-titulo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8.5pt;
+  font-weight: 700;
+  flex: 1;
+}
+.secao-pts {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5pt;
+  color: #555;
+  border: 1px solid #999;
+  padding: 1px 7px;
+}
+
+/* ── TAREFA ── */
+.tarefa {
+  margin-bottom: 12px;
+  break-inside: avoid;
+  border: 1px solid #ddd;
+}
+.tarefa-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #111;
+  color: #fff;
+  padding: 4px 9px;
+}
+.tarefa-n {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+.tarefa-titulo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8pt;
+  font-weight: 600;
+  flex: 1;
+}
+.tarefa-pts {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5pt;
+  color: #aaa;
+}
+.tarefa-body {
+  padding: 7px 9px 6px;
+}
+.tarefa-context {
+  font-size: 8.4pt;
+  line-height: 1.55;
+  color: #333;
+  margin-bottom: 6px;
+  padding: 5px 8px;
+  background: #fafafa;
+  border-left: 2px solid #999;
+  font-style: italic;
+}
+.tarefa-enunciado {
+  font-size: 8.6pt;
+  line-height: 1.5;
+  color: #111;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.tarefa-enunciado code {
+  font-family: 'IBM Plex Mono', monospace;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0 3px;
+  font-size: .92em;
+}
+
+/* ── PASSOS ── */
+.passos {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 6px;
+}
+.passos li {
+  font-size: 8.2pt;
+  padding: 2px 0 2px 20px;
+  position: relative;
+  line-height: 1.5;
+  color: #222;
+  border-bottom: 1px dotted #eee;
+}
+.passos li:last-child { border-bottom: none; }
+.passos li::before {
+  content: attr(data-n) '.';
+  position: absolute;
+  left: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 7.5pt;
+  color: #111;
+}
+.passos li code {
+  font-family: 'IBM Plex Mono', monospace;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0 3px;
+  font-size: .9em;
+}
+
+/* ── CHECKLIST DE ENTREGA ── */
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.checklist li {
+  font-size: 7.8pt;
+  padding: 1px 0 1px 17px;
+  position: relative;
+  line-height: 1.5;
+  color: #333;
+}
+.checklist li::before {
+  content: '☐';
+  position: absolute;
+  left: 0;
+  font-size: 8pt;
+  color: #555;
+}
+
+/* ── CHECKLIST LABEL ── */
+.check-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  display: block;
+  margin: 4px 0 2px;
+}
+
+/* ── RUBRICA INLINE ── */
+.rubrica-mini {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  margin: 5px 0;
+}
+.rubrica-mini th {
+  background: #444;
+  color: #fff;
+  padding: 2px 5px;
+  text-align: center;
+  border: 1px solid #333;
+}
+.rubrica-mini td {
+  border: 1px solid #ccc;
+  padding: 2px 5px;
+  text-align: center;
+  line-height: 1.35;
+  vertical-align: top;
+  color: #333;
+}
+.rubrica-mini td.crit {
+  text-align: left;
+  font-weight: 600;
+  background: #f5f5f5;
+  color: #111;
+}
+
+/* ── AVISO / DICA ── */
+.aviso {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.2pt;
+  color: #444;
+  border: 1px dashed #bbb;
+  padding: 3px 8px;
+  margin: 4px 0;
+  background: #fafafa;
+}
+.aviso.destaque {
+  border-color: #111;
+  background: #f0f0f0;
+  color: #111;
+  font-weight: 600;
+}
+
+/* ── ESTRUTURA DE PASTA (visual) ── */
+.tree {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5pt;
+  color: #333;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: 5px 8px;
+  margin: 4px 0;
+  line-height: 1.6;
+}
+.tree .t-pasta { color: #111; font-weight: 700; }
+.tree .t-arquivo { color: #555; }
+.tree .t-indent { padding-left: 14px; display: block; }
+.tree .t-indent2 { padding-left: 28px; display: block; }
+
+/* ── LINHA DE RESPOSTA ── */
+.linha-resp {
+  border-bottom: 1px solid #999;
+  min-height: 13px;
+  margin: 3px 0;
+  display: block;
+}
+.resp-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  color: #888;
+}
+
+/* ── GRID 2 COLUNAS ── */
+.duas-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 12px;
+}
+.col-full { grid-column: 1 / -1; }
+
+/* ── TABELA PONTUAÇÃO ── */
+.tabela-pts {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8pt;
+  margin-top: 8px;
+}
+.tabela-pts th {
+  background: #111;
+  color: #fff;
+  padding: 4px 8px;
+  border: 1px solid #111;
+  text-align: center;
+}
+.tabela-pts td {
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  text-align: center;
+  color: #333;
+}
+.tabela-pts td.left { text-align: left; }
+.tabela-pts tr.total td { font-weight: 700; background: #f5f5f5; }
+
+/* ── RODAPÉ ── */
+.page-footer {
+  position: absolute;
+  bottom: 10mm;
+  left: 14mm;
+  right: 14mm;
+  border-top: 1px solid #ccc;
+  padding-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  color: #888;
+}
+
+/* ── GABARITO (páginas do professor) ── */
+.gab-secao {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  background: #111;
+  color: #fff;
+  padding: 3px 10px;
+  margin: 10px 0 7px;
+  display: inline-block;
+}
+.gab-tarefa {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  break-inside: avoid;
+}
+.gab-tarefa-head {
+  background: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  padding: 4px 9px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+}
+.gab-tarefa-body {
+  padding: 6px 9px;
+  font-size: 8pt;
+}
+.gab-item {
+  margin-bottom: 5px;
+}
+.gab-item-n {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  color: #888;
+  text-transform: uppercase;
+}
+.gab-item-resp {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  color: #111;
+}
+.gab-item-exp {
+  font-size: 7.2pt;
+  color: #555;
+  line-height: 1.5;
+}
+.gab-rubrica {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  margin-top: 6px;
+}
+.gab-rubrica th {
+  background: #333;
+  color: #fff;
+  padding: 3px 6px;
+  border: 1px solid #333;
+  text-align: center;
+}
+.gab-rubrica td {
+  border: 1px solid #ccc;
+  padding: 3px 6px;
+  text-align: left;
+  line-height: 1.4;
+  vertical-align: top;
+  color: #333;
+  font-size: 6.8pt;
+}
+.gab-rubrica td.crit {
+  font-weight: 700;
+  background: #f5f5f5;
+  color: #111;
+  text-align: center;
+}
+
+/* ══════════ PRINT ══════════ */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { background: #fff; padding: 0; margin: 0; }
+  .print-btn-bar { display: none !important; }
+  .page {
+    box-shadow: none;
+    margin: 0;
+    page-break-after: always;
+    width: 100%;
+    max-width: 100%;
+    padding: 11mm 14mm 15mm;
+    min-height: auto;
+  }
+  .page:last-child { page-break-after: auto; }
+  .tarefa { break-inside: avoid; page-break-inside: avoid; }
+  .gab-tarefa { break-inside: avoid; }
+  @page { size: A4; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="print-btn-bar">
+  <button class="print-btn" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
+  <span class="screen-note">Configure: A4 · Sem margens · Incluir gráficos de fundo · Escala 100%</span>
+</div>
+
+<!-- ══════════════════════════════════
+     PÁGINA 1 — TAREFAS A e B
+     ══════════════════════════════════ -->
+<div class="page" id="page1">
+
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="tipo-badge">▶ AVALIAÇÃO PRÁTICA</div>
+      <div class="ph-title">Sistema Operacional &amp; Interface Win 11</div>
+      <div class="ph-sub">GSO I 2026 · Gestão de Sistemas Operacionais · Semanas 01–06</div>
+    </div>
+    <div class="ph-right">
+      Data: _____ / _____ / _______<br>
+      Turma: _______________<br>
+      Duração: 60 minutos
+    </div>
+  </div>
+
+  <div class="id-bar">
+    <div>
+      <div class="id-field">Nome: <span style="min-width:280px">&nbsp;</span></div>
+      <div class="id-field" style="margin-top:4px">RA: <span style="min-width:120px">&nbsp;</span></div>
+    </div>
+    <div class="id-nota">
+      <div class="nota-label">NOTA</div>
+      <div class="nota-box">&nbsp;</div>
+    </div>
+  </div>
+
+  <div class="instrucoes">
+    <strong>Instruções:</strong> Execute cada tarefa <strong>no computador</strong>, tire os prints indicados e salve o documento de entrega.
+    Nomeie o arquivo como <strong>pratica_SeuNome.docx</strong> e entregue pelo Moodle ao final.
+    Cada tarefa tem critérios de avaliação — leia antes de executar. <strong>Total: 100 pontos.</strong>
+  </div>
+
+  <!-- ── SEÇÃO A ── -->
+  <div class="secao-header">
+    <span class="secao-letra">SEÇÃO A</span>
+    <span class="secao-titulo">Exploração do Sistema Operacional</span>
+    <span class="secao-pts">Tarefa 1 · 30 pontos</span>
+  </div>
+
+  <!-- TAREFA 1 -->
+  <div class="tarefa">
+    <div class="tarefa-head">
+      <span class="tarefa-n">TAREFA 01</span>
+      <span class="tarefa-titulo">Identificando o Sistema e os Processos</span>
+      <span class="tarefa-pts">30 pts</span>
+    </div>
+    <div class="tarefa-body">
+      <div class="tarefa-context">Você foi contratado como estagiário de TI. Antes de qualquer atendimento, o supervisor pede que você levante as informações básicas do computador e os processos em execução.</div>
+      <div class="tarefa-enunciado">Execute os passos abaixo e registre as informações no documento de entrega:</div>
+      <ol class="passos">
+        <li data-n="1">Pressione <code>Win + R</code>, digite <code>msinfo32</code> e confirme. Anote: <strong>nome do SO</strong>, <strong>versão do Windows</strong> e <strong>fabricante do processador</strong>.</li>
+        <li data-n="2">Abra o Gerenciador de Tarefas com <code>Ctrl + Shift + Esc</code>. Na aba <strong>Desempenho</strong>, anote o percentual de uso de <strong>CPU</strong> e <strong>RAM</strong> no momento.</li>
+        <li data-n="3">Na aba <strong>Detalhes</strong>, identifique <strong>3 processos</strong> que você reconhece. Anote o <strong>nome</strong> e o <strong>PID</strong> de cada um.</li>
+        <li data-n="4">Tire um <strong>print da aba Detalhes</strong> mostrando os processos (<code>Win + Shift + S</code>). Cole no documento.</li>
+      </ol>
+      <span class="check-label">☑ Checklist de entrega</span>
+      <ul class="checklist">
+        <li>Nome do SO, versão do Windows e fabricante do processador registrados</li>
+        <li>% de uso de CPU e RAM anotados</li>
+        <li>Nome e PID de 3 processos identificados</li>
+        <li>Print da aba Detalhes colado no documento</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO B ── -->
+  <div class="secao-header">
+    <span class="secao-letra">SEÇÃO B</span>
+    <span class="secao-titulo">Organização de Janelas com Snap Layouts</span>
+    <span class="secao-pts">Tarefa 2 · 30 pontos</span>
+  </div>
+
+  <!-- TAREFA 2 (ex-04) -->
+  <div class="tarefa">
+    <div class="tarefa-head">
+      <span class="tarefa-n">TAREFA 02</span>
+      <span class="tarefa-titulo">Organizando Janelas com Snap Layouts</span>
+      <span class="tarefa-pts">30 pts</span>
+    </div>
+    <div class="tarefa-body">
+      <div class="tarefa-context">Um usuário de suporte precisa visualizar ao mesmo tempo o Explorador de Arquivos, o Bloco de Notas e o Gerenciador de Tarefas. Você vai montar esse ambiente.</div>
+      <ol class="passos">
+        <li data-n="1">Abra as 3 janelas: <strong>Explorador de Arquivos</strong> (<code>Win+E</code>), <strong>Bloco de Notas</strong> e <strong>Gerenciador de Tarefas</strong> (<code>Ctrl+Shift+Esc</code>).</li>
+        <li data-n="2">Use o <strong>Snap Layouts</strong> (passe o mouse sobre o botão Maximizar ⬜) para organizar as 3 janelas lado a lado.</li>
+        <li data-n="3">Tire um <strong>print da tela com as 3 janelas</strong> organizadas e cole no documento.</li>
+        <li data-n="4">Responda por escrito: <strong>"Qual atalho de teclado encaixa uma janela na metade esquerda da tela?"</strong></li>
+      </ol>
+      <span class="check-label">☑ Checklist de entrega</span>
+      <ul class="checklist">
+        <li>Print mostrando 3 janelas organizadas simultaneamente</li>
+        <li>Snap Layout utilizado (não redimensionado manualmente)</li>
+        <li>Resposta sobre o atalho de teclado registrada</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>GSO I 2026 · Gestão de Sistemas Operacionais</span>
+    <span>Avaliação Prática · Semanas 01–06</span>
+    <span>Página 1 de 2</span>
+  </div>
+</div><!-- /page1 -->
+
+
+<!-- ══════════════════════════════════
+     PÁGINA 2 — TAREFAS C e D
+     ══════════════════════════════════ -->
+<div class="page" id="page2">
+
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="tipo-badge">▶ AVALIAÇÃO PRÁTICA — continuação</div>
+      <div class="ph-title">Gerenciamento de Arquivos &amp; Pastas</div>
+      <div class="ph-sub">GSO I 2026 · Gestão de Sistemas Operacionais · Semanas 05–06</div>
+    </div>
+    <div class="ph-right">
+      Nome: ______________________<br>
+      RA: ________________________
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO C ── -->
+  <div class="secao-header">
+    <span class="secao-letra">SEÇÃO C</span>
+    <span class="secao-titulo">Estrutura Profissional de Pastas</span>
+    <span class="secao-pts">Tarefa 3 · 25 pontos</span>
+  </div>
+
+  <!-- TAREFA 3 (ex-05) -->
+  <div class="tarefa">
+    <div class="tarefa-head">
+      <span class="tarefa-n">TAREFA 03</span>
+      <span class="tarefa-titulo">Criando a Estrutura de Arquivos de uma Empresa</span>
+      <span class="tarefa-pts">25 pts</span>
+    </div>
+    <div class="tarefa-body">
+      <div class="tarefa-context">Você foi designado para organizar os arquivos de uma pequena empresa no computador local. A estrutura deve seguir boas práticas de nomenclatura e hierarquia profissional.</div>
+      <div class="tarefa-enunciado">Crie a estrutura de pastas abaixo em <code>C:\AvaliacaoPratica\</code> e execute as operações indicadas:</div>
+
+      <div class="duas-col">
+        <div>
+          <div class="tree">
+            <span class="t-pasta">📁 C:\AvaliacaoPratica\</span>
+            <span class="t-indent t-pasta">📁 RH\</span>
+            <span class="t-indent2 t-arquivo">📄 contrato_joao_silva.txt</span>
+            <span class="t-indent2 t-arquivo">📄 ferias_2026.txt</span>
+            <span class="t-indent2 t-arquivo">📄 admissao_2026.txt</span>
+            <span class="t-indent t-pasta">📁 TI\</span>
+            <span class="t-indent2 t-arquivo">📄 inventario_equipamentos.txt</span>
+            <span class="t-indent2 t-arquivo">📄 chamados_suporte.txt</span>
+            <span class="t-indent t-pasta">📁 Backup\</span>
+          </div>
+        </div>
+        <div>
+          <div class="aviso destaque">⚠ Regras de nomenclatura:<br>
+          · Só letras minúsculas e underline (_)<br>
+          · Sem acentos, sem espaços<br>
+          · Ex: meu_arquivo.txt ✓<br>
+          · Ex: Meu Arquivo.txt ✗</div>
+        </div>
+      </div>
+
+      <ol class="passos" style="margin-top:6px">
+        <li data-n="1">Crie toda a estrutura de pastas em <code>C:\AvaliacaoPratica\</code> (use <code>Win+E</code> e <code>Ctrl+Shift+N</code> para novas pastas).</li>
+        <li data-n="2">Dentro de <code>RH\</code> e <code>TI\</code>, crie os arquivos <code>.txt</code> conforme a estrutura acima (clique direito → Novo → Documento de Texto).</li>
+        <li data-n="3"><strong>Copie</strong> (<code>Ctrl+C</code> + <code>Ctrl+V</code>) a pasta <code>RH\</code> inteira para dentro de <code>Backup\</code>. Confirme que a original permanece em <code>AvaliacaoPratica\</code>.</li>
+        <li data-n="4"><strong>Renomeie</strong> (<code>F2</code>) o arquivo <code>chamados_suporte.txt</code> para <code>2026-04_chamados_suporte.txt</code>.</li>
+        <li data-n="5">Tire um <strong>print do Explorador</strong> mostrando a estrutura completa e cole no documento.</li>
+      </ol>
+
+      <span class="check-label">☑ Checklist de entrega</span>
+      <ul class="checklist">
+        <li>Estrutura de pastas criada conforme o diagrama acima</li>
+        <li>Arquivos .txt criados com nomenclatura correta (sem espaços/acentos)</li>
+        <li>Pasta RH copiada para Backup (original preservada em AvaliacaoPratica\)</li>
+        <li>Arquivo renomeado com prefixo de data no formato correto</li>
+        <li>Print do Explorador de Arquivos colado no documento</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── SEÇÃO D ── -->
+  <div class="secao-header">
+    <span class="secao-letra">SEÇÃO D</span>
+    <span class="secao-titulo">Atributos, Permissões e Lixeira</span>
+    <span class="secao-pts">Tarefa 4 · 15 pontos</span>
+  </div>
+
+  <!-- TAREFA 4 (ex-06) -->
+  <div class="tarefa">
+    <div class="tarefa-head">
+      <span class="tarefa-n">TAREFA 04</span>
+      <span class="tarefa-titulo">Investigando Atributos e Exclusão Segura</span>
+      <span class="tarefa-pts">15 pts</span>
+    </div>
+    <div class="tarefa-body">
+      <div class="tarefa-context">Como técnico, você precisa proteger um arquivo importante de edições acidentais e também entender como funciona a exclusão segura.</div>
+      <ol class="passos">
+        <li data-n="1">Abra o arquivo <code>contrato_joao_silva.txt</code> criado na Tarefa 5. Tente digitar algum texto e salve normalmente.</li>
+        <li data-n="2">Clique com o botão direito no arquivo → <strong>Propriedades</strong>. Marque o atributo <strong>"Somente leitura"</strong> e clique em OK.</li>
+        <li data-n="3">Tente editar e salvar novamente. O que aconteceu? <strong>Anote a mensagem de erro</strong> que apareceu.</li>
+        <li data-n="4">Exclua o arquivo <code>ferias_2026.txt</code> com a tecla <code>Delete</code>. Depois abra a <strong>Lixeira</strong> e <strong>restaure</strong> o arquivo. Verifique que ele voltou para a pasta <code>RH\</code>.</li>
+        <li data-n="5">Tire um <strong>print das Propriedades</strong> do arquivo com atributo "Somente leitura" marcado e cole no documento.</li>
+      </ol>
+
+      <span class="check-label">☑ Checklist de entrega</span>
+      <ul class="checklist">
+        <li>Atributo "Somente leitura" aplicado ao arquivo</li>
+        <li>Mensagem de erro ao tentar salvar registrada no documento</li>
+        <li>Arquivo restaurado da Lixeira e verificado na pasta original</li>
+        <li>Print das Propriedades com atributo marcado colado no documento</li>
+      </ul>
+
+      <div class="aviso" style="margin-top:6px">💡 Dica: Se não aparecer mensagem de erro ao salvar, pode ser que o Bloco de Notas tenha perguntado se deseja salvar em outro lugar — isso também conta! Anote o que apareceu.</div>
+    </div>
+  </div>
+
+  <!-- TABELA DE PONTUAÇÃO -->
+  <table class="tabela-pts" style="margin-top:8px">
+    <thead>
+      <tr>
+        <th>Seção</th>
+        <th>Tarefas</th>
+        <th>Pontos</th>
+        <th style="text-align:left;padding-left:10px">Critério principal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>A — Exploração do SO</td>
+        <td>01</td>
+        <td>30</td>
+        <td class="left" style="padding-left:10px;font-size:7.5pt">Informações corretas + prints evidenciando a execução</td>
+      </tr>
+      <tr>
+        <td>B — Snap Layouts</td>
+        <td>02</td>
+        <td>30</td>
+        <td class="left" style="padding-left:10px;font-size:7.5pt">Snap utilizado + 3 janelas organizadas + atalho respondido</td>
+      </tr>
+      <tr>
+        <td>C — Estrutura de Pastas</td>
+        <td>03</td>
+        <td>25</td>
+        <td class="left" style="padding-left:10px;font-size:7.5pt">Estrutura criada corretamente + nomenclatura profissional</td>
+      </tr>
+      <tr>
+        <td>D — Atributos &amp; Lixeira</td>
+        <td>04</td>
+        <td>15</td>
+        <td class="left" style="padding-left:10px;font-size:7.5pt">Atributo aplicado + exclusão/restauro demonstrado</td>
+      </tr>
+      <tr class="total">
+        <td>TOTAL</td>
+        <td>4 tarefas</td>
+        <td>100</td>
+        <td class="left" style="padding-left:10px;font-size:7.5pt">Nota = Total ÷ 10 · Aprovação: ≥ 60 pts (nota ≥ 6,0)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span>GSO I 2026 · Gestão de Sistemas Operacionais</span>
+    <span>Avaliação Prática · Semanas 01–06</span>
+    <span>Página 2 de 2</span>
+  </div>
+</div><!-- /page2 -->
+
+
+<!-- ══════════════════════════════════
+     PÁGINA 3 — GABARITO / RUBRICA
+     ══════════════════════════════════ -->
+<div class="page" id="page3">
+
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="ph-title">GABARITO &amp; RUBRICA — Avaliação Prática</div>
+      <div class="ph-sub">GSO I 2026 · Gestão de Sistemas Operacionais · Semanas 01–06</div>
+    </div>
+    <div class="ph-right" style="border:2px solid #111;padding:4px 10px;font-weight:700;font-size:9pt;text-align:center">
+      USO DO<br>PROFESSOR
+    </div>
+  </div>
+
+  <!-- SEÇÃO A -->
+  <div class="gab-secao">SEÇÃO A — Exploração do SO (Tarefa 01 · 30 pts)</div>
+
+  <div class="gab-tarefa">
+    <div class="gab-tarefa-head">
+      <span>Tarefa 01 — Processos · 30 pts</span>
+    </div>
+    <div class="gab-tarefa-body">
+      <div class="gab-item">
+        <div class="gab-item-n">Resultado esperado</div>
+        <div class="gab-item-resp">msinfo32 + Gerenciador de Tarefas</div>
+        <div class="gab-item-exp">
+          Passo 1: Win+R → msinfo32 → aba Resumo do Sistema. Campos: Nome do SO, Versão, Fabricante do processador.<br>
+          Passo 2: Ctrl+Shift+Esc → aba Desempenho. CPU e RAM em %.<br>
+          Passo 3: aba Detalhes → coluna PID visível. Processos reconhecíveis: explorer.exe, chrome.exe, svchost.exe, etc.<br>
+          Passo 4: Print deve mostrar a aba Detalhes com pelo menos 3 processos identificados.
+        </div>
+      </div>
+      <table class="gab-rubrica">
+        <tr><th>Critério</th><th>0–9</th><th>10–19</th><th>20–25</th><th>26–30</th></tr>
+        <tr><td class="crit">Info + Print</td><td>Sem prints ou dados</td><td>Dados parciais, print presente</td><td>Dados corretos, print nítido</td><td>Completo, preciso e bem documentado</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SEÇÃO B -->
+  <div class="gab-secao">SEÇÃO B — Snap Layouts (Tarefa 02 · 30 pts)</div>
+
+  <div class="gab-tarefa">
+    <div class="gab-tarefa-head">
+      <span>Tarefa 02 — Snap Layouts · 30 pts</span>
+    </div>
+    <div class="gab-tarefa-body">
+      <div class="gab-item">
+        <div class="gab-item-n">Resposta esperada (atalho)</div>
+        <div class="gab-item-resp">Win + ← (seta esquerda)</div>
+        <div class="gab-item-exp">
+          Win+← encaixa à esquerda (50%). Win+→ à direita.<br>
+          Snap com 3 janelas: usar layout de 3 colunas no menu do botão Maximizar, ou Win+← na 1ª janela e snap sugerido para as demais.<br>
+          Print deve mostrar claramente as 3 janelas organizadas sem sobreposição.
+        </div>
+      </div>
+      <table class="gab-rubrica">
+        <tr><th>Critério</th><th>0–9</th><th>10–19</th><th>20–25</th><th>26–30</th></tr>
+        <tr><td class="crit">Snap + Atalho</td><td>Janelas sobrepostas ou sem snap</td><td>2 janelas snapped, atalho errado</td><td>3 janelas organizadas + atalho certo</td><td>Perfeito + print claro + resposta completa</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SEÇÃO C -->
+  <div class="gab-secao">SEÇÃO C — Estrutura de Pastas (Tarefa 03 · 25 pts)</div>
+
+  <div class="gab-tarefa">
+    <div class="gab-tarefa-head">
+      <span>Tarefa 03 — Estrutura Empresa · 25 pts</span>
+    </div>
+    <div class="gab-tarefa-body">
+      <div class="gab-item">
+        <div class="gab-item-n">Critérios de correção detalhados</div>
+        <div class="gab-item-exp" style="font-size:7.5pt">
+          <strong>Estrutura correta:</strong> C:\AvaliacaoPratica\ com subpastas RH\, TI\ e Backup\. Verificar no print.<br>
+          <strong>Nomenclatura:</strong> Arquivos criados sem acentos, espaços ou maiúsculas desnecessárias. Ex: contrato_joao_silva.txt ✓ · Contrato João Silva.txt ✗<br>
+          <strong>Cópia para Backup:</strong> A pasta Backup\ deve conter uma cópia da pasta RH\ completa, E a original ainda deve existir em AvaliacaoPratica\.<br>
+          <strong>Renomeação:</strong> chamados_suporte.txt → 2026-04_chamados_suporte.txt (prefixo de data AAAA-MM).
+        </div>
+      </div>
+      <table class="gab-rubrica">
+        <tr><th>Critério</th><th>Insuficiente (0–5)</th><th>Básico (6–14)</th><th>Proficiente (15–20)</th><th>Excelente (21–25)</th></tr>
+        <tr>
+          <td class="crit">Estrutura + Nomenclatura + Operações</td>
+          <td>Estrutura incompleta ou nomenclatura incorreta em todos os arquivos</td>
+          <td>Estrutura criada, mas com falhas de nomenclatura ou operação (cópia/renomeio) errada</td>
+          <td>Estrutura correta, nomenclatura ok, 1 operação com pequena falha</td>
+          <td>Tudo correto, nomenclatura profissional, cópia e renomeio perfeitos</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SEÇÃO D -->
+  <div class="gab-secao">SEÇÃO D — Atributos &amp; Lixeira (Tarefa 04 · 15 pts)</div>
+
+  <div class="gab-tarefa">
+    <div class="gab-tarefa-head">
+      <span>Tarefa 04 — Atributo + Exclusão · 15 pts</span>
+    </div>
+    <div class="gab-tarefa-body">
+      <div class="gab-item">
+        <div class="gab-item-n">Mensagem esperada (passo 3)</div>
+        <div class="gab-item-resp">"Acesso negado" ou "O arquivo é somente leitura"</div>
+        <div class="gab-item-exp">
+          Ao tentar salvar um arquivo com atributo Somente Leitura no Bloco de Notas, o Windows exibe: <em>"Não é possível criar o arquivo [caminho]. Certifique-se de que o caminho e o nome do arquivo estejam corretos."</em> Ou o Bloco de Notas oferece "Salvar como" em outro local.<br>
+          <strong>Restauro da Lixeira:</strong> Delete → arquivo vai para a Lixeira (ícone muda para cheio) → abrir Lixeira → clique direito no arquivo → Restaurar → verificar que voltou para RH\.
+        </div>
+      </div>
+      <table class="gab-rubrica">
+        <tr><th>Critério</th><th>0–4</th><th>5–9</th><th>10–12</th><th>13–15</th></tr>
+        <tr>
+          <td class="crit">Atributo + Restauro</td>
+          <td>Não aplicou atributo ou não restaurou</td>
+          <td>Aplicou atributo mas não documentou o erro, ou restaurou sem evidência</td>
+          <td>Atributo + mensagem de erro anotada + restauro evidenciado</td>
+          <td>Tudo correto, erro anotado com precisão, print de propriedades nítido</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tabela final do professor -->
+  <table class="tabela-pts" style="margin-top:12px">
+    <thead>
+      <tr>
+        <th>Seção</th><th>Tarefas</th><th>Pts máx.</th><th>Pts obtidos</th><th style="text-align:left;padding-left:10px">Observações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>A — Exploração do SO</td><td>01</td><td>30</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/30</td><td class="left" style="padding-left:10px">&nbsp;</td></tr>
+      <tr><td>B — Snap Layouts</td><td>02</td><td>30</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/30</td><td class="left" style="padding-left:10px">&nbsp;</td></tr>
+      <tr><td>C — Estrutura de Pastas</td><td>03</td><td>25</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/25</td><td class="left" style="padding-left:10px">&nbsp;</td></tr>
+      <tr><td>D — Atributos &amp; Lixeira</td><td>04</td><td>15</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/15</td><td class="left" style="padding-left:10px">&nbsp;</td></tr>
+      <tr class="total"><td>TOTAL</td><td>4 tarefas</td><td>100</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/100</td><td class="left" style="padding-left:10px;font-size:7.5pt">Nota final = Total ÷ 10 · Aprovação ≥ 6,0</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span>GSO I 2026 · Gestão de Sistemas Operacionais</span>
+    <span>Avaliação Prática · Semanas 01–06</span>
+    <span>Página 2 de 2 — USO EXCLUSIVO DO PROFESSOR</span>
+  </div>
+</div><!-- /page3 -->
+
+</body>
+</html>

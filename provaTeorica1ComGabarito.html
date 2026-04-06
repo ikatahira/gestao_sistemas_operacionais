@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROVA IMPRESSA — Semanas 01–06 | GSO I 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ══════════════════════════════════════
+   SCREEN — botão de impressão
+   ══════════════════════════════════════ */
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+}
+.print-btn-bar {
+  max-width: 840px;
+  margin: 0 auto 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.print-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  background: #111;
+  color: #00ff88;
+  border: 2px solid #00ff88;
+  padding: 10px 26px;
+  font-size: .82em;
+  font-weight: 700;
+  letter-spacing: .06em;
+  cursor: pointer;
+  transition: all .2s;
+}
+.print-btn:hover { background: #00ff88; color: #111; }
+.print-btn.gab { background: transparent; color: #111; border-color: #999; }
+.print-btn.gab:hover { background: #111; color: #fff; }
+.screen-note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .72em;
+  color: #666;
+}
+
+/* ══════════════════════════════════════
+   PAGE — layout A4
+   ══════════════════════════════════════ */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  max-width: 210mm;
+  margin: 0 auto 20px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,.18);
+  padding: 14mm 14mm 22mm;
+  box-sizing: border-box;
+  position: relative;
+  font-size: 9.5pt;
+  color: #111;
+  line-height: 1.45;
+}
+
+/* ── CABEÇALHO ── */
+.page-header {
+  border-bottom: 2px solid #111;
+  padding-bottom: 7px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.ph-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13pt;
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.15;
+  margin-bottom: 2px;
+}
+.ph-sub {
+  font-size: 8pt;
+  color: #444;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.ph-right {
+  text-align: right;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5pt;
+  color: #555;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+
+/* ── IDENTIFICAÇÃO ── */
+.id-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #bbb;
+  padding: 6px 10px;
+}
+.id-field {
+  font-size: 8pt;
+  color: #333;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.id-field span {
+  display: inline-block;
+  border-bottom: 1px solid #888;
+  min-width: 200px;
+  margin-left: 4px;
+  vertical-align: bottom;
+}
+.id-nota {
+  text-align: center;
+  border-left: 1px solid #ccc;
+  padding-left: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.id-nota .nota-label { font-size: 7pt; color: #666; }
+.id-nota .nota-box {
+  width: 48px; height: 28px;
+  border: 2px solid #111;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14pt; font-weight: 700; margin-top: 2px;
+}
+
+/* ── INSTRUÇÕES ── */
+.instrucoes {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-left: 3px solid #111;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  font-size: 7.8pt;
+  color: #333;
+  line-height: 1.5;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.instrucoes strong { color: #111; }
+
+/* ── SEÇÃO ── */
+.secao-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 7px;
+  border-bottom: 1px solid #999;
+  padding-bottom: 4px;
+}
+.secao-letra {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  font-weight: 700;
+  background: #111;
+  color: #fff;
+  padding: 2px 7px;
+  letter-spacing: .08em;
+}
+.secao-titulo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8.5pt;
+  font-weight: 700;
+  flex: 1;
+}
+.secao-pts {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5pt;
+  color: #555;
+  border: 1px solid #999;
+  padding: 1px 7px;
+}
+
+/* ── LAYOUT 2 COLUNAS ── */
+.colunas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 12px;
+}
+.col-full {
+  grid-column: 1 / -1;
+}
+
+/* ── QUESTÃO ── */
+.questao {
+  margin-bottom: 9px;
+  break-inside: avoid;
+}
+.q-head {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-bottom: 3px;
+}
+.q-n {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  background: #111;
+  color: #fff;
+  padding: 1px 5px;
+  flex-shrink: 0;
+}
+.q-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 6.5pt;
+  border: 1px solid #bbb;
+  padding: 0 5px;
+  color: #555;
+  flex-shrink: 0;
+}
+.q-pts {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 6.5pt;
+  color: #888;
+  margin-left: auto;
+}
+.q-texto {
+  font-size: 8.8pt;
+  line-height: 1.5;
+  margin-bottom: 4px;
+  color: #111;
+}
+.q-texto strong { font-weight: 700; }
+.q-texto code {
+  font-family: 'IBM Plex Mono', monospace;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 0 3px;
+  font-size: .92em;
+}
+
+/* ── ALTERNATIVAS ── */
+.alternativas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.alternativas li {
+  font-size: 8.2pt;
+  padding: 1px 0 1px 18px;
+  position: relative;
+  line-height: 1.45;
+  color: #222;
+}
+.alternativas li::before {
+  content: attr(data-l) ')';
+  position: absolute;
+  left: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 7.5pt;
+}
+
+/* ── GABARITO BOLHAS ── */
+.bolhas {
+  display: flex;
+  gap: 5px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+.bolha {
+  width: 16px; height: 16px;
+  border: 1.5px solid #555;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 6.5pt;
+  font-weight: 700;
+  color: #555;
+  flex-shrink: 0;
+}
+
+/* ── TABELA VERDADE QUESTÃO ── */
+.tt-print {
+  border-collapse: collapse;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.8pt;
+  margin: 4px 0;
+}
+.tt-print th {
+  background: #f0f0f0;
+  border: 1px solid #999;
+  padding: 3px 10px;
+  text-align: center;
+  font-weight: 700;
+}
+.tt-print td {
+  border: 1px solid #ccc;
+  padding: 3px 10px;
+  text-align: center;
+  min-width: 30px;
+}
+.tt-print td.blank-cell {
+  background: #f9f9f9;
+  min-width: 50px;
+}
+
+/* ── RODAPÉ ── */
+.page-footer {
+  position: absolute;
+  bottom: 10mm;
+  left: 14mm;
+  right: 14mm;
+  border-top: 1px solid #ccc;
+  padding-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7pt;
+  color: #888;
+}
+
+/* ── GABARITO (página 2) ── */
+.gab-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin-bottom: 14px;
+}
+.gab-item {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.gab-q {
+  font-size: 6.5pt;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 2px;
+}
+.gab-resp {
+  font-size: 9pt;
+  font-weight: 700;
+  color: #111;
+}
+.gab-exp {
+  font-size: 6.8pt;
+  color: #555;
+  margin-top: 3px;
+  line-height: 1.45;
+  border-top: 1px solid #eee;
+  padding-top: 3px;
+}
+.gab-secao {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  background: #111;
+  color: #fff;
+  padding: 3px 10px;
+  margin: 10px 0 6px;
+  display: inline-block;
+}
+.gab-nota-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8pt;
+  margin-top: 12px;
+}
+.gab-nota-table th {
+  background: #111;
+  color: #fff;
+  padding: 5px 10px;
+  border: 1px solid #111;
+  text-align: center;
+}
+.gab-nota-table td {
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  text-align: center;
+  color: #333;
+}
+.gab-nota-table td.formula {
+  text-align: left;
+  font-size: 7.5pt;
+  color: #555;
+}
+.gab-nota-table tr.total td {
+  font-weight: 700;
+  background: #f5f5f5;
+}
+
+/* ══════════════════════════════════════
+   PRINT MEDIA
+   ══════════════════════════════════════ */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { background: #fff; padding: 0; margin: 0; }
+  .print-btn-bar { display: none !important; }
+  .page {
+    box-shadow: none;
+    margin: 0;
+    page-break-after: always;
+    width: 100%;
+    max-width: 100%;
+    padding: 12mm 14mm 15mm;
+    min-height: auto;
+  }
+  .page:last-child { page-break-after: auto; }
+  .questao { break-inside: avoid; page-break-inside: avoid; }
+  @page { size: A4; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- BARRA DE IMPRESSÃO -->
+<div class="print-btn-bar">
+  <button class="print-btn" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
+  <span class="screen-note">Configure: A4 · Sem margens · Incluir gráficos de fundo · Escala 100%</span>
+</div>
+
+<!-- ══════════════════════════════════
+     PÁGINA 1 — PROVA
+     ══════════════════════════════════ -->
+<div class="page" id="page1">
+
+  <!-- Cabeçalho -->
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="ph-title">PROVA — Sistemas Operacionais &amp; Gerenciamento</div>
+      <div class="ph-sub">GSO I 2026 · Gestão de Sistemas Operacionais · Semanas 01–06</div>
+    </div>
+    <div class="ph-right">
+      Data: _____ / _____ / _______<br>
+      Turma: _______________<br>
+      Duração: 50 minutos
+    </div>
+  </div>
+
+  <!-- Identificação -->
+  <div class="id-bar">
+    <div>
+      <div class="id-field">Nome: <span style="min-width:280px">&nbsp;</span></div>
+      <div class="id-field" style="margin-top:4px">RA: <span style="min-width:120px">&nbsp;</span></div>
+    </div>
+    <div class="id-nota">
+      <div class="nota-label">NOTA</div>
+      <div class="nota-box">&nbsp;</div>
+    </div>
+  </div>
+
+  <!-- Instruções -->
+  <div class="instrucoes">
+    <strong>Instruções:</strong> Leia cada questão com atenção. Marque apenas <strong>uma alternativa</strong> por questão, circulando a letra escolhida.
+    Não há desconto para erros. <strong>Cada questão vale 5 pontos — total: 100 pontos.</strong>
+  </div>
+
+  <!-- ── SEÇÃO A — Introdução ao SO & Arquitetura ── -->
+  <div class="secao-header">
+    <span class="secao-letra">SEÇÃO A</span>
+    <span class="secao-titulo">Introdução ao SO &amp; Arquitetura Interna</span>
+    <span class="secao-pts">Questões 01–08 · 40 pontos</span>
+  </div>
+
+  <div class="colunas">
+
+    <!-- Q01 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">01</span>
+        <span class="q-tag">Conceito SO</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Qual é a principal função de um Sistema Operacional?</div>
+      <ul class="alternativas">
+        <li data-l="A">Criar documentos e planilhas</li>
+        <li data-l="B">Intermediar a comunicação entre o usuário e o hardware</li>
+        <li data-l="C">Conectar o computador à internet</li>
+        <li data-l="D">Processar imagens e vídeos</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q02 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">02</span>
+        <span class="q-tag">Tipos de SO</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Qual dos itens abaixo <strong>NÃO</strong> é um Sistema Operacional?</div>
+      <ul class="alternativas">
+        <li data-l="A">Windows 11</li>
+        <li data-l="B">Android</li>
+        <li data-l="C">Microsoft Word</li>
+        <li data-l="D">macOS</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q03 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">03</span>
+        <span class="q-tag">Kernel Mode</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">O que acontece quando ocorre um erro crítico no <strong>Kernel Mode</strong> do Windows?</div>
+      <ul class="alternativas">
+        <li data-l="A">Apenas o aplicativo com erro é encerrado</li>
+        <li data-l="B">O sistema exibe a Tela Azul da Morte (BSOD) e trava</li>
+        <li data-l="C">O Windows reinicia automaticamente sem aviso</li>
+        <li data-l="D">O User Mode assume o controle do hardware</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q04 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">04</span>
+        <span class="q-tag">User Mode</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Por que o Chrome <strong>não</strong> derruba o Windows quando trava?</div>
+      <ul class="alternativas">
+        <li data-l="A">Porque o Chrome é muito bem programado</li>
+        <li data-l="B">Porque roda em User Mode, isolado do Kernel</li>
+        <li data-l="C">Porque o Windows o protege especialmente</li>
+        <li data-l="D">Porque o Chrome tem acesso direto ao hardware</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q05 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">05</span>
+        <span class="q-tag">Processos</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">O <strong>PID</strong> de um processo é:</div>
+      <ul class="alternativas">
+        <li data-l="A">O percentual de CPU que o processo consome</li>
+        <li data-l="B">Um número único que identifica cada processo em execução</li>
+        <li data-l="C">O tamanho em MB que o processo ocupa na RAM</li>
+        <li data-l="D">O nome do arquivo executável do programa</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q06 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">06</span>
+        <span class="q-tag">Estados de Processo</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Um processo que está <strong>aguardando uma resposta da rede</strong> se encontra em qual estado?</div>
+      <ul class="alternativas">
+        <li data-l="A">Executando</li>
+        <li data-l="B">Pronto</li>
+        <li data-l="C">Bloqueado / Aguardando</li>
+        <li data-l="D">Suspenso pelo Kernel</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q07 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">07</span>
+        <span class="q-tag">Memória Virtual</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Quando a RAM está cheia, o Windows utiliza:</div>
+      <ul class="alternativas">
+        <li data-l="A">O processador como memória temporária</li>
+        <li data-l="B">A placa de vídeo para armazenar dados</li>
+        <li data-l="C">Memória virtual (arquivo de paginação no disco)</li>
+        <li data-l="D">A memória cache do processador</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q08 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">08</span>
+        <span class="q-tag">Gerenciador de Tarefas</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Qual atalho abre o <strong>Gerenciador de Tarefas</strong> do Windows diretamente?</div>
+      <ul class="alternativas">
+        <li data-l="A">Ctrl + Alt + Del</li>
+        <li data-l="B">Ctrl + Shift + Esc</li>
+        <li data-l="C">Win + R</li>
+        <li data-l="D">Alt + F4</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+  </div><!-- /colunas seção A -->
+
+  <!-- ── SEÇÃO B — Interface e Atalhos do Windows 11 ── -->
+  <div class="secao-header">
+    <span class="secao-letra">SEÇÃO B</span>
+    <span class="secao-titulo">Interface &amp; Atalhos do Windows 11</span>
+    <span class="secao-pts">Questões 09–16 · 40 pontos</span>
+  </div>
+
+  <div class="colunas">
+
+    <!-- Q09 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">09</span>
+        <span class="q-tag">Barra de Tarefas</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">No Windows 11, em qual posição o <strong>Botão Iniciar</strong> fica por padrão na barra de tarefas?</div>
+      <ul class="alternativas">
+        <li data-l="A">Canto inferior esquerdo (como no Windows 10)</li>
+        <li data-l="B">Centralizado na barra de tarefas</li>
+        <li data-l="C">Canto superior direito</li>
+        <li data-l="D">Canto inferior direito</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">10</span>
+        <span class="q-tag">Snap Layouts</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Como ativar o <strong>Snap Layouts</strong> para dividir a tela no Windows 11?</div>
+      <ul class="alternativas">
+        <li data-l="A">Clicar duas vezes na barra de título da janela</li>
+        <li data-l="B">Passar o mouse sobre o botão Maximizar (⬜) da janela</li>
+        <li data-l="C">Clicar com o botão direito na área de trabalho</li>
+        <li data-l="D">Acessar Painel de Controle → Exibição</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">11</span>
+        <span class="q-tag">Atalho Win</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">O atalho <code>Win + D</code> realiza qual ação?</div>
+      <ul class="alternativas">
+        <li data-l="A">Abre as Configurações do Windows</li>
+        <li data-l="B">Mostra/oculta a área de trabalho</li>
+        <li data-l="C">Abre o Explorador de Arquivos</li>
+        <li data-l="D">Divide a janela à direita</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">12</span>
+        <span class="q-tag">Atalho Win</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Qual atalho encaixa a janela atual na <strong>metade esquerda</strong> da tela?</div>
+      <ul class="alternativas">
+        <li data-l="A">Win + ↑</li>
+        <li data-l="B">Win + →</li>
+        <li data-l="C">Win + ←</li>
+        <li data-l="D">Alt + Tab</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">13</span>
+        <span class="q-tag">Central de Ações</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">No Windows 11, onde ficam os botões rápidos de <strong>Wi-Fi, Bluetooth e Brilho</strong>?</div>
+      <ul class="alternativas">
+        <li data-l="A">Central de Notificações (canto inferior direito, ícone de sino)</li>
+        <li data-l="B">Central de Ações (ícone de rede/volume/bateria)</li>
+        <li data-l="C">Menu Iniciar → Configurações Rápidas</li>
+        <li data-l="D">Painel de Widgets (Win + W)</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">14</span>
+        <span class="q-tag">Contas de Usuário</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Qual a diferença entre conta <strong>Administrador</strong> e conta <strong>Usuário Padrão</strong> no Windows?</div>
+      <ul class="alternativas">
+        <li data-l="A">Não há diferença — ambas têm os mesmos privilégios</li>
+        <li data-l="B">O Administrador pode instalar software e alterar configurações do sistema; o Usuário Padrão tem acesso restrito</li>
+        <li data-l="C">O Usuário Padrão pode instalar programas, mas não alterar a data/hora</li>
+        <li data-l="D">A conta Administrador só existe em versões corporativas do Windows</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">15</span>
+        <span class="q-tag">Menu Iniciar Win11</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Para ver <strong>todos os aplicativos</strong> instalados no Menu Iniciar do Windows 11, você deve:</div>
+      <ul class="alternativas">
+        <li data-l="A">Clicar com o botão direito na área de trabalho</li>
+        <li data-l="B">Clicar em "Todos os apps" dentro do Menu Iniciar</li>
+        <li data-l="C">Acessar o Painel de Controle → Programas</li>
+        <li data-l="D">Pressionar Win + R e digitar "appwiz.cpl"</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">16</span>
+        <span class="q-tag">Ícones Área de Trabalho</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Para adicionar o ícone <strong>"Este Computador"</strong> na área de trabalho do Windows 11, o caminho correto é:</div>
+      <ul class="alternativas">
+        <li data-l="A">Clicar direito na Área de Trabalho → Novo → Atalho</li>
+        <li data-l="B">Clicar direito → Personalizar → Temas → Configurações de ícones da área de trabalho</li>
+        <li data-l="C">Abrir o Explorador de Arquivos e arrastar "Este PC" para a área de trabalho</li>
+        <li data-l="D">Painel de Controle → Sistema → Ícones</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+  </div><!-- /colunas seção B -->
+
+  <!-- ── SEÇÃO C — Gerenciamento de Arquivos ── -->
+  <div class="secao-header">
+    <span class="secao-letra">SEÇÃO C</span>
+    <span class="secao-titulo">Gerenciamento de Arquivos &amp; Pastas</span>
+    <span class="secao-pts">Questões 17–20 · 20 pontos</span>
+  </div>
+
+  <div class="colunas">
+
+    <!-- Q17 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">17</span>
+        <span class="q-tag">Explorador</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Qual atalho abre o <strong>Explorador de Arquivos</strong> instantaneamente?</div>
+      <ul class="alternativas">
+        <li data-l="A">Win + E</li>
+        <li data-l="B">Win + X</li>
+        <li data-l="C">Ctrl + E</li>
+        <li data-l="D">Alt + F2</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">18</span>
+        <span class="q-tag">Atributos</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Um arquivo com atributo <strong>Sistema (System)</strong> no Windows indica que:</div>
+      <ul class="alternativas">
+        <li data-l="A">O arquivo está marcado para backup</li>
+        <li data-l="B">O arquivo não aparece na listagem normal</li>
+        <li data-l="C">É um arquivo crítico do SO — não deve ser modificado</li>
+        <li data-l="D">O arquivo só pode ser lido, nunca executado</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="questao">
+      <div class="q-head">
+        <span class="q-n">19</span>
+        <span class="q-tag">Copiar vs Mover</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Ao <strong>arrastar</strong> um arquivo entre pastas do <strong>mesmo disco</strong> no Windows, o que ocorre?</div>
+      <ul class="alternativas">
+        <li data-l="A">O arquivo é copiado — o original permanece no lugar</li>
+        <li data-l="B">O arquivo é movido — o original some da origem</li>
+        <li data-l="C">O arquivo é comprimido automaticamente</li>
+        <li data-l="D">O Windows solicita confirmação antes de qualquer ação</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="questao col-full">
+      <div class="q-head">
+        <span class="q-n">20</span>
+        <span class="q-tag">Lixeira &amp; NTFS</span>
+        <span class="q-pts">5 pts</span>
+      </div>
+      <div class="q-texto">Qual das afirmações sobre a <strong>Lixeira</strong> do Windows está <strong>correta</strong>?</div>
+      <ul class="alternativas" style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+        <li data-l="A">Arquivos excluídos de pendrive também vão para a Lixeira</li>
+        <li data-l="B">Shift + Delete exclui o arquivo sem passar pela Lixeira</li>
+        <li data-l="C">A Lixeira tem espaço ilimitado no disco</li>
+        <li data-l="D">Arquivos excluídos da rede ficam na Lixeira por 30 dias</li>
+      </ul>
+      <div class="bolhas"><div class="bolha">A</div><div class="bolha">B</div><div class="bolha">C</div><div class="bolha">D</div></div>
+    </div>
+
+  </div><!-- /colunas seção C -->
+
+  <!-- Rodapé página 1 -->
+  <div class="page-footer">
+    <span>GSO I 2026 · Gestão de Sistemas Operacionais</span>
+    <span>Semanas 01–06 · Prova 02</span>
+    <span>Página 1 de 2</span>
+  </div>
+</div><!-- /page1 -->
+
+
+<!-- ══════════════════════════════════
+     PÁGINA 2 — GABARITO (uso do professor)
+     ══════════════════════════════════ -->
+<div class="page" id="page2">
+
+  <!-- Cabeçalho gabarito -->
+  <div class="page-header">
+    <div class="ph-left">
+      <div class="ph-title">GABARITO — Prova 02</div>
+      <div class="ph-sub">GSO I 2026 · Gestão de Sistemas Operacionais · Semanas 01–06</div>
+    </div>
+    <div class="ph-right" style="border:2px solid #111;padding:4px 10px;font-weight:700;font-size:9pt;text-align:center">
+      USO DO<br>PROFESSOR
+    </div>
+  </div>
+
+  <div class="gab-secao">SEÇÃO A — Introdução ao SO &amp; Arquitetura Interna (Q01–Q08)</div>
+  <div class="gab-grid">
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 01 · Conceito SO</div>
+      <div class="gab-resp">B) Intermediar usuário e hardware</div>
+      <div class="gab-exp">O SO gerencia CPU, RAM, armazenamento e periféricos — é o "gerente" entre você e o hardware.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 02 · Tipos de SO</div>
+      <div class="gab-resp">C) Microsoft Word</div>
+      <div class="gab-exp">O Word é um aplicativo que roda DENTRO de um SO. SOs: Windows, Android, macOS, Linux.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 03 · Kernel Mode</div>
+      <div class="gab-resp">B) Tela Azul da Morte (BSOD)</div>
+      <div class="gab-exp">Erro no Kernel = sistema inteiro trava. Kernel tem acesso total ao hardware — sem ele, nada funciona.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 04 · User Mode</div>
+      <div class="gab-resp">B) Roda em User Mode, isolado do Kernel</div>
+      <div class="gab-exp">Aplicativos rodam em User Mode com acesso restrito. Se travam, não afetam o Kernel.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 05 · Processos</div>
+      <div class="gab-resp">B) Número único que identifica o processo</div>
+      <div class="gab-exp">PID = Process ID. Cada processo em execução recebe um número único. Ver em Gerenciador de Tarefas → Detalhes.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 06 · Estados</div>
+      <div class="gab-resp">C) Bloqueado / Aguardando</div>
+      <div class="gab-exp">Processo aguardando evento externo (rede, disco, input) = Bloqueado. Não consome CPU enquanto espera.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 07 · Memória Virtual</div>
+      <div class="gab-resp">C) Memória virtual (paginação no disco)</div>
+      <div class="gab-exp">Quando a RAM enche, o SO usa um arquivo de paginação no HD/SSD como extensão da memória.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 08 · Gerenciador</div>
+      <div class="gab-resp">B) Ctrl + Shift + Esc</div>
+      <div class="gab-exp">Ctrl+Shift+Esc abre o Gerenciador diretamente. Ctrl+Alt+Del abre um menu intermediário.</div>
+    </div>
+
+  </div>
+
+  <div class="gab-secao">SEÇÃO B — Interface &amp; Atalhos do Windows 11 (Q09–Q16)</div>
+  <div class="gab-grid">
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 09 · Barra de Tarefas</div>
+      <div class="gab-resp">B) Centralizado</div>
+      <div class="gab-exp">Win 11 centralizou o Iniciar. Pode ser movido para a esquerda em Configurações → Barra de Tarefas.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 10 · Snap Layouts</div>
+      <div class="gab-resp">B) Mouse sobre o botão Maximizar</div>
+      <div class="gab-exp">Passar o mouse sobre ⬜ revela o menu de Snap Layouts. Ou use Win + ← / →.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 11 · Win + D</div>
+      <div class="gab-resp">B) Mostra/oculta a área de trabalho</div>
+      <div class="gab-exp">Win+D minimiza todas as janelas mostrando a área de trabalho. Pressionar novamente restaura.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 12 · Snap Esquerda</div>
+      <div class="gab-resp">C) Win + ←</div>
+      <div class="gab-exp">Win+← encaixa à esquerda. Win+→ encaixa à direita. Win+↑ maximiza.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 13 · Central de Ações</div>
+      <div class="gab-resp">B) Central de Ações (rede/volume/bateria)</div>
+      <div class="gab-exp">No Win 11, notificações e ações rápidas foram separadas. Wi-Fi/Bluetooth ficam na Central de Ações.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 14 · Contas de Usuário</div>
+      <div class="gab-resp">B) Adm instala/configura; Padrão tem acesso restrito</div>
+      <div class="gab-exp">Administrador tem controle total. Usuário Padrão é mais seguro para uso cotidiano.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 15 · Menu Iniciar</div>
+      <div class="gab-resp">B) Clicar em "Todos os apps"</div>
+      <div class="gab-exp">No Win 11 o Iniciar mostra apps fixados por padrão. "Todos os apps" lista todos instalados.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 16 · Ícones Área de Trabalho</div>
+      <div class="gab-resp">B) Personalizar → Temas → Config. de ícones</div>
+      <div class="gab-exp">Caminho: Clicar direito na Área de Trabalho → Personalizar → Temas → Configurações de ícones da área de trabalho.</div>
+    </div>
+
+  </div>
+
+  <div class="gab-secao">SEÇÃO C — Gerenciamento de Arquivos &amp; Pastas (Q17–Q20)</div>
+  <div class="gab-grid">
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 17 · Explorador</div>
+      <div class="gab-resp">A) Win + E</div>
+      <div class="gab-exp">Win+E abre o Explorador de Arquivos instantaneamente. Atalho essencial para técnicos.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 18 · Atributo Sistema</div>
+      <div class="gab-resp">C) Arquivo crítico do SO</div>
+      <div class="gab-exp">Atributo Sistema = arquivo usado pelo Windows para funcionar. Modificar pode tornar o SO instável.</div>
+    </div>
+
+    <div class="gab-item">
+      <div class="gab-q">Questão 19 · Copiar vs Mover</div>
+      <div class="gab-resp">B) Movido — original some da origem</div>
+      <div class="gab-exp">Arrastar no mesmo disco = Mover. Arrastar entre discos diferentes = Copiar. Ctrl arrasta = sempre copia.</div>
+    </div>
+
+    <div class="gab-item" style="grid-column:span 2">
+      <div class="gab-q">Questão 20 · Lixeira &amp; NTFS</div>
+      <div class="gab-resp">B) Shift+Delete exclui sem passar pela Lixeira</div>
+      <div class="gab-exp">
+        Pendrive/rede → sem Lixeira (A e D erradas) &nbsp;|&nbsp; Lixeira tem tamanho limitado (C errada) &nbsp;|&nbsp; <strong>Shift+Delete = exclusão permanente ✓</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tabela de critérios -->
+  <table class="gab-nota-table" style="margin-top:14px">
+    <thead>
+      <tr>
+        <th>Seção</th>
+        <th>Questões</th>
+        <th>Pts/Q</th>
+        <th>Total</th>
+        <th style="text-align:left;padding-left:12px">Acertos necessários</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>A — Intro SO &amp; Arquitetura</td>
+        <td>01–08</td>
+        <td>5</td>
+        <td>40</td>
+        <td class="formula">≥5 acertos → ≥25 pts (aprovação parcial)</td>
+      </tr>
+      <tr>
+        <td>B — Interface &amp; Atalhos Win 11</td>
+        <td>09–16</td>
+        <td>5</td>
+        <td>40</td>
+        <td class="formula">≥5 acertos → ≥25 pts</td>
+      </tr>
+      <tr>
+        <td>C — Gerenciamento de Arquivos</td>
+        <td>17–20</td>
+        <td>5</td>
+        <td>20</td>
+        <td class="formula">≥3 acertos → ≥15 pts</td>
+      </tr>
+      <tr class="total">
+        <td>TOTAL</td>
+        <td>20 questões</td>
+        <td>5</td>
+        <td>100</td>
+        <td class="formula">Nota = Total ÷ 10 &nbsp;|&nbsp; Aprovação: ≥ 60 pts (nota ≥ 6,0)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Rodapé página 2 -->
+  <div class="page-footer">
+    <span>GSO I 2026 · Gestão de Sistemas Operacionais</span>
+    <span>Semanas 01–06 · Prova 02</span>
+    <span>Página 2 de 2 — USO EXCLUSIVO DO PROFESSOR</span>
+  </div>
+
+</div><!-- /page2 -->
+
+</body>
+</html>
