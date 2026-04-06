@@ -26,6 +26,18 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(
 
 .av-section{background:white;border-radius:var(--radius);padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:36px;border-left:4px solid #d97706;}
 .av-section h3{color:#92400e;font-size:1em;font-weight:700;margin-bottom:14px;}
+
+.avaliacao-bloco{background:linear-gradient(135deg,#fefce8 0%,#fffbeb 100%);border:1.5px solid #fcd34d;border-left:5px solid #d97706;border-radius:var(--radius);padding:20px 22px;margin-top:12px;margin-bottom:4px;}
+.avaliacao-bloco-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.avaliacao-bloco-header h4{font-size:.95em;font-weight:700;color:#92400e;margin:0;}
+.avaliacao-bloco-header .av-badge{background:#d97706;color:#fff;border-radius:50px;padding:2px 11px;font-size:.75em;font-weight:700;font-family:monospace;}
+.avaliacao-bloco p{font-size:.83em;color:#78350f;margin-bottom:14px;line-height:1.5;}
+.av-downloads{display:flex;gap:10px;flex-wrap:wrap;}
+.av-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:var(--radius-sm);font-size:.83em;font-weight:600;text-decoration:none;transition:all .18s;}
+.av-btn-teorica{background:#d97706;color:#fff;}
+.av-btn-teorica:hover{background:#b45309;}
+.av-btn-pratica{background:#fff;color:#d97706;border:1.5px solid #d97706;}
+.av-btn-pratica:hover{background:#fffbeb;}
 .av-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--gray-100);}
 .av-item:last-child{border:none;}
 .av-sem{background:#d97706;color:white;border-radius:50px;padding:2px 10px;font-size:.78em;font-weight:700;white-space:nowrap;font-family:monospace;}
@@ -158,12 +170,33 @@ footer{text-align:center;padding:28px;color:var(--gray-500);font-size:.82em;bord
       <a href="semana06_aula.html" class="week-card" style="--accent:#16a34a">
         <div class="week-num">S06</div>
         <div class="week-title">Gerenciamento de Arquivos e Pastas – Parte 2</div>
+        <div style="color:#d97706;font-size:.72em;font-weight:700;margin-top:4px;">🏆 Avaliação</div>
         
         <div class="week-links">
           <span class="wl-aula">📖 Aula</span>
           <a href="semana06_guia.html" class="wl-guia" onclick="event.stopPropagation()">📝 Guia</a>
         </div>
       </a>
+    </div>
+
+    <div class="avaliacao-bloco">
+      <div class="avaliacao-bloco-header">
+        <span>🏆</span>
+        <span class="av-badge">S06 → S07</span>
+        <h4>Avaliação 1 – Sistemas Operacionais &amp; Gerenciamento de Arquivos</h4>
+      </div>
+      <p>Aplicada ao final da Semana 06. Baixe os enunciados abaixo e entregue conforme as instruções do professor.</p>
+      <div class="av-downloads">
+        <a class="av-btn av-btn-teorica" href="avaliacaoGSO.pdf" download>
+          📄 Prova Teórica (PDF)
+        </a>
+        <a class="av-btn av-btn-pratica" href="avaliacaogsopratica.pdf" download>
+          🖥️ Avaliação Prática (PDF)
+        </a>
+      </div>
+    </div>
+
+    <div class="weeks-grid">
       <a href="semana07_aula.html" class="week-card" style="--accent:#16a34a">
         <div class="week-num">S07</div>
         <div class="week-title">Permissões, Compactação e Organização</div>
