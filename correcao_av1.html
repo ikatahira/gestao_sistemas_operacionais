@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula de Correção – Avaliação 1 | GSO I 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0f172a;
+  --blue:#1e3a5f;
+  --accent:#2563eb;
+  --green:#16a34a;
+  --green-light:#dcfce7;
+  --red:#dc2626;
+  --red-light:#fee2e2;
+  --amber:#d97706;
+  --amber-light:#fef3c7;
+  --gray-50:#f8fafc;
+  --gray-100:#f1f5f9;
+  --gray-200:#e2e8f0;
+  --gray-400:#94a3b8;
+  --gray-600:#475569;
+  --gray-700:#334155;
+  --white:#fff;
+  --radius:12px;
+  --radius-sm:8px;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans',sans-serif;
+}
+body{font-family:var(--sans);background:var(--gray-50);color:var(--gray-700);line-height:1.6;}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#1d4ed8 100%);
+  color:#fff;padding:48px 32px 40px;text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,transparent 1px,transparent 60px),
+            repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,transparent 1px,transparent 60px);
+}
+.hero-inner{position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:50px;padding:5px 16px;font-size:.78em;font-weight:600;font-family:var(--mono);letter-spacing:.04em;margin-bottom:16px;}
+.hero h1{font-size:clamp(1.6em,4vw,2.6em);font-weight:700;letter-spacing:-.03em;margin-bottom:6px;}
+.hero h1 span{color:#60a5fa;}
+.hero-sub{opacity:.7;font-size:.9em;margin-bottom:24px;}
+.hero-pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:600;}
+
+/* ── TABS ── */
+.tabs-bar{background:var(--white);border-bottom:2px solid var(--gray-200);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.tabs-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;gap:4px;overflow-x:auto;}
+.tab-btn{padding:14px 20px;font-family:var(--sans);font-size:.85em;font-weight:600;color:var(--gray-600);background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;transition:all .2s;letter-spacing:.01em;}
+.tab-btn:hover{color:var(--accent);}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* ── CONTAINER ── */
+.container{max-width:1100px;margin:0 auto;padding:36px 24px;}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+/* ── SECTION LABELS ── */
+.sec-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.78em;font-weight:700;letter-spacing:.06em;color:var(--gray-600);background:var(--gray-100);border:1px solid var(--gray-200);border-radius:50px;padding:4px 14px;margin-bottom:20px;}
+
+.section-title{font-size:1.4em;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.section-desc{color:var(--gray-600);font-size:.9em;margin-bottom:28px;line-height:1.6;}
+
+/* ── GABARITO GRID (Teórica) ── */
+.gab-header{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--gray-200);border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;margin-bottom:1px;}
+.gab-header-cell{background:var(--navy);color:#fff;text-align:center;padding:10px 6px;font-family:var(--mono);font-size:.72em;font-weight:700;letter-spacing:.04em;}
+
+.questions-grid{display:grid;gap:16px;}
+
+.q-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-200);overflow:hidden;transition:box-shadow .2s;}
+.q-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);}
+
+.q-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--gray-100);}
+.q-num{font-family:var(--mono);font-size:.78em;font-weight:700;background:var(--accent);color:#fff;border-radius:50px;padding:3px 10px;white-space:nowrap;}
+.q-num.wrong{background:var(--gray-400);}
+.q-text{font-size:.92em;font-weight:600;color:var(--navy);flex:1;line-height:1.4;}
+.q-sec{font-family:var(--mono);font-size:.7em;color:var(--gray-400);font-weight:600;letter-spacing:.04em;}
+
+.q-body{padding:14px 18px;}
+.alts{display:grid;gap:6px;margin-bottom:12px;}
+.alt{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--gray-200);font-size:.85em;}
+.alt-letter{font-family:var(--mono);font-weight:700;font-size:.85em;min-width:18px;color:var(--gray-600);}
+.alt.correct{background:var(--green-light);border-color:#86efac;}
+.alt.correct .alt-letter{color:var(--green);}
+.alt.correct .alt-text{color:#14532d;font-weight:600;}
+.alt.wrong-pick{background:var(--red-light);border-color:#fca5a5;}
+.alt.wrong-pick .alt-letter{color:var(--red);}
+.check-icon{margin-left:auto;font-size:.9em;}
+
+.q-exp{background:var(--gray-50);border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;font-size:.83em;color:var(--gray-700);line-height:1.5;}
+.q-exp strong{color:var(--navy);}
+
+/* ── SCORE BAR ── */
+.score-overview{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+.score-card{background:var(--white);border-radius:var(--radius);padding:20px;border:1px solid var(--gray-200);text-align:center;}
+.score-num{font-size:2.2em;font-weight:700;font-family:var(--mono);color:var(--accent);}
+.score-label{font-size:.78em;color:var(--gray-500);margin-top:4px;font-weight:600;letter-spacing:.03em;}
+.score-sub{font-size:.72em;color:var(--gray-400);margin-top:2px;}
+
+/* ── SECTION BLOCKS ── */
+.sec-block{margin-bottom:36px;}
+.sec-block-header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--navy);color:#fff;border-radius:var(--radius) var(--radius) 0 0;}
+.sec-block-title{font-family:var(--mono);font-size:.85em;font-weight:700;letter-spacing:.04em;flex:1;}
+.sec-block-pts{font-family:var(--mono);font-size:.78em;color:#93c5fd;}
+.sec-block-body{background:var(--white);border:1px solid var(--gray-200);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:20px;}
+
+/* ── PRÁTICA TASKS ── */
+.task-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-200);margin-bottom:20px;overflow:hidden;}
+.task-head{display:flex;align-items:center;gap:10px;padding:12px 18px;background:var(--navy);color:#fff;}
+.task-n{font-family:var(--mono);font-size:.78em;font-weight:700;background:rgba(255,255,255,.15);border-radius:50px;padding:2px 10px;}
+.task-title{font-family:var(--mono);font-size:.85em;font-weight:700;flex:1;}
+.task-pts{font-family:var(--mono);font-size:.78em;color:#93c5fd;}
+.task-body{padding:20px;}
+
+.task-context{background:#fafafa;border-left:3px solid var(--gray-400);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;font-size:.85em;color:var(--gray-600);font-style:italic;margin-bottom:16px;line-height:1.5;}
+
+.step-list{list-style:none;padding:0;margin:0 0 16px;}
+.step-list li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray-100);font-size:.88em;line-height:1.5;}
+.step-list li:last-child{border:none;}
+.step-n{font-family:var(--mono);font-weight:700;font-size:.8em;color:#fff;background:var(--accent);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-content{flex:1;color:var(--gray-700);}
+.step-content code{font-family:var(--mono);background:var(--gray-100);border:1px solid var(--gray-200);padding:1px 5px;border-radius:4px;font-size:.88em;color:var(--navy);}
+.step-resp{margin-top:6px;background:var(--green-light);border:1px solid #86efac;border-radius:var(--radius-sm);padding:7px 10px;font-size:.82em;color:#14532d;line-height:1.4;}
+.step-resp strong{color:#065f46;}
+.step-warn{margin-top:6px;background:var(--amber-light);border:1px solid #fcd34d;border-radius:var(--radius-sm);padding:7px 10px;font-size:.82em;color:#78350f;line-height:1.4;}
+
+.rubric-table{width:100%;border-collapse:collapse;font-size:.8em;margin-top:12px;}
+.rubric-table th{text-align:left;padding:7px 10px;background:var(--navy);color:#fff;font-family:var(--mono);font-size:.75em;font-weight:700;letter-spacing:.04em;}
+.rubric-table th:first-child{border-radius:var(--radius-sm) 0 0 0;}
+.rubric-table th:last-child{border-radius:0 var(--radius-sm) 0 0;}
+.rubric-table td{padding:7px 10px;border-bottom:1px solid var(--gray-100);vertical-align:top;line-height:1.4;}
+.rubric-table tr:last-child td{border:none;}
+.rubric-table td:first-child{font-family:var(--mono);font-weight:700;font-size:.78em;color:var(--navy);white-space:nowrap;}
+.pts-0{color:var(--red);font-weight:700;}
+.pts-p{color:var(--amber);font-weight:700;}
+.pts-f{color:var(--green);font-weight:700;}
+
+.checklist-wrap{margin-top:14px;}
+.checklist-title{font-family:var(--mono);font-size:.72em;font-weight:700;letter-spacing:.05em;color:var(--gray-500);margin-bottom:8px;}
+.checklist-items{display:flex;flex-direction:column;gap:5px;}
+.cl-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:var(--radius-sm);background:var(--gray-50);border:1px solid var(--gray-200);font-size:.83em;color:var(--gray-700);}
+.cl-icon{font-size:.9em;flex-shrink:0;margin-top:1px;}
+
+/* ── DICAS ── */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:24px;}
+.tip-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-200);padding:18px;border-top:3px solid var(--accent);}
+.tip-icon{font-size:1.5em;margin-bottom:8px;}
+.tip-title{font-weight:700;font-size:.9em;color:var(--navy);margin-bottom:6px;}
+.tip-text{font-size:.83em;color:var(--gray-600);line-height:1.5;}
+.tip-card code{font-family:var(--mono);background:var(--gray-100);border:1px solid var(--gray-200);padding:1px 5px;border-radius:4px;font-size:.9em;color:var(--navy);}
+
+/* ── ERROS FREQUENTES ── */
+.err-list{display:flex;flex-direction:column;gap:12px;margin-top:20px;}
+.err-item{display:flex;gap:14px;padding:14px;background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-200);}
+.err-icon{font-size:1.3em;flex-shrink:0;}
+.err-content h4{font-size:.88em;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.err-content p{font-size:.82em;color:var(--gray-600);line-height:1.5;}
+.err-fix{margin-top:6px;font-size:.8em;background:var(--green-light);color:#14532d;border-radius:6px;padding:5px 9px;display:inline-block;font-weight:600;}
+
+/* ── NOTA TABLE ── */
+.nota-table{width:100%;border-collapse:collapse;font-size:.85em;margin-top:16px;}
+.nota-table th{text-align:left;padding:9px 12px;background:var(--navy);color:#fff;font-family:var(--mono);font-size:.78em;font-weight:700;letter-spacing:.03em;}
+.nota-table td{padding:9px 12px;border-bottom:1px solid var(--gray-100);}
+.nota-table tr.total td{font-weight:700;background:var(--gray-50);color:var(--navy);}
+
+/* ── VOLTAR ── */
+.back-bar{background:var(--white);border-bottom:1px solid var(--gray-200);padding:12px 24px;}
+.back-bar-inner{max-width:1100px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:.83em;color:var(--accent);font-weight:600;text-decoration:none;}
+.back-link:hover{opacity:.8;}
+
+footer{text-align:center;padding:28px;color:var(--gray-400);font-size:.8em;border-top:1px solid var(--gray-200);margin-top:48px;}
+
+@media(max-width:768px){
+  .hero{padding:32px 16px;}
+  .container{padding:20px 16px;}
+  .score-overview{grid-template-columns:1fr 1fr;}
+  .tabs-inner{gap:0;}
+  .tab-btn{padding:12px 14px;font-size:.8em;}
+}
+</style>
+</head>
+<body>
+
+<div class="back-bar">
+  <div class="back-bar-inner">
+    <a href="index.html" class="back-link">← Voltar para o início</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">📋 GSO I 2026 · Semanas 01–06</div>
+    <h1>Aula de <span>Correção</span> — Avaliação 1</h1>
+    <div class="hero-sub">Sistema Operacional & Interface Win 11 · Gerenciamento de Arquivos & Pastas</div>
+    <div class="hero-pills">
+      <span class="pill">🖊️ 20 questões teóricas</span>
+      <span class="pill">🖥️ 4 tarefas práticas</span>
+      <span class="pill">📊 100 pontos cada</span>
+      <span class="pill">🎯 Mínimo: 60 pts</span>
+    </div>
+  </div>
+</header>
+
+<div class="tabs-bar">
+  <div class="tabs-inner">
+    <button class="tab-btn active" onclick="switchTab('teorica',this)">📝 Prova Teórica</button>
+    <button class="tab-btn" onclick="switchTab('pratica',this)">🖥️ Avaliação Prática</button>
+    <button class="tab-btn" onclick="switchTab('erros',this)">⚠️ Erros Frequentes</button>
+    <button class="tab-btn" onclick="switchTab('dicas',this)">💡 Dicas para a Próxima</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════════════════════════════════════
+       TAB 1 — PROVA TEÓRICA
+  ═══════════════════════════════════════════ -->
+  <div class="tab-pane active" id="tab-teorica">
+
+    <div class="score-overview">
+      <div class="score-card">
+        <div class="score-num">20</div>
+        <div class="score-label">QUESTÕES</div>
+        <div class="score-sub">5 pts cada</div>
+      </div>
+      <div class="score-card">
+        <div class="score-num">100</div>
+        <div class="score-label">PONTOS TOTAL</div>
+        <div class="score-sub">Nota = Total ÷ 10</div>
+      </div>
+      <div class="score-card">
+        <div class="score-num">60</div>
+        <div class="score-label">MÍN. APROVAÇÃO</div>
+        <div class="score-sub">Nota ≥ 6,0</div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO A -->
+    <div class="sec-block">
+      <div class="sec-block-header">
+        <span class="sec-block-title">SEÇÃO A — Introdução ao SO & Arquitetura Interna</span>
+        <span class="sec-block-pts">Q01–Q08 · 40 pts</span>
+      </div>
+      <div class="sec-block-body">
+        <div class="questions-grid">
+
+          <!-- Q01 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q01</span>
+              <span class="q-text">Qual é a principal função de um Sistema Operacional?</span>
+              <span class="q-sec">Conceito SO</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Criar documentos e planilhas</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Intermediar a comunicação entre o usuário e o hardware</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Conectar o computador à internet</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Processar imagens e vídeos</span></div>
+              </div>
+              <div class="q-exp">💡 <strong>Por quê B?</strong> O SO gerencia CPU, RAM, armazenamento e periféricos — ele é o "gerente" entre você e o hardware. Sem ele, nenhum programa funcionaria.</div>
+            </div>
+          </div>
+
+          <!-- Q02 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q02</span>
+              <span class="q-text">Qual dos itens abaixo <strong>NÃO</strong> é um Sistema Operacional?</span>
+              <span class="q-sec">Tipos de SO</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Windows 11</span></div>
+                <div class="alt"><span class="alt-letter">B)</span><span class="alt-text">Android</span></div>
+                <div class="alt correct"><span class="alt-letter">C)</span><span class="alt-text">Microsoft Word</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">macOS</span></div>
+              </div>
+              <div class="q-exp">💡 <strong>Por quê C?</strong> O Word é um <em>aplicativo</em> que roda dentro de um SO. Sistemas Operacionais: Windows, Android, macOS, Linux. O Word precisa do SO para existir.</div>
+            </div>
+          </div>
+
+          <!-- Q03 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q03</span>
+              <span class="q-text">O que acontece quando ocorre um erro crítico no <strong>Kernel Mode</strong> do Windows?</span>
+              <span class="q-sec">Kernel Mode</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Apenas o aplicativo com erro é encerrado</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">O sistema exibe a Tela Azul da Morte (BSOD) e trava</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">O Windows reinicia automaticamente sem aviso</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">O User Mode assume o controle do hardware</span></div>
+              </div>
+              <div class="q-exp">💡 <strong>Por quê B?</strong> Erro no Kernel = sistema inteiro trava com a BSOD. O Kernel tem acesso total ao hardware — sem ele, nada funciona. Por isso o erro é catastrófico.</div>
+            </div>
+          </div>
+
+          <!-- Q04 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q04</span>
+              <span class="q-text">Por que o Chrome <strong>não</strong> derruba o Windows quando trava?</span>
+              <span class="q-sec">User Mode</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Porque o Chrome é muito bem programado</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Porque roda em User Mode, isolado do Kernel</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Porque o Windows o protege especialmente</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Porque o Chrome tem acesso direto ao hardware</span></div>
+              </div>
+              <div class="q-exp">💡 <strong>Por quê B?</strong> Aplicativos rodam em <em>User Mode</em> com acesso restrito. Se travarem, o Kernel os encerra sem afetar o resto do sistema. É a "sandboxing" do SO.</div>
+            </div>
+          </div>
+
+          <!-- Q05 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q05</span>
+              <span class="q-text">O <strong>PID</strong> de um processo é:</span>
+              <span class="q-sec">Processos</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">O percentual de CPU que o processo consome</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Um número único que identifica cada processo em execução</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">O tamanho em MB que o processo ocupa na RAM</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">O nome do arquivo executável do programa</span></div>
+              </div>
+              <div class="q-exp">💡 <strong>PID = Process ID.</strong> Cada processo em execução recebe um número único. Você pode ver na aba <strong>Detalhes</strong> do Gerenciador de Tarefas (<code>Ctrl+Shift+Esc</code>).</div>
+            </div>
+          </div>
+
+          <!-- Q06 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q06</span>
+              <span class="q-text">Um processo aguardando resposta da rede se encontra em qual estado?</span>
+              <span class="q-sec">Estados</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Executando</span></div>
+                <div class="alt"><span class="alt-letter">B)</span><span class="alt-text">Pronto</span></div>
+                <div class="alt correct"><span class="alt-letter">C)</span><span class="alt-text">Bloqueado / Aguardando</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Suspenso pelo Kernel</span></div>
+              </div>
+              <div class="q-exp">💡 Processo aguardando evento externo (rede, disco, input do usuário) = <strong>Bloqueado</strong>. Ele não consome CPU enquanto espera — o Kernel o "pausa" e usa a CPU para outras tarefas.</div>
+            </div>
+          </div>
+
+          <!-- Q07 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q07</span>
+              <span class="q-text">Quando a RAM está cheia, o Windows utiliza:</span>
+              <span class="q-sec">Memória Virtual</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">O processador como memória temporária</span></div>
+                <div class="alt"><span class="alt-letter">B)</span><span class="alt-text">A placa de vídeo para armazenar dados</span></div>
+                <div class="alt correct"><span class="alt-letter">C)</span><span class="alt-text">Memória virtual (arquivo de paginação no disco)</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">A memória cache do processador</span></div>
+              </div>
+              <div class="q-exp">💡 Quando a RAM enche, o SO usa um <strong>arquivo de paginação</strong> (pagefile.sys) no HD/SSD como extensão da memória. É muito mais lento que a RAM, mas evita travamentos.</div>
+            </div>
+          </div>
+
+          <!-- Q08 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q08</span>
+              <span class="q-text">Qual atalho abre o <strong>Gerenciador de Tarefas</strong> diretamente?</span>
+              <span class="q-sec">Gerenciador</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Ctrl + Alt + Del</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Ctrl + Shift + Esc</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Win + R</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Alt + F4</span></div>
+              </div>
+              <div class="q-exp">💡 <code>Ctrl+Shift+Esc</code> abre o Gerenciador <em>diretamente</em>. O <code>Ctrl+Alt+Del</code> abre um menu intermediário onde você ainda precisa clicar. Na prova prática, use o atalho direto!</div>
+            </div>
+          </div>
+
+        </div><!-- /questions-grid A -->
+      </div>
+    </div><!-- /sec-block A -->
+
+    <!-- SEÇÃO B -->
+    <div class="sec-block">
+      <div class="sec-block-header">
+        <span class="sec-block-title">SEÇÃO B — Interface & Atalhos do Windows 11</span>
+        <span class="sec-block-pts">Q09–Q16 · 40 pts</span>
+      </div>
+      <div class="sec-block-body">
+        <div class="questions-grid">
+
+          <!-- Q09 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q09</span>
+              <span class="q-text">No Windows 11, o <strong>Botão Iniciar</strong> fica por padrão em qual posição?</span>
+              <span class="q-sec">Barra de Tarefas</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Canto inferior esquerdo (como no Windows 10)</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Centralizado na barra de tarefas</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Canto superior direito</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Canto inferior direito</span></div>
+              </div>
+              <div class="q-exp">💡 O Win 11 <strong>centralizou</strong> o Iniciar — uma das maiores mudanças visuais da versão. Pode ser movido de volta para a esquerda em Configurações → Personalização → Barra de Tarefas.</div>
+            </div>
+          </div>
+
+          <!-- Q10 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q10</span>
+              <span class="q-text">Como ativar o <strong>Snap Layouts</strong> no Windows 11?</span>
+              <span class="q-sec">Snap Layouts</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Clicar duas vezes na barra de título</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Passar o mouse sobre o botão Maximizar (⬜) da janela</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Clicar com o botão direito na área de trabalho</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Acessar Painel de Controle → Exibição</span></div>
+              </div>
+              <div class="q-exp">💡 Passe o mouse sobre o ⬜ (botão Maximizar) — o menu de Snap Layouts aparece. Você também pode usar <code>Win + ←/→</code> ou <code>Win + Z</code> para abrir direto o menu.</div>
+            </div>
+          </div>
+
+          <!-- Q11 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q11</span>
+              <span class="q-text">O atalho <code>Win + D</code> realiza qual ação?</span>
+              <span class="q-sec">Win + D</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Abre as Configurações do Windows</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Mostra/oculta a área de trabalho</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Abre o Explorador de Arquivos</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Divide a janela à direita</span></div>
+              </div>
+              <div class="q-exp">💡 <code>Win+D</code> minimiza <em>todas</em> as janelas mostrando a área de trabalho. Pressionar novamente restaura tudo. Útil para acessar ícones da área de trabalho rapidamente.</div>
+            </div>
+          </div>
+
+          <!-- Q12 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q12</span>
+              <span class="q-text">Qual atalho encaixa a janela na <strong>metade esquerda</strong> da tela?</span>
+              <span class="q-sec">Snap Esquerda</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Win + ↑</span></div>
+                <div class="alt"><span class="alt-letter">B)</span><span class="alt-text">Win + →</span></div>
+                <div class="alt correct"><span class="alt-letter">C)</span><span class="alt-text">Win + ←</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Alt + Tab</span></div>
+              </div>
+              <div class="q-exp">💡 Mapa dos atalhos de Snap: <code>Win+←</code> = esquerda · <code>Win+→</code> = direita · <code>Win+↑</code> = maximiza · <code>Win+↓</code> = minimiza. Esta foi a resposta certa da Tarefa 02 da prova prática!</div>
+            </div>
+          </div>
+
+          <!-- Q13 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q13</span>
+              <span class="q-text">Onde ficam Wi-Fi, Bluetooth e Brilho no Windows 11?</span>
+              <span class="q-sec">Central de Ações</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Central de Notificações (ícone de sino)</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Central de Ações (ícone de rede/volume/bateria)</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Menu Iniciar → Configurações Rápidas</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Painel de Widgets (Win + W)</span></div>
+              </div>
+              <div class="q-exp">💡 No Win 11, notificações e ações rápidas foram <em>separadas</em>. Wi-Fi, Bluetooth e brilho ficam na <strong>Central de Ações</strong> (clique nos ícones de rede/volume/bateria no canto direito da barra).</div>
+            </div>
+          </div>
+
+          <!-- Q14 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q14</span>
+              <span class="q-text">Diferença entre conta <strong>Administrador</strong> e <strong>Usuário Padrão</strong>?</span>
+              <span class="q-sec">Contas</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Não há diferença — ambas têm os mesmos privilégios</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Administrador instala software e altera o sistema; Usuário Padrão tem acesso restrito</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Usuário Padrão pode instalar programas, mas não alterar data/hora</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">A conta Administrador só existe em versões corporativas</span></div>
+              </div>
+              <div class="q-exp">💡 Administrador tem controle total do sistema. Usuário Padrão é mais seguro para o uso cotidiano (menos risco de vírus ou alterações acidentais). Use Padrão no dia a dia e Administrador apenas quando necessário.</div>
+            </div>
+          </div>
+
+          <!-- Q15 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q15</span>
+              <span class="q-text">Para ver <strong>todos os apps</strong> instalados no Menu Iniciar do Win 11:</span>
+              <span class="q-sec">Menu Iniciar</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Clicar com o botão direito na área de trabalho</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Clicar em "Todos os apps" dentro do Menu Iniciar</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Acessar o Painel de Controle → Programas</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Pressionar Win + R e digitar "appwiz.cpl"</span></div>
+              </div>
+              <div class="q-exp">💡 No Win 11, o Iniciar mostra apps fixados por padrão. O botão <strong>"Todos os apps"</strong> no canto superior direito do Iniciar lista todos os instalados em ordem alfabética.</div>
+            </div>
+          </div>
+
+          <!-- Q16 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q16</span>
+              <span class="q-text">Como adicionar o ícone <strong>"Este Computador"</strong> na área de trabalho?</span>
+              <span class="q-sec">Ícones</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Clicar direito na Área de Trabalho → Novo → Atalho</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Clicar direito → Personalizar → Temas → Configurações de ícones da área de trabalho</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Abrir o Explorador de Arquivos e arrastar "Este PC"</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Painel de Controle → Sistema → Ícones</span></div>
+              </div>
+              <div class="q-exp">💡 Caminho completo: Área de Trabalho (botão direito) → <strong>Personalizar</strong> → <strong>Temas</strong> → <strong>Configurações de ícones da área de trabalho</strong> → marcar "Computador".</div>
+            </div>
+          </div>
+
+        </div><!-- /questions-grid B -->
+      </div>
+    </div><!-- /sec-block B -->
+
+    <!-- SEÇÃO C -->
+    <div class="sec-block">
+      <div class="sec-block-header">
+        <span class="sec-block-title">SEÇÃO C — Gerenciamento de Arquivos & Pastas</span>
+        <span class="sec-block-pts">Q17–Q20 · 20 pts</span>
+      </div>
+      <div class="sec-block-body">
+        <div class="questions-grid">
+
+          <!-- Q17 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q17</span>
+              <span class="q-text">Qual atalho abre o <strong>Explorador de Arquivos</strong> instantaneamente?</span>
+              <span class="q-sec">Explorador</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt correct"><span class="alt-letter">A)</span><span class="alt-text">Win + E</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">B)</span><span class="alt-text">Win + X</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">Ctrl + E</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Alt + F2</span></div>
+              </div>
+              <div class="q-exp">💡 <code>Win+E</code> = Explorador de Arquivos. Atalho essencial para técnicos — você usou na Tarefa 03 da prova prática! <code>Win+X</code> abre o menu de ferramentas do sistema.</div>
+            </div>
+          </div>
+
+          <!-- Q18 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q18</span>
+              <span class="q-text">Um arquivo com atributo <strong>Sistema (System)</strong> indica que:</span>
+              <span class="q-sec">Atributos</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">O arquivo está marcado para backup</span></div>
+                <div class="alt"><span class="alt-letter">B)</span><span class="alt-text">O arquivo não aparece na listagem normal</span></div>
+                <div class="alt correct"><span class="alt-letter">C)</span><span class="alt-text">É um arquivo crítico do SO — não deve ser modificado</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">O arquivo só pode ser lido, nunca executado</span></div>
+              </div>
+              <div class="q-exp">💡 Atributo <strong>Sistema</strong> = arquivo usado pelo Windows para funcionar (ex: ntldr, pagefile.sys). Modificar ou apagar pode tornar o SO instável ou impedir o boot. Atenção: não confunda com atributo <em>Oculto</em>.</div>
+            </div>
+          </div>
+
+          <!-- Q19 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q19</span>
+              <span class="q-text">Ao <strong>arrastar</strong> um arquivo entre pastas do <strong>mesmo disco</strong>, o que ocorre?</span>
+              <span class="q-sec">Copiar vs Mover</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">O arquivo é copiado — o original permanece no lugar</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">O arquivo é movido — o original some da origem</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">O arquivo é comprimido automaticamente</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">O Windows solicita confirmação</span></div>
+              </div>
+              <div class="q-exp">💡 Regras de drag & drop: <strong>mesmo disco</strong> = Move · <strong>discos diferentes</strong> = Copia · <strong>segurando Ctrl</strong> = sempre Copia · <strong>Shift</strong> = sempre Move. Na Tarefa 03 você fez uma cópia com <code>Ctrl+C</code>/<code>Ctrl+V</code> justamente para preservar o original.</div>
+            </div>
+          </div>
+
+          <!-- Q20 -->
+          <div class="q-card">
+            <div class="q-head">
+              <span class="q-num">Q20</span>
+              <span class="q-text">Qual afirmação sobre a <strong>Lixeira</strong> está correta?</span>
+              <span class="q-sec">Lixeira & NTFS</span>
+            </div>
+            <div class="q-body">
+              <div class="alts">
+                <div class="alt"><span class="alt-letter">A)</span><span class="alt-text">Arquivos excluídos de pendrive também vão para a Lixeira</span></div>
+                <div class="alt correct"><span class="alt-letter">B)</span><span class="alt-text">Shift + Delete exclui sem passar pela Lixeira</span><span class="check-icon">✅</span></div>
+                <div class="alt"><span class="alt-letter">C)</span><span class="alt-text">A Lixeira tem espaço ilimitado no disco</span></div>
+                <div class="alt"><span class="alt-letter">D)</span><span class="alt-text">Arquivos excluídos da rede ficam na Lixeira por 30 dias</span></div>
+              </div>
+              <div class="q-exp">💡 Por que as outras estão erradas: A) Pendrive/rede → <em>sem</em> Lixeira (exclusão imediata) · C) Lixeira tem tamanho <em>limitado</em> configurável · D) Arquivos de rede são excluídos permanentemente. <strong>Shift+Delete = exclusão permanente</strong> — use com cuidado!</div>
+            </div>
+          </div>
+
+        </div><!-- /questions-grid C -->
+
+        <!-- Tabela de pontuação -->
+        <table class="nota-table" style="margin-top:24px;">
+          <thead>
+            <tr>
+              <th>Seção</th><th>Questões</th><th>Pts/Q</th><th>Total</th><th>Aprovação parcial</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>A — Intro SO & Arquitetura</td><td>01–08</td><td>5</td><td>40</td><td>≥ 5 acertos → ≥ 25 pts</td></tr>
+            <tr><td>B — Interface & Atalhos Win 11</td><td>09–16</td><td>5</td><td>40</td><td>≥ 5 acertos → ≥ 25 pts</td></tr>
+            <tr><td>C — Gerenciamento de Arquivos</td><td>17–20</td><td>5</td><td>20</td><td>≥ 3 acertos → ≥ 15 pts</td></tr>
+            <tr class="total"><td>TOTAL</td><td>20 questões</td><td>5</td><td>100</td><td>Nota = Total ÷ 10 · Aprovação: ≥ 6,0</td></tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div><!-- /sec-block C -->
+
+  </div><!-- /tab-teorica -->
+
+  <!-- ═══════════════════════════════════════════
+       TAB 2 — AVALIAÇÃO PRÁTICA
+  ═══════════════════════════════════════════ -->
+  <div class="tab-pane" id="tab-pratica">
+
+    <div class="score-overview">
+      <div class="score-card">
+        <div class="score-num">4</div>
+        <div class="score-label">TAREFAS</div>
+        <div class="score-sub">Execute no computador</div>
+      </div>
+      <div class="score-card">
+        <div class="score-num">100</div>
+        <div class="score-label">PONTOS TOTAL</div>
+        <div class="score-sub">30 + 30 + 25 + 15</div>
+      </div>
+      <div class="score-card">
+        <div class="score-num">60</div>
+        <div class="score-label">MÍN. APROVAÇÃO</div>
+        <div class="score-sub">Nota ≥ 6,0</div>
+      </div>
+    </div>
+
+    <!-- TAREFA 01 -->
+    <div class="task-card">
+      <div class="task-head">
+        <span class="task-n">TAREFA 01</span>
+        <span class="task-title">Identificando o Sistema e os Processos</span>
+        <span class="task-pts">30 pts · Seção A</span>
+      </div>
+      <div class="task-body">
+        <div class="task-context">Cenário: você foi contratado como estagiário de TI e precisa levantar as informações básicas do computador e os processos em execução.</div>
+
+        <ul class="step-list">
+          <li>
+            <span class="step-n">1</span>
+            <div class="step-content">
+              Pressione <code>Win + R</code>, digite <code>msinfo32</code> e confirme.
+              <div class="step-resp">✅ <strong>O que anotar:</strong> <em>Nome do SO</em> (ex: Windows 11 Home 23H2), <em>Versão do Windows</em> (número de build) e <em>Fabricante do processador</em> (Intel/AMD). Tudo está na tela inicial do System Information.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">2</span>
+            <div class="step-content">
+              Abra o Gerenciador de Tarefas com <code>Ctrl + Shift + Esc</code>. Na aba <strong>Desempenho</strong>, anote CPU e RAM.
+              <div class="step-resp">✅ <strong>O que anotar:</strong> Percentual de uso de CPU (ex: "12%") e RAM em uso (ex: "4,2 GB / 8,0 GB"). Os números variam — o que conta é estar na aba certa e anotar os dois.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">3</span>
+            <div class="step-content">
+              Na aba <strong>Detalhes</strong>, identifique 3 processos que você reconhece.
+              <div class="step-resp">✅ <strong>Exemplos válidos:</strong> chrome.exe (PID qualquer), explorer.exe, notepad.exe, taskmgr.exe, Code.exe, Teams.exe. Anote o <strong>nome exato</strong> e o <strong>PID</strong> (número na coluna ao lado).</div>
+              <div class="step-warn">⚠️ <strong>Erro comum:</strong> anotar processos de sistema que você "não reconhece" (ex: svchost.exe). O enunciado pede processos que você <em>reconhece</em> — use os de aplicativos abertos no momento.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">4</span>
+            <div class="step-content">
+              Tire um print da aba Detalhes com <code>Win + Shift + S</code> e cole no documento.
+              <div class="step-resp">✅ <strong>Critério de qualidade:</strong> print deve mostrar claramente as colunas Nome e PID. Recorte em tela inteira também é aceito. Cole diretamente no documento Word com <code>Ctrl+V</code>.</div>
+            </div>
+          </li>
+        </ul>
+
+        <table class="rubric-table">
+          <thead><tr><th>Critério</th><th class="pts-0">0 pts</th><th class="pts-p">Parcial</th><th class="pts-f">Completo (30)</th></tr></thead>
+          <tbody>
+            <tr><td>Info + Print</td><td class="pts-0">Sem prints ou dados</td><td class="pts-p">Dados parciais, print presente</td><td class="pts-f">Dados corretos, print nítido, 3 processos com PID</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /task 01 -->
+
+    <!-- TAREFA 02 -->
+    <div class="task-card">
+      <div class="task-head">
+        <span class="task-n">TAREFA 02</span>
+        <span class="task-title">Organizando Janelas com Snap Layouts</span>
+        <span class="task-pts">30 pts · Seção B</span>
+      </div>
+      <div class="task-body">
+        <div class="task-context">Cenário: um usuário de suporte precisa ver ao mesmo tempo o Explorador de Arquivos, o Bloco de Notas e o Gerenciador de Tarefas.</div>
+
+        <ul class="step-list">
+          <li>
+            <span class="step-n">1</span>
+            <div class="step-content">
+              Abra as 3 janelas: <strong>Explorador</strong> (<code>Win+E</code>), <strong>Bloco de Notas</strong> e <strong>Gerenciador de Tarefas</strong> (<code>Ctrl+Shift+Esc</code>).
+              <div class="step-resp">✅ Use os atalhos para abrir cada uma. O Bloco de Notas pode ser aberto pelo Iniciar (pesquise "Notepad") ou <code>Win+R</code> → <code>notepad</code>.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">2</span>
+            <div class="step-content">
+              Use o <strong>Snap Layouts</strong> — passe o mouse sobre ⬜ (Maximizar) — para organizar as 3 janelas lado a lado.
+              <div class="step-resp">✅ <strong>Layout recomendado:</strong> escolha o grid 3 colunas ou 1 grande + 2 pequenas. Não redimensione manualmente — o enunciado exige o Snap Layouts.</div>
+              <div class="step-warn">⚠️ <strong>Erro comum:</strong> organizar manualmente arrastando as bordas das janelas. Isso não usa o Snap Layouts e perde pontos no critério "Snap Layout utilizado".</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">3</span>
+            <div class="step-content">
+              Tire um print com as 3 janelas organizadas e cole no documento.
+              <div class="step-resp">✅ Print deve mostrar claramente as 3 janelas <em>ao mesmo tempo</em> na tela, organizadas pelo Snap — sem sobreposição.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">4</span>
+            <div class="step-content">
+              Responda por escrito: <em>"Qual atalho encaixa uma janela na metade esquerda da tela?"</em>
+              <div class="step-resp">✅ <strong>Resposta correta: <code>Win + ← (seta esquerda)</code></strong>. Esta é a mesma resposta da Q12 da prova teórica! Quem acertou lá, deve ter acertado aqui também.</div>
+            </div>
+          </li>
+        </ul>
+
+        <table class="rubric-table">
+          <thead><tr><th>Critério</th><th class="pts-0">0 pts</th><th class="pts-p">Parcial</th><th class="pts-f">Completo (30)</th></tr></thead>
+          <tbody>
+            <tr><td>Snap + Atalho</td><td class="pts-0">Janelas sobrepostas ou sem snap</td><td class="pts-p">2 janelas snapped, atalho errado</td><td class="pts-f">3 janelas organizadas + atalho correto + print claro</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /task 02 -->
+
+    <!-- TAREFA 03 -->
+    <div class="task-card">
+      <div class="task-head">
+        <span class="task-n">TAREFA 03</span>
+        <span class="task-title">Criando a Estrutura de Arquivos de uma Empresa</span>
+        <span class="task-pts">25 pts · Seção C</span>
+      </div>
+      <div class="task-body">
+        <div class="task-context">Cenário: você foi designado para organizar os arquivos de uma pequena empresa no computador local, seguindo boas práticas de nomenclatura e hierarquia profissional.</div>
+
+        <ul class="step-list">
+          <li>
+            <span class="step-n">1</span>
+            <div class="step-content">
+              Crie a estrutura em <code>C:\AvaliacaoPratica\</code> com subpastas <code>RH\</code>, <code>TI\</code> e <code>Backup\</code>.
+              <div class="step-resp">✅ Use <code>Win+E</code> → navegue até C:\ → <code>Ctrl+Shift+N</code> para cada pasta. Crie primeiro <code>AvaliacaoPratica</code>, depois entre nela e crie as três subpastas.</div>
+              <div class="step-warn">⚠️ <strong>Atenção ao nome:</strong> <code>AvaliacaoPratica</code> sem acentos e com letras maiúsculas conforme o enunciado. Mas os arquivos dentro devem seguir a regra: só minúsculas e underline.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">2</span>
+            <div class="step-content">
+              Crie os arquivos <code>.txt</code> dentro de <code>RH\</code> e <code>TI\</code> com os nomes corretos.
+              <div class="step-resp">✅ <strong>Arquivos em RH\:</strong> <code>contrato_joao_silva.txt</code>, <code>ferias_2026.txt</code>, <code>admissao_2026.txt</code><br>
+              <strong>Arquivos em TI\:</strong> <code>inventario_equipamentos.txt</code>, <code>chamados_suporte.txt</code><br>
+              Clique direito → Novo → Documento de Texto. Renomeie imediatamente removendo o ".txt" se necessário.</div>
+              <div class="step-warn">⚠️ <strong>Erros comuns de nomenclatura:</strong> usar espaços (<code>contrato joao.txt</code>), acentos (<code>férias.txt</code>) ou maiúsculas (<code>Contrato.txt</code>). Todos descontam pontos.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">3</span>
+            <div class="step-content">
+              Copie (<code>Ctrl+C</code> + <code>Ctrl+V</code>) a pasta <code>RH\</code> inteira para dentro de <code>Backup\</code>.
+              <div class="step-resp">✅ Selecione a pasta <code>RH</code> (clique uma vez), <code>Ctrl+C</code>, abra <code>Backup\</code>, <code>Ctrl+V</code>. Confirme que a <code>RH\</code> original ainda existe em <code>AvaliacaoPratica\</code> — o enunciado pede que o original seja preservado.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">4</span>
+            <div class="step-content">
+              Renomeie (<code>F2</code>) o arquivo <code>chamados_suporte.txt</code> para <code>2026-04_chamados_suporte.txt</code>.
+              <div class="step-resp">✅ Clique uma vez no arquivo → pressione <code>F2</code> → edite o nome adicionando <code>2026-04_</code> no início → Enter. O hífen é parte do nome — não use underline aqui.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">5</span>
+            <div class="step-content">
+              Tire um print do Explorador mostrando a estrutura completa.
+              <div class="step-resp">✅ Expanda todas as pastas no painel esquerdo do Explorador para mostrar a hierarquia completa. O print deve mostrar <code>AvaliacaoPratica → RH</code>, <code>TI</code>, <code>Backup → RH</code> e os arquivos.</div>
+            </div>
+          </li>
+        </ul>
+
+        <table class="rubric-table">
+          <thead><tr><th>Critério</th><th class="pts-0">0 pts (0–5)</th><th class="pts-p">Parcial (6–18)</th><th class="pts-f">Completo (19–25)</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Estrutura + Nomenclatura + Operações</td>
+              <td class="pts-0">Estrutura incorreta, nomes errados, operações não realizadas</td>
+              <td class="pts-p">Estrutura correta mas com erros de nomenclatura ou operação incompleta</td>
+              <td class="pts-f">Estrutura perfeita, nomes corretos, cópia + renomeação + print</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /task 03 -->
+
+    <!-- TAREFA 04 -->
+    <div class="task-card">
+      <div class="task-head">
+        <span class="task-n">TAREFA 04</span>
+        <span class="task-title">Investigando Atributos e Exclusão Segura</span>
+        <span class="task-pts">15 pts · Seção D</span>
+      </div>
+      <div class="task-body">
+        <div class="task-context">Cenário: como técnico, você precisa proteger um arquivo importante de edições acidentais e entender como funciona a exclusão segura.</div>
+
+        <ul class="step-list">
+          <li>
+            <span class="step-n">1–2</span>
+            <div class="step-content">
+              Abra <code>contrato_joao_silva.txt</code>, tente editar, salve. Depois marque como <strong>"Somente leitura"</strong> (botão direito → Propriedades → atributo Somente leitura → OK).
+              <div class="step-resp">✅ O atributo Somente leitura fica na aba <strong>Geral</strong> das Propriedades, no rodapé "Atributos". Marque a caixa e clique OK.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">3</span>
+            <div class="step-content">
+              Tente editar e salvar novamente o arquivo marcado. Anote a mensagem de erro.
+              <div class="step-resp">✅ <strong>Mensagem esperada:</strong> <em>"Acesso negado"</em> ou <em>"O arquivo é somente leitura. Deseja salvar em outro lugar?"</em> (o Bloco de Notas pergunta onde salvar). <strong>Ambas as respostas são aceitas.</strong></div>
+              <div class="step-warn">⚠️ Se o Bloco de Notas perguntou "Salvar como?", isso também conta! Anote o que apareceu na sua tela.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">4</span>
+            <div class="step-content">
+              Exclua <code>ferias_2026.txt</code> com a tecla <code>Delete</code>. Abra a <strong>Lixeira</strong> e restaure o arquivo. Verifique que voltou para <code>RH\</code>.
+              <div class="step-resp">✅ Na Lixeira: clique direito no arquivo → <strong>Restaurar</strong>. O arquivo voltará automaticamente para a pasta original <code>C:\AvaliacaoPratica\RH\</code>. Verifique no Explorador.</div>
+              <div class="step-warn">⚠️ Se você usou <code>Shift+Delete</code> acidentalmente, o arquivo foi excluído permanentemente (sem Lixeira). Nesse caso, crie o arquivo novamente e repita o processo com <code>Delete</code> simples.</div>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">5</span>
+            <div class="step-content">
+              Tire um print das Propriedades do arquivo com atributo "Somente leitura" marcado.
+              <div class="step-resp">✅ O print deve mostrar a caixa "Somente leitura" marcada na janela Propriedades do arquivo. Certifique-se de que o nome do arquivo aparece no título da janela.</div>
+            </div>
+          </li>
+        </ul>
+
+        <table class="rubric-table">
+          <thead><tr><th>Critério</th><th class="pts-0">0 pts</th><th class="pts-p">Parcial</th><th class="pts-f">Completo (15)</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Atributo + Restauro</td>
+              <td class="pts-0">Atributo não aplicado, restauro não realizado</td>
+              <td class="pts-p">Atributo aplicado mas sem mensagem de erro anotada, ou restauro sem verificação</td>
+              <td class="pts-f">Atributo + mensagem de erro + restauro verificado + print das propriedades</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /task 04 -->
+
+  </div><!-- /tab-pratica -->
+
+  <!-- ═══════════════════════════════════════════
+       TAB 3 — ERROS FREQUENTES
+  ═══════════════════════════════════════════ -->
+  <div class="tab-pane" id="tab-erros">
+
+    <div class="sec-label">⚠️ O que mais derrubou pontos</div>
+    <h2 class="section-title">Erros Mais Comuns</h2>
+    <p class="section-desc">Estes foram os padrões de erro mais observados. Se você errou algum deles, leia a explicação e grave a correção para as próximas avaliações.</p>
+
+    <div class="err-list">
+
+      <div class="err-item">
+        <span class="err-icon">📝</span>
+        <div class="err-content">
+          <h4>Prova Teórica — Q03: Confundir erro de aplicativo com erro de Kernel</h4>
+          <p>Muitos marcaram A) "Apenas o aplicativo com erro é encerrado". Isso acontece com erros em <em>User Mode</em> — quando o Chrome trava, por exemplo. Erro no <strong>Kernel Mode</strong> é diferente: afeta o sistema inteiro e gera BSOD.</p>
+          <span class="err-fix">✅ Lembrete: Kernel = sistema inteiro · User Mode = só o app</span>
+        </div>
+      </div>
+
+      <div class="err-item">
+        <span class="err-icon">🔀</span>
+        <div class="err-content">
+          <h4>Prova Teórica — Q19: Arrastar = Mover (mesmo disco)</h4>
+          <p>Muitos marcaram A) "o arquivo é copiado". A confusão é natural, mas no Windows arrastar entre pastas do <strong>mesmo disco</strong> move o arquivo. Arrastar entre discos diferentes copia.</p>
+          <span class="err-fix">✅ Segure Ctrl ao arrastar para SEMPRE copiar, independente do disco</span>
+        </div>
+      </div>
+
+      <div class="err-item">
+        <span class="err-icon">🏷️</span>
+        <div class="err-content">
+          <h4>Prova Prática — Tarefa 03: Erros de nomenclatura nos arquivos</h4>
+          <p>Arquivos criados com espaços (<code>contrato joao silva.txt</code>), acentos (<code>férias_2026.txt</code>) ou letras maiúsculas (<code>Contrato_Joao.txt</code>). A regra é clara: <strong>só minúsculas, underline e sem acentos</strong>.</p>
+          <span class="err-fix">✅ Padrão correto: contrato_joao_silva.txt (snake_case)</span>
+        </div>
+      </div>
+
+      <div class="err-item">
+        <span class="err-icon">📐</span>
+        <div class="err-content">
+          <h4>Prova Prática — Tarefa 02: Organizar janelas manualmente em vez de usar Snap Layouts</h4>
+          <p>Arrastar as bordas das janelas para organizar parece funcionar, mas o enunciado exige especificamente o uso do <strong>Snap Layouts</strong> (menu que aparece ao passar o mouse sobre o botão Maximizar). Organizar à mão não atende ao critério.</p>
+          <span class="err-fix">✅ Sempre use o ícone ⬜ (Maximizar) para acessar o Snap Layouts</span>
+        </div>
+      </div>
+
+      <div class="err-item">
+        <span class="err-icon">🗑️</span>
+        <div class="err-content">
+          <h4>Prova Prática — Tarefa 04: Usar Shift+Delete acidentalmente</h4>
+          <p>Alguns alunos usaram <code>Shift+Delete</code> no passo de exclusão, o que remove o arquivo <em>permanentemente</em> sem passar pela Lixeira. O exercício pede exclusão comum (<code>Delete</code>) justamente para demonstrar a função de restauro.</p>
+          <span class="err-fix">✅ Delete simples → Lixeira · Shift+Delete → exclusão permanente (sem volta!)</span>
+        </div>
+      </div>
+
+      <div class="err-item">
+        <span class="err-icon">🖼️</span>
+        <div class="err-content">
+          <h4>Geral: Prints fora do contexto ou de baixa qualidade</h4>
+          <p>Prints muito pequenos, cortados ou sem mostrar as informações pedidas. Lembre-se: o print é a <em>evidência</em> de que você executou a tarefa. Se não aparecer claramente, não conta.</p>
+          <span class="err-fix">✅ Use Win+Shift+S para recorte de tela com qualidade e cole direto no Word</span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /tab-erros -->
+
+  <!-- ═══════════════════════════════════════════
+       TAB 4 — DICAS
+  ═══════════════════════════════════════════ -->
+  <div class="tab-pane" id="tab-dicas">
+
+    <div class="sec-label">💡 Para as próximas avaliações</div>
+    <h2 class="section-title">Dicas & Atalhos Essenciais</h2>
+    <p class="section-desc">Um resumo dos atalhos e conceitos mais cobrados. Guarde esses atalhos — eles aparecem em provas teóricas E práticas.</p>
+
+    <div class="tips-grid">
+
+      <div class="tip-card" style="border-top-color:#2563eb;">
+        <div class="tip-icon">⌨️</div>
+        <div class="tip-title">Atalhos de Sistema</div>
+        <div class="tip-text">
+          <code>Win+R</code> → Executar<br>
+          <code>Win+E</code> → Explorador<br>
+          <code>Win+D</code> → Área de trabalho<br>
+          <code>Win+L</code> → Bloquear<br>
+          <code>Ctrl+Shift+Esc</code> → Gerenciador de Tarefas<br>
+          <code>Win+Shift+S</code> → Print de área
+        </div>
+      </div>
+
+      <div class="tip-card" style="border-top-color:#16a34a;">
+        <div class="tip-icon">📐</div>
+        <div class="tip-title">Atalhos de Snap</div>
+        <div class="tip-text">
+          <code>Win+←</code> → Encaixa à esquerda<br>
+          <code>Win+→</code> → Encaixa à direita<br>
+          <code>Win+↑</code> → Maximiza<br>
+          <code>Win+↓</code> → Minimiza<br>
+          <code>Win+Z</code> → Abre menu Snap Layouts<br>
+          Mouse sobre ⬜ → Snap visual
+        </div>
+      </div>
+
+      <div class="tip-card" style="border-top-color:#d97706;">
+        <div class="tip-icon">📁</div>
+        <div class="tip-title">Atalhos no Explorador</div>
+        <div class="tip-text">
+          <code>Ctrl+C</code> → Copiar<br>
+          <code>Ctrl+X</code> → Recortar<br>
+          <code>Ctrl+V</code> → Colar<br>
+          <code>Ctrl+Shift+N</code> → Nova pasta<br>
+          <code>F2</code> → Renomear<br>
+          <code>Delete</code> → Lixeira · <code>Shift+Del</code> → Permanente
+        </div>
+      </div>
+
+      <div class="tip-card" style="border-top-color:#7c3aed;">
+        <div class="tip-icon">📋</div>
+        <div class="tip-title">Nomenclatura Profissional</div>
+        <div class="tip-text">
+          ✅ <code>relatorio_mensal.txt</code><br>
+          ✅ <code>2026-04_chamados.txt</code><br>
+          ❌ <code>Relatório Mensal.txt</code> (espaços + acento)<br>
+          ❌ <code>relatorioMensal.txt</code> (camelCase)<br><br>
+          <strong>Regra:</strong> só minúsculas, underline, sem acentos, sem espaços.
+        </div>
+      </div>
+
+      <div class="tip-card" style="border-top-color:#dc2626;">
+        <div class="tip-icon">🧠</div>
+        <div class="tip-title">Kernel vs User Mode</div>
+        <div class="tip-text">
+          <strong>Kernel Mode:</strong> acesso total ao hardware. Erro = BSOD (tela azul). Exemplos: drivers, serviços do SO.<br><br>
+          <strong>User Mode:</strong> acesso restrito. Erro = só o app fecha. Exemplos: Chrome, Word, Bloco de Notas.<br><br>
+          Isso explica por que apps podem travar sem derrubar o Windows.
+        </div>
+      </div>
+
+      <div class="tip-card" style="border-top-color:#0891b2;">
+        <div class="tip-icon">💾</div>
+        <div class="tip-title">Processos & Memória</div>
+        <div class="tip-text">
+          <strong>PID:</strong> número único de cada processo.<br>
+          <strong>Estado Bloqueado:</strong> aguardando rede/disco/input.<br>
+          <strong>RAM cheia:</strong> Windows usa arquivo de paginação (disco).<br>
+          <strong>Ver processos:</strong> Gerenciador → aba Detalhes.<br><br>
+          Aba Desempenho = gráficos de CPU e RAM em tempo real.
+        </div>
+      </div>
+
+    </div>
+
+    <div style="background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-200);padding:24px;margin-top:28px;border-left:4px solid var(--accent);">
+      <h3 style="font-size:1em;font-weight:700;color:var(--navy);margin-bottom:10px;">🎯 Estratégia para a Avaliação 2 (S12 — PowerShell)</h3>
+      <p style="font-size:.87em;color:var(--gray-600);line-height:1.6;">Na próxima avaliação o foco será em <strong>scripts PowerShell</strong>. Reforce: cmdlets básicos (<code>Get-</code>, <code>Set-</code>, <code>New-</code>), pipeline (<code>|</code>), variáveis (<code>$variavel</code>) e o uso do <strong>PowerShell ISE</strong>. Os conceitos de arquivos e processos desta avaliação continuarão aparecendo — agora via linha de comando.</p>
+    </div>
+
+  </div><!-- /tab-dicas -->
+
+</div><!-- /container -->
+
+<footer>
+  <p><strong>GSO I 2026 · Gestão de Sistemas Operacionais I</strong></p>
+  <p style="margin-top:4px;">Aula de Correção — Avaliação 1 · Semanas 01–06 · Prof. Isaque Katahira</p>
+</footer>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top: document.querySelector('.tabs-bar').offsetTop - 10, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
