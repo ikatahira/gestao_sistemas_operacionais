@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>PowerShell - Guia Prático - Prof. Isaque Katahira</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.4; padding: 20px; color: #222; }
+        
+        /* Cabeçalho Personalizado */
+        .header-info { border-bottom: 2px solid #002060; margin-bottom: 20px; padding-bottom: 10px; }
+        .header-info h1 { color: #002060; margin: 0; font-size: 24px; text-transform: uppercase; }
+        .header-info p { margin: 5px 0; font-weight: bold; color: #444; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { border: 1px solid #777; padding: 6px 8px; text-align: left; }
+        th { background-color: #002060; color: white; text-transform: uppercase; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        code { background-color: #f0f0f0; padding: 2px 4px; border-radius: 3px; font-family: 'Consolas', monospace; font-weight: bold; color: #c00; }
+        .example { font-family: 'Consolas', monospace; color: #005a9e; font-size: 11px; white-space: nowrap; }
+        
+        .no-print {
+            display: block;
+            width: 250px;
+            margin: 0 auto 30px auto;
+            background-color: #0078d4;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .no-print:hover { background-color: #005a9e; }
+
+        @media print {
+            .no-print { display: none; }
+            body { padding: 0; }
+            .header-info { border-bottom: 3px solid #000; }
+            table { border: 1px solid #000; }
+            th { background-color: #ddd !important; color: #000; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-info">
+        <h1>Guia de Referência: PowerShell</h1>
+        <p>Disciplina: Gestão de Sistemas Operacionais I</p>
+        <p>Professor: Isaque Katahira</p>
+    </div>
+    
+    <button class="no-print" onclick="window.print()">🖨️ Imprimir Guia de Aula</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Comando</th>
+                <th>Função / Utilidade</th>
+                <th>Exemplo Prático de Aplicação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>Get-Help</code></td><td>Ajuda e documentação.</td><td class="example">Get-Help Get-Service -Full</td></tr>
+            <tr><td><code>Get-Command</code></td><td>Localiza comandos instalados.</td><td class="example">Get-Command *process*</td></tr>
+            <tr><td><code>Get-Service</code></td><td>Lista serviços do Windows.</td><td class="example">Get-Service | Where Status -eq "Running"</td></tr>
+            <tr><td><code>Start-Service</code></td><td>Inicia um serviço parado.</td><td class="example">Start-Service -Name "Spooler"</td></tr>
+            <tr><td><code>Stop-Service</code></td><td>Interrompe um serviço.</td><td class="example">Stop-Service -Name "wuauserv"</td></tr>
+            <tr><td><code>Get-Process</code></td><td>Exibe processos ativos.</td><td class="example">Get-Process | Sort-Object CPU -Desc</td></tr>
+            <tr><td><code>Stop-Process</code></td><td>Finaliza uma tarefa/ID.</td><td class="example">Stop-Process -Name "notepad"</td></tr>
+            <tr><td><code>Get-ChildItem</code></td><td>Lista arquivos e pastas.</td><td class="example">Get-ChildItem -Path "C:\" -Filter *.log</td></tr>
+            <tr><td><code>New-Item</code></td><td>Cria novos objetos.</td><td class="example">New-Item -Path "C:\aula" -ItemType Directory</td></tr>
+            <tr><td><code>Copy-Item</code></td><td>Copia arquivos/pastas.</td><td class="example">Copy-Item "file.txt" -Destination "D:\"</td></tr>
+            <tr><td><code>Move-Item</code></td><td>Move ou renomeia itens.</td><td class="example">Move-Item "doc.txt" "backup.txt"</td></tr>
+            <tr><td><code>Remove-Item</code></td><td>Exclui arquivos/pastas.</td><td class="example">Remove-Item ".\temp" -Recurse</td></tr>
+            <tr><td><code>Get-Content</code></td><td>Lê conteúdo de arquivos.</td><td class="example">Get-Content "server.log" -Wait</td></tr>
+            <tr><td><code>Set-Content</code></td><td>Grava dados em arquivo.</td><td class="example">Set-Content "ip.txt" -Value "192.168.1.1"</td></tr>
+            <tr><td><code>Test-Connection</code></td><td>Testa conectividade (Ping).</td><td class="example">Test-Connection 8.8.8.8 -Count 4</td></tr>
+            <tr><td><code>Invoke-WebRequest</code></td><td>Requisição HTTP (Web).</td><td class="example">Invoke-WebRequest -Uri "http://google.com"</td></tr>
+            <tr><td><code>Get-History</code></td><td>Comandos da sessão atual.</td><td class="example">Get-History | Select-Object -Last 10</td></tr>
+            <tr><td><code>Export-Csv</code></td><td>Exporta dados para CSV.</td><td class="example">Get-Service | Export-Csv "services.csv"</td></tr>
+            <tr><td><code>Where-Object</code></td><td>Filtra resultados.</td><td class="example">Get-Process | Where CPU -gt 100</td></tr>
+            <tr><td><code>Select-Object</code></td><td>Filtra colunas/dados.</td><td class="example">Get-Process | Select Name, CPU, Id</td></tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
