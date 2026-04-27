@@ -20,7 +20,7 @@ html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 .hud{position:sticky;top:0;z-index:200;background:rgba(13,17,23,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:10px 24px;}
-.hud-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.hud-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .hud-week{font-family:'DM Mono',monospace;font-size:.78em;background:var(--purple-dim);color:var(--purple);border:1px solid rgba(188,140,255,.3);border-radius:50px;padding:4px 12px;white-space:nowrap;}
 .hud-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1em;color:var(--text);flex:1;min-width:0;}
 .hud-title span{color:var(--purple);}
@@ -29,7 +29,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .progress-bar-outer{height:6px;background:var(--surface2);border-radius:3px;flex:1;min-width:80px;}
 .progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:3px;transition:width .5s ease;width:0%;}
 .hero{position:relative;overflow:hidden;padding:60px 24px 48px;text-align:center;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,--purple-dim,transparent 70%);}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(42,31,66,.8),transparent 70%);}
 .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(57,211,83,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(57,211,83,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
 .hero-inner{position:relative;max-width:700px;margin:0 auto;}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600;color:var(--purple);margin-bottom:18px;}
@@ -39,7 +39,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .hero-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
 .pill{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.82em;}
 .pill.green{border-color:rgba(57,211,83,.3);color:var(--green);}.pill.blue{border-color:rgba(88,166,255,.3);color:var(--blue);}.pill.purple{border-color:rgba(188,140,255,.3);color:var(--purple);}
-.container{max-width:900px;margin:0 auto;padding:0 24px 60px;}
+.container{max-width:960px;margin:0 auto;padding:0 24px 60px;}
 .section-header{display:flex;align-items:center;gap:10px;margin:40px 0 16px;}
 .section-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0;}
 .section-icon.green{background:var(--green-dim);border:1px solid rgba(57,211,83,.3);}.section-icon.blue{background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);}.section-icon.purple{background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);}.section-icon.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.3);}
@@ -59,13 +59,104 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .cc-icon{font-size:1.3em;}.cc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--text);flex:1;}
 .cc-xp{font-family:'DM Mono',monospace;font-size:.73em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:2px 9px;}
 .cc-chevron{color:var(--text-dim);transition:transform .3s;font-size:.85em;}.cc-header.open .cc-chevron{transform:rotate(180deg);}
-.cc-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}.cc-body.open{max-height:1200px;padding:20px;}
+.cc-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .5s ease,padding .3s;}.cc-body.open{max-height:9000px;padding:20px;}
 .key-point{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}.key-point:last-of-type{border:none;}
 .kp-icon{font-size:1em;flex-shrink:0;margin-top:2px;}.kp-text{font-size:.88em;color:var(--text-muted);line-height:1.5;}.kp-text strong{color:var(--text);}
 .tip-box{background:rgba(57,211,83,.05);border:1px solid rgba(57,211,83,.2);border-radius:var(--r-sm);padding:12px 14px;margin-top:14px;display:flex;gap:10px;}.tip-box p{font-size:.85em;color:var(--text-muted);}.tip-box p strong{color:var(--green);}
 .warn-box{background:rgba(240,180,41,.05);border:1px solid rgba(240,180,41,.2);border-radius:var(--r-sm);padding:12px 14px;margin-top:10px;display:flex;gap:10px;}.warn-box p{font-size:.85em;color:var(--text-muted);}.warn-box p strong{color:var(--amber);}
-.shortcut-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}.shortcut{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:6px 12px;font-size:.82em;}
-.shortcut kbd{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-family:'DM Mono',monospace;font-size:.88em;color:var(--blue);}.shortcut span{color:var(--text-muted);}
+
+/* ===== STEP-BY-STEP COMPONENT ===== */
+.steps-wrapper{margin:16px 0;}
+.step-item{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+.step-num{width:32px;height:32px;background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));border:2px solid rgba(188,140,255,.4);color:var(--purple);border-radius:50%;font-size:.82em;font-weight:800;font-family:'DM Mono',monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step-body{flex:1;}
+.step-body p{font-size:.88em;color:var(--text-muted);line-height:1.6;margin-bottom:8px;}
+.step-body p strong{color:var(--text);}
+.step-connector{width:2px;background:linear-gradient(180deg,rgba(188,140,255,.3),transparent);margin:0 15px;height:16px;}
+
+/* ===== WIN11 SCREENSHOT SIMULATION ===== */
+.win11-screen{border-radius:10px;overflow:hidden;margin:14px 0;box-shadow:0 8px 32px rgba(0,0,0,.6);border:1px solid #333;}
+.win11-taskbar{background:rgba(20,20,30,.95);padding:6px 0;display:flex;justify-content:center;align-items:center;gap:6px;border-top:1px solid #333;}
+.win11-taskbar-icon{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1em;}
+.win11-taskbar-icon.active{background:rgba(255,255,255,.1);}
+.win11-desktop{background:linear-gradient(135deg,#1a237e 0%,#0d1b4b 40%,#0a1628 100%);padding:12px;min-height:60px;position:relative;}
+.win11-startbtn{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);}
+
+/* Win11 Start Menu simulation */
+.win11-start{background:#1a1a2e;border:1px solid #333;border-radius:12px;padding:20px;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.8);}
+.win11-start-search{background:#2a2a3e;border:1px solid #444;border-radius:8px;padding:8px 14px;color:#aaa;font-size:.82em;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.win11-start-section{font-size:.72em;color:#666;font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;}
+.win11-pinned{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.win11-app{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px;border-radius:8px;cursor:pointer;transition:background .2s;}
+.win11-app:hover{background:rgba(255,255,255,.08);}
+.win11-app-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1em;}
+.win11-app-name{font-size:.65em;color:#ccc;text-align:center;}
+.win11-highlight{background:rgba(0,120,215,.15);border:1px solid rgba(0,120,215,.4);}
+
+/* PowerShell terminal simulation */
+.ps-window{border-radius:8px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.8);}
+.ps-titlebar{background:#2d2d2d;padding:8px 14px;display:flex;align-items:center;gap:10px;}
+.ps-titlebar-icon{width:20px;height:20px;border-radius:4px;background:linear-gradient(135deg,#012456,#012456);display:flex;align-items:center;justify-content:center;font-size:.75em;}
+.ps-titlebar-title{font-size:.78em;color:#ccc;flex:1;}
+.ps-win-btns{display:flex;gap:6px;}
+.ps-win-btn{width:12px;height:12px;border-radius:50%;display:inline-block;}
+.ps-win-btn.close{background:#ff5f57;}.ps-win-btn.min{background:#febc2e;}.ps-win-btn.max{background:#28c840;}
+.ps-body{background:#012456;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.78em;line-height:1.7;min-height:80px;}
+.ps-prompt{color:#eeedf0;}.ps-cmd{color:#ffff00;}.ps-output{color:#cccccc;display:block;margin-left:0;}.ps-output-green{color:#4ec94e;display:block;}.ps-output-blue{color:#6bceff;display:block;}.ps-output-header{color:#ffffff;font-weight:700;display:block;margin-top:4px;}.ps-cursor{display:inline-block;width:8px;height:14px;background:#fff;animation:blink 1s step-end infinite;vertical-align:text-bottom;}
+@keyframes blink{50%{opacity:0;}}
+.ps-line{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:2px;}
+.ps-error{color:#ff6b6b;display:block;}
+.ps-success{color:#4ec94e;display:block;}
+
+/* UAC dialog simulation */
+.uac-overlay{background:rgba(0,0,0,.7);border-radius:10px;padding:20px;margin:14px 0;}
+.uac-dialog{background:#f0f0f0;border-radius:8px;overflow:hidden;max-width:380px;margin:0 auto;box-shadow:0 8px 32px rgba(0,0,0,.5);}
+.uac-header{background:#003399;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.uac-header-icon{font-size:1.4em;}
+.uac-header-text{color:white;font-size:.85em;font-weight:600;}
+.uac-body{padding:16px;background:#fafafa;}
+.uac-question{font-size:.88em;color:#333;font-weight:600;margin-bottom:10px;}
+.uac-app-info{background:#e8f4f8;border:1px solid #b8d4e8;border-radius:6px;padding:10px 14px;margin-bottom:14px;}
+.uac-app-info p{font-size:.78em;color:#333;line-height:1.5;}
+.uac-app-name{font-weight:700;color:#003399;}
+.uac-buttons{display:flex;gap:8px;justify-content:flex-end;}
+.uac-btn{padding:6px 20px;border-radius:4px;font-size:.82em;font-weight:600;border:none;cursor:pointer;}
+.uac-btn-yes{background:#003399;color:white;}.uac-btn-no{background:#e0e0e0;color:#333;}
+
+/* Right-click menu */
+.ctx-menu{background:#2d2d2d;border:1px solid #444;border-radius:8px;overflow:hidden;max-width:220px;box-shadow:0 8px 24px rgba(0,0,0,.6);margin:14px auto;}
+.ctx-item{padding:8px 14px;font-size:.78em;color:#eee;display:flex;align-items:center;gap:8px;cursor:pointer;transition:background .15s;}
+.ctx-item:hover,.ctx-item.highlighted{background:rgba(0,120,215,.3);}
+.ctx-divider{border:none;border-top:1px solid #444;margin:3px 0;}
+
+/* Annotation bubble */
+.annotation{display:flex;gap:10px;align-items:flex-start;background:rgba(88,166,255,.07);border:1px solid rgba(88,166,255,.2);border-radius:var(--r-sm);padding:10px 14px;margin:8px 0;}
+.annotation-arrow{font-size:1.3em;flex-shrink:0;line-height:1.3;}
+.annotation p{font-size:.83em;color:var(--text-muted);line-height:1.5;}
+.annotation p strong{color:var(--blue);}
+
+/* Important callout */
+.important-box{background:rgba(248,81,73,.06);border:1px solid rgba(248,81,73,.25);border-left:3px solid var(--red);border-radius:var(--r-sm);padding:12px 16px;margin:12px 0;}
+.important-box p{font-size:.85em;color:var(--text-muted);}
+.important-box p strong{color:var(--red);}
+
+/* Success box */
+.success-box{background:rgba(57,211,83,.06);border:1px solid rgba(57,211,83,.25);border-left:3px solid var(--green);border-radius:var(--r-sm);padding:12px 16px;margin:12px 0;}
+.success-box p{font-size:.85em;color:var(--text-muted);}
+.success-box p strong{color:var(--green);}
+
+/* Screen label */
+.screen-label{font-size:.72em;color:var(--text-dim);text-align:center;margin:-8px 0 14px;font-family:'DM Mono',monospace;}
+
+/* Compare table */
+.compare-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.84em;}
+.compare-table th{background:var(--surface2);color:var(--text);padding:9px 12px;text-align:left;border:1px solid var(--border);}
+.compare-table td{padding:8px 12px;border:1px solid var(--border);color:var(--text-muted);vertical-align:top;}
+.compare-table tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+.compare-table .ps-cell{color:var(--green);font-family:'DM Mono',monospace;}
+.compare-table .cmd-cell{color:var(--amber);font-family:'DM Mono',monospace;}
+
+/* Quiz */
 .quiz-wrapper{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px;}
 .quiz-header{background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));border-bottom:1px solid var(--border);padding:20px 24px;display:flex;align-items:center;gap:12px;}
 .quiz-icon{font-size:1.8em;}.quiz-header-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05em;}.quiz-header-text p{font-size:.82em;color:var(--text-muted);margin-top:2px;}
@@ -88,6 +179,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .quiz-result{text-align:center;padding:10px 0;}.quiz-result .score{font-family:'Syne',sans-serif;font-size:3em;font-weight:800;color:var(--xp);}.quiz-result .score-label{color:var(--text-muted);font-size:.9em;margin-bottom:16px;}
 .quiz-result .xp-earn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:50px;padding:6px 16px;color:var(--xp);font-weight:700;font-size:1em;margin-bottom:20px;}
 .quiz-restart{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:var(--r-sm);padding:9px 20px;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:.88em;transition:all .2s;}.quiz-restart:hover{border-color:var(--blue);color:var(--blue);}
+
+/* Missions */
 .missions-grid{display:flex;flex-direction:column;gap:14px;}
 .mission-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;gap:16px;align-items:flex-start;transition:all .2s;position:relative;overflow:hidden;}
 .mission-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--purple),var(--blue));}
@@ -115,7 +208,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .res-icon{font-size:1.4em;margin-bottom:7px;}.res-title{font-weight:600;font-size:.85em;margin-bottom:3px;}.res-desc{font-size:.78em;color:var(--text-muted);}
 .star{position:fixed;pointer-events:none;font-size:1.4em;animation:floatStar 1.5s ease forwards;z-index:9999;}
 @keyframes floatStar{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.5);}}
-.footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--text-dim);font-size:.8em;max-width:900px;margin:0 auto;}
+.footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--text-dim);font-size:.8em;max-width:960px;margin:0 auto;}
+
+/* Shortcut keys */
+.shortcut-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.shortcut{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:6px 12px;font-size:.82em;}
+.shortcut kbd{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-family:'DM Mono',monospace;font-size:.88em;color:var(--blue);}
+.shortcut span{color:var(--text-muted);}
+
 @media(max-width:640px){.hud-title{display:none;}.obj-grid{grid-template-columns:1fr 1fr;}.container{padding:0 14px 40px;}.quiz-body{padding:16px;}}
 </style>
 </head>
@@ -124,7 +224,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 <header class="hud">
   <div class="hud-inner">
     <span class="hud-week">S08/20</span>
-    <span class="hud-title">Introdução ao PowerShell...</span>
+    <span class="hud-title">Introdução ao <span>PowerShell</span></span>
     <div class="hud-xp"><span class="xp-icon">⚡</span><span class="xp-val" id="xpDisplay">0</span><span class="xp-label">XP</span></div>
     <div class="progress-bar-outer" style="max-width:120px;"><div class="progress-bar-inner" id="mainProgress"></div></div>
   </div>
@@ -146,20 +246,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
     <span class="nav-spacer"></span>
     <a href="semana09_aula.html" class="nav-btn btn-primary">Próxima →</a>
   </nav>
+
+  <!-- OBJECTIVES -->
   <div class="section-header"><div class="section-icon green">🎯</div><h2 class="section-title">O que você vai aprender hoje</h2><span class="section-xp">+40 XP</span></div>
   <div class="obj-grid" id="objGrid">
-    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">1</div><span class="obj-text">Compreender o que é PowerShell e sua importância</span></div>
-<div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">2</div><span class="obj-text">Configurar o ambiente PowerShell para uso profissional</span></div>
-<div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">3</div><span class="obj-text">Executar os primeiros cmdlets básicos</span></div>
-<div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">4</div><span class="obj-text">Entender a estrutura Verbo-Substantivo dos cmdlets</span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">1</div><span class="obj-text">Abrir o PowerShell no Windows 11 passo a passo</span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">2</div><span class="obj-text">Entender o que é o PowerShell e por que ele existe</span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">3</div><span class="obj-text">Executar seus primeiros cmdlets com segurança</span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">4</div><span class="obj-text">Navegar em pastas e ver arquivos pelo terminal</span></div>
   </div>
   <p style="font-size:.8em;color:var(--text-dim);margin-bottom:4px;">💡 Clique nos objetivos conforme for aprendendo para ganhar XP!</p>
   <div class="lore-card" style="margin-top:24px;">
     <div class="lore-emoji">🧭</div>
-    <div class="lore-body"><strong>Por que isso importa?</strong><p>Cada habilidade desta aula aparece no trabalho real de suporte técnico. Dominar esses conceitos vai te destacar no mercado de trabalho desde o primeiro estágio!</p></div>
+    <div class="lore-body"><strong>Por que isso importa?</strong><p>Nunca usou terminal? Perfeito — você está no lugar certo! Nesta aula vamos do zero absoluto. Cada print mostra exatamente o que você vai ver na sua tela. Segue o passo a passo e não vai errar!</p></div>
   </div>
+
+  <!-- CONTENT CARDS -->
   <div class="section-header"><div class="section-icon blue">📖</div><h2 class="section-title">Conteúdo da Aula</h2><span class="section-xp">+80 XP</span></div>
-  
+
+  <!-- CARD 1: O que é PowerShell -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">💻</span>
@@ -168,29 +273,166 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
       <span class="cc-chevron">▼</span>
     </div>
     <div class="cc-body">
-      <p>PowerShell é uma <strong>linguagem de script e shell</strong> desenvolvida pela Microsoft. É a ferramenta padrão para automação no mundo Windows!</p>
-             <div class="key-point"><span class="kp-icon">🔄</span><div class="kp-text">Diferente do Prompt de Comando (cmd) antigo, o PowerShell é <strong>orientado a objetos</strong> — trabalha com objetos .NET, não apenas texto.</div></div>
-             <div class="key-point"><span class="kp-icon">☁️</span><div class="kp-text">É a ferramenta padrão para gerenciar <strong>Windows, Azure e Microsoft 365</strong>. Todo admin de TI precisa saber!</div></div>
-             <div class="key-point"><span class="kp-icon">🌍</span><div class="kp-text"><strong>PowerShell 7+</strong> é multiplataforma — funciona no Windows, Linux e macOS! (instale separado do 5.1 nativo)</div></div>
-             <div class="tip-box"><span class="tip-icon">🚀</span><p><strong>Para abrir:</strong> Win + X → Terminal do Windows. Ou pesquise "PowerShell" no menu Iniciar. Dica: abra sempre <strong>como Administrador</strong> para ter acesso total!</p></div>
+      <p>PowerShell é a <strong>linha de comando moderna do Windows</strong>. Em vez de usar o mouse para clicar em menus, você <strong>digita comandos</strong> que fazem o computador trabalhar para você.</p>
+
+      <div class="key-point"><span class="kp-icon">🤔</span><div class="kp-text"><strong>Por que aprender isso?</strong> Tarefas que levariam 1 hora clicando em menus, levam 5 segundos com um comando. É como ter um controle remoto ultra-poderoso do Windows.</div></div>
+      <div class="key-point"><span class="kp-icon">🔄</span><div class="kp-text"><strong>PowerShell vs CMD antigo:</strong> O CMD (prompt de comando) é de 1987. O PowerShell é moderno, mais poderoso e é o que o mercado de TI usa hoje.</div></div>
+      <div class="key-point"><span class="kp-icon">🌍</span><div class="kp-text"><strong>PowerShell 7+</strong> funciona também no Linux e macOS — útil quando você trabalhar em ambientes mistos.</div></div>
+
+      <div class="tip-box"><span style="font-size:1.1em;flex-shrink:0;">💡</span><p><strong>Analogia:</strong> O PowerShell é como aprender a falar com o computador em vez de ficar apontando para as coisas. No começo parece difícil, mas depois é muito mais rápido!</p></div>
+
+      <p style="margin-top:16px;font-size:.9em;color:var(--text-muted);"><strong style="color:var(--text);">Exemplos reais do que você vai conseguir fazer:</strong></p>
+      <div class="key-point"><span class="kp-icon">📁</span><div class="kp-text">Renomear 500 arquivos de uma vez — em vez de um por um</div></div>
+      <div class="key-point"><span class="kp-icon">👥</span><div class="kp-text">Ver todos os programas instalados em um computador em segundos</div></div>
+      <div class="key-point"><span class="kp-icon">🔍</span><div class="kp-text">Descobrir qual processo está travando o computador</div></div>
     </div>
   </div>
+
+  <!-- CARD 2: Como abrir o PowerShell NO WINDOWS 11 -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
-      <span class="cc-icon">🎯</span>
-      <span class="cc-title">2. Por que PowerShell importa?</span>
+      <span class="cc-icon">🚀</span>
+      <span class="cc-title">2. Como abrir o PowerShell no Windows 11</span>
       <span class="cc-xp">+20 XP</span>
       <span class="cc-chevron">▼</span>
     </div>
     <div class="cc-body">
-      <p>Com PowerShell você transforma trabalho de <strong>horas em segundos</strong>:</p>
-             <div class="key-point"><span class="kp-icon">📁</span><div class="kp-text">Renomear <strong>1000 arquivos</strong> seguindo um padrão? 1 linha de código.</div></div>
-             <div class="key-point"><span class="kp-icon">👥</span><div class="kp-text">Criar <strong>50 usuários</strong> no Active Directory de uma vez? 1 script de 5 linhas.</div></div>
-             <div class="key-point"><span class="kp-icon">🖥️</span><div class="kp-text">Verificar status de serviços em <strong>100 computadores</strong> remotamente? Alguns cmdlets.</div></div>
-             <div class="key-point"><span class="kp-icon">📊</span><div class="kp-text">Gerar relatórios do sistema e exportar para Excel? Uma linha com Export-Csv!</div></div>
-             <div class="tip-box"><span class="tip-icon">💡</span><p><strong>Pense assim:</strong> quem não sabe PowerShell faz manualmente. Quem sabe PowerShell automatiza. No mercado de TI, isso faz toda a diferença no salário!</p></div>
+      <p>Existem <strong>3 formas</strong> de abrir o PowerShell. Veja qual é mais fácil para você:</p>
+
+      <!-- METHOD 1 -->
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;margin:14px 0;">
+        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--blue);margin-bottom:12px;">🅰️ Método 1 — Pelo Menu Iniciar (mais fácil)</p>
+        <div class="steps-wrapper">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <p>Clique no botão <strong>Iniciar</strong> (ícone do Windows no centro da barra de tarefas) ou pressione a tecla <kbd style="background:var(--surface2);border:1px solid #555;border-radius:4px;padding:2px 6px;font-family:monospace;">⊞ Win</kbd></p>
+              <!-- Win11 desktop simulation -->
+              <div class="win11-screen" style="max-width:400px;">
+                <div class="win11-desktop" style="min-height:80px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;">
+                  <div style="width:100%;background:rgba(20,20,30,.95);padding:8px 0;display:flex;justify-content:center;gap:8px;align-items:center;border-top:1px solid #333;">
+                    <div style="width:28px;height:28px;background:rgba(255,255,255,.08);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.9em;">🔍</div>
+                    <div style="width:32px;height:32px;background:rgba(0,120,215,.3);border:2px solid rgba(0,120,215,.6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1em;">⊞</div>
+                    <div style="width:28px;height:28px;background:rgba(255,255,255,.08);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.9em;">🗂️</div>
+                    <div style="width:28px;height:28px;background:rgba(255,255,255,.08);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.9em;">📧</div>
+                  </div>
+                </div>
+              </div>
+              <div class="screen-label">↑ Clique no ⊞ no centro da barra de tarefas</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <p>Na caixa de pesquisa que aparece, <strong>digite: powershell</strong></p>
+              <!-- Start menu search -->
+              <div class="win11-screen" style="max-width:380px;margin:0 auto;">
+                <div style="background:#1a1a2e;padding:16px;">
+                  <div style="background:#2a2a3e;border:1px solid #555;border-radius:8px;padding:8px 14px;color:#eee;font-size:.82em;margin-bottom:14px;display:flex;align-items:center;gap:8px;"><span>🔍</span><span style="color:#aaa;">powershell</span><span style="display:inline-block;width:2px;height:14px;background:#fff;animation:blink 1s step-end infinite;"></span></div>
+                  <div style="font-size:.7em;color:#666;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;">Melhor correspondência</div>
+                  <div style="background:rgba(0,120,215,.2);border:1px solid rgba(0,120,215,.4);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:10px;">
+                    <div style="width:36px;height:36px;background:linear-gradient(135deg,#012456,#1a3a7a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9em;">💙</div>
+                    <div><div style="font-size:.8em;color:#eee;font-weight:600;">Windows PowerShell</div><div style="font-size:.7em;color:#888;">Aplicativo</div></div>
+                  </div>
+                  <div style="margin-top:10px;font-size:.72em;color:#666;">Abrir &nbsp;&nbsp; Executar como administrador &nbsp;&nbsp; Abrir local do arquivo</div>
+                </div>
+              </div>
+              <div class="screen-label">↑ O PowerShell aparece nos resultados</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <p>Clique com o <strong>botão direito</strong> em "Windows PowerShell" e escolha <strong>"Executar como administrador"</strong></p>
+              <div class="important-box"><p>⚠️ <strong>Por que "como administrador"?</strong> Alguns comandos precisam de permissão de admin. Se você abrir sem ser admin, certos comandos vão dar erro. Sempre abra como administrador nas aulas!</p></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <p>Uma janela de confirmação (<strong>UAC</strong>) vai aparecer. Clique em <strong>"Sim"</strong>.</p>
+              <div class="uac-overlay">
+                <div class="uac-dialog">
+                  <div class="uac-header"><span class="uac-header-icon">🛡️</span><span class="uac-header-text">Controle de Conta de Usuário</span></div>
+                  <div class="uac-body">
+                    <div class="uac-question">Deseja permitir que este aplicativo faça alterações no seu dispositivo?</div>
+                    <div class="uac-app-info">
+                      <p><span class="uac-app-name">Windows PowerShell</span></p>
+                      <p>Fornecedor verificado: Microsoft Windows</p>
+                    </div>
+                    <div class="uac-buttons">
+                      <button class="uac-btn uac-btn-no">Não</button>
+                      <button class="uac-btn uac-btn-yes">Sim ← clique aqui</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="screen-label">↑ Clique em "Sim" para continuar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- METHOD 2 -->
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;margin:14px 0;">
+        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--green);margin-bottom:12px;">🅱️ Método 2 — Atalho Win + X (mais rápido)</p>
+        <div class="steps-wrapper">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <p>Pressione <kbd style="background:var(--surface2);border:1px solid #555;border-radius:4px;padding:2px 6px;font-family:monospace;">⊞ Win</kbd> + <kbd style="background:var(--surface2);border:1px solid #555;border-radius:4px;padding:2px 6px;font-family:monospace;">X</kbd> ao mesmo tempo</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <p>Um menu aparece no canto inferior esquerdo. Clique em <strong>"Terminal (Administrador)"</strong></p>
+              <div class="ctx-menu">
+                <div class="ctx-item">⚙️ Gerenciador de Dispositivos</div>
+                <div class="ctx-item">💻 Gerenciamento de Disco</div>
+                <hr class="ctx-divider">
+                <div class="ctx-item highlighted">🖥️ Terminal (Administrador) ← aqui!</div>
+                <div class="ctx-item">📋 Gerenciador de Tarefas</div>
+                <div class="ctx-item">⚙️ Configurações</div>
+                <hr class="ctx-divider">
+                <div class="ctx-item">🔄 Desligar ou sair</div>
+              </div>
+              <div class="screen-label">↑ Menu Win+X — clique em Terminal (Administrador)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- O QUE APARECE -->
+      <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--text);margin:16px 0 10px;">✅ Isso é o que você vai ver quando abrir:</p>
+      <div class="ps-window">
+        <div class="ps-titlebar">
+          <div style="display:flex;gap:5px;"><div class="ps-win-btn close"></div><div class="ps-win-btn min"></div><div class="ps-win-btn max"></div></div>
+          <div class="ps-titlebar-icon">💙</div>
+          <div class="ps-titlebar-title">Administrador: Windows PowerShell</div>
+        </div>
+        <div class="ps-body">
+          <span class="ps-output">Windows PowerShell</span>
+          <span class="ps-output">Direitos autorais (C) Microsoft Corporation. Todos os direitos reservados.</span>
+          <span class="ps-output">&nbsp;</span>
+          <span class="ps-output">Instale a versão mais recente do PowerShell para obter novos recursos e aprimoramentos! https://aka.ms/PSWindows</span>
+          <span class="ps-output">&nbsp;</span>
+          <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cursor"></span></div>
+        </div>
+      </div>
+      <div class="screen-label">↑ Assim fica o PowerShell aberto como Administrador</div>
+
+      <div class="annotation">
+        <span class="annotation-arrow">👆</span>
+        <p><strong>O que significa o texto na tela?</strong><br>
+        <code style="color:var(--green);font-family:monospace;">PS C:\Windows\System32&gt;</code> é o <strong>prompt</strong> — ele mostra que o PowerShell está pronto para receber comandos. O <code style="color:var(--green);font-family:monospace;">C:\Windows\System32</code> mostra em qual pasta você está agora.</p>
+      </div>
+
+      <div class="success-box"><p>✅ <strong>Se a barra de título mostrar "Administrador:"</strong> no começo — perfeito! Você está com as permissões corretas.</p></div>
     </div>
   </div>
+
+  <!-- CARD 3: Estrutura Verbo-Substantivo -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">📝</span>
@@ -199,31 +441,278 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
       <span class="cc-chevron">▼</span>
     </div>
     <div class="cc-body">
-      <p>Todo comando PowerShell segue o padrão <strong>Verbo-Substantivo</strong>. É consistente e fácil de memorizar!</p>
-             <div class="key-point"><span class="kp-icon">🟢</span><div class="kp-text"><strong>Get</strong> = obter/listar: <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:var(--green);'>Get-Process</code>, <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:var(--green);'>Get-Service</code></div></div>
-             <div class="key-point"><span class="kp-icon">🔵</span><div class="kp-text"><strong>Set</strong> = definir/alterar: <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:var(--blue);'>Set-Location</code>, <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:var(--blue);'>Set-Content</code></div></div>
-             <div class="key-point"><span class="kp-icon">🟣</span><div class="kp-text"><strong>New</strong> = criar: <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:var(--purple);'>New-Item</code>, <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:var(--purple);'>New-LocalUser</code></div></div>
-             <div class="key-point"><span class="kp-icon">🔴</span><div class="kp-text"><strong>Remove</strong> = remover: <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:#f85149;'>Remove-Item</code>, <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:#f85149;'>Remove-Service</code></div></div>
-             <div class="key-point"><span class="kp-icon">🟡</span><div class="kp-text"><strong>Start/Stop</strong> = iniciar/parar: <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:var(--amber);'>Start-Service</code>, <code style='background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;color:var(--amber);'>Stop-Process</code></div></div>
-             <div class="tip-box"><span class="tip-icon">💡</span><p><strong>Truque:</strong> Se não sabe o nome exato, use <code style='font-family:monospace;color:var(--green);'>Get-Command *palavra*</code> para buscar comandos que contenham aquela palavra!</p></div>
+      <p>Todo comando PowerShell (chamado de <strong>cmdlet</strong>) segue um padrão lógico: <strong style="color:var(--green);">Verbo</strong> + <strong style="color:var(--blue);">Substantivo</strong></p>
+      <p style="margin-top:8px;font-size:.88em;color:var(--text-muted);">Ou seja: o que fazer + com o quê fazer.</p>
+
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;margin:14px 0;text-align:center;">
+        <p style="font-family:'DM Mono',monospace;font-size:1.3em;"><span style="color:var(--green);background:rgba(57,211,83,.1);padding:4px 12px;border-radius:6px;">Get</span><span style="color:var(--text-dim);margin:0 8px;">-</span><span style="color:var(--blue);background:rgba(88,166,255,.1);padding:4px 12px;border-radius:6px;">Process</span></p>
+        <p style="font-size:.78em;color:var(--text-muted);margin-top:8px;"><span style="color:var(--green);">Obter</span> &nbsp;+&nbsp; <span style="color:var(--blue);">Processos</span> &nbsp;=&nbsp; <em>lista os processos em execução</em></p>
+      </div>
+
+      <div class="key-point"><span class="kp-icon">🟢</span><div class="kp-text"><strong>Get</strong> = obter/listar: <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:var(--green);'>Get-Process</code> &nbsp; <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:var(--green);'>Get-Service</code> &nbsp; <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:var(--green);'>Get-ChildItem</code></div></div>
+      <div class="key-point"><span class="kp-icon">🔵</span><div class="kp-text"><strong>Set</strong> = definir/alterar: <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:var(--blue);'>Set-Location</code> &nbsp; <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:var(--blue);'>Set-Content</code></div></div>
+      <div class="key-point"><span class="kp-icon">🟣</span><div class="kp-text"><strong>New</strong> = criar: <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:var(--purple);'>New-Item</code> &nbsp; <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:var(--purple);'>New-LocalUser</code></div></div>
+      <div class="key-point"><span class="kp-icon">🔴</span><div class="kp-text"><strong>Remove</strong> = remover: <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:#f85149;'>Remove-Item</code> &nbsp; <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:#f85149;'>Remove-Service</code></div></div>
+      <div class="key-point"><span class="kp-icon">🟡</span><div class="kp-text"><strong>Start/Stop</strong> = iniciar/parar: <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:var(--amber);'>Start-Service</code> &nbsp; <code style='background:var(--bg);padding:2px 6px;border-radius:3px;font-family:monospace;color:var(--amber);'>Stop-Process</code></div></div>
+
+      <div class="tip-box" style="margin-top:14px;"><span style="font-size:1.1em;flex-shrink:0;">💡</span><p><strong>Truque ninja:</strong> Se não sabe o nome exato do comando, use <code style='font-family:monospace;color:var(--green);'>Get-Command *palavra*</code> para buscar! Exemplo: <code style='font-family:monospace;color:var(--green);'>Get-Command *process*</code> lista tudo relacionado a processo.</p></div>
+
+      <!-- Comparison table -->
+      <p style="font-weight:600;margin:16px 0 8px;font-size:.9em;">📊 Comparando PowerShell com o CMD antigo:</p>
+      <table class="compare-table">
+        <thead><tr><th>O que fazer</th><th>CMD (antigo)</th><th>PowerShell (moderno)</th></tr></thead>
+        <tbody>
+          <tr><td>Listar arquivos da pasta</td><td class="cmd-cell">dir</td><td class="ps-cell">Get-ChildItem</td></tr>
+          <tr><td>Mostrar pasta atual</td><td class="cmd-cell">cd</td><td class="ps-cell">Get-Location</td></tr>
+          <tr><td>Navegar para uma pasta</td><td class="cmd-cell">cd C:\</td><td class="ps-cell">Set-Location C:\</td></tr>
+          <tr><td>Limpar a tela</td><td class="cmd-cell">cls</td><td class="ps-cell">Clear-Host</td></tr>
+          <tr><td>Criar pasta</td><td class="cmd-cell">mkdir NomePasta</td><td class="ps-cell">New-Item -Type Directory</td></tr>
+        </tbody>
+      </table>
+      <div class="annotation"><span class="annotation-arrow">💡</span><p>Os aliases do CMD ainda funcionam no PowerShell! Digitar <code style="color:var(--amber);font-family:monospace;">dir</code> ou <code style="color:var(--amber);font-family:monospace;">cd</code> continua funcionando. Mas aprenda os nomes reais para ser profissional.</p></div>
     </div>
   </div>
+
+  <!-- CARD 4: Seus primeiros comandos com prints -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
-      <span class="cc-icon">⚙️</span>
-      <span class="cc-title">4. Configurando o PowerShell</span>
+      <span class="cc-icon">⌨️</span>
+      <span class="cc-title">4. Seus Primeiros Comandos — Mãos na Massa!</span>
       <span class="cc-xp">+20 XP</span>
       <span class="cc-chevron">▼</span>
     </div>
     <div class="cc-body">
-      <p>Antes de começar a usar, algumas configurações importantes:</p>
-             <div class="key-point"><span class="kp-icon">🛡️</span><div class="kp-text"><strong>Política de Execução:</strong> por padrão, scripts são bloqueados por segurança. Veja a política atual: <code style='font-family:monospace;color:var(--green);font-size:.85em;'>Get-ExecutionPolicy</code></div></div>
-             <div class="key-point"><span class="kp-icon">🔓</span><div class="kp-text">Para desenvolvimento: <code style='font-family:monospace;color:var(--amber);font-size:.85em;'>Set-ExecutionPolicy RemoteSigned</code>. Permite seus scripts, mas bloqueia scripts não assinados da internet.</div></div>
-             <div class="key-point"><span class="kp-icon">❓</span><div class="kp-text"><strong>Ajuda integrada:</strong> <code style='font-family:monospace;color:var(--green);font-size:.85em;'>Get-Help Get-Process</code> mostra a documentação de qualquer comando!</div></div>
-             <div class="key-point"><span class="kp-icon">📋</span><div class="kp-text"><strong>Tab completion:</strong> comece a digitar um comando e pressione Tab — o PowerShell completa automaticamente!</div></div>
-             <div class="warn-box"><span style='font-size:1em;flex-shrink:0;'>⚠️</span><p>Em produção, mantenha a política mais <strong>restritiva</strong> possível. Só libere o necessário!</p></div>
+      <p>Com o PowerShell aberto como administrador, vamos executar comandos! <strong>Você digita o comando e aperta Enter.</strong></p>
+
+      <div class="important-box"><p>📌 <strong>Como digitar corretamente:</strong> Os comandos são sensíveis ao hífen ( - ) e às letras maiúsculas/minúsculas no nome do cmdlet. Copie exatamente como mostrado!</p></div>
+
+      <!-- COMMAND 1: Get-Date -->
+      <div style="border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin:18px 0;">
+        <div style="background:var(--surface2);padding:10px 16px;display:flex;align-items:center;gap:8px;">
+          <span style="background:var(--green-dim);border:1px solid rgba(57,211,83,.3);border-radius:50px;padding:2px 10px;font-size:.72em;color:var(--green);font-family:monospace;">Comando 1</span>
+          <span style="font-weight:600;font-size:.9em;">Ver a data e hora atual</span>
+        </div>
+        <div style="padding:14px 16px;">
+          <p style="font-size:.87em;color:var(--text-muted);margin-bottom:10px;"><strong style="color:var(--text);">O que fazer:</strong> Digite o comando abaixo e pressione <kbd style="background:var(--surface2);border:1px solid #555;border-radius:4px;padding:1px 6px;font-family:monospace;">Enter</kbd></p>
+          <div class="ps-window">
+            <div class="ps-titlebar">
+              <div style="display:flex;gap:5px;"><div class="ps-win-btn close"></div><div class="ps-win-btn min"></div><div class="ps-win-btn max"></div></div>
+              <div class="ps-titlebar-title">Administrador: Windows PowerShell</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cmd">Get-Date</span></div>
+              <span class="ps-output">&nbsp;</span>
+              <span class="ps-output-green">segunda-feira, 27 de abril de 2026 08:45:32</span>
+              <span class="ps-output">&nbsp;</span>
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cursor"></span></div>
+            </div>
+          </div>
+          <div class="annotation" style="margin-top:8px;"><span class="annotation-arrow">📌</span><p>A data e hora do seu computador aparecem. O formato pode ser diferente dependendo das configurações do Windows.</p></div>
+        </div>
+      </div>
+
+      <!-- COMMAND 2: Get-Process -->
+      <div style="border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin:18px 0;">
+        <div style="background:var(--surface2);padding:10px 16px;display:flex;align-items:center;gap:8px;">
+          <span style="background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);border-radius:50px;padding:2px 10px;font-size:.72em;color:var(--blue);font-family:monospace;">Comando 2</span>
+          <span style="font-weight:600;font-size:.9em;">Ver os programas abertos (processos)</span>
+        </div>
+        <div style="padding:14px 16px;">
+          <p style="font-size:.87em;color:var(--text-muted);margin-bottom:10px;"><strong style="color:var(--text);">O que fazer:</strong> Digite e pressione Enter:</p>
+          <div class="ps-window">
+            <div class="ps-titlebar">
+              <div style="display:flex;gap:5px;"><div class="ps-win-btn close"></div><div class="ps-win-btn min"></div><div class="ps-win-btn max"></div></div>
+              <div class="ps-titlebar-title">Administrador: Windows PowerShell</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cmd">Get-Process</span></div>
+              <span class="ps-output">&nbsp;</span>
+              <span class="ps-output-header"> Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName</span>
+              <span class="ps-output-header"> -------  ------    -----      -----     ------     --  -- -----------</span>
+              <span class="ps-output-blue">     356      22     5624      18432       0,47   1820   1 chrome</span>
+              <span class="ps-output-blue">     124      14     3104       8904       0,12   2340   1 explorer</span>
+              <span class="ps-output-blue">     289      18     4832      12288       1,23   3560   1 msedge</span>
+              <span class="ps-output-blue">     445      31     8192      24576       2,81   4120   1 powershell</span>
+              <span class="ps-output">  ... (muitas linhas vão aparecer) ...</span>
+              <span class="ps-output">&nbsp;</span>
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cursor"></span></div>
+            </div>
+          </div>
+          <div class="annotation" style="margin-top:8px;"><span class="annotation-arrow">📌</span><p>Uma lista de todos os processos (programas) rodando aparece. <strong>Handles</strong> = recursos usados, <strong>CPU(s)</strong> = uso do processador, <strong>ProcessName</strong> = nome do programa.</p></div>
+        </div>
+      </div>
+
+      <!-- COMMAND 3: $PSVersionTable -->
+      <div style="border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin:18px 0;">
+        <div style="background:var(--surface2);padding:10px 16px;display:flex;align-items:center;gap:8px;">
+          <span style="background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);border-radius:50px;padding:2px 10px;font-size:.72em;color:var(--purple);font-family:monospace;">Comando 3</span>
+          <span style="font-weight:600;font-size:.9em;">Ver a versão do PowerShell instalada</span>
+        </div>
+        <div style="padding:14px 16px;">
+          <p style="font-size:.87em;color:var(--text-muted);margin-bottom:10px;"><strong style="color:var(--text);">O que fazer:</strong> Digite (atenção ao <code style="color:var(--amber);font-family:monospace;">$</code> no começo!) e pressione Enter:</p>
+          <div class="ps-window">
+            <div class="ps-titlebar">
+              <div style="display:flex;gap:5px;"><div class="ps-win-btn close"></div><div class="ps-win-btn min"></div><div class="ps-win-btn max"></div></div>
+              <div class="ps-titlebar-title">Administrador: Windows PowerShell</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cmd">$PSVersionTable</span></div>
+              <span class="ps-output">&nbsp;</span>
+              <span class="ps-output-header">Name                           Value</span>
+              <span class="ps-output-header">----                           -----</span>
+              <span class="ps-output-blue">PSVersion                      5.1.22621.4391</span>
+              <span class="ps-output-blue">PSEdition                      Desktop</span>
+              <span class="ps-output-blue">PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0...}</span>
+              <span class="ps-output-blue">BuildVersion                   10.0.22621.4391</span>
+              <span class="ps-output-blue">CLRVersion                     4.0.30319.42000</span>
+              <span class="ps-output-blue">WSManStackVersion              3.0</span>
+              <span class="ps-output-blue">PSRemotingProtocolVersion      2.3</span>
+              <span class="ps-output-blue">SerializationVersion           1.1.0.1</span>
+              <span class="ps-output">&nbsp;</span>
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cursor"></span></div>
+            </div>
+          </div>
+          <div class="annotation" style="margin-top:8px;"><span class="annotation-arrow">📌</span><p><strong>PSVersion 5.1</strong> = versão nativa do Windows 11. Se aparecer 7.x, você tem o PowerShell 7 instalado (mais moderno). Ambas funcionam para esta aula!</p></div>
+        </div>
+      </div>
+
+      <!-- COMMAND 4: Get-Service -->
+      <div style="border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin:18px 0;">
+        <div style="background:var(--surface2);padding:10px 16px;display:flex;align-items:center;gap:8px;">
+          <span style="background:var(--amber-dim);border:1px solid rgba(240,180,41,.3);border-radius:50px;padding:2px 10px;font-size:.72em;color:var(--amber);font-family:monospace;">Comando 4</span>
+          <span style="font-weight:600;font-size:.9em;">Ver os serviços do Windows</span>
+        </div>
+        <div style="padding:14px 16px;">
+          <p style="font-size:.87em;color:var(--text-muted);margin-bottom:10px;"><strong style="color:var(--text);">O que fazer:</strong> Digite e pressione Enter:</p>
+          <div class="ps-window">
+            <div class="ps-titlebar">
+              <div style="display:flex;gap:5px;"><div class="ps-win-btn close"></div><div class="ps-win-btn min"></div><div class="ps-win-btn max"></div></div>
+              <div class="ps-titlebar-title">Administrador: Windows PowerShell</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cmd">Get-Service</span></div>
+              <span class="ps-output">&nbsp;</span>
+              <span class="ps-output-header">Status   Name               DisplayName</span>
+              <span class="ps-output-header">------   ----               -----------</span>
+              <span class="ps-output-green">Running  AdobeARMservice    Adobe Acrobat Update Service</span>
+              <span class="ps-output-green">Running  AudioEndpointBu... Windows Audio Endpoint Builder</span>
+              <span class="ps-output" style="color:#aaa;">Stopped  AJRouter           AllJoyn Router Service</span>
+              <span class="ps-output-green">Running  BFE                Base Filtering Engine</span>
+              <span class="ps-output" style="color:#aaa;">Stopped  BITS               Background Intelligent Transfer...</span>
+              <span class="ps-output">  ... (muitas linhas) ...</span>
+              <span class="ps-output">&nbsp;</span>
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cursor"></span></div>
+            </div>
+          </div>
+          <div class="annotation" style="margin-top:8px;"><span class="annotation-arrow">📌</span><p><strong style="color:var(--green);">Running</strong> = serviço está rodando | <span style="color:#aaa;font-weight:600;">Stopped</span> = serviço parado. Serviços são programas que rodam em segundo plano, como o antivírus e o áudio.</p></div>
+        </div>
+      </div>
+
+      <!-- Dica Tab Completion -->
+      <div class="tip-box" style="margin-top:6px;"><span style="font-size:1.1em;flex-shrink:0;">⚡</span><p><strong>Atalho incrível — Tab Completion:</strong> Comece a digitar um comando e pressione <kbd style="background:rgba(0,0,0,.3);border:1px solid #555;border-radius:4px;padding:1px 6px;font-family:monospace;">Tab</kbd>. O PowerShell completa automaticamente! Exemplo: digita <code style="color:var(--green);font-family:monospace;">Get-Pro</code> e aperta Tab → vira <code style="color:var(--green);font-family:monospace;">Get-Process</code> sozinho!</p></div>
+
+      <div class="shortcut-row">
+        <div class="shortcut"><kbd>Tab</kbd><span>Autocompletar comando</span></div>
+        <div class="shortcut"><kbd>↑</kbd><kbd>↓</kbd><span>Navegar histórico</span></div>
+        <div class="shortcut"><kbd>Ctrl+C</kbd><span>Cancelar comando</span></div>
+        <div class="shortcut"><kbd>cls</kbd><span>Limpar tela</span></div>
+      </div>
     </div>
   </div>
+
+  <!-- CARD 5: Configurando o PowerShell -->
+  <div class="content-card">
+    <div class="cc-header" onclick="toggleCard(this)">
+      <span class="cc-icon">⚙️</span>
+      <span class="cc-title">5. Configurando o PowerShell — Política de Execução</span>
+      <span class="cc-xp">+20 XP</span>
+      <span class="cc-chevron">▼</span>
+    </div>
+    <div class="cc-body">
+      <p>Antes de executar scripts (arquivos .ps1), o Windows bloqueia por segurança. Vamos verificar e ajustar essa configuração.</p>
+
+      <div class="important-box"><p>⚠️ <strong>O que é a Política de Execução?</strong> É uma proteção do Windows que impede scripts não autorizados de rodar. Para as nossas aulas, precisamos liberar um pouco.</p></div>
+
+      <!-- Step 1: verificar -->
+      <div style="border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin:18px 0;">
+        <div style="background:var(--surface2);padding:10px 16px;"><span style="font-weight:600;font-size:.9em;">📋 Passo 1 — Verificar a política atual</span></div>
+        <div style="padding:14px 16px;">
+          <div class="ps-window">
+            <div class="ps-titlebar">
+              <div style="display:flex;gap:5px;"><div class="ps-win-btn close"></div><div class="ps-win-btn min"></div><div class="ps-win-btn max"></div></div>
+              <div class="ps-titlebar-title">Administrador: Windows PowerShell</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cmd">Get-ExecutionPolicy</span></div>
+              <span class="ps-output">&nbsp;</span>
+              <span class="ps-output-blue">Restricted</span>
+              <span class="ps-output">&nbsp;</span>
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cursor"></span></div>
+            </div>
+          </div>
+          <div class="annotation" style="margin-top:8px;"><span class="annotation-arrow">📌</span><p><strong>Restricted</strong> = bloqueado (não deixa rodar nenhum script). Se aparecer isso, faça o Passo 2. Se aparecer <em>RemoteSigned</em>, pode pular o Passo 2.</p></div>
+        </div>
+      </div>
+
+      <!-- Step 2: liberar -->
+      <div style="border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin:18px 0;">
+        <div style="background:var(--surface2);padding:10px 16px;"><span style="font-weight:600;font-size:.9em;">🔓 Passo 2 — Liberar scripts para estudo</span></div>
+        <div style="padding:14px 16px;">
+          <p style="font-size:.87em;color:var(--text-muted);margin-bottom:10px;">Digite o comando abaixo <strong>exatamente assim</strong> (precisa estar como Administrador!):</p>
+          <div class="ps-window">
+            <div class="ps-titlebar">
+              <div style="display:flex;gap:5px;"><div class="ps-win-btn close"></div><div class="ps-win-btn min"></div><div class="ps-win-btn max"></div></div>
+              <div class="ps-titlebar-title">Administrador: Windows PowerShell</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cmd">Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</span></div>
+              <span class="ps-output">&nbsp;</span>
+              <span class="ps-output">Alteração na política de execução</span>
+              <span class="ps-output">A política de execução ajuda a proteger você de scripts nos quais não confia.</span>
+              <span class="ps-output">Deseja alterar a política de execução?</span>
+              <span class="ps-output">[S] Sim  [A] Sim para Todos  [N] Não  [T] Não para Todos  [?] Ajuda</span>
+              <div class="ps-line"><span class="ps-prompt">(padrão é "N"): </span><span class="ps-cmd">S</span></div>
+              <span class="ps-output">&nbsp;</span>
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cursor"></span></div>
+            </div>
+          </div>
+          <div class="annotation" style="margin-top:8px;"><span class="annotation-arrow">📌</span><p>Quando perguntar, <strong>digite S e pressione Enter</strong> para confirmar. Isso libera seus próprios scripts, mas ainda bloqueia scripts suspeitos da internet.</p></div>
+          <div class="warn-box" style="margin-top:10px;"><span style="flex-shrink:0;">⚠️</span><p><strong>Em computadores da escola:</strong> pode ser que a política já esteja configurada pelo administrador. Se aparecer erro de permissão, chame o professor — não é sua conta de admin.</p></div>
+        </div>
+      </div>
+
+      <!-- Get-Help -->
+      <div style="border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin:18px 0;">
+        <div style="background:var(--surface2);padding:10px 16px;"><span style="font-weight:600;font-size:.9em;">❓ Bônus — Como pedir ajuda dentro do PowerShell</span></div>
+        <div style="padding:14px 16px;">
+          <p style="font-size:.87em;color:var(--text-muted);margin-bottom:10px;">Não lembra o que um comando faz? Use o manual embutido:</p>
+          <div class="ps-window">
+            <div class="ps-titlebar">
+              <div style="display:flex;gap:5px;"><div class="ps-win-btn close"></div><div class="ps-win-btn min"></div><div class="ps-win-btn max"></div></div>
+              <div class="ps-titlebar-title">Administrador: Windows PowerShell</div>
+            </div>
+            <div class="ps-body">
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cmd">Get-Help Get-Process</span></div>
+              <span class="ps-output">&nbsp;</span>
+              <span class="ps-output-header">NOME</span>
+              <span class="ps-output">    Get-Process</span>
+              <span class="ps-output">&nbsp;</span>
+              <span class="ps-output-header">SINOPSE</span>
+              <span class="ps-output">    Obtém os processos em execução no computador local.</span>
+              <span class="ps-output">&nbsp;</span>
+              <span class="ps-output-header">SINTAXE</span>
+              <span class="ps-output">    Get-Process [[-Name] &lt;String[]&gt;] [...]</span>
+              <span class="ps-output">  ... (continua) ...</span>
+              <div class="ps-line"><span class="ps-prompt">PS C:\Windows\System32&gt; </span><span class="ps-cursor"></span></div>
+            </div>
+          </div>
+          <div class="annotation" style="margin-top:8px;"><span class="annotation-arrow">💡</span><p>Quer ver exemplos práticos? Use <code style="color:var(--green);font-family:monospace;">Get-Help Get-Process -Examples</code>. Sempre que travar, consulte o help!</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
   <div class="section-header" style="margin-top:40px;"><div class="section-icon purple">🧠</div><h2 class="section-title">Quiz Rápido</h2><span class="section-xp">+80 XP</span></div>
   <div class="quiz-wrapper" id="quizWrapper">
     <div class="quiz-header">
@@ -236,14 +725,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
       <div id="quizContent"></div>
     </div>
   </div>
+
+  <!-- MISSIONS -->
   <div class="section-header"><div class="section-icon amber">🔬</div><h2 class="section-title">Missões do Laboratório</h2><span class="section-xp">+90 XP</span></div>
-  <p style="color:var(--text-muted);font-size:.85em;margin-bottom:16px;">Acesse o <a href="semana08_guia.html" style="color:var(--blue);">📝 Guia de Exercícios</a> para ver as rubricas. Marque ✓ ao concluir!</p>
+  <p style="color:var(--text-muted);font-size:.85em;margin-bottom:16px;">Acesse o <a href="semana08_guia.html" style="color:var(--blue);">📝 Guia de Exercícios</a> para ver as rubricas e o passo a passo detalhado. Marque ✓ ao concluir!</p>
   <div class="missions-grid">
     <div class="mission-card">
       <div class="mission-num">M1</div>
       <div class="mission-content">
         <div class="mission-title">💻 Primeiros Passos no PowerShell</div>
-        <div class="mission-desc">Abra o PowerShell e execute: Get-Process, Get-Service, Get-ChildItem, Get-Date, $PSVersionTable. Anote o que cada um faz e compare com o cmd antigo.</div>
+        <div class="mission-desc">Abra o PowerShell como Administrador e execute: Get-Process, Get-Service, Get-ChildItem, Get-Date, $PSVersionTable. Anote o que cada um faz e compare com o CMD.</div>
         <div class="mission-meta">
           <span class="mission-tag">⏱ 30 min</span>
           <span class="mission-tag">🔬 Laboratório</span>
@@ -256,7 +747,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
       <div class="mission-num">M2</div>
       <div class="mission-content">
         <div class="mission-title">🗺️ Navegação pelo Sistema via PowerShell</div>
-        <div class="mission-desc">Use Set-Location (cd), Get-ChildItem (dir/ls), Get-Location (pwd) para navegar pelo sistema de arquivos. Crie uma pasta com New-Item!</div>
+        <div class="mission-desc">Use Set-Location (cd), Get-ChildItem (dir/ls), Get-Location (pwd) para navegar pelo sistema de arquivos. Crie uma pasta com New-Item e documente com prints!</div>
         <div class="mission-meta">
           <span class="mission-tag">⏱ 35 min</span>
           <span class="mission-tag">🔬 Laboratório</span>
@@ -277,20 +768,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
         </div>
       </div>
       <div class="mission-check" id="m3" onclick="completeMission('m3',30)">○</div>
-    </div></div>
+    </div>
+  </div>
+
   <div class="checkpoint" id="checkpoint">
     <div class="checkpoint-stars" id="checkpointStars">⭐⭐⭐</div>
     <h3>Progresso da Missão 08</h3>
     <p>Complete as missões e o quiz para acumular XP!</p>
     <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 250 XP</div>
   </div>
+
   <div class="section-header"><div class="section-icon green">🔗</div><h2 class="section-title">Recursos para ir além</h2></div>
   <div class="resources-grid">
     <div class="res-card"><div class="res-icon">📄</div><div class="res-title">Microsoft Docs</div><div class="res-desc">docs.microsoft.com</div></div>
     <div class="res-card"><div class="res-icon">💻</div><div class="res-title">PowerShell Docs</div><div class="res-desc">learn.microsoft.com/powershell</div></div>
-    <div class="res-card"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "Introdução ao PowerS..."</div></div>
+    <div class="res-card"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "Introdução ao PowerShell"</div></div>
     <div class="res-card"><div class="res-icon">🎓</div><div class="res-title">Microsoft Learn</div><div class="res-desc">learn.microsoft.com — gratuito</div></div>
   </div>
+
   <nav class="nav-bar" style="margin-top:32px;margin-bottom:0;">
     <a href="semana07_aula.html" class="nav-btn btn-ghost">← Anterior</a>
     <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
@@ -309,10 +804,10 @@ function markObj(el,pts){if(el.classList.contains('done'))return;el.classList.ad
 function toggleCard(h){const b=h.nextElementSibling,o=b.classList.contains('open');document.querySelectorAll('.cc-body.open').forEach(x=>{x.classList.remove('open');x.previousElementSibling.classList.remove('open');});if(!o){b.classList.add('open');h.classList.add('open');const t=h.querySelector('.cc-title').textContent;if(!cardXpDone.has(t)){cardXpDone.add(t);addXP(20);}}}
 function completeMission(id,pts){if(missionDone.has(id))return;missionDone.add(id);const e=document.getElementById(id);e.classList.add('done');e.textContent='✓';e.closest('.mission-card').style.borderColor='rgba(188,140,255,.3)';addXP(pts);if(missionDone.size===3)showAch('🔬','Lab Completo!','Todas as missões concluídas!');}
 const questions=[
-  {q:"Qual é o padrão de nomenclatura dos comandos PowerShell (cmdlets)?",opts:["Substantivo-Verbo (ex: Process-Get)","Verbo-Substantivo (ex: Get-Process)","Verbo_Substantivo (ex: Get_Process)","Não existe padrão — cada comando tem um nome único"],ans:1,exp:"✅ Verbo-Substantivo! Get-Process, Stop-Service, New-Item... O padrão é consistente em todo PowerShell, o que facilita muito o aprendizado!"},
-  {q:"Qual cmdlet você usaria para LISTAR os processos em execução?",opts:["List-Process","Show-Process","Get-Process","View-Process"],ans:2,exp:"✅ Get-Process! O verbo 'Get' significa obter/listar. Experimente no PowerShell: Get-Process | Sort-Object CPU -Descending"},
-  {q:"O PowerShell 7+ (mais recente) funciona em quais sistemas?",opts:["Somente Windows 10 e 11","Somente Windows Server","Windows, Linux e macOS (multiplataforma)","Somente em computadores com processador Intel"],ans:2,exp:"✅ PowerShell 7+ é multiplataforma! Funciona no Windows, Linux e macOS. Perfeito para administradores que gerenciam ambientes mistos!"},
-  {q:"Como você descobre a documentação de um cmdlet no PowerShell?",opts:["Abre o Google e pesquisa","Get-Help NomeDoCmdlet","Help -Show NomeDoCmdlet","Manual-Open NomeDoCmdlet"],ans:1,exp:"✅ Get-Help é o manual embutido do PowerShell! Experimente: Get-Help Get-Process -Examples para ver exemplos reais de uso."},
+  {q:"Qual é o padrão de nomenclatura dos comandos PowerShell (cmdlets)?",opts:["Substantivo-Verbo (ex: Process-Get)","Verbo-Substantivo (ex: Get-Process)","Verbo_Substantivo (ex: Get_Process)","Não existe padrão — cada comando tem nome único"],ans:1,exp:"✅ Verbo-Substantivo! Get-Process, Stop-Service, New-Item... O padrão é consistente em todo PowerShell, o que facilita muito o aprendizado!"},
+  {q:"Como você abre o PowerShell como Administrador no Windows 11?",opts:["Duplo clique no ícone do PowerShell na área de trabalho","Menu Iniciar → pesquisa 'powershell' → botão direito → Executar como administrador","Ctrl+Alt+Delete → PowerShell","Abrir o Bloco de Notas e digitar powershell"],ans:1,exp:"✅ Correto! Sempre use botão direito → Executar como administrador para ter permissões completas nas aulas!"},
+  {q:"O que aparece no prompt 'PS C:\\Windows\\System32>' ?",opts:["Um erro — o PowerShell não abriu corretamente","O PowerShell está pronto para receber comandos e você está na pasta System32","O computador vai reiniciar","Você não tem permissão de administrador"],ans:1,exp:"✅ Isso é o prompt normal! 'PS' = PowerShell, 'C:\\Windows\\System32' = pasta atual, '>' = pronto para digitar comandos."},
+  {q:"Como você descobre a documentação de um cmdlet no PowerShell?",opts:["Abre o Google e pesquisa","Get-Help NomeDoCmdlet","Help -Show NomeDoCmdlet","Manual-Open NomeDoCmdlet"],ans:1,exp:"✅ Get-Help é o manual embutido! Experimente: Get-Help Get-Process -Examples para ver exemplos reais de uso."},
 ];
 let currentQ=0,quizScore=0,answered=false;
 function initQuiz(){const d=document.getElementById('quizDots');d.innerHTML='';questions.forEach((_,i)=>{const dot=document.createElement('div');dot.className='quiz-dot'+(i===0?' current':'');d.appendChild(dot);});renderQuestion();}
