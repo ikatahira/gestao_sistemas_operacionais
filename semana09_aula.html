@@ -12,25 +12,32 @@
   --bg:#0d1117;--surface:#161b22;--surface2:#1c2330;--border:#21262d;
   --green:#39d353;--green-dim:#1a4731;--blue:#58a6ff;--blue-dim:#0d2139;
   --purple:#bc8cff;--purple-dim:#2a1f42;--amber:#f0b429;--amber-dim:#3d2c00;
-  --red:#f85149;--teal:#3fb950;--text:#e6edf3;--text-muted:#8b949e;--text-dim:#484f58;
-  --xp:#ffd700;--r:12px;--r-sm:8px;--r-lg:20px;
-  --glow-green:0 0 20px rgba(57,211,83,.25);--glow-blue:0 0 20px rgba(88,166,255,.25);--glow-purple:0 0 20px rgba(188,140,255,.25);
+  --red:#f85149;--red-dim:#3d0f0d;--teal:#2dd4bf;--teal-dim:#0f2927;
+  --text:#e6edf3;--text-muted:#8b949e;--text-dim:#484f58;
+  --xp:#ffd700;--r:12px;--r-sm:8px;
+  --glow-purple:0 0 20px rgba(188,140,255,.25);--glow-blue:0 0 20px rgba(88,166,255,.25);
+  --glow-green:0 0 20px rgba(57,211,83,.25);
 }
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* HUD */
 .hud{position:sticky;top:0;z-index:200;background:rgba(13,17,23,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:10px 24px;}
 .hud-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .hud-week{font-family:'DM Mono',monospace;font-size:.78em;background:var(--purple-dim);color:var(--purple);border:1px solid rgba(188,140,255,.3);border-radius:50px;padding:4px 12px;white-space:nowrap;}
 .hud-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1em;color:var(--text);flex:1;min-width:0;}
 .hud-title span{color:var(--purple);}
 .hud-xp{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:5px 12px;}
-.hud-xp .xp-icon{font-size:.9em;}.hud-xp .xp-val{font-family:'DM Mono',monospace;font-size:.82em;font-weight:500;color:var(--xp);}.hud-xp .xp-label{font-size:.72em;color:var(--text-muted);}
+.hud-xp .xp-val{font-family:'DM Mono',monospace;font-size:.82em;font-weight:500;color:var(--xp);}
+.hud-xp .xp-label{font-size:.72em;color:var(--text-muted);}
 .progress-bar-outer{height:6px;background:var(--surface2);border-radius:3px;flex:1;min-width:80px;}
 .progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:3px;transition:width .5s ease;width:0%;}
+
+/* HERO */
 .hero{position:relative;overflow:hidden;padding:60px 24px 48px;text-align:center;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,--purple-dim,transparent 70%);}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(57,211,83,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(57,211,83,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(188,140,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(188,140,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(188,140,255,.06),transparent 70%);pointer-events:none;}
 .hero-inner{position:relative;max-width:700px;margin:0 auto;}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600;color:var(--purple);margin-bottom:18px;}
 .hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2em,5vw,3.2em);line-height:1.1;letter-spacing:-.03em;margin-bottom:14px;}
@@ -38,263 +45,521 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .hero-sub{color:var(--text-muted);font-size:1em;margin-bottom:28px;}
 .hero-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
 .pill{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.82em;}
-.pill.green{border-color:rgba(57,211,83,.3);color:var(--green);}.pill.blue{border-color:rgba(88,166,255,.3);color:var(--blue);}.pill.purple{border-color:rgba(188,140,255,.3);color:var(--purple);}
+.pill.purple{border-color:rgba(188,140,255,.3);color:var(--purple);}
+.pill.blue{border-color:rgba(88,166,255,.3);color:var(--blue);}
+.pill.green{border-color:rgba(57,211,83,.3);color:var(--green);}
+
+/* TERMINAL ILLUSTRATION */
+.terminal-hero{background:#080d14;border:1px solid var(--border);border-radius:14px;overflow:hidden;max-width:560px;margin:0 auto 32px;text-align:left;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+.term-bar{background:#111820;padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+.term-dots{display:flex;gap:5px;}.term-dot{width:10px;height:10px;border-radius:50%;}
+.term-dot.r{background:#f85149;}.term-dot.y{background:#f0b429;}.term-dot.g{background:#39d353;}
+.term-label{font-family:'DM Mono',monospace;font-size:.72em;color:var(--text-dim);margin-left:6px;}
+.term-body{padding:14px 18px;font-family:'DM Mono',monospace;font-size:.8em;line-height:1.9;}
+.term-prompt{color:var(--purple);}
+.term-cmd{color:var(--text);}
+.term-out{color:var(--text-muted);padding-left:2px;}
+.term-out.green{color:var(--green);}
+.term-out.amber{color:var(--amber);}
+.term-cursor{display:inline-block;width:8px;height:14px;background:var(--purple);animation:blink 1s step-end infinite;vertical-align:text-bottom;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+/* CONTAINER */
 .container{max-width:900px;margin:0 auto;padding:0 24px 60px;}
+
+/* SECTION HEADERS */
 .section-header{display:flex;align-items:center;gap:10px;margin:40px 0 16px;}
 .section-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0;}
-.section-icon.green{background:var(--green-dim);border:1px solid rgba(57,211,83,.3);}.section-icon.blue{background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);}.section-icon.purple{background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);}.section-icon.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.3);}
+.section-icon.purple{background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);}
+.section-icon.blue{background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);}
+.section-icon.green{background:var(--green-dim);border:1px solid rgba(57,211,83,.3);}
+.section-icon.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.3);}
+.section-icon.teal{background:var(--teal-dim);border:1px solid rgba(45,212,191,.3);}
 .section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.25em;}
 .section-xp{margin-left:auto;font-family:'DM Mono',monospace;font-size:.78em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:3px 10px;}
+
+/* OBJ GRID */
 .obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:24px;}
-.obj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;transition:border-color .2s,box-shadow .2s;cursor:pointer;}
+.obj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;transition:all .2s;cursor:pointer;}
 .obj-card:hover{border-color:rgba(188,140,255,.3);box-shadow:var(--glow-purple);}
-.obj-card.done{border-color:rgba(188,140,255,.3);background:var(--purple-dim);}
-.obj-num{width:26px;height:26px;background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);color:var(--purple);border-radius:8px;font-size:.75em;font-weight:700;font-family:'DM Mono',monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.obj-card.done{border-color:rgba(188,140,255,.4);background:var(--purple-dim);}
+.obj-num{width:26px;height:26px;background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);color:var(--purple);border-radius:8px;font-size:.75em;font-weight:700;font-family:'DM Mono',monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;}
 .obj-text{font-size:.88em;color:var(--text);line-height:1.4;}
-.lore-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:var(--r);padding:20px 22px;margin-bottom:20px;display:flex;gap:16px;}
-.lore-emoji{font-size:2.2em;flex-shrink:0;line-height:1;}.lore-body strong{color:var(--purple);font-family:'Syne',sans-serif;}.lore-body p{color:var(--text-muted);font-size:.9em;margin-top:4px;}
-.content-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;transition:box-shadow .2s;}
+
+/* CONTENT CARDS (accordion) */
+.content-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;transition:box-shadow .2s;}
 .content-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.3);}
 .cc-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none;background:var(--surface2);}
-.cc-icon{font-size:1.3em;}.cc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--text);flex:1;}
+.cc-icon{font-size:1.3em;}
+.cc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--text);flex:1;}
 .cc-xp{font-family:'DM Mono',monospace;font-size:.73em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:2px 9px;}
-.cc-chevron{color:var(--text-dim);transition:transform .3s;font-size:.85em;}.cc-header.open .cc-chevron{transform:rotate(180deg);}
-.cc-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}.cc-body.open{max-height:1200px;padding:20px;}
-.key-point{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}.key-point:last-of-type{border:none;}
-.kp-icon{font-size:1em;flex-shrink:0;margin-top:2px;}.kp-text{font-size:.88em;color:var(--text-muted);line-height:1.5;}.kp-text strong{color:var(--text);}
-.tip-box{background:rgba(57,211,83,.05);border:1px solid rgba(57,211,83,.2);border-radius:var(--r-sm);padding:12px 14px;margin-top:14px;display:flex;gap:10px;}.tip-box p{font-size:.85em;color:var(--text-muted);}.tip-box p strong{color:var(--green);}
-.warn-box{background:rgba(240,180,41,.05);border:1px solid rgba(240,180,41,.2);border-radius:var(--r-sm);padding:12px 14px;margin-top:10px;display:flex;gap:10px;}.warn-box p{font-size:.85em;color:var(--text-muted);}.warn-box p strong{color:var(--amber);}
-.shortcut-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}.shortcut{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:6px 12px;font-size:.82em;}
-.shortcut kbd{background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-family:'DM Mono',monospace;font-size:.88em;color:var(--blue);}.shortcut span{color:var(--text-muted);}
-.quiz-wrapper{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px;}
-.quiz-header{background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));border-bottom:1px solid var(--border);padding:20px 24px;display:flex;align-items:center;gap:12px;}
-.quiz-icon{font-size:1.8em;}.quiz-header-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05em;}.quiz-header-text p{font-size:.82em;color:var(--text-muted);margin-top:2px;}
-.quiz-reward{margin-left:auto;text-align:right;}.quiz-reward .xp-big{font-family:'DM Mono',monospace;font-size:1.3em;font-weight:700;color:var(--xp);}.quiz-reward .xp-label{font-size:.73em;color:var(--text-muted);}
-.quiz-body{padding:24px;}.quiz-progress{display:flex;align-items:center;gap:10px;margin-bottom:20px;}.quiz-dots{display:flex;gap:5px;}
-.quiz-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:all .3s;}.quiz-dot.done{background:var(--green);}.quiz-dot.current{background:var(--blue);box-shadow:0 0 8px rgba(88,166,255,.5);}
+.cc-chevron{color:var(--text-dim);transition:transform .3s;font-size:.85em;}
+.cc-header.open .cc-chevron{transform:rotate(180deg);}
+.cc-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}
+.cc-body.open{max-height:1600px;padding:20px;}
+
+/* KEY POINTS */
+.key-point{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.key-point:last-of-type{border:none;}
+.kp-dot{width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0;margin-top:7px;}
+.kp-dot.blue{background:var(--blue);}
+.kp-dot.green{background:var(--green);}
+.kp-text{font-size:.9em;color:var(--text-muted);line-height:1.5;}
+.kp-text strong{color:var(--text);}
+.kp-text code{background:rgba(188,140,255,.1);border:1px solid rgba(188,140,255,.2);color:var(--purple);padding:1px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.88em;}
+
+/* CODE BLOCKS */
+.code-block{background:#080d14;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:12px 0;font-family:'DM Mono',monospace;font-size:.83em;line-height:1.8;overflow-x:auto;position:relative;}
+.code-block::before{content:attr(data-label);position:absolute;top:8px;right:12px;font-size:.7em;color:var(--text-dim);}
+.code-block .kw{color:var(--purple);}
+.code-block .cm{color:var(--text-dim);font-style:italic;}
+.code-block .str{color:#98c379;}
+.code-block .var{color:var(--amber);}
+.code-block .param{color:var(--blue);}
+.code-block .out{color:var(--text-muted);}
+.code-block .out-g{color:var(--green);}
+
+/* CALLOUTS */
+.callout{border-radius:var(--r-sm);padding:14px 18px;margin:14px 0;display:flex;gap:10px;align-items:flex-start;}
+.callout.purple{background:var(--purple-dim);border:1px solid rgba(188,140,255,.25);}
+.callout.blue{background:var(--blue-dim);border:1px solid rgba(88,166,255,.25);}
+.callout.green{background:var(--green-dim);border:1px solid rgba(57,211,83,.25);}
+.callout.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.25);}
+.callout.teal{background:var(--teal-dim);border:1px solid rgba(45,212,191,.25);}
+.callout-icon{font-size:1.1em;flex-shrink:0;margin-top:1px;}
+.callout-text{font-size:.88em;color:var(--text-muted);line-height:1.5;}
+.callout-text strong{color:var(--text);}
+
+/* PIPE DIAGRAM */
+.pipe-diagram{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin:16px 0;gap:4px;}
+.pipe-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:.78em;color:var(--purple);}
+.pipe-arrow{color:var(--blue);font-size:1.2em;font-weight:700;padding:0 2px;}
+.pipe-out{color:var(--green);font-size:.75em;font-family:'DM Mono',monospace;}
+
+/* MISSIONS */
+.mission-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;transition:all .2s;}
+.mission-card:hover{border-color:rgba(188,140,255,.25);box-shadow:0 0 16px rgba(188,140,255,.1);}
+.mission-card.completed{border-color:rgba(57,211,83,.4);background:rgba(57,211,83,.04);}
+.mission-icon{font-size:1.6em;flex-shrink:0;}
+.mission-content{flex:1;}
+.mission-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--text);margin-bottom:4px;}
+.mission-desc{color:var(--text-muted);font-size:.87em;line-height:1.5;}
+.mission-meta{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.mission-tag{background:var(--surface2);border:1px solid var(--border);border-radius:50px;padding:2px 9px;font-size:.74em;color:var(--text-muted);}
+.mission-tag.xp{background:rgba(255,215,0,.08);border-color:rgba(255,215,0,.2);color:var(--xp);}
+.mission-check{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1em;color:var(--text-dim);flex-shrink:0;transition:all .2s;}
+.mission-check:hover{border-color:var(--purple);color:var(--purple);}
+.mission-check.done{background:var(--green);border-color:var(--green);color:#0d1117;}
+
+/* QUIZ */
+.quiz-shell{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.quiz-topbar{background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.quiz-topbar-icon{font-size:1.5em;}
+.quiz-topbar-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;}
+.quiz-topbar-text p{font-size:.78em;color:var(--text-muted);margin-top:2px;}
+.quiz-topbar-xp{margin-left:auto;text-align:right;}
+.quiz-topbar-xp .xp-big{font-family:'DM Mono',monospace;font-size:1.3em;font-weight:700;color:var(--xp);}
+.quiz-topbar-xp .xp-lbl{font-size:.72em;color:var(--text-muted);}
+.quiz-progress{padding:14px 20px 0;display:flex;align-items:center;gap:10px;border-top:1px solid var(--border);}
+.quiz-dots{display:flex;gap:5px;}
+.quiz-dot{width:9px;height:9px;border-radius:50%;background:var(--border);transition:all .3s;}
+.quiz-dot.current{background:var(--purple);box-shadow:0 0 8px var(--purple);}
+.quiz-dot.done{background:var(--green);}
 .quiz-counter{font-family:'DM Mono',monospace;font-size:.78em;color:var(--text-muted);margin-left:auto;}
-.question-card{animation:fadeInUp .35s ease;}@keyframes fadeInUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.quiz-body{padding:20px;}
 .question-text{font-weight:600;font-size:.97em;line-height:1.5;margin-bottom:18px;}
+.question-text code{background:rgba(188,140,255,.1);border:1px solid rgba(188,140,255,.2);color:var(--purple);padding:1px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.88em;}
 .options{display:flex;flex-direction:column;gap:8px;}
 .option-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px 16px;text-align:left;cursor:pointer;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9em;transition:all .2s;display:flex;align-items:center;gap:10px;}
-.option-btn:hover:not([disabled]){border-color:var(--blue);background:rgba(88,166,255,.05);transform:translateX(4px);}
-.option-btn.correct{border-color:var(--green);background:rgba(57,211,83,.08);color:var(--green);}.option-btn.wrong{border-color:var(--red);background:rgba(248,81,73,.08);color:var(--red);}
-.option-letter{width:24px;height:24px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.75em;font-weight:700;flex-shrink:0;}
-.option-btn.correct .option-letter{background:var(--green-dim);border-color:var(--green);color:var(--green);}.option-btn.wrong .option-letter{background:rgba(248,81,73,.1);border-color:var(--red);color:var(--red);}
-.quiz-feedback{margin-top:16px;padding:12px 16px;border-radius:var(--r-sm);font-size:.88em;display:none;}.quiz-feedback.show{display:flex;gap:8px;animation:fadeInUp .3s ease;}
-.quiz-feedback.ok{background:rgba(57,211,83,.08);border:1px solid rgba(57,211,83,.2);color:var(--green);}.quiz-feedback.err{background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.2);color:var(--red);}
-.quiz-next{margin-top:16px;background:var(--blue);color:var(--bg);border:none;border-radius:var(--r-sm);padding:10px 22px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9em;cursor:pointer;display:none;transition:all .2s;}
-.quiz-next:hover{background:#79b9ff;transform:translateY(-1px);}
-.quiz-result{text-align:center;padding:10px 0;}.quiz-result .score{font-family:'Syne',sans-serif;font-size:3em;font-weight:800;color:var(--xp);}.quiz-result .score-label{color:var(--text-muted);font-size:.9em;margin-bottom:16px;}
-.quiz-result .xp-earn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:50px;padding:6px 16px;color:var(--xp);font-weight:700;font-size:1em;margin-bottom:20px;}
-.quiz-restart{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:var(--r-sm);padding:9px 20px;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:.88em;transition:all .2s;}.quiz-restart:hover{border-color:var(--blue);color:var(--blue);}
-.missions-grid{display:flex;flex-direction:column;gap:14px;}
-.mission-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;gap:16px;align-items:flex-start;transition:all .2s;position:relative;overflow:hidden;}
-.mission-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--purple),var(--blue));}
-.mission-card:hover{border-color:rgba(188,140,255,.3);box-shadow:var(--glow-purple);}
-.mission-num{width:44px;height:44px;background:var(--purple-dim);border:1.5px solid rgba(188,140,255,.3);color:var(--purple);border-radius:12px;font-family:'Syne',sans-serif;font-size:1.1em;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.mission-content{flex:1;}.mission-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.98em;color:var(--text);margin-bottom:5px;}
-.mission-desc{font-size:.86em;color:var(--text-muted);line-height:1.5;margin-bottom:10px;}
-.mission-meta{display:flex;gap:8px;flex-wrap:wrap;}.mission-tag{background:var(--bg);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:.75em;font-weight:500;color:var(--text-muted);display:flex;align-items:center;gap:4px;}
-.mission-tag.xp{color:var(--xp);border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.05);}
-.mission-check{width:28px;height:28px;border:2px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .2s;cursor:pointer;font-size:.9em;}
-.mission-check.done{background:var(--green-dim);border-color:var(--green);color:var(--green);}
-.achievement-popup{position:fixed;top:80px;right:24px;background:var(--surface);border:1px solid rgba(255,215,0,.4);border-radius:var(--r);padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 20px rgba(255,215,0,.15);z-index:999;display:flex;gap:12px;align-items:center;transform:translateX(160%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:280px;}
-.achievement-popup.show{transform:translateX(0);}.ach-icon{font-size:2em;}.ach-text strong{font-family:'Syne',sans-serif;font-size:.88em;color:var(--xp);display:block;}.ach-text span{font-size:.78em;color:var(--text-muted);}
-.checkpoint{background:linear-gradient(135deg,var(--purple-dim),var(--purple-dim));border:1px solid rgba(188,140,255,.3);border-radius:var(--r-lg);padding:28px 24px;text-align:center;margin:32px 0;}
-.checkpoint h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3em;margin-bottom:8px;}.checkpoint p{color:var(--text-muted);font-size:.9em;margin-bottom:20px;}.checkpoint-stars{font-size:2em;margin-bottom:12px;letter-spacing:4px;}
-.xp-total-display{display:inline-flex;align-items:center;gap:8px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.3);border-radius:50px;padding:8px 20px;font-family:'DM Mono',monospace;color:var(--xp);font-size:1.1em;font-weight:700;}
-.nav-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:32px;}
-.nav-btn{padding:8px 16px;border-radius:var(--r-sm);text-decoration:none;font-weight:600;font-size:.85em;transition:all .2s;display:inline-flex;align-items:center;gap:5px;border:none;cursor:pointer;}
-.btn-ghost{background:var(--bg);color:var(--text-muted);border:1px solid var(--border);}.btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
-.btn-primary{background:var(--purple);color:var(--bg);font-family:'Syne',sans-serif;font-weight:700;}.btn-primary:hover{background:#bc8cff;transform:translateY(-1px);box-shadow:var(--glow-purple);}
-.btn-guide{background:rgba(88,166,255,.12);color:var(--blue);border:1px solid rgba(88,166,255,.25);}.btn-guide:hover{background:rgba(88,166,255,.2);}
+.option-btn:hover:not(:disabled){border-color:var(--purple);background:var(--purple-dim);transform:translateX(4px);}
+.option-letter{width:24px;height:24px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.75em;font-weight:700;flex-shrink:0;transition:all .2s;}
+.option-btn.correct{border-color:rgba(57,211,83,.5);background:rgba(57,211,83,.08);color:var(--green);}
+.option-btn.correct .option-letter{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+.option-btn.wrong{border-color:rgba(248,81,73,.5);background:rgba(248,81,73,.08);color:var(--red);}
+.option-btn.wrong .option-letter{background:var(--red-dim);border-color:var(--red);color:var(--red);}
+.quiz-feedback{margin-top:14px;padding:12px 16px;border-radius:var(--r-sm);font-size:.87em;line-height:1.5;display:none;}
+.quiz-feedback.show.ok{display:block;background:rgba(57,211,83,.08);border:1px solid rgba(57,211,83,.25);color:var(--green);}
+.quiz-feedback.show.err{display:block;background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.25);color:var(--red);}
+.quiz-next{margin-top:14px;background:var(--purple);color:var(--bg);border:none;border-radius:var(--r-sm);padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;cursor:pointer;display:none;transition:all .2s;}
+.quiz-next:hover{background:#d4aaff;transform:translateY(-1px);}
+.quiz-result{text-align:center;padding:20px 0;}
+.quiz-result .score{font-family:'Syne',sans-serif;font-size:3.5em;font-weight:800;color:var(--purple);}
+.quiz-result .score-label{color:var(--text-muted);font-size:.9em;margin-bottom:16px;}
+.quiz-result .xp-earn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.25);border-radius:50px;padding:6px 16px;color:var(--xp);font-weight:700;font-size:.95em;margin-bottom:20px;}
+.quiz-restart{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:var(--r-sm);padding:9px 20px;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:.88em;transition:all .2s;}
+.quiz-restart:hover{border-color:var(--purple);color:var(--purple);}
+
+/* CHECKPOINT */
+.checkpoint{background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));border:1px solid rgba(188,140,255,.2);border-radius:var(--r);padding:24px;text-align:center;margin:28px 0;}
+.checkpoint-stars{font-size:1.8em;margin-bottom:8px;}
+.checkpoint h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1em;color:var(--text);margin-bottom:6px;}
+.checkpoint p{color:var(--text-muted);font-size:.88em;}
+.xp-total-display{margin-top:12px;font-family:'DM Mono',monospace;font-size:1.1em;color:var(--xp);}
+
+/* RESOURCES */
+.resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;}
+.res-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;transition:all .2s;}
+.res-card:hover{border-color:rgba(88,166,255,.3);transform:translateY(-2px);}
+.res-icon{font-size:1.5em;margin-bottom:6px;}
+.res-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;color:var(--text);margin-bottom:3px;}
+.res-desc{font-size:.78em;color:var(--text-muted);}
+
+/* NAV */
+.nav-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:24px;}
+.nav-btn{padding:9px 18px;border-radius:var(--r-sm);text-decoration:none;font-weight:600;font-size:.85em;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--purple);color:var(--bg);font-family:'Syne',sans-serif;font-weight:700;border:none;}
+.btn-primary:hover{background:#d4aaff;transform:translateY(-1px);box-shadow:var(--glow-purple);}
+.btn-ghost{background:var(--surface2);border:1px solid var(--border);color:var(--text-muted);}
+.btn-ghost:hover{border-color:rgba(188,140,255,.3);color:var(--text);}
+.btn-guide{background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.25);color:var(--blue);}
+.btn-guide:hover{background:rgba(88,166,255,.18);}
 .nav-spacer{flex:1;}
-.resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;}
-.res-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;transition:all .2s;}.res-card:hover{border-color:rgba(88,166,255,.3);box-shadow:var(--glow-blue);}
-.res-icon{font-size:1.4em;margin-bottom:7px;}.res-title{font-weight:600;font-size:.85em;margin-bottom:3px;}.res-desc{font-size:.78em;color:var(--text-muted);}
-.star{position:fixed;pointer-events:none;font-size:1.4em;animation:floatStar 1.5s ease forwards;z-index:9999;}
-@keyframes floatStar{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.5);}}
-.footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--text-dim);font-size:.8em;max-width:900px;margin:0 auto;}
-@media(max-width:640px){.hud-title{display:none;}.obj-grid{grid-template-columns:1fr 1fr;}.container{padding:0 14px 40px;}.quiz-body{padding:16px;}}
+
+/* ACHIEVEMENT */
+.ach-popup{position:fixed;top:80px;right:24px;z-index:500;background:var(--surface);border:1px solid rgba(255,215,0,.4);border-radius:var(--r);padding:14px 18px;display:flex;gap:12px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 20px rgba(255,215,0,.15);transform:translateX(160%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:280px;}
+.ach-popup.show{transform:translateX(0);}
+.ach-icon-big{font-size:2em;}
+.ach-text-title{font-family:'Syne',sans-serif;font-size:.88em;font-weight:700;color:var(--xp);}
+.ach-text-desc{font-size:.78em;color:var(--text-muted);}
+
+/* FLOATING STARS */
+.star{position:fixed;pointer-events:none;z-index:1000;font-size:1.4em;animation:floatUp 1.4s ease-out forwards;}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.5);}}
+
+.footer{text-align:center;padding:24px;color:var(--text-dim);font-size:.78em;border-top:1px solid var(--border);}
+@media(max-width:640px){.hero{padding:40px 16px 30px;}.container{padding:0 14px 40px;}.options{flex-direction:column;}.hud-title{display:none;}}
 </style>
 </head>
 <body>
-<div class="achievement-popup" id="achPopup"><div class="ach-icon" id="achIcon">🏆</div><div class="ach-text"><strong id="achTitle">Conquista!</strong><span id="achDesc">Você desbloqueou algo!</span></div></div>
-<header class="hud">
+
+<div class="ach-popup" id="achPopup">
+  <div class="ach-icon-big" id="achIcon">🏆</div>
+  <div><div class="ach-text-title" id="achTitle">Conquista!</div><div class="ach-text-desc" id="achDesc">Desbloqueada!</div></div>
+</div>
+
+<!-- HUD -->
+<div class="hud">
   <div class="hud-inner">
     <span class="hud-week">S09/20</span>
-    <span class="hud-title">PowerShell – Comandos e Navegação...</span>
-    <div class="hud-xp"><span class="xp-icon">⚡</span><span class="xp-val" id="xpDisplay">0</span><span class="xp-label">XP</span></div>
-    <div class="progress-bar-outer" style="max-width:120px;"><div class="progress-bar-inner" id="mainProgress"></div></div>
+    <div class="hud-title">PowerShell – <span>Comandos e Navegação</span></div>
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="mainProgress"></div></div>
+    <div class="hud-xp"><span>⚡</span><span class="xp-val" id="xpDisplay">0</span><span class="xp-label">XP</span></div>
   </div>
-</header>
-<section class="hero">
+</div>
+
+<!-- HERO -->
+<div class="hero">
   <div class="hero-grid-bg"></div>
   <div class="hero-inner">
-    <div class="hero-eyebrow">💻 PowerShell · Missão 09 de 20</div>
-    <h1>Domine o<br><span class='accent'>Pipeline</span> PowerShell</h1>
-    <p class="hero-sub">Gestão de Sistemas Operacionais I · Prof. Isaque Katahira · 2026</p>
-    <div class="hero-pills"><span class="pill green">⚡ 260 XP disponíveis</span><span class="pill blue">⏱ ~90 min</span><span class="pill purple">🔗 Pipeline Power!</span></div>
+    <div class="hero-eyebrow">🗂 PowerShell · Semana 09 de 20</div>
+    <h1>Comandos &amp;<br><span class="accent">Navegação</span></h1>
+    <p class="hero-sub">Domine o pipeline, filtragem e navegação — as ferramentas do dia a dia de qualquer administrador de sistemas.</p>
+    <div class="hero-pills">
+      <span class="pill purple">⚡ Cmdlets &amp; Pipeline</span>
+      <span class="pill blue">🔍 Where-Object</span>
+      <span class="pill green">📊 Sort · Select · Export</span>
+    </div>
+
+    <!-- TERMINAL ILLUSTRATION -->
+    <div class="terminal-hero">
+      <div class="term-bar">
+        <div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div>
+        <div class="term-label">Windows PowerShell — Semana 09</div>
+      </div>
+      <div class="term-body">
+        <div><span class="term-prompt">PS C:\&gt;</span> <span class="term-cmd">Get-Process | Where-Object {$_.CPU -gt 10} | Sort-Object CPU -Desc</span></div>
+        <div class="term-out"> </div>
+        <div><span class="term-out" style="color:var(--text-dim)">NPM(K)   PM(M)   WS(M)   CPU(s)   Id   ProcessName</span></div>
+        <div><span class="term-out" style="color:var(--text-dim)">------   -----   -----   ------   --   -----------</span></div>
+        <div class="term-out green">   248   512.3   480.1   142.8  4120  chrome</div>
+        <div class="term-out green">    64   198.5   220.4    89.2  2380  Code</div>
+        <div class="term-out amber">    32    88.1   102.3    24.7  1844  powershell</div>
+        <div class="term-out"> </div>
+        <div><span class="term-prompt">PS C:\&gt;</span> <span class="term-cursor"></span></div>
+      </div>
+    </div>
+
+    <nav class="nav-bar" style="max-width:600px;margin:0 auto;">
+      <a href="semana08_aula.html" class="nav-btn btn-ghost">← Anterior</a>
+      <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
+      <a href="semana09_guia.html" class="nav-btn btn-guide">📝 Guia</a>
+      <span class="nav-spacer"></span>
+      <a href="semana10_aula.html" class="nav-btn btn-primary">Próxima →</a>
+    </nav>
   </div>
-</section>
+</div>
+
+<!-- MAIN -->
 <div class="container">
-  <nav class="nav-bar">
-    <a href="semana08_aula.html" class="nav-btn btn-ghost">← Anterior</a>
-    <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
-    <a href="semana09_guia.html" class="nav-btn btn-guide">📝 Guia</a>
-    <span class="nav-spacer"></span>
-    <a href="semana10_aula.html" class="nav-btn btn-primary">Próxima →</a>
-  </nav>
-  <div class="section-header"><div class="section-icon green">🎯</div><h2 class="section-title">O que você vai aprender hoje</h2><span class="section-xp">+40 XP</span></div>
-  <div class="obj-grid" id="objGrid">
-    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">1</div><span class="obj-text">Gerenciar arquivos e pastas via PowerShell com eficiência</span></div>
-<div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">2</div><span class="obj-text">Usar o pipeline (|) para encadear comandos</span></div>
-<div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">3</div><span class="obj-text">Filtrar e formatar saídas de cmdlets</span></div>
-<div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">4</div><span class="obj-text">Criar arquivos e pastas em lote via script</span></div>
+
+  <!-- OBJETIVOS -->
+  <div class="section-header">
+    <div class="section-icon purple">🎯</div>
+    <h2 class="section-title">Objetivos de Aprendizagem</h2>
+    <span class="section-xp">+40 XP</span>
   </div>
-  <p style="font-size:.8em;color:var(--text-dim);margin-bottom:4px;">💡 Clique nos objetivos conforme for aprendendo para ganhar XP!</p>
-  <div class="lore-card" style="margin-top:24px;">
-    <div class="lore-emoji">🧭</div>
-    <div class="lore-body"><strong>Por que isso importa?</strong><p>Cada habilidade desta aula aparece no trabalho real de suporte técnico. Dominar esses conceitos vai te destacar no mercado de trabalho desde o primeiro estágio!</p></div>
+  <div class="obj-grid">
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">1</div><span class="obj-text">Entender e usar o <strong>pipeline</strong> do PowerShell</span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">2</div><span class="obj-text">Filtrar, ordenar e selecionar objetos com <strong>Where / Sort / Select</strong></span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">3</div><span class="obj-text">Usar <strong>variáveis</strong> e a variável especial <code style="font-size:.85em;color:var(--purple)">$_</code></span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">4</div><span class="obj-text">Exportar dados para <strong>CSV</strong> e relatórios de texto</span></div>
   </div>
-  <div class="section-header"><div class="section-icon blue">📖</div><h2 class="section-title">Conteúdo da Aula</h2><span class="section-xp">+80 XP</span></div>
-  
-  <div class="content-card">
-    <div class="cc-header" onclick="toggleCard(this)">
-      <span class="cc-icon">📂</span>
-      <span class="cc-title">1. Gerenciamento de Arquivos com PowerShell</span>
-      <span class="cc-xp">+20 XP</span>
-      <span class="cc-chevron">▼</span>
-    </div>
-    <div class="cc-body">
-      <p>PowerShell é MUITO poderoso para arquivos — o que levaria horas no Explorador, leva segundos aqui!</p>
-             <div class="key-point"><span class="kp-icon">📋</span><div class="kp-text"><code style='font-family:monospace;color:var(--green);'>Get-ChildItem</code> → lista arquivos e pastas (equivalente ao dir/ls)</div></div>
-             <div class="key-point"><span class="kp-icon">🆕</span><div class="kp-text"><code style='font-family:monospace;color:var(--green);'>New-Item -ItemType Directory "Pasta"</code> → cria pasta</div></div>
-             <div class="key-point"><span class="kp-icon">📄</span><div class="kp-text"><code style='font-family:monospace;color:var(--green);'>Copy-Item "orig.txt" "dest.txt"</code> → copia arquivo</div></div>
-             <div class="key-point"><span class="kp-icon">✂️</span><div class="kp-text"><code style='font-family:monospace;color:var(--green);'>Move-Item "arquivo.txt" "C:\Nova\"</code> → move arquivo</div></div>
-             <div class="key-point"><span class="kp-icon">🗑️</span><div class="kp-text"><code style='font-family:monospace;color:var(--green);'>Remove-Item "arquivo.txt"</code> → deleta arquivo</div></div>
-             <div class="tip-box"><span class="tip-icon">⚡</span><p><strong>Poder real:</strong> <code style='font-family:monospace;color:var(--green);'>Get-ChildItem *.txt | Remove-Item</code> → deleta TODOS os arquivos .txt de uma vez!</p></div>
-    </div>
+
+  <!-- CONTEÚDO -->
+  <div class="section-header">
+    <div class="section-icon blue">📖</div>
+    <h2 class="section-title">Conteúdo da Aula</h2>
+    <span class="section-xp">+80 XP</span>
   </div>
+
+  <!-- CARD 1: PIPELINE -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">🔗</span>
-      <span class="cc-title">2. O Pipeline: O Coração do PowerShell</span>
+      <span class="cc-title">O Pipe | — O Coração do PowerShell</span>
       <span class="cc-xp">+20 XP</span>
-      <span class="cc-chevron">▼</span>
+      <span class="cc-chevron">▾</span>
     </div>
     <div class="cc-body">
-      <p>O pipeline (<code style='color:var(--amber);font-family:monospace;'>|</code>) conecta a saída de um cmdlet à entrada do próximo. É incrivelmente poderoso!</p>
-             <div class="key-point"><span class="kp-icon">📖</span><div class="kp-text">Leia o pipeline da esquerda para a direita: <strong>"pega → filtra → ordena → mostra"</strong></div></div>
-             <div style='background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px;margin:12px 0;font-family:monospace;font-size:.82em;line-height:1.8;'>
-               <span style='color:var(--text-dim)'># Exemplo: processos que consomem mais CPU</span><br>
-               <span style='color:var(--green)'>Get-Process</span> <span style='color:var(--amber)'>|</span> <span style='color:var(--blue)'>Where-Object</span> <span style='color:var(--text)'>{$_.CPU -gt 10}</span> <span style='color:var(--amber)'>|</span><br>
-               &nbsp;&nbsp;<span style='color:var(--blue)'>Sort-Object</span> <span style='color:var(--text)'>CPU</span> <span style='color:var(--amber)'>|</span> <span style='color:var(--blue)'>Select-Object</span> <span style='color:var(--text)'>Name, CPU</span>
-             </div>
-             <div class="key-point"><span class="kp-icon">🎯</span><div class="kp-text"><strong>Leitura:</strong> "Pega processos → filtra os com CPU > 10 → ordena por CPU → mostra só Nome e CPU"</div></div>
-             <div class="tip-box"><span class="tip-icon">💡</span><p><strong>$_</strong> é a variável especial que representa o <strong>objeto atual</strong> dentro do pipeline. É muito importante memorizar isso!</p></div>
+      <div class="key-point"><div class="kp-dot"></div><div class="kp-text">O <strong>pipe <code>|</code></strong> conecta cmdlets em cadeia: a saída do da esquerda vira a entrada do da direita. No PowerShell, passa <strong>objetos</strong>, não texto.</div></div>
+      <div class="key-point"><div class="kp-dot"></div><div class="kp-text">Você pode encadear quantos cmdlets quiser. Cada um processa e passa adiante — como uma linha de montagem.</div></div>
+      <div class="pipe-diagram">
+        <div class="pipe-box">Get-Process</div>
+        <div class="pipe-arrow">|</div>
+        <div class="pipe-box">Where-Object</div>
+        <div class="pipe-arrow">|</div>
+        <div class="pipe-box">Sort-Object</div>
+        <div class="pipe-arrow">|</div>
+        <div class="pipe-box">Select-Object</div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-out">resultado</div>
+      </div>
+      <div class="code-block" data-label="pipeline.ps1">
+<span class="cm"># Pipeline simples: processos acima de 10s de CPU</span>
+<span class="kw">Get-Process</span> | <span class="kw">Where-Object</span> {<span class="var">$_</span>.CPU <span class="param">-gt</span> 10}
+
+<span class="cm"># Pipeline completo: top 5 processos, colunas específicas</span>
+<span class="kw">Get-Process</span> `
+  | <span class="kw">Where-Object</span> {<span class="var">$_</span>.CPU <span class="param">-gt</span> 5} `
+  | <span class="kw">Sort-Object</span> CPU <span class="param">-Descending</span> `
+  | <span class="kw">Select-Object</span> Name, CPU, Id `
+  | <span class="kw">Select-Object</span> <span class="param">-First</span> 5
+      </div>
+      <div class="callout purple">
+        <span class="callout-icon">💡</span>
+        <span class="callout-text"><strong>Dica:</strong> use o acento grave <code style="color:var(--purple)">`</code> para quebrar uma linha longa em várias — o PowerShell entende que a instrução continua.</span>
+      </div>
     </div>
   </div>
+
+  <!-- CARD 2: FILTRAGEM -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
-      <span class="cc-icon">🔎</span>
-      <span class="cc-title">3. Filtragem e Formatação de Saídas</span>
+      <span class="cc-icon">🔍</span>
+      <span class="cc-title">Filtragem — Where-Object e Operadores</span>
       <span class="cc-xp">+20 XP</span>
-      <span class="cc-chevron">▼</span>
+      <span class="cc-chevron">▾</span>
     </div>
     <div class="cc-body">
-      <p>Três cmdlets essenciais para trabalhar com saídas:</p>
-             <div class="key-point"><span class="kp-icon">🔍</span><div class="kp-text"><strong>Where-Object:</strong> filtra objetos por condição: <code style='font-family:monospace;color:var(--green);font-size:.85em;'>Get-Service | Where-Object {$_.Status -eq 'Running'}</code></div></div>
-             <div class="key-point"><span class="kp-icon">📋</span><div class="kp-text"><strong>Select-Object:</strong> escolhe quais propriedades mostrar: <code style='font-family:monospace;color:var(--green);font-size:.85em;'>Get-Process | Select-Object Name, CPU, Id</code></div></div>
-             <div class="key-point"><span class="kp-icon">📊</span><div class="kp-text"><strong>Sort-Object:</strong> ordena resultados: <code style='font-family:monospace;color:var(--green);font-size:.85em;'>Get-ChildItem | Sort-Object Length -Descending</code> (arquivos maiores primeiro)</div></div>
-             <div class="key-point"><span class="kp-icon">💾</span><div class="kp-text"><strong>Export-Csv:</strong> exporta DIRETO para Excel! <code style='font-family:monospace;color:var(--green);font-size:.85em;'>Get-Process | Export-Csv processos.csv</code></div></div>
+      <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><code>Where-Object</code> filtra objetos de uma coleção. Dentro do bloco <code>{}</code>, use <code>$_</code> para representar cada item.</div></div>
+      <div class="key-point"><div class="kp-dot blue"></div><div class="kp-text"><strong>Operadores:</strong> <code>-eq</code> igual · <code>-ne</code> diferente · <code>-gt</code> maior · <code>-lt</code> menor · <code>-like</code> padrão com * · <code>-match</code> regex.</div></div>
+      <div class="key-point"><div class="kp-dot green"></div><div class="kp-text">Sintaxe curta: <code>Where CPU -gt 100</code> (sem <code>$_.</code>) — disponível no PowerShell 3+.</div></div>
+      <div class="code-block" data-label="where_object.ps1">
+<span class="cm"># Serviços em execução</span>
+<span class="kw">Get-Service</span> | <span class="kw">Where-Object</span> {<span class="var">$_</span>.Status <span class="param">-eq</span> <span class="str">'Running'</span>}
+
+<span class="cm"># Processos pesados — sintaxe curta</span>
+<span class="kw">Get-Process</span> | <span class="kw">Where-Object</span> CPU <span class="param">-gt</span> 100
+
+<span class="cm"># Arquivos .log na pasta Windows</span>
+<span class="kw">Get-ChildItem</span> <span class="str">'C:\Windows'</span> | <span class="kw">Where-Object</span> {<span class="var">$_</span>.Extension <span class="param">-eq</span> <span class="str">'.log'</span>}
+
+<span class="cm"># Filtrar por nome com padrão</span>
+<span class="kw">Get-Service</span> | <span class="kw">Where-Object</span> {<span class="var">$_</span>.Name <span class="param">-like</span> <span class="str">'W*'</span>}
+      </div>
     </div>
   </div>
+
+  <!-- CARD 3: SORT / SELECT / EXPORT -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">📊</span>
-      <span class="cc-title">4. Variáveis no PowerShell</span>
+      <span class="cc-title">Sort · Select · Export — Apresentando Dados</span>
       <span class="cc-xp">+20 XP</span>
-      <span class="cc-chevron">▼</span>
+      <span class="cc-chevron">▾</span>
     </div>
     <div class="cc-body">
-      <p>Variáveis começam sempre com <code style='color:var(--xp);font-family:monospace;'>$</code> — fácil de reconhecer!</p>
-             <div class="key-point"><span class="kp-icon">📦</span><div class="kp-text">Armazena qualquer coisa: <code style='font-family:monospace;color:var(--green);font-size:.85em;'>$nome = "João"</code>, <code style='font-family:monospace;color:var(--green);font-size:.85em;'>$numero = 42</code>, <code style='font-family:monospace;color:var(--green);font-size:.85em;'>$procs = Get-Process</code></div></div>
-             <div class="key-point"><span class="kp-icon">♻️</span><div class="kp-text">Reutilize depois: <code style='font-family:monospace;color:var(--green);font-size:.85em;'>$procs | Where-Object {$_.CPU -gt 5}</code></div></div>
-             <div class="key-point"><span class="kp-icon">⭐</span><div class="kp-text"><strong>$_</strong> representa o objeto atual dentro de pipes e laços. Vai usar isso O TEMPO TODO!</div></div>
-             <div class="key-point"><span class="kp-icon">📋</span><div class="kp-text"><strong>$PSVersionTable</strong> mostra a versão do PowerShell. <strong>$HOME</strong> mostra o diretório do usuário.</div></div>
-             <div class="tip-box"><span class="tip-icon">🚀</span><p><strong>Desafio:</strong> <code style='font-family:monospace;color:var(--green);font-size:.85em;'>$arquivos = Get-ChildItem C:\</code> e depois <code style='font-family:monospace;color:var(--green);font-size:.85em;'>$arquivos.Count</code> — quantos itens há em C:\?</p></div>
+      <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><code>Sort-Object</code> ordena resultados por qualquer propriedade. <code>-Descending</code> inverte a ordem.</div></div>
+      <div class="key-point"><div class="kp-dot blue"></div><div class="kp-text"><code>Select-Object</code> escolhe quais propriedades exibir. <code>-First 5</code> pega os 5 primeiros. <code>-Last 3</code> pega os últimos.</div></div>
+      <div class="key-point"><div class="kp-dot green"></div><div class="kp-text"><code>Export-Csv</code> exporta diretamente para Excel! <code>-NoTypeInformation</code> remove a linha de cabeçalho técnico.</div></div>
+      <div class="code-block" data-label="sort_select_export.ps1">
+<span class="cm"># Top 5 processos por RAM</span>
+<span class="kw">Get-Process</span> `
+  | <span class="kw">Sort-Object</span> WorkingSet <span class="param">-Descending</span> `
+  | <span class="kw">Select-Object</span> <span class="param">-First</span> 5 Name, @{N=<span class="str">'RAM(MB)'</span>;E={[math]::Round(<span class="var">$_</span>.WorkingSet/1MB,1)}}
+
+<span class="cm"># Exportar lista de serviços para Excel</span>
+<span class="kw">Get-Service</span> `
+  | <span class="kw">Select-Object</span> Name, DisplayName, Status `
+  | <span class="kw">Export-Csv</span> <span class="str">'C:\servicos.csv'</span> <span class="param">-NoTypeInformation</span>
+
+<span class="cm"># Salvar em arquivo de texto</span>
+<span class="kw">Get-Process</span> | <span class="kw">Out-File</span> <span class="str">'C:\processos.txt'</span>
+      </div>
+      <div class="callout green">
+        <span class="callout-icon">🚀</span>
+        <span class="callout-text"><strong>Resultado imediato:</strong> rode <code>Get-Service | Export-Csv "C:\servicos.csv"</code> e abra o arquivo no Excel — você criou um relatório profissional em 1 linha!</span>
+      </div>
     </div>
   </div>
-  <div class="section-header" style="margin-top:40px;"><div class="section-icon purple">🧠</div><h2 class="section-title">Quiz Rápido</h2><span class="section-xp">+80 XP</span></div>
-  <div class="quiz-wrapper" id="quizWrapper">
-    <div class="quiz-header">
-      <span class="quiz-icon">⚡</span>
-      <div class="quiz-header-text"><h3>Teste seu conhecimento!</h3><p>4 perguntas · responda com atenção</p></div>
-      <div class="quiz-reward"><div class="xp-big">+80</div><div class="xp-label">XP máx.</div></div>
+
+  <!-- CARD 4: VARIÁVEIS -->
+  <div class="content-card">
+    <div class="cc-header" onclick="toggleCard(this)">
+      <span class="cc-icon">📦</span>
+      <span class="cc-title">Variáveis e a Variável Especial $_</span>
+      <span class="cc-xp">+20 XP</span>
+      <span class="cc-chevron">▾</span>
     </div>
-    <div class="quiz-body">
-      <div class="quiz-progress"><div class="quiz-dots" id="quizDots"></div><div class="quiz-counter" id="quizCounter">1 / 4</div></div>
-      <div id="quizContent"></div>
+    <div class="cc-body">
+      <div class="key-point"><div class="kp-dot"></div><div class="kp-text">Variáveis começam sempre com <strong><code>$</code></strong>. Armazenam qualquer coisa: texto, número, lista de objetos ou resultado de cmdlet.</div></div>
+      <div class="key-point"><div class="kp-dot blue"></div><div class="kp-text"><strong><code>$_</code></strong> (ou <code>$PSItem</code>) representa o <strong>objeto atual</strong> dentro de um pipe ou laço. Você vai usar isso o tempo todo!</div></div>
+      <div class="key-point"><div class="kp-dot green"></div><div class="kp-text">Variáveis automáticas úteis: <code>$env:COMPUTERNAME</code> (nome do PC), <code>$env:USERNAME</code> (usuário), <code>$PSVersionTable</code> (versão do PS).</div></div>
+      <div class="code-block" data-label="variaveis.ps1">
+<span class="cm"># Armazenar resultado em variável</span>
+<span class="var">$processos</span> = <span class="kw">Get-Process</span>
+<span class="var">$processos</span>.Count           <span class="cm"># quantos processos?</span>
+
+<span class="cm"># Reutilizar a variável</span>
+<span class="var">$processos</span> | <span class="kw">Where-Object</span> {<span class="var">$_</span>.CPU <span class="param">-gt</span> 5}
+
+<span class="cm"># Variáveis de ambiente</span>
+<span class="kw">Write-Host</span> <span class="str">"Computador: $env:COMPUTERNAME"</span>
+<span class="kw">Write-Host</span> <span class="str">"Usuário: $env:USERNAME"</span>
+
+<span class="cm"># Operações matemáticas</span>
+<span class="var">$disco</span> = (<span class="kw">Get-PSDrive</span> C).Free / 1GB
+<span class="kw">Write-Host</span> <span class="str">"Espaço livre: $([math]::Round($disco,1)) GB"</span>
+      </div>
+      <div class="callout amber">
+        <span class="callout-icon">⚡</span>
+        <span class="callout-text"><strong>Desafio:</strong> rode <code>$arquivos = Get-ChildItem C:\</code> e depois <code>$arquivos.Count</code> — quantos itens existem na raiz do C:\?</span>
+      </div>
     </div>
   </div>
-  <div class="section-header"><div class="section-icon amber">🔬</div><h2 class="section-title">Missões do Laboratório</h2><span class="section-xp">+90 XP</span></div>
-  <p style="color:var(--text-muted);font-size:.85em;margin-bottom:16px;">Acesse o <a href="semana09_guia.html" style="color:var(--blue);">📝 Guia de Exercícios</a> para ver as rubricas. Marque ✓ ao concluir!</p>
-  <div class="missions-grid">
-    <div class="mission-card">
-      <div class="mission-num">M1</div>
-      <div class="mission-content">
-        <div class="mission-title">📁 Criação de Estrutura de Pastas em Lote</div>
-        <div class="mission-desc">Use PowerShell para criar automaticamente uma estrutura completa de pastas para um projeto escolar (com 5 disciplinas e subpastas). Compare o tempo com fazer manualmente!</div>
-        <div class="mission-meta">
-          <span class="mission-tag">⏱ 30 min</span>
-          <span class="mission-tag">🔬 Laboratório</span>
-          <span class="mission-tag xp">+30 XP</span>
-        </div>
-      </div>
-      <div class="mission-check" id="m1" onclick="completeMission('m1',30)">○</div>
+
+  <!-- CARD 5: NAVEGAÇÃO -->
+  <div class="content-card">
+    <div class="cc-header" onclick="toggleCard(this)">
+      <span class="cc-icon">🗺️</span>
+      <span class="cc-title">Navegação e Atalhos Essenciais</span>
+      <span class="cc-xp">+20 XP</span>
+      <span class="cc-chevron">▾</span>
     </div>
-    <div class="mission-card">
-      <div class="mission-num">M2</div>
-      <div class="mission-content">
-        <div class="mission-title">🔗 Filtragem Avançada com Pipeline</div>
-        <div class="mission-desc">Use o pipeline para: listar processos com CPU > 5, mostrar só serviços rodando, encontrar arquivos maiores que 1MB na pasta Documentos.</div>
-        <div class="mission-meta">
-          <span class="mission-tag">⏱ 35 min</span>
-          <span class="mission-tag">🔬 Laboratório</span>
-          <span class="mission-tag xp">+30 XP</span>
-        </div>
+    <div class="cc-body">
+      <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><code>Set-Location</code> (alias <code>cd</code>) muda o diretório. <code>Get-Location</code> (alias <code>pwd</code>) mostra onde você está.</div></div>
+      <div class="key-point"><div class="kp-dot blue"></div><div class="kp-text"><code>Get-ChildItem</code> (alias <code>ls</code> ou <code>dir</code>) lista o conteúdo. <code>-Recurse</code> entra em subpastas. <code>-Filter *.txt</code> filtra por extensão.</div></div>
+      <div class="code-block" data-label="navegacao.ps1">
+<span class="cm"># Navegar pelo sistema de arquivos</span>
+<span class="kw">Set-Location</span> <span class="str">'C:\Windows'</span>       <span class="cm"># ou: cd C:\Windows</span>
+<span class="kw">Get-Location</span>                   <span class="cm"># ou: pwd</span>
+
+<span class="cm"># Listar arquivos</span>
+<span class="kw">Get-ChildItem</span>                  <span class="cm"># conteúdo atual</span>
+<span class="kw">Get-ChildItem</span> <span class="param">-Filter</span> <span class="str">*.log</span>    <span class="cm"># só .log</span>
+<span class="kw">Get-ChildItem</span> <span class="param">-Recurse</span> <span class="param">-Filter</span> <span class="str">*.exe</span> | <span class="kw">Select-Object</span> FullName
+
+<span class="cm"># Atalhos de teclado no terminal</span>
+<span class="cm"># ↑↓      — histórico de comandos</span>
+<span class="cm"># Tab     — autocompletar</span>
+<span class="cm"># Ctrl+C  — cancelar execução</span>
       </div>
-      <div class="mission-check" id="m2" onclick="completeMission('m2',30)">○</div>
+      <div class="callout teal">
+        <span class="callout-icon">⌨️</span>
+        <span class="callout-text"><strong>Alias:</strong> <code>cd</code>, <code>ls</code>, <code>dir</code>, <code>cat</code>, <code>cp</code>, <code>mv</code>, <code>rm</code> — todos funcionam no PowerShell! Quem vem do CMD ou do Linux se sente em casa.</span>
+      </div>
     </div>
-    <div class="mission-card">
-      <div class="mission-num">M3</div>
-      <div class="mission-content">
-        <div class="mission-title">📊 Relatório do Sistema via PowerShell</div>
-        <div class="mission-desc">Crie um relatório .txt com: versão do Windows, processos ativos, serviços em execução e espaço em disco. Salve em arquivo com Out-File.</div>
-        <div class="mission-meta">
-          <span class="mission-tag">⏱ 25 min</span>
-          <span class="mission-tag">🔬 Laboratório</span>
-          <span class="mission-tag xp">+30 XP</span>
-        </div>
-      </div>
-      <div class="mission-check" id="m3" onclick="completeMission('m3',30)">○</div>
-    </div></div>
-  <div class="checkpoint" id="checkpoint">
+  </div>
+
+  <!-- MISSÕES -->
+  <div class="section-header">
+    <div class="section-icon amber">🔬</div>
+    <h2 class="section-title">Missões do Laboratório</h2>
+    <span class="section-xp">+90 XP</span>
+  </div>
+  <p style="color:var(--text-muted);font-size:.88em;margin-bottom:16px;">Marque ✓ ao concluir. Acesse o <a href="semana09_guia.html" style="color:var(--blue);">Guia de Exercícios</a> para rubricas e resoluções detalhadas.</p>
+
+  <div class="mission-card" id="mc1">
+    <div class="mission-icon">📁</div>
+    <div class="mission-content">
+      <div class="mission-title">Criação de Estrutura de Pastas em Lote</div>
+      <div class="mission-desc">Use PowerShell para criar automaticamente uma estrutura de pastas para um projeto escolar (5 disciplinas com subpastas). Compare o tempo com fazer manualmente!</div>
+      <div class="mission-meta"><span class="mission-tag">⏱ 30 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+30 XP</span></div>
+    </div>
+    <div class="mission-check" id="m1" onclick="completeMission('m1','mc1',30)">○</div>
+  </div>
+
+  <div class="mission-card" id="mc2">
+    <div class="mission-icon">🔗</div>
+    <div class="mission-content">
+      <div class="mission-title">Filtragem Avançada com Pipeline</div>
+      <div class="mission-desc">Use o pipeline para: (1) listar processos com CPU &gt; 5, (2) serviços em execução, (3) arquivos maiores que 1 MB nos Documentos. Exporte os resultados para CSV.</div>
+      <div class="mission-meta"><span class="mission-tag">⏱ 35 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+35 XP</span></div>
+    </div>
+    <div class="mission-check" id="m2" onclick="completeMission('m2','mc2',35)">○</div>
+  </div>
+
+  <div class="mission-card" id="mc3">
+    <div class="mission-icon">📊</div>
+    <div class="mission-content">
+      <div class="mission-title">Relatório do Sistema via PowerShell</div>
+      <div class="mission-desc">Crie um relatório .txt com: versão do Windows, processos ativos, serviços em execução e espaço em disco. Use <code style="color:var(--purple);font-size:.9em">Out-File</code> para salvar o arquivo.</div>
+      <div class="mission-meta"><span class="mission-tag">⏱ 25 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+25 XP</span></div>
+    </div>
+    <div class="mission-check" id="m3" onclick="completeMission('m3','mc3',25)">○</div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section-header">
+    <div class="section-icon purple">🧠</div>
+    <h2 class="section-title">Quiz Rápido</h2>
+    <span class="section-xp">+80 XP</span>
+  </div>
+
+  <div class="quiz-shell">
+    <div class="quiz-topbar">
+      <span class="quiz-topbar-icon">⚡</span>
+      <div class="quiz-topbar-text"><h3>Teste seu conhecimento!</h3><p>4 perguntas · responda com atenção</p></div>
+      <div class="quiz-topbar-xp"><div class="xp-big">+80</div><div class="xp-lbl">XP máx.</div></div>
+    </div>
+    <div class="quiz-progress">
+      <div class="quiz-dots" id="quizDots"></div>
+      <div class="quiz-counter" id="quizCounter">1 / 4</div>
+    </div>
+    <div class="quiz-body" id="quizContent"></div>
+  </div>
+
+  <!-- CHECKPOINT -->
+  <div class="checkpoint">
     <div class="checkpoint-stars" id="checkpointStars">⭐⭐⭐</div>
-    <h3>Progresso da Missão 09</h3>
+    <h3>Progresso da Semana 09</h3>
     <p>Complete as missões e o quiz para acumular XP!</p>
-    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 260 XP</div>
+    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 310 XP</div>
   </div>
-  <div class="section-header"><div class="section-icon green">🔗</div><h2 class="section-title">Recursos para ir além</h2></div>
+
+  <!-- RECURSOS -->
+  <div class="section-header">
+    <div class="section-icon green">🔗</div>
+    <h2 class="section-title">Recursos para Ir Além</h2>
+  </div>
   <div class="resources-grid">
     <div class="res-card"><div class="res-icon">📄</div><div class="res-title">Microsoft Docs</div><div class="res-desc">docs.microsoft.com</div></div>
     <div class="res-card"><div class="res-icon">💻</div><div class="res-title">PowerShell Docs</div><div class="res-desc">learn.microsoft.com/powershell</div></div>
-    <div class="res-card"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "PowerShell – Comando..."</div></div>
-    <div class="res-card"><div class="res-icon">🎓</div><div class="res-title">Microsoft Learn</div><div class="res-desc">learn.microsoft.com — gratuito</div></div>
+    <div class="res-card"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "PowerShell Pipeline"</div></div>
+    <div class="res-card"><div class="res-icon">🎓</div><div class="res-title">Microsoft Learn</div><div class="res-desc">Cursos gratuitos online</div></div>
   </div>
-  <nav class="nav-bar" style="margin-top:32px;margin-bottom:0;">
+
+  <nav class="nav-bar" style="margin-top:32px;">
     <a href="semana08_aula.html" class="nav-btn btn-ghost">← Anterior</a>
     <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
     <a href="semana09_guia.html" class="nav-btn btn-guide">📝 Guia</a>
@@ -302,24 +567,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
     <a href="semana10_aula.html" class="nav-btn btn-primary">Próxima →</a>
   </nav>
 </div>
-<div class="footer">Gestão de Sistemas Operacionais I · GSO I 2026 · Prof. Isaque Katahira<br>ETEC · Centro Paula Souza · Módulo I</div>
+
+<div class="footer">Gestão de Sistemas Operacionais I · GSO I 2026 · Prof. Isaque Katahira<br>ETEC · Centro Paula Souza · Módulo I · Semana 09</div>
+
 <script>
 let xp=0,objDone=new Set(),missionDone=new Set(),cardXpDone=new Set();
-const totalXP=260;
+const totalXP=310;
 function addXP(a){xp+=a;document.getElementById('xpDisplay').textContent=xp;document.getElementById('xpFinal').textContent=xp;const p=Math.min(100,(xp/totalXP)*100);document.getElementById('mainProgress').style.width=p+'%';const s=document.getElementById('checkpointStars');if(p>=80)s.textContent='🌟🌟🌟';else if(p>=50)s.textContent='⭐🌟⭐';spawnStars();checkAch();}
 function spawnStars(){for(let i=0;i<3;i++)setTimeout(()=>{const e=document.createElement('div');e.className='star';e.textContent=['⭐','✨','💫','⚡'][Math.floor(Math.random()*4)];e.style.left=(Math.random()*80+10)+'%';e.style.top=(window.scrollY+window.innerHeight*.5)+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1500);},i*150);}
 function markObj(el,pts){if(el.classList.contains('done'))return;el.classList.add('done');el.querySelector('.obj-num').style.background='var(--purple)';el.querySelector('.obj-num').style.color='#0d1117';addXP(pts);if([...document.querySelectorAll('.obj-card.done')].length===4)showAch('🎯','Objetivos Marcados!','Você leu todos os objetivos!');}
 function toggleCard(h){const b=h.nextElementSibling,o=b.classList.contains('open');document.querySelectorAll('.cc-body.open').forEach(x=>{x.classList.remove('open');x.previousElementSibling.classList.remove('open');});if(!o){b.classList.add('open');h.classList.add('open');const t=h.querySelector('.cc-title').textContent;if(!cardXpDone.has(t)){cardXpDone.add(t);addXP(20);}}}
-function completeMission(id,pts){if(missionDone.has(id))return;missionDone.add(id);const e=document.getElementById(id);e.classList.add('done');e.textContent='✓';e.closest('.mission-card').style.borderColor='rgba(188,140,255,.3)';addXP(pts);if(missionDone.size===3)showAch('🔬','Lab Completo!','Todas as missões concluídas!');}
+function completeMission(id,cardId,pts){if(missionDone.has(id))return;missionDone.add(id);const e=document.getElementById(id);e.classList.add('done');e.textContent='✓';document.getElementById(cardId).classList.add('completed');addXP(pts);if(missionDone.size===3)showAch('🔬','Lab Completo!','Todas as missões concluídas!');}
 const questions=[
-  {q:"O que o símbolo | (pipe) faz no PowerShell?",opts:["Salva a saída em um arquivo","Conecta a saída de um cmdlet à entrada do próximo","Comenta uma linha de código","Divide dois números"],ans:1,exp:"✅ O pipe (|) conecta cmdlets! A saída do comando da esquerda vira a entrada do comando da direita. Fundamental para o PowerShell!"},
-  {q:"Qual cmdlet você usa para FILTRAR resultados no PowerShell?",opts:["Filter-Object","Find-Object","Where-Object","Search-Object"],ans:2,exp:"✅ Where-Object filtra! Ex: Get-Service | Where-Object {$_.Status -eq 'Running'} mostra só os serviços em execução."},
-  {q:"O que a variável especial $_ representa dentro de um pipeline?",opts:["O número de itens na lista","O computador local","O objeto atual sendo processado","O diretório atual"],ans:2,exp:"✅ $_ é o objeto atual! Dentro de Where-Object ou ForEach-Object, $_ representa o item que está sendo processado naquele momento."},
-  {q:"Como você exporta os resultados de um cmdlet para um arquivo CSV (Excel)?",opts:["Save-Csv arquivo.csv","Get-Process | Export-Csv processos.csv","Get-Process | Save-Excel","Export processos.csv"],ans:1,exp:"✅ Export-Csv transforma qualquer saída do PowerShell em um arquivo CSV que abre direto no Excel! Muito útil para relatórios!"},
+  {q:"O que o símbolo <code>|</code> (pipe) faz no PowerShell?",opts:["Salva a saída em um arquivo","Conecta a saída de um cmdlet à entrada do próximo","Comenta uma linha de código","Divide dois números"],ans:1,exp:"✅ O pipe <strong>|</strong> conecta cmdlets! A saída do da esquerda se torna a entrada do da direita — como uma esteira de fábrica. Você pode encadear quantos quiser!"},
+  {q:"Qual cmdlet você usa para FILTRAR resultados no PowerShell?",opts:["Filter-Object","Find-Object","Where-Object","Search-Object"],ans:2,exp:"✅ <strong>Where-Object</strong> filtra! Ex: <code>Get-Service | Where-Object {$_.Status -eq 'Running'}</code> — mostra só os serviços em execução. Use <code>$_</code> para referenciar cada item."},
+  {q:"O que a variável especial <code>$_</code> representa dentro de um pipeline?",opts:["O número de itens na lista","O computador local","O objeto atual sendo processado","O diretório atual"],ans:2,exp:"✅ <strong>$_</strong> é o objeto atual! Dentro de Where-Object, ForEach-Object ou qualquer bloco <code>{}</code>, representa o item que está sendo processado naquele momento."},
+  {q:"Como exportar os resultados de um cmdlet para um arquivo CSV?",opts:["Save-Csv arquivo.csv","Get-Process | Export-Csv processos.csv -NoTypeInformation","Get-Process | Save-Excel","Export processos.csv"],ans:1,exp:"✅ <strong>Export-Csv</strong> transforma qualquer saída do PowerShell em um arquivo .csv que abre direto no Excel! Use <code>-NoTypeInformation</code> para um arquivo mais limpo."},
 ];
 let currentQ=0,quizScore=0,answered=false;
 function initQuiz(){const d=document.getElementById('quizDots');d.innerHTML='';questions.forEach((_,i)=>{const dot=document.createElement('div');dot.className='quiz-dot'+(i===0?' current':'');d.appendChild(dot);});renderQuestion();}
-function renderQuestion(){if(currentQ>=questions.length){showResult();return;}answered=false;const q=questions[currentQ];document.getElementById('quizCounter').textContent=`${currentQ+1} / ${questions.length}`;document.getElementById('quizContent').innerHTML=`<div class="question-card"><div class="question-text">${q.q}</div><div class="options">${q.opts.map((o,i)=>`<button class="option-btn" onclick="selectAnswer(${i})"><span class="option-letter">${'ABCD'[i]}</span>${o}</button>`).join('')}</div><div class="quiz-feedback" id="qFeedback"></div><button class="quiz-next" id="qNext" onclick="nextQuestion()">Próxima →</button></div>`;}
+function renderQuestion(){if(currentQ>=questions.length){showResult();return;}answered=false;const q=questions[currentQ];document.getElementById('quizCounter').textContent=`${currentQ+1} / ${questions.length}`;document.getElementById('quizContent').innerHTML=`<div class="question-text">${q.q}</div><div class="options">${q.opts.map((o,i)=>`<button class="option-btn" onclick="selectAnswer(${i})"><span class="option-letter">${'ABCD'[i]}</span>${o}</button>`).join('')}</div><div class="quiz-feedback" id="qFeedback"></div><button class="quiz-next" id="qNext" onclick="nextQuestion()">Próxima →</button>`;}
 function selectAnswer(idx){if(answered)return;answered=true;const q=questions[currentQ];document.querySelectorAll('.option-btn').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add('correct');else if(i===idx&&idx!==q.ans)b.classList.add('wrong');});const fb=document.getElementById('qFeedback');if(idx===q.ans){quizScore++;fb.className='quiz-feedback show ok';fb.innerHTML='🎉 '+q.exp;addXP(20);}else{fb.className='quiz-feedback show err';fb.innerHTML='❌ Ops! '+q.exp;}document.getElementById('qNext').style.display='inline-block';const dots=document.querySelectorAll('.quiz-dot');dots[currentQ].className='quiz-dot done';if(currentQ+1<questions.length)dots[currentQ+1].className='quiz-dot current';}
 function nextQuestion(){currentQ++;renderQuestion();}
 function showResult(){const pct=Math.round((quizScore/questions.length)*100);const msg=pct===100?'🏆 Perfeito! Você arrasou!':pct>=75?'🌟 Muito bem!':pct>=50?'👍 Bom começo!':'📖 Vamos revisar!';document.getElementById('quizContent').innerHTML=`<div class="quiz-result"><div class="score">${quizScore}/${questions.length}</div><div class="score-label">${msg}</div><div class="xp-earn">⚡ +${quizScore*20} XP conquistados</div><br><button class="quiz-restart" onclick="restartQuiz()">🔄 Tentar novamente</button></div>`;if(quizScore===4)showAch('🏆','Quiz Perfeito!','4 de 4 corretas!');}
@@ -327,7 +594,7 @@ function restartQuiz(){currentQ=0;quizScore=0;answered=false;initQuiz();}
 let achQ=[],achShow=false;
 function showAch(i,t,d){achQ.push({i,t,d});if(!achShow)procAch();}
 function procAch(){if(!achQ.length){achShow=false;return;}achShow=true;const {i,t,d}=achQ.shift();document.getElementById('achIcon').textContent=i;document.getElementById('achTitle').textContent=t;document.getElementById('achDesc').textContent=d;const p=document.getElementById('achPopup');p.classList.add('show');setTimeout(()=>{p.classList.remove('show');setTimeout(procAch,400);},3500);}
-function checkAch(){if(xp>=50&&!window._a50){window._a50=1;showAch('🌱','Primeiros Passos!','+50 XP!');}if(xp>=Math.floor(totalXP/2)&&!window._a50p){window._a50p=1;showAch('🔥','Em Chamas!','Metade do XP!');}if(xp>=totalXP&&!window._a100){window._a100=1;showAch('💎','Missão Completa!',totalXP+' XP conquistados!');}}
+function checkAch(){if(xp>=50&&!window._a50){window._a50=1;showAch('🌱','Primeiros Passos!','+50 XP!');}if(xp>=Math.floor(totalXP/2)&&!window._a50p){window._a50p=1;showAch('🔥','Em Chamas!','Metade do XP!');}if(xp>=totalXP&&!window._a100){window._a100=1;showAch('💎','Semana 09 Completa!',totalXP+' XP conquistados!');}}
 initQuiz();
 setTimeout(()=>{const f=document.querySelector('.cc-header');if(f)toggleCard(f);},800);
 </script>
