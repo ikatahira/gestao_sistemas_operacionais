@@ -242,6 +242,82 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 .importance-box{background:rgba(57,211,83,.05);border:1px solid rgba(57,211,83,.2);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0 0 0;font-size:.83em;color:var(--text-muted);line-height:1.5;}
 .importance-box strong{color:var(--green);font-size:.85em;letter-spacing:.04em;text-transform:uppercase;}
 
+/* OPERATOR TABLE */
+.op-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.84em;}
+.op-table th{background:var(--surface2);color:var(--text-muted);font-family:'DM Mono',monospace;font-size:.78em;text-align:left;padding:8px 12px;border-bottom:2px solid var(--border);}
+.op-table td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top;}
+.op-table tr:last-child td{border:none;}
+.op-table td:first-child{font-family:'DM Mono',monospace;color:var(--purple);white-space:nowrap;}
+.op-table td:nth-child(2){color:var(--text-muted);}
+.op-table td:last-child{font-family:'DM Mono',monospace;color:var(--teal);font-size:.78em;}
+.op-table tr:hover td{background:rgba(188,140,255,.04);}
+
+/* FILL IN THE BLANKS */
+.fitb-shell{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:28px;}
+.fitb-topbar{background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.fitb-topbar-icon{font-size:1.5em;}
+.fitb-topbar-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;}
+.fitb-topbar-text p{font-size:.78em;color:var(--text-muted);margin-top:2px;}
+.fitb-topbar-xp{margin-left:auto;text-align:right;}
+.fitb-topbar-xp .xp-big{font-family:'DM Mono',monospace;font-size:1.3em;font-weight:700;color:var(--xp);}
+.fitb-topbar-xp .xp-lbl{font-size:.72em;color:var(--text-muted);}
+.fitb-body{padding:20px;}
+.fitb-word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;padding:14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;}
+.fitb-word-bank-label{width:100%;font-size:.76em;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:4px;}
+.fitb-chip{background:var(--bg);border:1.5px solid var(--purple);color:var(--purple);border-radius:6px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:.8em;cursor:pointer;transition:all .2s;user-select:none;}
+.fitb-chip:hover:not(.used){background:var(--purple-dim);transform:translateY(-1px);}
+.fitb-chip.used{opacity:.3;cursor:default;pointer-events:none;}
+.fitb-lines{display:flex;flex-direction:column;gap:14px;}
+.fitb-line{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:.82em;line-height:2;display:flex;flex-wrap:wrap;align-items:center;gap:4px;}
+.fitb-blank{display:inline-flex;align-items:center;justify-content:center;min-width:100px;height:26px;background:rgba(188,140,255,.06);border:1.5px dashed rgba(188,140,255,.4);border-radius:5px;padding:0 10px;font-family:'DM Mono',monospace;font-size:.85em;color:var(--text-dim);cursor:pointer;transition:all .2s;vertical-align:middle;}
+.fitb-blank:hover:not(.filled):not(.locked){border-color:var(--purple);background:var(--purple-dim);color:var(--purple);}
+.fitb-blank.filled{background:rgba(188,140,255,.12);border-style:solid;border-color:var(--purple);color:var(--text);}
+.fitb-blank.correct{background:rgba(57,211,83,.1);border-color:var(--green);color:var(--green);border-style:solid;}
+.fitb-blank.wrong{background:rgba(248,81,73,.1);border-color:var(--red);color:var(--red);border-style:solid;animation:shake .3s ease;}
+.fitb-blank.locked{pointer-events:none;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.fitb-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+.fitb-btn{background:var(--purple);color:var(--bg);border:none;border-radius:8px;padding:9px 20px;font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;cursor:pointer;transition:all .2s;}
+.fitb-btn:hover{background:#d4aaff;transform:translateY(-1px);}
+.fitb-btn.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border);}
+.fitb-btn.secondary:hover{border-color:var(--purple);color:var(--purple);}
+.fitb-result{margin-top:14px;padding:12px 16px;border-radius:8px;font-size:.87em;display:none;}
+.fitb-result.show{display:block;}
+.fitb-result.ok{background:rgba(57,211,83,.08);border:1px solid rgba(57,211,83,.25);color:var(--green);}
+.fitb-result.partial{background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.25);color:var(--amber);}
+
+/* DRAG AND DROP */
+.dnd-shell{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:28px;}
+.dnd-topbar{background:linear-gradient(135deg,var(--green-dim),var(--teal-dim));padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.dnd-topbar-icon{font-size:1.5em;}
+.dnd-topbar-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;}
+.dnd-topbar-text p{font-size:.78em;color:var(--text-muted);margin-top:2px;}
+.dnd-topbar-xp{margin-left:auto;text-align:right;}
+.dnd-body{padding:20px;}
+.dnd-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.dnd-layout{grid-template-columns:1fr;}}
+.dnd-col-title{font-family:'DM Mono',monospace;font-size:.72em;color:var(--text-dim);margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase;}
+.dnd-items{display:flex;flex-direction:column;gap:6px;}
+.dnd-card{background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:.82em;color:var(--text);cursor:grab;transition:all .2s;user-select:none;display:flex;align-items:center;gap:8px;}
+.dnd-card:active{cursor:grabbing;}
+.dnd-card:hover:not(.placed):not(.dnd-card-static){border-color:var(--green);color:var(--green);transform:translateX(3px);}
+.dnd-card.dragging{opacity:.4;transform:scale(.95);}
+.dnd-card.dnd-correct{border-color:var(--green);color:var(--green);background:rgba(57,211,83,.06);cursor:default;}
+.dnd-card.dnd-wrong{border-color:var(--red);color:var(--red);background:rgba(248,81,73,.06);animation:shake .3s ease;}
+.dnd-card .dnd-handle{color:var(--text-dim);font-size:.85em;}
+.dnd-targets{display:flex;flex-direction:column;gap:6px;}
+.dnd-target{background:rgba(57,211,83,.03);border:1.5px dashed rgba(57,211,83,.2);border-radius:8px;padding:10px 14px;min-height:44px;display:flex;align-items:center;gap:8px;transition:all .2s;}
+.dnd-target:hover:not(.locked){border-color:var(--teal);background:rgba(45,212,191,.05);}
+.dnd-target.drag-over{border-color:var(--green);background:rgba(57,211,83,.07);border-style:solid;}
+.dnd-target.correct{border-color:var(--green);background:rgba(57,211,83,.06);border-style:solid;}
+.dnd-target.wrong{border-color:var(--red);border-style:solid;}
+.dnd-target-def{font-family:'DM Sans',sans-serif;font-size:.83em;color:var(--text-muted);flex:1;}
+.dnd-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+.dnd-result{margin-top:14px;padding:12px 16px;border-radius:8px;font-size:.87em;display:none;}
+.dnd-result.show{display:block;}
+.dnd-result.ok{background:rgba(57,211,83,.08);border:1px solid rgba(57,211,83,.25);color:var(--green);}
+.dnd-result.partial{background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.25);color:var(--amber);}
+
 </style>
 </head>
 <body>
@@ -256,7 +332,7 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
   <div class="hud-inner">
     <span class="hud-week">S09/20</span>
     <span class="hud-title">PowerShell — <span>Pipeline & Filtragem</span></span>
-    <div class="hud-xp"><span class="xp-val" id="xpDisplay">0</span><span class="xp-label">/ 310 XP</span></div>
+    <div class="hud-xp"><span class="xp-val" id="xpDisplay">0</span><span class="xp-label">/ 420 XP</span></div>
     <div class="progress-bar-outer"><div class="progress-bar-inner" id="mainProgress"></div></div>
   </div>
 </nav>
@@ -425,6 +501,22 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
       <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><code>Where-Object</code> filtra objetos. Dentro do bloco <code>{}</code>, use <code>$_</code> para representar <strong>cada item</strong>.</div></div>
       <div class="key-point"><div class="kp-dot blue"></div><div class="kp-text">Operadores: <code>-eq</code> igual · <code>-ne</code> diferente · <code>-gt</code> maior · <code>-lt</code> menor · <code>-like</code> padrão com * · <code>-match</code> regex</div></div>
       <div class="key-point"><div class="kp-dot green"></div><div class="kp-text">Sintaxe curta: <code>Where CPU -gt 100</code> (sem <code>$_.</code>) — disponível no PowerShell 3+.</div></div>
+
+      <div style="margin:14px 0 6px;font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;color:var(--text);">🔎 Tabela de Operadores de Comparação</div>
+      <table class="op-table">
+        <thead><tr><th>Operador</th><th>Significado</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td>-eq</td><td>Igual a</td><td>$_.Status -eq 'Running'</td></tr>
+          <tr><td>-ne</td><td>Diferente de</td><td>$_.Status -ne 'Stopped'</td></tr>
+          <tr><td>-gt</td><td>Maior que</td><td>$_.CPU -gt 100</td></tr>
+          <tr><td>-lt</td><td>Menor que</td><td>$_.CPU -lt 10</td></tr>
+          <tr><td>-ge</td><td>Maior ou igual</td><td>$_.Length -ge 1MB</td></tr>
+          <tr><td>-le</td><td>Menor ou igual</td><td>$_.WorkingSet -le 50MB</td></tr>
+          <tr><td>-like</td><td>Padrão com curinga *</td><td>$_.Name -like 'Win*'</td></tr>
+          <tr><td>-notlike</td><td>Não corresponde ao padrão</td><td>$_.Name -notlike 'svc*'</td></tr>
+          <tr><td>-match</td><td>Expressão regular</td><td>$_.Name -match '^Win\d'</td></tr>
+        </tbody>
+      </table>
 
       <!-- Filtrar serviços em execução -->
       <div class="cmd-block">
@@ -797,7 +889,160 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
     <div class="checkpoint-stars" id="checkpointStars">⭐⭐⭐</div>
     <h3>Progresso da Semana 09</h3>
     <p>Complete as missões e o quiz para acumular XP!</p>
-    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 310 XP</div>
+    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 420 XP</div>
+  </div>
+
+  <!-- FILL IN THE BLANKS -->
+  <div class="section-header">
+    <div class="section-icon purple">✏️</div>
+    <h2 class="section-title">Complete o Código</h2>
+    <span class="section-xp">+60 XP</span>
+  </div>
+
+  <div class="fitb-shell">
+    <div class="fitb-topbar">
+      <div class="fitb-topbar-icon">✏️</div>
+      <div class="fitb-topbar-text"><h3>Preencha as lacunas!</h3><p>Clique na palavra do banco e depois na lacuna para completar</p></div>
+      <div class="fitb-topbar-xp"><div class="xp-big">+60</div><div class="xp-lbl">XP possível</div></div>
+    </div>
+    <div class="fitb-body">
+      <div class="fitb-word-bank" id="fitbBank">
+        <div class="fitb-word-bank-label">🗂 Banco de palavras — clique para selecionar, depois clique na lacuna:</div>
+        <div class="fitb-chip" data-word="|" onclick="selectChip(this)">|</div>
+        <div class="fitb-chip" data-word="Where-Object" onclick="selectChip(this)">Where-Object</div>
+        <div class="fitb-chip" data-word="Sort-Object" onclick="selectChip(this)">Sort-Object</div>
+        <div class="fitb-chip" data-word="Select-Object" onclick="selectChip(this)">Select-Object</div>
+        <div class="fitb-chip" data-word="Export-Csv" onclick="selectChip(this)">Export-Csv</div>
+        <div class="fitb-chip" data-word="$_" onclick="selectChip(this)">$_</div>
+        <div class="fitb-chip" data-word="-gt" onclick="selectChip(this)">-gt</div>
+        <div class="fitb-chip" data-word="-eq" onclick="selectChip(this)">-eq</div>
+        <div class="fitb-chip" data-word="-Descending" onclick="selectChip(this)">-Descending</div>
+        <div class="fitb-chip" data-word="-NoTypeInformation" onclick="selectChip(this)">-NoTypeInformation</div>
+        <div class="fitb-chip" data-word="-First" onclick="selectChip(this)">-First</div>
+        <div class="fitb-chip" data-word="-like" onclick="selectChip(this)">-like</div>
+      </div>
+      <div class="fitb-lines" id="fitbLines">
+
+        <!-- Frase 1 -->
+        <div class="fitb-line">
+          <span style="color:var(--text-muted)">O símbolo</span>
+          <span class="fitb-blank" data-answer="|" onclick="fillBlank(this)">___</span>
+          <span style="color:var(--text-muted)">conecta a saída de um cmdlet à entrada do próximo, formando um pipeline.</span>
+        </div>
+
+        <!-- Frase 2 -->
+        <div class="fitb-line">
+          <span style="color:var(--purple)">Get-Service</span>
+          <span style="color:var(--text-muted)">&nbsp;</span>
+          <span class="fitb-blank" data-answer="|" onclick="fillBlank(this)">___</span>
+          <span class="fitb-blank" data-answer="Where-Object" onclick="fillBlank(this)">___</span>
+          <span style="color:var(--text-muted)">&nbsp;{</span>
+          <span class="fitb-blank" data-answer="$_" onclick="fillBlank(this)">___</span>
+          <span style="color:var(--text-muted)">.Status</span>
+          <span class="fitb-blank" data-answer="-eq" onclick="fillBlank(this)">___</span>
+          <span style="color:var(--green)">&nbsp;'Running' }</span>
+        </div>
+
+        <!-- Frase 3 -->
+        <div class="fitb-line">
+          <span style="color:var(--text-muted)">Para ordenar do maior ao menor, use</span>
+          <span class="fitb-blank" data-answer="Sort-Object" onclick="fillBlank(this)">___</span>
+          <span style="color:var(--text-muted)">com o parâmetro</span>
+          <span class="fitb-blank" data-answer="-Descending" onclick="fillBlank(this)">___</span>
+        </div>
+
+        <!-- Frase 4 -->
+        <div class="fitb-line">
+          <span style="color:var(--text-muted)">Para pegar apenas os 5 primeiros resultados, use</span>
+          <span class="fitb-blank" data-answer="Select-Object" onclick="fillBlank(this)">___</span>
+          <span class="fitb-blank" data-answer="-First" onclick="fillBlank(this)">___</span>
+          <span style="color:var(--green)">&nbsp;5</span>
+        </div>
+
+        <!-- Frase 5 -->
+        <div class="fitb-line">
+          <span style="color:var(--text-muted)">Para filtrar nomes que começam com "Win", o operador certo é</span>
+          <span class="fitb-blank" data-answer="-like" onclick="fillBlank(this)">___</span>
+          <span style="color:var(--green)">&nbsp;'Win*'</span>
+        </div>
+
+        <!-- Frase 6 -->
+        <div class="fitb-line">
+          <span class="fitb-blank" data-answer="Export-Csv" onclick="fillBlank(this)">___</span>
+          <span style="color:var(--green)">&nbsp;'C:\relatorio.csv'</span>
+          <span class="fitb-blank" data-answer="-NoTypeInformation" onclick="fillBlank(this)">___</span>
+          <span style="color:var(--text-muted)">&nbsp;— exporta para Excel sem a linha técnica no topo.</span>
+        </div>
+
+      </div>
+      <div class="fitb-actions">
+        <button class="fitb-btn" onclick="checkFitb()">✓ Verificar Respostas</button>
+        <button class="fitb-btn secondary" onclick="resetFitb()">↺ Recomeçar</button>
+      </div>
+      <div class="fitb-result" id="fitbResult"></div>
+    </div>
+  </div>
+
+  <!-- DRAG AND DROP -->
+  <div class="section-header">
+    <div class="section-icon green">🎯</div>
+    <h2 class="section-title">Puxe e Arraste — Conecte o Conceito</h2>
+    <span class="section-xp">+50 XP</span>
+  </div>
+
+  <div class="dnd-shell">
+    <div class="dnd-topbar">
+      <div class="dnd-topbar-icon">🎯</div>
+      <div class="dnd-topbar-text"><h3>Arraste cada cmdlet para sua definição!</h3><p>Associe o comando ou operador à descrição correta</p></div>
+      <div class="dnd-topbar-xp"><div class="xp-big" style="color:var(--xp)">+50</div><div class="xp-lbl" style="color:var(--text-muted)">XP possível</div></div>
+    </div>
+    <div class="dnd-body">
+      <div class="dnd-layout">
+        <div>
+          <div class="dnd-col-title">📦 Cmdlets / Operadores — arraste</div>
+          <div class="dnd-items" id="dndItems">
+            <div class="dnd-card" draggable="true" data-id="pipe" ondragstart="dragStart(event)" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)"><span class="dnd-handle">⠿</span> |</div>
+            <div class="dnd-card" draggable="true" data-id="where" ondragstart="dragStart(event)" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)"><span class="dnd-handle">⠿</span> Where-Object</div>
+            <div class="dnd-card" draggable="true" data-id="sort" ondragstart="dragStart(event)" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)"><span class="dnd-handle">⠿</span> Sort-Object</div>
+            <div class="dnd-card" draggable="true" data-id="select" ondragstart="dragStart(event)" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)"><span class="dnd-handle">⠿</span> Select-Object</div>
+            <div class="dnd-card" draggable="true" data-id="dollar" ondragstart="dragStart(event)" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)"><span class="dnd-handle">⠿</span> $_</div>
+            <div class="dnd-card" draggable="true" data-id="exportcsv" ondragstart="dragStart(event)" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)"><span class="dnd-handle">⠿</span> Export-Csv</div>
+            <div class="dnd-card" draggable="true" data-id="like" ondragstart="dragStart(event)" ontouchstart="touchStart(event)" ontouchend="touchEnd(event)"><span class="dnd-handle">⠿</span> -like</div>
+          </div>
+        </div>
+        <div>
+          <div class="dnd-col-title">📋 Definições — solte aqui</div>
+          <div class="dnd-targets" id="dndTargets">
+            <div class="dnd-target" data-accepts="pipe" ondragover="dragOver(event)" ondrop="drop(event)">
+              <div class="dnd-target-def">Encadeia cmdlets — a saída de um vira entrada do próximo.</div>
+            </div>
+            <div class="dnd-target" data-accepts="where" ondragover="dragOver(event)" ondrop="drop(event)">
+              <div class="dnd-target-def">Filtra objetos de acordo com uma condição no bloco {}.</div>
+            </div>
+            <div class="dnd-target" data-accepts="dollar" ondragover="dragOver(event)" ondrop="drop(event)">
+              <div class="dnd-target-def">Representa o objeto atual sendo processado no pipeline.</div>
+            </div>
+            <div class="dnd-target" data-accepts="sort" ondragover="dragOver(event)" ondrop="drop(event)">
+              <div class="dnd-target-def">Ordena resultados por qualquer propriedade; use -Descending para inverter.</div>
+            </div>
+            <div class="dnd-target" data-accepts="select" ondragover="dragOver(event)" ondrop="drop(event)">
+              <div class="dnd-target-def">Escolhe quais colunas/propriedades exibir; aceita -First N.</div>
+            </div>
+            <div class="dnd-target" data-accepts="exportcsv" ondragover="dragOver(event)" ondrop="drop(event)">
+              <div class="dnd-target-def">Salva os resultados em arquivo .csv compatível com Excel.</div>
+            </div>
+            <div class="dnd-target" data-accepts="like" ondragover="dragOver(event)" ondrop="drop(event)">
+              <div class="dnd-target-def">Operador de padrão com curinga * — ex: 'Win*' encontra "Windows", "WinRM".</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dnd-actions">
+        <button class="fitb-btn" onclick="checkDnd()">✓ Verificar</button>
+        <button class="fitb-btn secondary" onclick="resetDnd()">↺ Recomeçar</button>
+      </div>
+      <div class="dnd-result" id="dndResult"></div>
+    </div>
   </div>
 
   <!-- RECURSOS -->
@@ -826,7 +1071,7 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 
 <script>
 let xp=0,objDone=new Set(),missionDone=new Set(),cardXpDone=new Set();
-const totalXP=310;
+const totalXP=420;
 
 function addXP(a){
   xp+=a;
@@ -963,6 +1208,133 @@ function nextQ(){
 }
 
 buildQuiz();
+
+// ========== FILL IN THE BLANKS ==========
+let selectedChip = null;
+let fitbXpAwarded = false;
+
+function selectChip(el) {
+  document.querySelectorAll('.fitb-chip').forEach(c => c.style.outline = '');
+  if (selectedChip === el) { selectedChip = null; return; }
+  selectedChip = el;
+  el.style.outline = '2px solid var(--amber)';
+}
+
+function fillBlank(el) {
+  if (el.classList.contains('locked')) return;
+  if (!selectedChip) {
+    if (el.classList.contains('filled')) {
+      const word = el.dataset.filled;
+      el.textContent = '___'; el.classList.remove('filled','correct','wrong'); el.dataset.filled = '';
+      document.querySelectorAll('.fitb-chip').forEach(c => { if (c.dataset.word === word) { c.classList.remove('used'); c.style.outline = ''; } });
+    }
+    return;
+  }
+  const word = selectedChip.dataset.word;
+  if (el.classList.contains('filled') && el.dataset.filled) {
+    const old = el.dataset.filled;
+    document.querySelectorAll('.fitb-chip').forEach(c => { if (c.dataset.word === old) c.classList.remove('used'); });
+  }
+  el.textContent = word; el.classList.add('filled'); el.classList.remove('correct','wrong');
+  el.dataset.filled = word; selectedChip.classList.add('used'); selectedChip.style.outline = ''; selectedChip = null;
+}
+
+function checkFitb() {
+  const blanks = document.querySelectorAll('.fitb-blank');
+  let correct = 0, total = blanks.length;
+  blanks.forEach(b => {
+    if (!b.classList.contains('filled')) return;
+    if (b.dataset.filled === b.dataset.answer) { b.classList.add('correct','locked'); b.classList.remove('wrong'); correct++; }
+    else { b.classList.add('wrong'); b.classList.remove('correct'); setTimeout(() => b.classList.remove('wrong'), 600); }
+  });
+  const r = document.getElementById('fitbResult');
+  if (correct === total) {
+    r.className = 'fitb-result show ok'; r.textContent = `🎉 Perfeito! Todas as ${total} lacunas corretas!`;
+    if (!fitbXpAwarded) { fitbXpAwarded = true; addXP(60); showAch('✏️','Código Completo!','Todas as lacunas preenchidas!'); }
+  } else {
+    r.className = 'fitb-result show partial'; r.textContent = `⚡ ${correct} de ${total} corretas. Continue tentando!`;
+  }
+  r.style.display = 'block';
+}
+
+function resetFitb() {
+  document.querySelectorAll('.fitb-blank').forEach(b => { b.textContent = '___'; b.className = 'fitb-blank'; b.dataset.filled = ''; });
+  document.querySelectorAll('.fitb-chip').forEach(c => { c.classList.remove('used'); c.style.outline = ''; });
+  document.getElementById('fitbResult').className = 'fitb-result'; fitbXpAwarded = false; selectedChip = null;
+}
+
+// ========== DRAG AND DROP ==========
+let draggedId = null;
+let dndXpAwarded = false;
+let touchDragId = null;
+
+function dragStart(e) { draggedId = e.currentTarget.dataset.id; e.currentTarget.classList.add('dragging'); }
+document.addEventListener('dragend', () => { document.querySelectorAll('.dnd-card').forEach(c => c.classList.remove('dragging')); });
+function dragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+document.addEventListener('dragleave', e => { if(e.target.classList && e.target.classList.contains('dnd-target')) e.target.classList.remove('drag-over'); });
+
+function drop(e) {
+  e.preventDefault();
+  const target = e.currentTarget; target.classList.remove('drag-over');
+  if (!draggedId) return;
+  document.querySelectorAll('.dnd-target').forEach(t => {
+    const placed = t.querySelector('.dnd-card-static');
+    if (placed && placed.dataset.id === draggedId) { t.removeChild(placed); t.classList.remove('correct','wrong','locked'); const def = t.querySelector('.dnd-target-def'); if(def) def.style.display=''; }
+  });
+  document.querySelectorAll('#dndItems .dnd-card').forEach(c => { if(c.dataset.id === draggedId) c.style.display = ''; });
+  if (target.querySelector('.dnd-card-static')) return;
+  const original = document.querySelector(`#dndItems [data-id="${draggedId}"]`);
+  if (!original) return;
+  const clone = original.cloneNode(true); clone.classList.add('dnd-card-static'); clone.removeAttribute('draggable');
+  clone.style.cursor = 'pointer'; clone.title = 'Clique para remover'; clone.onclick = () => removeDndCard(clone, target);
+  target.appendChild(clone); original.style.display = 'none';
+  const def = target.querySelector('.dnd-target-def'); if(def) def.style.display='none';
+  draggedId = null;
+}
+
+function removeDndCard(card, target) {
+  if (target.classList.contains('locked')) return;
+  const id = card.dataset.id; target.removeChild(card); target.classList.remove('correct','wrong');
+  const def = target.querySelector('.dnd-target-def'); if(def) def.style.display='';
+  const original = document.querySelector(`#dndItems [data-id="${id}"]`); if (original) original.style.display = '';
+}
+
+function touchStart(e) { touchDragId = e.currentTarget.dataset.id; }
+function touchEnd(e) {
+  if (!touchDragId) return;
+  const touch = e.changedTouches[0];
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const target = el ? el.closest('.dnd-target') : null;
+  if (target) { draggedId = touchDragId; drop({ preventDefault: ()=>{}, currentTarget: target }); }
+  touchDragId = null;
+}
+
+function checkDnd() {
+  const targets = document.querySelectorAll('.dnd-target'); let correct = 0, filled = 0;
+  targets.forEach(t => {
+    const placed = t.querySelector('.dnd-card-static'); if (!placed) return; filled++;
+    if (placed.dataset.id === t.dataset.accepts) { t.classList.add('correct','locked'); placed.classList.add('dnd-correct'); correct++; }
+    else { t.classList.add('wrong'); placed.classList.add('dnd-wrong'); setTimeout(() => { t.classList.remove('wrong'); placed.classList.remove('dnd-wrong'); }, 600); }
+  });
+  const r = document.getElementById('dndResult');
+  if (correct === 7 && filled === 7) {
+    r.className = 'dnd-result show ok'; r.textContent = '🎉 Perfeito! Todos os conceitos associados corretamente!';
+    if (!dndXpAwarded) { dndXpAwarded = true; addXP(50); showAch('🎯','Mestre do Pipeline!','Todos os pares corretos!'); }
+  } else {
+    r.className = 'dnd-result show partial'; r.textContent = `⚡ ${correct} de 7 corretos. Remova os errados clicando neles e tente novamente!`;
+  }
+  r.style.display = 'block';
+}
+
+function resetDnd() {
+  document.querySelectorAll('.dnd-target').forEach(t => {
+    const placed = t.querySelector('.dnd-card-static'); if(placed) t.removeChild(placed);
+    t.classList.remove('correct','wrong','locked');
+    const def = t.querySelector('.dnd-target-def'); if(def) def.style.display='';
+  });
+  document.querySelectorAll('#dndItems .dnd-card').forEach(c => c.style.display = '');
+  document.getElementById('dndResult').className = 'dnd-result'; dndXpAwarded = false;
+}
 
 // COPY BUTTONS
 function addCopyButtons() {
