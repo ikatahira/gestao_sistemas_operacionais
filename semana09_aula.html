@@ -225,6 +225,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .res-desc{font-size:.78em;color:var(--text-muted);}
 
 footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:.8em;color:var(--text-dim);}
+/* COPY BUTTON */
+.cmd-block{position:relative;}
+.copy-btn{position:absolute;top:8px;right:10px;background:var(--surface2);border:1px solid var(--border);color:var(--text-muted);border-radius:6px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:.7em;cursor:pointer;transition:all .2s;z-index:10;display:flex;align-items:center;gap:5px;}
+.copy-btn:hover{border-color:var(--purple);color:var(--purple);}
+.copy-btn.copied{border-color:var(--green);color:var(--green);background:var(--green-dim);}
+/* POWERSHELL ACCESS */
+.ps-access-banner{background:linear-gradient(135deg,rgba(13,17,23,1),var(--surface));border:1px solid rgba(88,166,255,.25);border-radius:var(--r);padding:20px 22px;margin-bottom:28px;}
+.ps-access-banner h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1em;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.ps-access-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:12px;}
+.ps-step{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-size:.83em;}
+.ps-step .ps-step-num{font-family:'DM Mono',monospace;font-size:.75em;color:var(--blue);font-weight:700;margin-bottom:4px;}
+.ps-step .ps-step-text{color:var(--text-muted);line-height:1.4;}
+.ps-step .ps-step-text code{background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.2);color:var(--blue);padding:1px 5px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.9em;}
+/* IMPORTANCE TAG */
+.importance-box{background:rgba(57,211,83,.05);border:1px solid rgba(57,211,83,.2);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0 0 0;font-size:.83em;color:var(--text-muted);line-height:1.5;}
+.importance-box strong{color:var(--green);font-size:.85em;letter-spacing:.04em;text-transform:uppercase;}
+
 </style>
 </head>
 <body>
@@ -278,6 +295,30 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 
 <div class="container">
 
+
+  <!-- COMO ACESSAR O POWERSHELL -->
+  <div class="ps-access-banner">
+    <h3>💻 Como abrir o PowerShell nesta aula</h3>
+    <div class="ps-access-steps">
+      <div class="ps-step">
+        <div class="ps-step-num">FORMA 1 — Menu Iniciar</div>
+        <div class="ps-step-text">Clique em <strong>Iniciar</strong>, digite <code>powershell</code> e pressione <strong>Enter</strong>. Para abrir como Administrador, clique com o botão direito → <em>Executar como administrador</em>.</div>
+      </div>
+      <div class="ps-step">
+        <div class="ps-step-num">FORMA 2 — Atalho de teclado</div>
+        <div class="ps-step-text">Pressione <code>Win + X</code> e escolha <strong>Terminal do Windows</strong> ou <strong>PowerShell</strong>. No Windows 11 já abre o Terminal moderno.</div>
+      </div>
+      <div class="ps-step">
+        <div class="ps-step-num">FORMA 3 — Dentro de pasta</div>
+        <div class="ps-step-text">No Explorador de Arquivos, clique na barra de endereço, digite <code>powershell</code> e pressione <strong>Enter</strong>. O PS abre já naquela pasta!</div>
+      </div>
+      <div class="ps-step">
+        <div class="ps-step-num">FORMA 4 — Executar (Win+R)</div>
+        <div class="ps-step-text">Pressione <code>Win + R</code>, digite <code>powershell</code> e clique <strong>OK</strong>. Para versão 7+, use <code>pwsh</code> no lugar.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- OBJETIVOS -->
   <div class="section-header">
     <div class="section-icon purple">🎯</div>
@@ -323,6 +364,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
         <div class="pipe-out">resultado</div>
       </div>
 
+
+      <div class="importance-box"><strong>🔧 Por que isso importa para o técnico?</strong> O pipeline é a ferramenta que transforma o PowerShell em uma <em>central de diagnóstico</em>. Em vez de abrir 5 janelas diferentes, você encadeia comandos e obtém exatamente o que precisa em segundos — processos pesados, serviços com falha, arquivos suspeitos. Todo chamado de suporte pode ser triado com um único pipeline bem escrito.</div>
       <div class="callout purple">
         <span class="callout-icon">💡</span>
         <div class="callout-text">Use o acento grave <code>`</code> para quebrar uma linha longa em várias — o PowerShell entende que a instrução continua na linha seguinte.</div>
@@ -451,6 +494,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
         </div>
       </div>
 
+
+      <div class="importance-box"><strong>🔧 Por que isso importa para o técnico?</strong> Filtrar é a diferença entre ver 300 serviços na tela e ver os 2 que estão com problema. Com <code>Where-Object</code> você identifica serviços parados, processos travados ou arquivos antigos em segundos — sem precisar vasculhar listas enormes manualmente.</div>
       <div class="callout amber">
         <span class="callout-icon">⚠️</span>
         <div class="callout-text"><strong>Lembre-se:</strong> o operador <code>-like</code> usa <code>*</code> como curinga (qualquer coisa). Já <code>-match</code> usa expressões regulares completas — mais poderoso, mas mais complexo.</div>
@@ -528,6 +573,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
         </div>
       </div>
 
+
+      <div class="importance-box"><strong>🔧 Por que isso importa para o técnico?</strong> Clientes e gestores precisam de relatórios, não de terminais. Exportar para CSV e abrir no Excel é a forma mais rápida de entregar um inventário profissional de serviços, processos ou arquivos — sem instalar nenhum software extra. É a base de qualquer auditoria ou prestação de contas em TI.</div>
       <div class="callout green">
         <span class="callout-icon">🚀</span>
         <div class="callout-text"><strong>Resultado imediato:</strong> rode <code>Get-Service | Export-Csv "C:\servicos.csv"</code> e abra o arquivo no Excel — você criou um relatório profissional em 1 linha!</div>
@@ -604,6 +651,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
         </div>
       </div>
 
+
+      <div class="importance-box"><strong>🔧 Por que isso importa para o técnico?</strong> Variáveis permitem capturar informações do sistema e reutilizá-las sem repetir comandos. <code>$env:COMPUTERNAME</code>, <code>$env:USERNAME</code> e resultados de cmdlets armazenados em variáveis formam a base de qualquer script de inventário, auditoria ou manutenção automatizada que você vai criar na vida profissional.</div>
       <div class="callout teal">
         <span class="callout-icon">⚡</span>
         <div class="callout-text"><strong>Desafio:</strong> rode <code>$arquivos = Get-ChildItem C:\</code> e depois <code>$arquivos.Count</code> — quantos itens existem na raiz do C:\?</div>
@@ -677,6 +726,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
         </div>
       </div>
 
+
+      <div class="importance-box"><strong>🔧 Por que isso importa para o técnico?</strong> Navegar pelo sistema de arquivos via PowerShell é muito mais poderoso do que usar o Explorer. Você pode buscar arquivos em subpastas inteiras, filtrar por extensão e exportar listas — tudo de forma auditável. É essencial para diagnóstico de espaço em disco, busca de logs e organização de backups.</div>
       <div class="callout blue">
         <span class="callout-icon">⌨️</span>
         <div class="callout-text"><strong>Alias:</strong> <code>cd</code>, <code>ls</code>, <code>dir</code>, <code>cat</code>, <code>cp</code>, <code>mv</code>, <code>rm</code> — todos funcionam no PowerShell! Quem vem do CMD ou do Linux se sente em casa.</div>
@@ -912,6 +963,47 @@ function nextQ(){
 }
 
 buildQuiz();
+
+// COPY BUTTONS
+function addCopyButtons() {
+  document.querySelectorAll('.cmd-block').forEach(block => {
+    if (block.querySelector('.copy-btn')) return;
+    const input = block.querySelector('.cmd-input');
+    if (!input) return;
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.innerHTML = '⎘ Copiar';
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      // Extract plain text from cmd-input (strip HTML tags)
+      const text = input.innerText || input.textContent;
+      // Remove PS prompt prefix lines
+      const cleaned = text.split('\n').map(l => {
+        // Remove PS C:\> prefix
+        return l.replace(/^PS C:\[^>]*>\s*/, '').replace(/^PS C:\\[^>]*>\s*/, '');
+      }).join('\n').trim();
+      navigator.clipboard.writeText(cleaned).then(() => {
+        btn.innerHTML = '✓ Copiado!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.innerHTML = '⎘ Copiar'; btn.classList.remove('copied'); }, 2000);
+      }).catch(() => {
+        btn.innerHTML = '✗ Erro';
+        setTimeout(() => { btn.innerHTML = '⎘ Copiar'; }, 2000);
+      });
+    };
+    block.style.position = 'relative';
+    block.insertBefore(btn, block.firstChild);
+  });
+}
+
+// Run after cards open
+const origToggle = window.toggleCard;
+window.toggleCard = function(h) {
+  origToggle(h);
+  setTimeout(addCopyButtons, 450);
+};
+addCopyButtons();
+
 </script>
 </body>
 </html>

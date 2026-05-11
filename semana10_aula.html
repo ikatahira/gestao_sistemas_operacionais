@@ -209,6 +209,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .res-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;}
 .res-desc{font-size:.78em;color:var(--text-muted);}
 footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:.8em;color:var(--text-dim);}
+/* COPY BUTTON */
+.cmd-block{position:relative;}
+.copy-btn{position:absolute;top:8px;right:10px;background:var(--surface2);border:1px solid var(--border);color:var(--text-muted);border-radius:6px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:.7em;cursor:pointer;transition:all .2s;z-index:10;display:flex;align-items:center;gap:5px;}
+.copy-btn:hover{border-color:var(--blue);color:var(--blue);}
+.copy-btn.copied{border-color:var(--green);color:var(--green);background:var(--green-dim);}
+/* POWERSHELL ACCESS */
+.ps-access-banner{background:linear-gradient(135deg,rgba(13,17,23,1),var(--surface));border:1px solid rgba(88,166,255,.25);border-radius:var(--r);padding:20px 22px;margin-bottom:28px;}
+.ps-access-banner h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1em;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.ps-access-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:12px;}
+.ps-step{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-size:.83em;}
+.ps-step .ps-step-num{font-family:'DM Mono',monospace;font-size:.75em;color:var(--blue);font-weight:700;margin-bottom:4px;}
+.ps-step .ps-step-text{color:var(--text-muted);line-height:1.4;}
+.ps-step .ps-step-text code{background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.2);color:var(--blue);padding:1px 5px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.9em;}
+/* IMPORTANCE TAG */
+.importance-box{background:rgba(57,211,83,.05);border:1px solid rgba(57,211,83,.2);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0 0 0;font-size:.83em;color:var(--text-muted);line-height:1.5;}
+.importance-box strong{color:var(--green);font-size:.85em;letter-spacing:.04em;text-transform:uppercase;}
+
 </style>
 </head>
 <body>
@@ -257,6 +274,30 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 </header>
 
 <div class="container">
+
+
+  <!-- COMO ACESSAR O POWERSHELL -->
+  <div class="ps-access-banner">
+    <h3>💻 Como abrir o PowerShell nesta aula</h3>
+    <div class="ps-access-steps">
+      <div class="ps-step">
+        <div class="ps-step-num">FORMA 1 — Menu Iniciar</div>
+        <div class="ps-step-text">Clique em <strong>Iniciar</strong>, digite <code>powershell</code> e pressione <strong>Enter</strong>. Para scripts .ps1, abra como <em>Administrador</em> clicando com botão direito.</div>
+      </div>
+      <div class="ps-step">
+        <div class="ps-step-num">FORMA 2 — Windows Terminal</div>
+        <div class="ps-step-text">Pressione <code>Win + X</code> → <strong>Terminal do Windows</strong>. É o ambiente mais moderno e recomendado para escrever e testar scripts.</div>
+      </div>
+      <div class="ps-step">
+        <div class="ps-step-num">FORMA 3 — ISE (editor integrado)</div>
+        <div class="ps-step-text">Pesquise <code>ISE</code> no menu Iniciar para abrir o <strong>PowerShell ISE</strong> — editor visual com realce de sintaxe, ideal para criar scripts <code>.ps1</code>.</div>
+      </div>
+      <div class="ps-step">
+        <div class="ps-step-num">FORMA 4 — VS Code (recomendado)</div>
+        <div class="ps-step-text">Instale o <strong>VS Code</strong> + extensão <em>PowerShell</em>. Melhor experiência para escrever, depurar e executar scripts profissionais.</div>
+      </div>
+    </div>
+  </div>
 
   <div class="section-header">
     <div class="section-icon blue">🎯</div>
@@ -322,6 +363,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
         </div>
       </div>
 
+
+      <div class="importance-box"><strong>🔧 Por que isso importa para o técnico?</strong> Scripts <code>.ps1</code> são a base da automação em ambientes Windows. Em vez de executar 20 comandos manualmente toda semana, você escreve uma vez e roda quando quiser. Manutenção de parque de máquinas, limpeza de logs, verificação de políticas — tudo isso é feito por técnicos que sabem criar scripts.</div>
       <div class="callout blue">
         <span class="callout-icon">💡</span>
         <div class="callout-text"><strong>Write-Host vs Write-Output:</strong> <code>Write-Host</code> exibe na tela (cor, formatação). <code>Write-Output</code> envia para o pipeline — útil dentro de funções que outros cmdlets vão consumir.</div>
@@ -470,6 +513,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
         </div>
       </div>
 
+
+      <div class="importance-box"><strong>🔧 Por que isso importa para o técnico?</strong> Scripts sem tratamento de erros quebram silenciosamente — e o técnico não sabe o que falhou. Com <code>try/catch</code> você cria scripts robustos que informam exatamente o problema, registram o erro em log e continuam funcionando mesmo quando algo inesperado acontece. Isso é a diferença entre um script de estudante e um script de produção.</div>
       <div class="callout amber">
         <span class="callout-icon">⚠️</span>
         <div class="callout-text"><strong>Importante:</strong> sem <code>-ErrorAction Stop</code>, erros de cmdlet não são capturados pelo <code>catch</code>! Sempre adicione quando quiser tratar falhas de cmdlets.</div>
@@ -541,6 +586,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
         </div>
       </div>
 
+
+      <div class="importance-box"><strong>🔧 Por que isso importa para o técnico?</strong> Funções são o passo para trabalhar como um profissional: você cria ferramentas reutilizáveis, compartilha com a equipe e constrói uma biblioteca pessoal de automações. <code>Get-InventarioPC</code>, <code>Get-StatusServico</code>, <code>New-Backup</code> — com poucas funções bem escritas, você resolve problemas em segundos que outros demoram horas.</div>
       <div class="callout teal">
         <span class="callout-icon">⚡</span>
         <div class="callout-text"><strong>Pro tip:</strong> salve suas funções em um arquivo <code>.ps1</code> e importe com <code>. .\minhas_funcoes.ps1</code> (dot-sourcing) — elas ficam disponíveis em qualquer script da sessão!</div>
@@ -668,6 +715,43 @@ function renderQ(){const q=questions[cur];answered=false;document.getElementById
 function answer(btn,idx){if(answered)return;answered=true;const q=questions[cur];document.querySelectorAll('.option-btn').forEach(b=>b.disabled=true);const correct=idx===q.ans;btn.classList.add(correct?'correct':'wrong');if(!correct)document.querySelectorAll('.option-btn')[q.ans].classList.add('correct');const fb=document.getElementById('qfb');fb.innerHTML=q.exp;fb.className='quiz-feedback show '+(correct?'ok':'err');if(correct){quizXP+=20;addXP(20);}document.getElementById(`qd${cur}`).classList.remove('current');document.getElementById(`qd${cur}`).classList.add('done');document.getElementById('qnext').style.display='inline-block';}
 function nextQ(){cur++;if(cur<questions.length){document.getElementById(`qd${cur}`).classList.add('current');renderQ();}else{document.getElementById('quizBody').innerHTML=`<div class="quiz-result"><div class="score">${quizXP/20}/${questions.length}</div><div class="score-label">respostas corretas</div><div class="xp-earn">⚡ +${quizXP} XP ganhos</div><br><button class="quiz-restart" onclick="cur=0;quizXP=0;buildQuiz()">🔄 Refazer Quiz</button></div>`;if(quizXP===questions.length*20)showAch('🧠','Quiz Perfeito!','100% de acertos!');}}
 buildQuiz();
+
+// COPY BUTTONS
+function addCopyButtons() {
+  document.querySelectorAll('.cmd-block').forEach(block => {
+    if (block.querySelector('.copy-btn')) return;
+    const input = block.querySelector('.cmd-input');
+    if (!input) return;
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.innerHTML = '⎘ Copiar';
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      const text = input.innerText || input.textContent;
+      const cleaned = text.split('\n').map(l => {
+        return l.replace(/^PS C:\[^>]*>\s*/, '').replace(/^PS C:\\[^>]*>\s*/, '');
+      }).join('\n').trim();
+      navigator.clipboard.writeText(cleaned).then(() => {
+        btn.innerHTML = '✓ Copiado!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.innerHTML = '⎘ Copiar'; btn.classList.remove('copied'); }, 2000);
+      }).catch(() => {
+        btn.innerHTML = '✗ Erro';
+        setTimeout(() => { btn.innerHTML = '⎘ Copiar'; }, 2000);
+      });
+    };
+    block.style.position = 'relative';
+    block.insertBefore(btn, block.firstChild);
+  });
+}
+
+const origToggle = window.toggleCard;
+window.toggleCard = function(h) {
+  origToggle(h);
+  setTimeout(addCopyButtons, 450);
+};
+addCopyButtons();
+
 </script>
 </body>
 </html>
