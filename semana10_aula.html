@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>S10 – PowerShell – Scripts e Automação Básica | GSO I 2026</title>
+<title>S10 – PowerShell – Scripts, If/For e Funções | GSO I 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -11,61 +11,68 @@
 :root{
   --bg:#0d1117;--surface:#161b22;--surface2:#1c2330;--border:#21262d;
   --green:#39d353;--green-dim:#1a4731;--blue:#58a6ff;--blue-dim:#0d2139;
-  --teal:#2dd4bf;--teal-dim:#0f2927;
   --purple:#bc8cff;--purple-dim:#2a1f42;--amber:#f0b429;--amber-dim:#3d2c00;
-  --red:#f85149;--text:#e6edf3;--text-muted:#8b949e;--text-dim:#484f58;
+  --red:#f85149;--red-dim:#3d0f0d;--teal:#2dd4bf;--teal-dim:#0f2927;
+  --text:#e6edf3;--text-muted:#8b949e;--text-dim:#484f58;
   --xp:#ffd700;--r:12px;--r-sm:8px;
-  --glow-teal:0 0 20px rgba(45,212,191,.25);--glow-blue:0 0 20px rgba(88,166,255,.25);
 }
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-/* HUD */
 .hud{position:sticky;top:0;z-index:200;background:rgba(13,17,23,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:10px 24px;}
 .hud-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.hud-week{font-family:'DM Mono',monospace;font-size:.78em;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(45,212,191,.3);border-radius:50px;padding:4px 12px;white-space:nowrap;}
+.hud-week{font-family:'DM Mono',monospace;font-size:.78em;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(88,166,255,.3);border-radius:50px;padding:4px 12px;white-space:nowrap;}
 .hud-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1em;color:var(--text);flex:1;min-width:0;}
-.hud-title span{color:var(--teal);}
+.hud-title span{color:var(--blue);}
 .hud-xp{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:5px 12px;}
 .hud-xp .xp-val{font-family:'DM Mono',monospace;font-size:.82em;font-weight:500;color:var(--xp);}
 .hud-xp .xp-label{font-size:.72em;color:var(--text-muted);}
 .progress-bar-outer{height:6px;background:var(--surface2);border-radius:3px;flex:1;min-width:80px;}
-.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:3px;transition:width .5s ease;width:0%;}
+.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:3px;transition:width .5s ease;width:0%;}
 
-/* HERO */
 .hero{position:relative;overflow:hidden;padding:60px 24px 48px;text-align:center;}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(45,212,191,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(45,212,191,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(88,166,255,.06),transparent 70%);pointer-events:none;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(88,166,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(88,166,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
 .hero-inner{position:relative;max-width:700px;margin:0 auto;}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--teal-dim);border:1px solid rgba(45,212,191,.3);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600;color:var(--teal);margin-bottom:18px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);border-radius:50px;padding:5px 14px;font-size:.8em;font-weight:600;color:var(--blue);margin-bottom:18px;}
 .hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2em,5vw,3.2em);line-height:1.1;letter-spacing:-.03em;margin-bottom:14px;}
-.hero h1 .accent{color:var(--teal);}
+.hero h1 .accent{color:var(--blue);}
 .hero-sub{color:var(--text-muted);font-size:1em;margin-bottom:28px;}
 .hero-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
 .pill{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.82em;}
-.pill.teal{border-color:rgba(45,212,191,.3);color:var(--teal);}
 .pill.blue{border-color:rgba(88,166,255,.3);color:var(--blue);}
+.pill.green{border-color:rgba(57,211,83,.3);color:var(--green);}
 .pill.amber{border-color:rgba(240,180,41,.3);color:var(--amber);}
 
-/* CONTENT */
+.terminal-hero{background:#080d14;border:1px solid var(--border);border-radius:14px;overflow:hidden;max-width:600px;margin:0 auto 32px;text-align:left;box-shadow:0 8px 40px rgba(0,0,0,.5);}
+.term-bar{background:#111820;padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+.term-dots{display:flex;gap:5px;}.term-dot{width:10px;height:10px;border-radius:50%;}
+.term-dot.r{background:#f85149;}.term-dot.y{background:#f0b429;}.term-dot.g{background:#39d353;}
+.term-label{font-family:'DM Mono',monospace;font-size:.72em;color:var(--text-dim);margin-left:6px;}
+.term-body{padding:14px 18px;font-family:'DM Mono',monospace;font-size:.8em;line-height:1.9;}
+.term-cursor{display:inline-block;width:8px;height:14px;background:var(--blue);animation:blink 1s step-end infinite;vertical-align:text-bottom;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
 .container{max-width:900px;margin:0 auto;padding:0 24px 60px;}
+
 .section-header{display:flex;align-items:center;gap:10px;margin:40px 0 16px;}
 .section-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0;}
-.section-icon.teal{background:var(--teal-dim);border:1px solid rgba(45,212,191,.3);}
 .section-icon.blue{background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);}
+.section-icon.purple{background:var(--purple-dim);border:1px solid rgba(188,140,255,.3);}
+.section-icon.green{background:var(--green-dim);border:1px solid rgba(57,211,83,.3);}
 .section-icon.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.3);}
+.section-icon.teal{background:var(--teal-dim);border:1px solid rgba(45,212,191,.3);}
 .section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.25em;}
 .section-xp{margin-left:auto;font-family:'DM Mono',monospace;font-size:.78em;color:var(--xp);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;padding:3px 10px;}
 
-/* OBJ GRID */
 .obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:24px;}
 .obj-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;transition:all .2s;cursor:pointer;}
-.obj-card:hover{border-color:rgba(45,212,191,.3);box-shadow:var(--glow-teal);}
-.obj-card.done{border-color:rgba(45,212,191,.3);background:var(--teal-dim);}
-.obj-num{width:26px;height:26px;background:var(--teal-dim);border:1px solid rgba(45,212,191,.3);color:var(--teal);border-radius:8px;font-size:.75em;font-weight:700;font-family:'DM Mono',monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;}
+.obj-card:hover{border-color:rgba(88,166,255,.3);box-shadow:0 0 20px rgba(88,166,255,.15);}
+.obj-card.done{border-color:rgba(88,166,255,.4);background:var(--blue-dim);}
+.obj-num{width:26px;height:26px;background:var(--blue-dim);border:1px solid rgba(88,166,255,.3);color:var(--blue);border-radius:8px;font-size:.75em;font-weight:700;font-family:'DM Mono',monospace;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;}
 .obj-text{font-size:.88em;color:var(--text);line-height:1.4;}
 
-/* CONTENT CARDS (accordion) */
 .content-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;transition:box-shadow .2s;}
 .content-card:hover{box-shadow:0 4px 24px rgba(0,0,0,.3);}
 .cc-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none;background:var(--surface2);}
@@ -75,38 +82,57 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .cc-chevron{color:var(--text-dim);transition:transform .3s;font-size:.85em;}
 .cc-header.open .cc-chevron{transform:rotate(180deg);}
 .cc-body{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}
-.cc-body.open{max-height:1400px;padding:20px;}
+.cc-body.open{max-height:5000px;padding:20px;}
 
-/* KEY POINTS */
 .key-point{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
 .key-point:last-of-type{border:none;}
-.kp-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:7px;}
+.kp-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:7px;}
+.kp-dot.purple{background:var(--purple);}
+.kp-dot.green{background:var(--green);}
 .kp-text{font-size:.9em;color:var(--text-muted);line-height:1.5;}
 .kp-text strong{color:var(--text);}
-.kp-text code{background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.2);color:var(--teal);padding:1px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.88em;}
+.kp-text code{background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.2);color:var(--blue);padding:1px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.88em;}
 
-/* CODE BLOCK */
-.code-block{background:#0a0f14;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:12px 0;font-family:'DM Mono',monospace;font-size:.83em;line-height:1.7;overflow-x:auto;position:relative;}
-.code-block::before{content:attr(data-label);position:absolute;top:8px;right:12px;font-size:.7em;color:var(--text-dim);}
-.code-block .kw{color:var(--teal);}
-.code-block .cm{color:var(--text-dim);font-style:italic;}
-.code-block .str{color:#98c379;}
-.code-block .var{color:var(--amber);}
-.code-block .param{color:var(--blue);}
+/* BLOCO COMANDO + RESULTADO */
+.cmd-block{margin:16px 0;border-radius:12px;overflow:hidden;border:1px solid var(--border);}
+.cmd-block-label{background:#111820;padding:8px 14px;font-family:'DM Mono',monospace;font-size:.72em;color:var(--text-dim);display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+.cmd-block-label span{background:var(--blue-dim);color:var(--blue);border-radius:4px;padding:1px 6px;font-size:.9em;}
+.cmd-input{background:#080d14;padding:14px 18px;font-family:'DM Mono',monospace;font-size:.82em;line-height:1.8;overflow-x:auto;}
+.cmd-input .ps{color:var(--blue);}
+.cmd-input .kw{color:var(--purple);}
+.cmd-input .param{color:var(--blue);}
+.cmd-input .str{color:#98c379;}
+.cmd-input .var{color:var(--amber);}
+.cmd-input .op{color:var(--teal);}
+.cmd-input .cm{color:var(--text-dim);font-style:italic;}
+.cmd-input .fn{color:var(--amber);}
+.cmd-output{background:#050a10;border-top:1px solid rgba(57,211,83,.15);padding:14px 18px;font-family:'DM Mono',monospace;font-size:.8em;line-height:1.9;}
+.cmd-output-label{display:flex;align-items:center;gap:6px;font-size:.72em;color:var(--green);margin-bottom:8px;opacity:.8;}
+.cmd-output-label::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;}
+.out-header{color:var(--blue);font-weight:500;}
+.out-sep{color:var(--text-dim);}
+.out-val{color:var(--text-muted);}
+.out-val.hi{color:var(--amber);}
+.out-val.green{color:var(--green);}
+.out-val.red{color:var(--red);}
+.out-success{color:var(--green);}
+.out-info{color:var(--blue);}
+.out-warn{color:var(--amber);}
 
-/* CALLOUT */
 .callout{border-radius:var(--r-sm);padding:14px 18px;margin:14px 0;display:flex;gap:10px;align-items:flex-start;}
-.callout.teal{background:var(--teal-dim);border:1px solid rgba(45,212,191,.25);}
-.callout.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.25);}
+.callout.purple{background:var(--purple-dim);border:1px solid rgba(188,140,255,.25);}
 .callout.blue{background:var(--blue-dim);border:1px solid rgba(88,166,255,.25);}
+.callout.green{background:var(--green-dim);border:1px solid rgba(57,211,83,.25);}
+.callout.amber{background:var(--amber-dim);border:1px solid rgba(240,180,41,.25);}
+.callout.teal{background:var(--teal-dim);border:1px solid rgba(45,212,191,.25);}
 .callout-icon{font-size:1.1em;flex-shrink:0;margin-top:1px;}
 .callout-text{font-size:.88em;color:var(--text-muted);line-height:1.5;}
 .callout-text strong{color:var(--text);}
+.callout-text code{background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.2);color:var(--blue);padding:1px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.88em;}
 
-/* MISSIONS */
 .mission-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;transition:all .2s;}
-.mission-card:hover{border-color:rgba(45,212,191,.25);box-shadow:0 0 20px rgba(45,212,191,.1);}
-.mission-card.completed{border-color:rgba(45,212,191,.4);background:rgba(45,212,191,.05);}
+.mission-card:hover{border-color:rgba(88,166,255,.25);box-shadow:0 0 16px rgba(88,166,255,.1);}
+.mission-card.completed{border-color:rgba(57,211,83,.4);background:rgba(57,211,83,.04);}
 .mission-icon{font-size:1.6em;flex-shrink:0;}
 .mission-content{flex:1;}
 .mission-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;color:var(--text);margin-bottom:4px;}
@@ -115,371 +141,533 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .mission-tag{background:var(--surface2);border:1px solid var(--border);border-radius:50px;padding:2px 9px;font-size:.74em;color:var(--text-muted);}
 .mission-tag.xp{background:rgba(255,215,0,.08);border-color:rgba(255,215,0,.2);color:var(--xp);}
 .mission-check{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1em;color:var(--text-dim);flex-shrink:0;transition:all .2s;}
-.mission-check:hover{border-color:var(--teal);color:var(--teal);}
-.mission-check.done{background:var(--teal);border-color:var(--teal);color:#0d1117;}
+.mission-check:hover{border-color:var(--blue);color:var(--blue);}
+.mission-check.done{background:var(--green);border-color:var(--green);color:#0d1117;}
 
-/* QUIZ */
 .quiz-shell{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
-.quiz-topbar{background:var(--surface2);padding:12px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
-.quiz-counter{font-family:'DM Mono',monospace;font-size:.8em;color:var(--teal);}
-.quiz-dots{display:flex;gap:5px;flex:1;justify-content:center;}
+.quiz-topbar{background:linear-gradient(135deg,var(--blue-dim),var(--teal-dim));padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.quiz-topbar-icon{font-size:1.5em;}
+.quiz-topbar-text h3{font-family:'Syne',sans-serif;font-weight:700;font-size:.95em;}
+.quiz-topbar-text p{font-size:.78em;color:var(--text-muted);margin-top:2px;}
+.quiz-topbar-xp{margin-left:auto;text-align:right;}
+.quiz-topbar-xp .xp-big{font-family:'DM Mono',monospace;font-size:1.3em;font-weight:700;color:var(--xp);}
+.quiz-topbar-xp .xp-lbl{font-size:.72em;color:var(--text-muted);}
+.quiz-dots{display:flex;gap:5px;}
 .quiz-dot{width:9px;height:9px;border-radius:50%;background:var(--border);transition:all .3s;}
-.quiz-dot.current{background:var(--teal);box-shadow:0 0 8px var(--teal);}
+.quiz-dot.current{background:var(--blue);box-shadow:0 0 8px var(--blue);}
 .quiz-dot.done{background:var(--green);}
-.quiz-body{padding:24px;}
-.question-text{font-size:1em;font-weight:600;margin-bottom:20px;line-height:1.5;}
-.question-text code{background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.2);color:var(--teal);padding:1px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.88em;}
-.options{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.option-btn{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;text-align:left;cursor:pointer;color:var(--text);font-size:.88em;line-height:1.4;transition:all .2s;display:flex;gap:8px;align-items:flex-start;}
-.option-btn:hover:not(:disabled){border-color:rgba(45,212,191,.4);background:var(--teal-dim);}
-.option-letter{font-family:'DM Mono',monospace;font-size:.8em;color:var(--teal);font-weight:700;flex-shrink:0;}
-.option-btn.correct{border-color:rgba(57,211,83,.5);background:rgba(57,211,83,.1);}
-.option-btn.wrong{border-color:rgba(248,81,73,.5);background:rgba(248,81,73,.1);}
-.quiz-feedback{margin-top:14px;padding:12px 16px;border-radius:var(--r-sm);font-size:.85em;line-height:1.5;display:none;}
-.quiz-feedback.show.ok{display:block;background:rgba(57,211,83,.08);border:1px solid rgba(57,211,83,.3);color:#39d353;}
-.quiz-feedback.show.err{display:block;background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.3);color:#f85149;}
-.quiz-next{display:none;margin-top:12px;padding:9px 24px;background:var(--teal-dim);border:1px solid rgba(45,212,191,.4);border-radius:50px;color:var(--teal);font-family:'Syne',sans-serif;font-size:.82em;font-weight:700;cursor:pointer;transition:all .2s;}
-.quiz-next:hover{background:rgba(45,212,191,.15);}
+.quiz-counter{font-family:'DM Mono',monospace;font-size:.78em;color:var(--text-muted);margin-left:auto;}
+.quiz-body{padding:20px;}
+.question-text{font-weight:600;font-size:.97em;line-height:1.5;margin-bottom:18px;}
+.question-text code{background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.2);color:var(--blue);padding:1px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.88em;}
+.options{display:flex;flex-direction:column;gap:8px;}
+.option-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px 16px;text-align:left;cursor:pointer;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9em;transition:all .2s;display:flex;align-items:center;gap:10px;}
+.option-btn:hover:not(:disabled){border-color:var(--blue);background:var(--blue-dim);transform:translateX(4px);}
+.option-letter{width:24px;height:24px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.75em;font-weight:700;flex-shrink:0;}
+.option-btn.correct{border-color:rgba(57,211,83,.5);background:rgba(57,211,83,.08);color:var(--green);}
+.option-btn.correct .option-letter{background:var(--green-dim);border-color:var(--green);color:var(--green);}
+.option-btn.wrong{border-color:rgba(248,81,73,.5);background:rgba(248,81,73,.08);color:var(--red);}
+.option-btn.wrong .option-letter{background:var(--red-dim);border-color:var(--red);color:var(--red);}
+.quiz-feedback{margin-top:14px;padding:12px 16px;border-radius:var(--r-sm);font-size:.87em;line-height:1.5;display:none;}
+.quiz-feedback.show.ok{display:block;background:rgba(57,211,83,.08);border:1px solid rgba(57,211,83,.25);color:var(--green);}
+.quiz-feedback.show.err{display:block;background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.25);color:var(--red);}
+.quiz-next{margin-top:14px;background:var(--blue);color:var(--bg);border:none;border-radius:var(--r-sm);padding:10px 22px;font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;cursor:pointer;display:none;transition:all .2s;}
+.quiz-next:hover{background:#80c4ff;transform:translateY(-1px);}
 .quiz-result{text-align:center;padding:20px 0;}
-.score{font-family:'Syne',sans-serif;font-size:3.5em;font-weight:800;color:var(--teal);}
-.score-label{font-size:1em;font-weight:600;color:var(--text);margin-top:4px;}
-.xp-earn{color:var(--xp);font-size:.9em;margin-top:6px;}
-.quiz-restart{margin-top:14px;padding:9px 22px;background:var(--teal-dim);border:1px solid rgba(45,212,191,.4);border-radius:50px;color:var(--teal);font-family:'Syne',sans-serif;font-size:.82em;font-weight:700;cursor:pointer;}
+.quiz-result .score{font-family:'Syne',sans-serif;font-size:3.5em;font-weight:800;color:var(--blue);}
+.quiz-result .score-label{color:var(--text-muted);font-size:.9em;margin-bottom:16px;}
+.quiz-result .xp-earn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.25);border-radius:50px;padding:6px 16px;color:var(--xp);font-weight:700;font-size:.95em;margin-bottom:20px;}
+.quiz-restart{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:var(--r-sm);padding:9px 20px;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:.88em;transition:all .2s;}
+.quiz-restart:hover{border-color:var(--blue);color:var(--blue);}
 
-/* CHECKPOINT */
-.checkpoint{background:linear-gradient(135deg,var(--teal-dim),var(--blue-dim));border:1px solid rgba(45,212,191,.2);border-radius:var(--r);padding:24px;text-align:center;margin:28px 0;}
-.checkpoint-stars{font-size:1.8em;margin-bottom:8px;}
-.checkpoint h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1em;color:var(--text);margin-bottom:6px;}
+.checkpoint{background:linear-gradient(135deg,var(--blue-dim),var(--teal-dim));border:1px solid rgba(88,166,255,.2);border-radius:var(--r);padding:24px;text-align:center;margin:28px 0;}
+.checkpoint h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1em;margin-bottom:6px;}
 .checkpoint p{color:var(--text-muted);font-size:.88em;}
 .xp-total-display{margin-top:12px;font-family:'DM Mono',monospace;font-size:1.1em;color:var(--xp);}
 
-/* RESOURCES */
+.nav-bar{border-top:1px solid var(--border);padding:20px 24px;margin-top:20px;}
+.nav-inner{max-width:900px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.nav-btn{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);color:var(--text);text-decoration:none;border-radius:var(--r-sm);padding:10px 18px;font-size:.88em;transition:all .2s;cursor:pointer;}
+.nav-btn:hover{border-color:var(--blue);color:var(--blue);}
+.nav-btn.primary{background:var(--blue);border-color:var(--blue);color:#0d1117;font-weight:700;}
+.nav-btn.primary:hover{background:#80c4ff;border-color:#80c4ff;color:#0d1117;}
+.nav-home{font-family:'DM Mono',monospace;font-size:.8em;color:var(--text-muted);text-decoration:none;transition:color .2s;}
+.nav-home:hover{color:var(--blue);}
+
+.ach-toast{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,var(--blue-dim),var(--teal-dim));border:1px solid rgba(88,166,255,.4);border-radius:14px;padding:14px 20px;display:flex;gap:12px;align-items:center;transform:translateY(100px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);z-index:999;max-width:300px;}
+.ach-toast.show{transform:translateY(0);opacity:1;}
+.ach-icon{font-size:1.8em;}
+.ach-text strong{font-family:'Syne',sans-serif;font-size:.95em;color:var(--text);}
+.ach-text p{font-size:.8em;color:var(--text-muted);margin-top:2px;}
+.star{position:fixed;pointer-events:none;font-size:1.4em;animation:flyUp 1.5s ease forwards;z-index:998;}
+@keyframes flyUp{0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-150px) scale(1.5);opacity:0;}}
+
 .resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;}
-.res-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;transition:all .2s;}
-.res-card:hover{border-color:rgba(45,212,191,.3);transform:translateY(-2px);}
-.res-icon{font-size:1.5em;margin-bottom:6px;}
-.res-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.85em;color:var(--text);margin-bottom:3px;}
+.res-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-decoration:none;color:var(--text);transition:all .2s;display:flex;flex-direction:column;gap:6px;}
+.res-card:hover{border-color:rgba(88,166,255,.3);box-shadow:0 0 20px rgba(88,166,255,.15);}
+.res-icon{font-size:1.4em;}
+.res-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.88em;}
 .res-desc{font-size:.78em;color:var(--text-muted);}
-
-/* NAV */
-.nav-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:24px;}
-.nav-btn{padding:9px 18px;border-radius:var(--r-sm);text-decoration:none;font-weight:600;font-size:.85em;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
-.btn-primary{background:linear-gradient(135deg,#0f2927,var(--teal-dim));border:1px solid rgba(45,212,191,.4);color:var(--teal);}
-.btn-primary:hover{box-shadow:var(--glow-teal);transform:translateY(-1px);}
-.btn-ghost{background:var(--surface2);border:1px solid var(--border);color:var(--text-muted);}
-.btn-ghost:hover{border-color:rgba(45,212,191,.3);color:var(--text);}
-.btn-guide{background:rgba(240,180,41,.1);border:1px solid rgba(240,180,41,.3);color:var(--amber);}
-.nav-spacer{flex:1;}
-
-/* ACHIEVEMENT */
-.ach-popup{position:fixed;bottom:24px;right:24px;z-index:500;background:var(--surface);border:1px solid var(--amber);border-radius:14px;padding:14px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 0 30px rgba(240,180,41,.3);transform:translateY(120px);transition:transform .5s cubic-bezier(.34,1.56,.64,1);max-width:280px;}
-.ach-popup.show{transform:translateY(0);}
-.ach-icon-big{font-size:2em;}
-.ach-text-title{font-family:'Syne',sans-serif;font-size:.82em;font-weight:700;color:var(--xp);}
-.ach-text-desc{font-size:.75em;color:var(--text-muted);}
-
-/* FLOATING STARS */
-.star{position:fixed;pointer-events:none;z-index:1000;font-size:1.3em;animation:floatUp 1.2s ease-out forwards;}
-@keyframes floatUp{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-60px);}}
-
-.footer{text-align:center;padding:24px;color:var(--text-dim);font-size:.78em;border-top:1px solid var(--border);}
-
-@media(max-width:640px){.options{grid-template-columns:1fr;}.hero{padding:40px 16px 30px;}.container{padding:0 14px 40px;}}
+footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:.8em;color:var(--text-dim);}
 </style>
 </head>
 <body>
 
-<div class="ach-popup" id="achPopup">
-  <div class="ach-icon-big" id="achIcon">🏆</div>
-  <div><div class="ach-text-title" id="achTitle">Conquista!</div><div class="ach-text-desc" id="achDesc">Desbloqueada!</div></div>
+<div class="ach-toast" id="achToast">
+  <div class="ach-icon" id="achIcon">🏆</div>
+  <div class="ach-text"><strong id="achTitle">Conquista!</strong><p id="achDesc">Desbloqueada!</p></div>
 </div>
 
-<!-- HUD -->
-<div class="hud">
+<nav class="hud">
   <div class="hud-inner">
     <span class="hud-week">S10/20</span>
-    <div class="hud-title">Scripts &amp; <span>Automação</span></div>
+    <span class="hud-title">PowerShell — <span>Scripts, If/For e Funções</span></span>
+    <div class="hud-xp"><span class="xp-val" id="xpDisplay">0</span><span class="xp-label">/ 310 XP</span></div>
     <div class="progress-bar-outer"><div class="progress-bar-inner" id="mainProgress"></div></div>
-    <div class="hud-xp"><span>⚡</span><span class="xp-val" id="xpDisplay">0</span><span class="xp-label">XP</span></div>
   </div>
-</div>
+</nav>
 
-<!-- HERO -->
-<div class="hero">
+<header class="hero">
   <div class="hero-grid-bg"></div>
   <div class="hero-inner">
-    <div class="hero-eyebrow">🗂 PowerShell · Semana 10 de 20</div>
-    <h1>Scripts &amp;<br><span class="accent">Automação Básica</span></h1>
-    <p class="hero-sub">Crie scripts que trabalham por você — estruturas de controle, funções e tratamento de erros.</p>
+    <div class="hero-eyebrow">⚡ Semana 10 de 20</div>
+    <h1>Scripts,<br><span class="accent">If/For e Funções</span></h1>
+    <p class="hero-sub">Crie scripts .ps1 reais, use condições e laços, trate erros com try/catch e encapsule código em funções reutilizáveis.</p>
     <div class="hero-pills">
-      <span class="pill teal">📝 .ps1 Scripts</span>
-      <span class="pill blue">🔀 If / ForEach / While</span>
+      <span class="pill blue">📄 Scripts .ps1</span>
+      <span class="pill green">🔀 If / For / ForEach</span>
       <span class="pill amber">🛡️ Try / Catch</span>
     </div>
-    <nav class="nav-bar" style="max-width:600px;margin:0 auto;">
-      <a href="semana09_aula.html" class="nav-btn btn-ghost">← Anterior</a>
-      <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
-      <a href="semana10_guia.html" class="nav-btn btn-guide">📝 Guia</a>
-      <span class="nav-spacer"></span>
-      <a href="semana11_aula.html" class="nav-btn btn-primary">Próxima →</a>
-    </nav>
-  </div>
-</div>
 
-<!-- MAIN -->
+    <div class="terminal-hero">
+      <div class="term-bar">
+        <div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div>
+        <span class="term-label">meu_script.ps1 — executando</span>
+      </div>
+      <div class="term-body">
+        <div style="color:var(--text-dim)"># verificando serviços críticos...</div>
+        <div style="color:var(--green)">✓ Spooler     — Running</div>
+        <div style="color:var(--green)">✓ WinRM       — Running</div>
+        <div style="color:var(--red)">✗ wuauserv    — Stopped ← ALERTA!</div>
+        <div style="color:var(--amber)">⚡ Relatório salvo em C:\status.csv</div>
+        <div style="margin-top:4px"><span style="color:var(--blue)">PS C:\&gt; </span><span class="term-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
 <div class="container">
 
-  <!-- OBJETIVOS -->
   <div class="section-header">
-    <div class="section-icon teal">🎯</div>
+    <div class="section-icon blue">🎯</div>
     <h2 class="section-title">Objetivos de Aprendizagem</h2>
     <span class="section-xp">+40 XP</span>
   </div>
   <div class="obj-grid">
-    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">1</div><span class="obj-text">Criar scripts <strong>.ps1</strong> com boas práticas</span></div>
-    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">2</div><span class="obj-text">Usar <strong>if/else</strong>, <strong>foreach</strong>, <strong>for</strong>, <strong>while</strong></span></div>
-    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">3</div><span class="obj-text">Tratar erros com <strong>try / catch</strong></span></div>
-    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">4</div><span class="obj-text">Criar <strong>funções reutilizáveis</strong> com parâmetros</span></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">1</div><div class="obj-text">Criar e executar <strong>scripts .ps1</strong> no PowerShell</div></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">2</div><div class="obj-text">Usar <strong>if/else</strong>, <strong>for</strong> e <strong>foreach</strong> para automação</div></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">3</div><div class="obj-text">Tratar erros com <strong>try/catch/finally</strong></div></div>
+    <div class="obj-card" onclick="markObj(this,10)"><div class="obj-num">4</div><div class="obj-text">Criar <strong>funções reutilizáveis</strong> com parâmetros</div></div>
   </div>
 
-  <!-- CONTEÚDO -->
   <div class="section-header">
     <div class="section-icon blue">📖</div>
     <h2 class="section-title">Conteúdo da Aula</h2>
     <span class="section-xp">+80 XP</span>
   </div>
 
+  <!-- CARD 1: SCRIPTS .PS1 -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
-      <span class="cc-icon">📝</span>
-      <span class="cc-title">Estrutura de um Script PowerShell</span>
+      <span class="cc-icon">📄</span>
+      <span class="cc-title">Scripts .ps1 — Do Terminal ao Arquivo</span>
       <span class="cc-xp">+20 XP</span>
       <span class="cc-chevron">▾</span>
     </div>
     <div class="cc-body">
-      <div class="key-point"><div class="kp-dot"></div><div class="kp-text">Scripts PowerShell são arquivos de texto com extensão <code>.ps1</code>. Para executar: <code>.\meu_script.ps1</code> no terminal.</div></div>
-      <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><strong>Boas práticas:</strong> comece com comentários explicativos usando <code>#</code>, declare variáveis no topo, organize em funções com nomes descritivos.</div></div>
-      <div class="key-point"><div class="kp-dot"></div><div class="kp-text">Clique direito no arquivo → <strong>Executar com PowerShell</strong>; ou dentro do terminal: <code>Set-ExecutionPolicy RemoteSigned</code> para permitir execução.</div></div>
-      <div class="code-block" data-label="exemplo_basico.ps1">
-<span class="cm"># Cabeçalho — sempre inclua!</span>
-<span class="cm"># Autor: Seu Nome | Data: 2026 | Versão: 1.0</span>
-<span class="cm"># Descrição: Script de exemplo com boas práticas</span>
+      <div class="key-point"><div class="kp-dot"></div><div class="kp-text">Scripts PowerShell têm extensão <strong>.ps1</strong>. Qualquer editor de texto funciona — use o <strong>VSCode</strong> ou o <strong>ISE</strong> embutido no Windows.</div></div>
+      <div class="key-point"><div class="kp-dot purple"></div><div class="kp-text">Por segurança, o Windows bloqueia execução de scripts por padrão. Libere com <code>Set-ExecutionPolicy RemoteSigned</code> (uma vez, como admin).</div></div>
+      <div class="key-point"><div class="kp-dot green"></div><div class="kp-text">Para executar: <code>.\meu_script.ps1</code> — o <code>.\</code> indica "nesta pasta". Sem ele, o PowerShell não encontra o arquivo.</div></div>
 
-<span class="kw">param</span>(<span class="var">$nome</span> = <span class="str">"Aluno"</span>)          <span class="cm"># parâmetro com padrão</span>
+      <!-- Liberar execução -->
+      <div class="cmd-block">
+        <div class="cmd-block-label"><span>PASSO 1</span> Liberar execução de scripts (executar como Administrador)</div>
+        <div class="cmd-input">
+<span class="ps">PS C:\&gt; </span><span class="kw">Set-ExecutionPolicy</span> RemoteSigned <span class="param">-Scope</span> CurrentUser
+        </div>
+        <div class="cmd-output">
+          <div class="cmd-output-label">Confirmação — responda Y e Enter</div>
+<span class="out-warn">Execution policy change</span><br>
+<span class="out-val">The execution policy helps protect you from scripts that you do not trust.</span><br>
+<span class="out-val">Do you want to change the execution policy?</span><br>
+<span class="out-val">[Y] Yes  [N] No  [S] Suspend  [?] Help (default is "N"): </span><span class="out-success">Y</span><br><br>
+<span class="out-success">✓ Política alterada. Agora você pode rodar scripts .ps1!</span>
+        </div>
+      </div>
 
-<span class="var">$data</span> = <span class="kw">Get-Date</span> <span class="param">-Format</span> <span class="str">'dd/MM/yyyy'</span>
-<span class="kw">Write-Host</span> <span class="str">"Olá, $nome! Hoje é $data"</span> <span class="param">-ForegroundColor</span> Cyan
+      <!-- Criar e executar script -->
+      <div class="cmd-block">
+        <div class="cmd-block-label"><span>PASSO 2</span> Criar e executar seu primeiro script</div>
+        <div class="cmd-input">
+<span class="cm"># Crie o arquivo hello.ps1 com este conteúdo:</span><br>
+<span class="kw">Write-Host</span> <span class="str">"Olá, $env:USERNAME! Hoje é $(Get-Date -Format 'dd/MM/yyyy')."</span> <span class="param">-ForegroundColor</span> Cyan<br>
+<span class="kw">Write-Host</span> <span class="str">"Computador: $env:COMPUTERNAME"</span> <span class="param">-ForegroundColor</span> Green<br><br>
+<span class="cm"># Agora execute:</span><br>
+<span class="ps">PS C:\Scripts&gt; </span>.\hello.ps1
+        </div>
+        <div class="cmd-output">
+          <div class="cmd-output-label">Saída colorida no terminal</div>
+<span class="out-info">Olá, aluno.gso! Hoje é 15/05/2026.</span><br>
+<span class="out-success">Computador: DESKTOP-LAB01</span>
+        </div>
+      </div>
+
+      <div class="callout blue">
+        <span class="callout-icon">💡</span>
+        <div class="callout-text"><strong>Write-Host vs Write-Output:</strong> <code>Write-Host</code> exibe na tela (cor, formatação). <code>Write-Output</code> envia para o pipeline — útil dentro de funções que outros cmdlets vão consumir.</div>
       </div>
     </div>
   </div>
 
+  <!-- CARD 2: IF/ELSE E LAÇOS -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">🔀</span>
-      <span class="cc-title">Estruturas de Controle</span>
+      <span class="cc-title">If/Else · For · ForEach — Tomando Decisões</span>
       <span class="cc-xp">+20 XP</span>
       <span class="cc-chevron">▾</span>
     </div>
     <div class="cc-body">
-      <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><strong>Operadores de comparação:</strong> <code>-eq</code> igual, <code>-ne</code> diferente, <code>-gt</code> maior, <code>-lt</code> menor, <code>-like</code> padrão com wildcard *.</div></div>
-      <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><code>foreach</code> itera sobre cada item de uma coleção. <code>for</code> usa contador. <code>while</code> repete enquanto condição for verdadeira.</div></div>
-      <div class="code-block" data-label="estruturas.ps1">
-<span class="cm"># If / Else</span>
-<span class="var">$espaco</span> = (<span class="kw">Get-PSDrive</span> C).Free / 1GB
-<span class="kw">if</span> (<span class="var">$espaco</span> <span class="param">-lt</span> 5) {
-    <span class="kw">Write-Warning</span> <span class="str">"Pouco espaço em disco!"</span>
-} <span class="kw">else</span> {
-    <span class="kw">Write-Host</span> <span class="str">"Disco OK: $([math]::Round($espaco,1)) GB livres"</span>
-}
+      <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><strong>if/elseif/else</strong> — toma decisões. Operadores: <code>-gt</code> maior · <code>-lt</code> menor · <code>-eq</code> igual · <code>-ne</code> diferente.</div></div>
+      <div class="key-point"><div class="kp-dot purple"></div><div class="kp-text"><strong>foreach</strong> — percorre cada item de uma lista ou resultado de cmdlet.</div></div>
+      <div class="key-point"><div class="kp-dot green"></div><div class="kp-text"><strong>for</strong> — loop numérico clássico. <strong>while</strong> — repete enquanto a condição for verdadeira.</div></div>
 
-<span class="cm"># ForEach — iterar serviços</span>
-<span class="var">$servicos</span> = <span class="str">@('Spooler','wuauserv','BITS')</span>
-<span class="kw">foreach</span> (<span class="var">$svc</span> <span class="kw">in</span> <span class="var">$servicos</span>) {
-    <span class="var">$status</span> = (<span class="kw">Get-Service</span> <span class="param">-Name</span> <span class="var">$svc</span>).Status
-    <span class="kw">Write-Host</span> <span class="str">"$svc → $status"</span>
+      <!-- If/else verificando disco -->
+      <div class="cmd-block">
+        <div class="cmd-block-label"><span>EXEMPLO</span> If/Else — alerta de disco cheio</div>
+        <div class="cmd-input">
+<span class="var">$livreGB</span> = (<span class="kw">Get-PSDrive</span> C).Free / 1GB<br><br>
+<span class="kw">if</span> (<span class="var">$livreGB</span> <span class="op">-lt</span> <span class="str">10</span>) {<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"🔴 CRÍTICO: apenas $([math]::Round($livreGB,1)) GB livre!"</span> <span class="param">-ForegroundColor</span> Red<br>
+} <span class="kw">elseif</span> (<span class="var">$livreGB</span> <span class="op">-lt</span> <span class="str">30</span>) {<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"🟡 AVISO: $([math]::Round($livreGB,1)) GB livre"</span> <span class="param">-ForegroundColor</span> Yellow<br>
+} <span class="kw">else</span> {<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"🟢 OK: $([math]::Round($livreGB,1)) GB livre"</span> <span class="param">-ForegroundColor</span> Green<br>
 }
+        </div>
+        <div class="cmd-output">
+          <div class="cmd-output-label">Saída — depende do disco do seu PC</div>
+<span class="out-success">🟢 OK: 127.4 GB livre</span><br><br>
+<span class="out-info"># Se o disco estivesse quase cheio, apareceria:</span><br>
+<span class="out-val red">🔴 CRÍTICO: apenas 4.2 GB livre!</span>
+        </div>
       </div>
-      <div class="callout teal">
-        <span class="callout-icon">💡</span>
-        <span class="callout-text"><strong>Dica:</strong> No PowerShell, strings entre aspas duplas <code>"$variavel"</code> fazem interpolação automática. Aspas simples <code>'literal'</code> não interpolam.</span>
+
+      <!-- ForEach verificando serviços -->
+      <div class="cmd-block">
+        <div class="cmd-block-label"><span>EXEMPLO</span> ForEach — verificar lista de serviços críticos</div>
+        <div class="cmd-input">
+<span class="var">$servicos</span> = @(<span class="str">'Spooler'</span>, <span class="str">'WinRM'</span>, <span class="str">'Dnscache'</span>, <span class="str">'wuauserv'</span>)<br><br>
+<span class="kw">foreach</span> (<span class="var">$svc</span> <span class="kw">in</span> <span class="var">$servicos</span>) {<br>
+&nbsp;&nbsp;<span class="var">$status</span> = (<span class="kw">Get-Service</span> <span class="var">$svc</span>).Status<br>
+&nbsp;&nbsp;<span class="kw">if</span> (<span class="var">$status</span> <span class="op">-eq</span> <span class="str">'Running'</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"✓ $svc — Running"</span> <span class="param">-ForegroundColor</span> Green<br>
+&nbsp;&nbsp;} <span class="kw">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"✗ $svc — $status ← ALERTA!"</span> <span class="param">-ForegroundColor</span> Red<br>
+&nbsp;&nbsp;}<br>
+}
+        </div>
+        <div class="cmd-output">
+          <div class="cmd-output-label">Saída — status de cada serviço em tempo real</div>
+<span class="out-success">✓ Spooler    — Running</span><br>
+<span class="out-success">✓ WinRM      — Running</span><br>
+<span class="out-success">✓ Dnscache   — Running</span><br>
+<span class="out-val red">✗ wuauserv   — Stopped ← ALERTA!</span>
+        </div>
+      </div>
+
+      <!-- For loop numérico -->
+      <div class="cmd-block">
+        <div class="cmd-block-label"><span>EXEMPLO</span> For — loop numérico clássico</div>
+        <div class="cmd-input">
+<span class="kw">for</span> (<span class="var">$i</span> = 1; <span class="var">$i</span> <span class="op">-le</span> <span class="str">5</span>; <span class="var">$i</span>++) {<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"Tentativa $i de 5 — testando conexão..."</span><br>
+&nbsp;&nbsp;<span class="kw">Start-Sleep</span> <span class="param">-Seconds</span> <span class="str">1</span>  <span class="cm"># aguarda 1 segundo</span><br>
+}
+        </div>
+        <div class="cmd-output">
+          <div class="cmd-output-label">Saída — uma linha por iteração, com pausa de 1s</div>
+<span class="out-val">Tentativa 1 de 5 — testando conexão...</span><br>
+<span class="out-val">Tentativa 2 de 5 — testando conexão...</span><br>
+<span class="out-val">Tentativa 3 de 5 — testando conexão...</span><br>
+<span class="out-val">Tentativa 4 de 5 — testando conexão...</span><br>
+<span class="out-val">Tentativa 5 de 5 — testando conexão...</span>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- CARD 3: TRY/CATCH -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">🛡️</span>
-      <span class="cc-title">Tratamento de Erros com Try / Catch</span>
+      <span class="cc-title">Tratamento de Erros — Try / Catch / Finally</span>
       <span class="cc-xp">+20 XP</span>
       <span class="cc-chevron">▾</span>
     </div>
     <div class="cc-body">
-      <div class="key-point"><div class="kp-dot"></div><div class="kp-text">Sempre use <code>try/catch</code> quando o script pode falhar: arquivo inexistente, serviço que não responde, permissão negada.</div></div>
-      <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><code>$_</code> dentro do <code>catch</code> contém a mensagem de erro. <code>-ErrorAction Stop</code> força exceção para ser capturada.</div></div>
-      <div class="code-block" data-label="try_catch.ps1">
-<span class="kw">try</span> {
-    <span class="var">$conteudo</span> = <span class="kw">Get-Content</span> <span class="str">'C:\log.txt'</span> <span class="param">-ErrorAction</span> Stop
-    <span class="kw">Write-Host</span> <span class="str">"Arquivo lido com sucesso!"</span> <span class="param">-ForegroundColor</span> Green
-} <span class="kw">catch</span> {
-    <span class="kw">Write-Error</span> <span class="str">"Falha ao ler arquivo: $_"</span>
-    <span class="cm"># Log do erro:</span>
-    <span class="var">$_</span> | <span class="kw">Out-File</span> <span class="str">'C:\erros.log'</span> <span class="param">-Append</span>
-} <span class="kw">finally</span> {
-    <span class="kw">Write-Host</span> <span class="str">"Execução finalizada."</span>   <span class="cm"># sempre roda</span>
+      <div class="key-point"><div class="kp-dot"></div><div class="kp-text">Sempre use <strong>try/catch</strong> quando o script pode falhar: arquivo inexistente, serviço que não responde, permissão negada.</div></div>
+      <div class="key-point"><div class="kp-dot purple"></div><div class="kp-text"><code>$_</code> dentro do <code>catch</code> contém a mensagem de erro. <code>-ErrorAction Stop</code> força a exceção para ser capturada.</div></div>
+      <div class="key-point"><div class="kp-dot green"></div><div class="kp-text"><code>finally</code> sempre executa — seja com sucesso ou com erro. Ideal para limpeza e log de encerramento.</div></div>
+
+      <!-- Try/Catch básico -->
+      <div class="cmd-block">
+        <div class="cmd-block-label"><span>EXEMPLO</span> Try/Catch — lendo arquivo que pode não existir</div>
+        <div class="cmd-input">
+<span class="kw">try</span> {<br>
+&nbsp;&nbsp;<span class="var">$conteudo</span> = <span class="kw">Get-Content</span> <span class="str">'C:\log.txt'</span> <span class="param">-ErrorAction</span> Stop<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"✓ Arquivo lido com sucesso!"</span> <span class="param">-ForegroundColor</span> Green<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"Linhas: $($conteudo.Count)"</span><br>
+} <span class="kw">catch</span> {<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"✗ Erro: $_"</span> <span class="param">-ForegroundColor</span> Red<br>
+&nbsp;&nbsp;<span class="var">$_</span> <span class="op">|</span> <span class="kw">Out-File</span> <span class="str">'C:\erros.log'</span> <span class="param">-Append</span><br>
+} <span class="kw">finally</span> {<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"Execução finalizada."</span> <span class="param">-ForegroundColor</span> Cyan<br>
 }
+        </div>
+        <div class="cmd-output">
+          <div class="cmd-output-label">Cenário A — arquivo existe</div>
+<span class="out-success">✓ Arquivo lido com sucesso!</span><br>
+<span class="out-val">Linhas: 142</span><br>
+<span class="out-info">Execução finalizada.</span><br><br>
+<div class="cmd-output-label">Cenário B — arquivo não existe</div>
+<span class="out-val red">✗ Erro: Cannot find path 'C:\log.txt' because it does not exist.</span><br>
+<span class="out-info">Execução finalizada.</span><br>
+<span class="out-val" style="color:var(--text-dim)">(erro registrado em C:\erros.log)</span>
+        </div>
+      </div>
+
+      <!-- Script robusto de verificação de serviço -->
+      <div class="cmd-block">
+        <div class="cmd-block-label"><span>EXEMPLO</span> Script robusto — verificar e reiniciar serviço com segurança</div>
+        <div class="cmd-input">
+<span class="var">$nomeServico</span> = <span class="str">'Spooler'</span><br><br>
+<span class="kw">try</span> {<br>
+&nbsp;&nbsp;<span class="var">$svc</span> = <span class="kw">Get-Service</span> <span class="param">-Name</span> <span class="var">$nomeServico</span> <span class="param">-ErrorAction</span> Stop<br>
+&nbsp;&nbsp;<span class="kw">if</span> (<span class="var">$svc</span>.Status <span class="op">-ne</span> <span class="str">'Running'</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">Start-Service</span> <span class="var">$nomeServico</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"✓ $nomeServico iniciado!"</span> <span class="param">-ForegroundColor</span> Green<br>
+&nbsp;&nbsp;} <span class="kw">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"✓ $nomeServico já está rodando."</span> <span class="param">-ForegroundColor</span> Green<br>
+&nbsp;&nbsp;}<br>
+} <span class="kw">catch</span> {<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"✗ Falha: $_"</span> <span class="param">-ForegroundColor</span> Red<br>
+}
+        </div>
+        <div class="cmd-output">
+          <div class="cmd-output-label">Saída — serviço já rodando</div>
+<span class="out-success">✓ Spooler já está rodando.</span>
+        </div>
+      </div>
+
+      <div class="callout amber">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-text"><strong>Importante:</strong> sem <code>-ErrorAction Stop</code>, erros de cmdlet não são capturados pelo <code>catch</code>! Sempre adicione quando quiser tratar falhas de cmdlets.</div>
       </div>
     </div>
   </div>
 
+  <!-- CARD 4: FUNÇÕES -->
   <div class="content-card">
     <div class="cc-header" onclick="toggleCard(this)">
       <span class="cc-icon">🔧</span>
-      <span class="cc-title">Funções Reutilizáveis</span>
+      <span class="cc-title">Funções Reutilizáveis — Organize seu Código</span>
       <span class="cc-xp">+20 XP</span>
       <span class="cc-chevron">▾</span>
     </div>
     <div class="cc-body">
       <div class="key-point"><div class="kp-dot"></div><div class="kp-text">Funções encapsulam código repetido. Use <code>param()</code> para parâmetros e <code>return</code> para devolver valores.</div></div>
-      <div class="key-point"><div class="kp-dot"></div><div class="kp-text"><strong>Convenção:</strong> siga o padrão <strong>Verbo-Substantivo</strong>: <code>Get-InfoPC</code>, <code>Set-Config</code>, <code>New-Backup</code>.</div></div>
-      <div class="code-block" data-label="funcao.ps1">
-<span class="kw">function</span> Get-StatusServico {
-    <span class="kw">param</span>(
-        [<span class="kw">string</span>]<span class="var">$Nome</span>,
-        [<span class="kw">switch</span>]<span class="var">$Verbose</span>
-    )
-    <span class="var">$svc</span> = <span class="kw">Get-Service</span> <span class="param">-Name</span> <span class="var">$Nome</span> <span class="param">-ErrorAction</span> SilentlyContinue
-    <span class="kw">if</span> (<span class="var">$Verbose</span>) { <span class="kw">Write-Host</span> <span class="str">"Consultando $Nome..."</span> }
-    <span class="kw">return</span> <span class="var">$svc</span>.Status
-}
+      <div class="key-point"><div class="kp-dot purple"></div><div class="kp-text">Convenção: siga o padrão <strong>Verbo-Substantivo</strong>: <code>Get-InfoPC</code>, <code>Set-Config</code>, <code>New-Backup</code>.</div></div>
+      <div class="key-point"><div class="kp-dot green"></div><div class="kp-text">Use <code>Write-Verbose</code> em vez de <code>Write-Host</code> dentro de funções — as mensagens só aparecem com <code>-Verbose</code>.</div></div>
 
-<span class="cm"># Chamadas:</span>
-Get-StatusServico <span class="param">-Nome</span> <span class="str">"Spooler"</span>
-Get-StatusServico <span class="param">-Nome</span> <span class="str">"wuauserv"</span> <span class="param">-Verbose</span>
+      <!-- Função básica -->
+      <div class="cmd-block">
+        <div class="cmd-block-label"><span>EXEMPLO</span> Função — verificar status de serviço</div>
+        <div class="cmd-input">
+<span class="kw">function</span> <span class="fn">Get-StatusServico</span> {<br>
+&nbsp;&nbsp;<span class="kw">param</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span class="kw">string</span>]<span class="var">$Nome</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span class="kw">switch</span>]<span class="var">$Verbose</span><br>
+&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;<span class="var">$svc</span> = <span class="kw">Get-Service</span> <span class="param">-Name</span> <span class="var">$Nome</span> <span class="param">-ErrorAction</span> SilentlyContinue<br>
+&nbsp;&nbsp;<span class="kw">if</span> (<span class="var">$Verbose</span>) { <span class="kw">Write-Host</span> <span class="str">"Consultando $Nome..."</span> }<br>
+&nbsp;&nbsp;<span class="kw">return</span> <span class="var">$svc</span>.Status<br>
+}<br><br>
+<span class="cm"># Chamando a função:</span><br>
+<span class="fn">Get-StatusServico</span> <span class="param">-Nome</span> <span class="str">"Spooler"</span><br>
+<span class="fn">Get-StatusServico</span> <span class="param">-Nome</span> <span class="str">"wuauserv"</span> <span class="param">-Verbose</span>
+        </div>
+        <div class="cmd-output">
+          <div class="cmd-output-label">Saída das duas chamadas</div>
+<span class="out-success">Running</span><br><br>
+<span class="out-info">Consultando wuauserv...</span><br>
+<span class="out-val red">Stopped</span>
+        </div>
       </div>
-      <div class="callout amber">
+
+      <!-- Função inventário -->
+      <div class="cmd-block">
+        <div class="cmd-block-label"><span>EXEMPLO</span> Função — inventário do PC em uma chamada</div>
+        <div class="cmd-input">
+<span class="kw">function</span> <span class="fn">Get-InventarioPC</span> {<br>
+&nbsp;&nbsp;<span class="var">$os</span> = <span class="kw">Get-CimInstance</span> Win32_OperatingSystem<br>
+&nbsp;&nbsp;<span class="var">$ramGB</span> = [math]::Round(<span class="var">$os</span>.TotalVisibleMemorySize / 1MB, 1)<br>
+&nbsp;&nbsp;<span class="var">$livreGB</span> = [math]::Round((<span class="kw">Get-PSDrive</span> C).Free / 1GB, 1)<br><br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"=== INVENTÁRIO DO PC ==="</span> <span class="param">-ForegroundColor</span> Cyan<br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"PC   : $env:COMPUTERNAME"</span><br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"OS   : $($os.Caption)"</span><br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"RAM  : $ramGB GB"</span><br>
+&nbsp;&nbsp;<span class="kw">Write-Host</span> <span class="str">"Disco: $livreGB GB livres"</span><br>
+}<br><br>
+<span class="fn">Get-InventarioPC</span>
+        </div>
+        <div class="cmd-output">
+          <div class="cmd-output-label">Saída — relatório instantâneo do computador</div>
+<span class="out-info">=== INVENTÁRIO DO PC ===</span><br>
+<span class="out-val">PC   : DESKTOP-LAB01</span><br>
+<span class="out-val">OS   : Microsoft Windows 11 Pro</span><br>
+<span class="out-val">RAM  : 16.0 GB</span><br>
+<span class="out-val">Disco: 127.4 GB livres</span>
+        </div>
+      </div>
+
+      <div class="callout teal">
         <span class="callout-icon">⚡</span>
-        <span class="callout-text"><strong>Pro tip:</strong> Use <code>Write-Verbose</code> em vez de <code>Write-Host</code> dentro de funções — as mensagens só aparecem com <code>-Verbose</code>, deixando o script limpo por padrão.</span>
+        <div class="callout-text"><strong>Pro tip:</strong> salve suas funções em um arquivo <code>.ps1</code> e importe com <code>. .\minhas_funcoes.ps1</code> (dot-sourcing) — elas ficam disponíveis em qualquer script da sessão!</div>
       </div>
     </div>
   </div>
 
   <!-- MISSÕES -->
   <div class="section-header">
-    <div class="section-icon amber">🔬</div>
+    <div class="section-icon green">🔬</div>
     <h2 class="section-title">Missões do Lab</h2>
     <span class="section-xp">+90 XP</span>
   </div>
-  <p style="color:var(--text-muted);font-size:.88em;margin-bottom:16px;">Marque ✓ ao concluir cada missão. Acesse o <a href="semana10_guia.html" style="color:var(--teal);">Guia de Exercícios</a> para rubricas e resoluções.</p>
 
-  <div class="mission-card" id="mc1">
+  <div class="mission-card" id="m1card">
     <div class="mission-icon">📁</div>
     <div class="mission-content">
       <div class="mission-title">Script de Organização Automática</div>
       <div class="mission-desc">Crie um script .ps1 que organize arquivos de uma pasta por extensão, criando subpastas automáticas para cada tipo (imagens, documentos, etc.).</div>
-      <div class="mission-meta">
-        <span class="mission-tag">⏱ 30 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+30 XP</span>
-      </div>
+      <div class="mission-meta"><span class="mission-tag">⏱ 30 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+30 XP</span></div>
     </div>
-    <div class="mission-check" id="m1" onclick="completeMission('m1','mc1',30)">○</div>
+    <div class="mission-check" id="m1" onclick="completeMission('m1','m1card',30)">○</div>
   </div>
 
-  <div class="mission-card" id="mc2">
+  <div class="mission-card" id="m2card">
     <div class="mission-icon">🛡️</div>
     <div class="mission-content">
       <div class="mission-title">Script com Tratamento de Erros</div>
       <div class="mission-desc">Crie um script robusto que verifica serviços críticos do Windows, trata erros elegantemente e gera um relatório CSV de status.</div>
-      <div class="mission-meta">
-        <span class="mission-tag">⏱ 35 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+35 XP</span>
-      </div>
+      <div class="mission-meta"><span class="mission-tag">⏱ 35 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+35 XP</span></div>
     </div>
-    <div class="mission-check" id="m2" onclick="completeMission('m2','mc2',35)">○</div>
+    <div class="mission-check" id="m2" onclick="completeMission('m2','m2card',35)">○</div>
   </div>
 
-  <div class="mission-card" id="mc3">
+  <div class="mission-card" id="m3card">
     <div class="mission-icon">💾</div>
     <div class="mission-content">
       <div class="mission-title">Função de Inventário do PC</div>
       <div class="mission-desc">Crie a função <code>Get-InventarioPC</code> que coleta SO, RAM, espaço em disco e salva um relatório formatado em arquivo .txt.</div>
-      <div class="mission-meta">
-        <span class="mission-tag">⏱ 25 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+25 XP</span>
-      </div>
+      <div class="mission-meta"><span class="mission-tag">⏱ 25 min</span><span class="mission-tag">🔬 Laboratório</span><span class="mission-tag xp">+25 XP</span></div>
     </div>
-    <div class="mission-check" id="m3" onclick="completeMission('m3','mc3',25)">○</div>
+    <div class="mission-check" id="m3" onclick="completeMission('m3','m3card',25)">○</div>
   </div>
 
   <!-- QUIZ -->
   <div class="section-header">
-    <div class="section-icon teal">🧠</div>
+    <div class="section-icon amber">🧠</div>
     <h2 class="section-title">Quiz da Semana 10</h2>
     <span class="section-xp">+80 XP</span>
   </div>
 
   <div class="quiz-shell">
     <div class="quiz-topbar">
-      <span class="quiz-counter" id="quizCounter">1 / 4</span>
-      <div class="quiz-dots" id="quizDots"></div>
+      <div class="quiz-topbar-icon">🧠</div>
+      <div class="quiz-topbar-text"><h3>Teste seu conhecimento!</h3><p>4 perguntas sobre scripts e funções</p></div>
+      <div class="quiz-topbar-xp"><div class="xp-big">+80</div><div class="xp-lbl">XP possível</div></div>
     </div>
-    <div class="quiz-body" id="quizContent"></div>
+    <div style="padding:14px 20px;display:flex;align-items:center;gap:10px;border-top:1px solid var(--border);">
+      <div class="quiz-dots" id="quizDots"></div>
+      <span class="quiz-counter" id="quizCounter">1 / 4</span>
+    </div>
+    <div class="quiz-body" id="quizBody"></div>
   </div>
 
-  <!-- CHECKPOINT -->
-  <div class="checkpoint" id="checkpoint">
-    <div class="checkpoint-stars" id="checkpointStars">⭐⭐⭐</div>
+  <div class="checkpoint">
+    <div style="font-size:1.8em;margin-bottom:8px;" id="checkpointStars">⭐⭐⭐</div>
     <h3>Progresso da Semana 10</h3>
     <p>Complete as missões e o quiz para acumular XP!</p>
-    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 290 XP</div>
+    <div class="xp-total-display">⚡ <span id="xpFinal">0</span> / 310 XP</div>
   </div>
 
-  <!-- RECURSOS -->
   <div class="section-header">
-    <div class="section-icon blue">🔗</div>
+    <div class="section-icon teal">🔗</div>
     <h2 class="section-title">Recursos para Ir Além</h2>
   </div>
   <div class="resources-grid">
-    <div class="res-card"><div class="res-icon">📄</div><div class="res-title">Microsoft Docs</div><div class="res-desc">docs.microsoft.com</div></div>
-    <div class="res-card"><div class="res-icon">💻</div><div class="res-title">PowerShell Docs</div><div class="res-desc">learn.microsoft.com/powershell</div></div>
-    <div class="res-card"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "PowerShell Scripts"</div></div>
-    <div class="res-card"><div class="res-icon">🎓</div><div class="res-title">Microsoft Learn</div><div class="res-desc">Cursos gratuitos online</div></div>
+    <a class="res-card" href="https://docs.microsoft.com/powershell/scripting" target="_blank"><div class="res-icon">📄</div><div class="res-title">Scripting Docs</div><div class="res-desc">Microsoft PowerShell Scripting</div></a>
+    <a class="res-card" href="https://learn.microsoft.com" target="_blank"><div class="res-icon">🎓</div><div class="res-title">Microsoft Learn</div><div class="res-desc">Cursos gratuitos online</div></a>
+    <a class="res-card" href="https://youtube.com" target="_blank"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "PowerShell scripts"</div></a>
   </div>
 
-  <nav class="nav-bar" style="margin-top:32px;">
-    <a href="semana09_aula.html" class="nav-btn btn-ghost">← Anterior</a>
-    <a href="index.html" class="nav-btn btn-ghost">🏠 Índice</a>
-    <a href="semana10_guia.html" class="nav-btn btn-guide">📝 Guia</a>
-    <span class="nav-spacer"></span>
-    <a href="semana11_aula.html" class="nav-btn btn-primary">Próxima →</a>
-  </nav>
 </div>
 
-<div class="footer">Gestão de Sistemas Operacionais I · GSO I 2026 · Prof. Isaque Katahira<br>ETEC · Centro Paula Souza · Módulo I · Semana 10</div>
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a class="nav-btn" href="semana09_aula.html">← Semana 09</a>
+    <a class="nav-home" href="#">🏠 Índice</a>
+    <a class="nav-btn primary" href="semana11_aula.html">Semana 11 →</a>
+  </div>
+</nav>
+
+<footer>Gestão de Sistemas Operacionais I · GSO I 2026 · Prof. Isaque Kampa</footer>
 
 <script>
 let xp=0,objDone=new Set(),missionDone=new Set(),cardXpDone=new Set();
-const totalXP=290;
-function addXP(a){xp+=a;document.getElementById('xpDisplay').textContent=xp;document.getElementById('xpFinal').textContent=xp;const p=Math.min(100,(xp/totalXP)*100);document.getElementById('mainProgress').style.width=p+'%';const s=document.getElementById('checkpointStars');if(p>=80)s.textContent='🌟🌟🌟';else if(p>=50)s.textContent='⭐🌟⭐';spawnStars();checkAch();}
-function spawnStars(){for(let i=0;i<3;i++)setTimeout(()=>{const e=document.createElement('div');e.className='star';e.textContent=['⭐','✨','💫','⚡'][Math.floor(Math.random()*4)];e.style.left=(Math.random()*80+10)+'%';e.style.top=(window.scrollY+window.innerHeight*.5)+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1300);},i*150);}
-function markObj(el,pts){if(el.classList.contains('done'))return;el.classList.add('done');el.querySelector('.obj-num').style.background='var(--teal)';el.querySelector('.obj-num').style.color='#0d1117';addXP(pts);if([...document.querySelectorAll('.obj-card.done')].length===4)showAch('🎯','Objetivos Marcados!','Leu todos os objetivos!');}
+const totalXP=310;
+
+function addXP(a){
+  xp+=a;
+  document.getElementById('xpDisplay').textContent=xp;
+  document.getElementById('xpFinal').textContent=xp;
+  const p=Math.min(100,(xp/totalXP)*100);
+  document.getElementById('mainProgress').style.width=p+'%';
+  const s=document.getElementById('checkpointStars');
+  if(p>=80)s.textContent='🌟🌟🌟';else if(p>=50)s.textContent='⭐🌟⭐';
+  spawnStars();checkAch();
+}
+function spawnStars(){for(let i=0;i<3;i++)setTimeout(()=>{const e=document.createElement('div');e.className='star';e.textContent=['⭐','✨','💫','⚡'][Math.floor(Math.random()*4)];e.style.left=(Math.random()*80+10)+'%';e.style.top=(window.scrollY+window.innerHeight*.5)+'px';document.body.appendChild(e);setTimeout(()=>e.remove(),1500);},i*150);}
+function markObj(el,pts){if(el.classList.contains('done'))return;el.classList.add('done');el.querySelector('.obj-num').style.background='var(--blue)';el.querySelector('.obj-num').style.color='#0d1117';addXP(pts);if([...document.querySelectorAll('.obj-card.done')].length===4)showAch('🎯','Objetivos Marcados!','Você leu todos os objetivos!');}
 function toggleCard(h){const b=h.nextElementSibling,o=b.classList.contains('open');document.querySelectorAll('.cc-body.open').forEach(x=>{x.classList.remove('open');x.previousElementSibling.classList.remove('open');});if(!o){b.classList.add('open');h.classList.add('open');const t=h.querySelector('.cc-title').textContent;if(!cardXpDone.has(t)){cardXpDone.add(t);addXP(20);}}}
 function completeMission(id,cardId,pts){if(missionDone.has(id))return;missionDone.add(id);const e=document.getElementById(id);e.classList.add('done');e.textContent='✓';document.getElementById(cardId).classList.add('completed');addXP(pts);if(missionDone.size===3)showAch('🔬','Lab Completo!','Todas as missões concluídas!');}
+function showAch(icon,title,desc){const t=document.getElementById('achToast');document.getElementById('achIcon').textContent=icon;document.getElementById('achTitle').textContent=title;document.getElementById('achDesc').textContent=desc;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+function checkAch(){if((xp/totalXP)*100>=100)showAch('🏆','100% Completo!','Semana 10 dominada!');}
+
 const questions=[
-  {q:"Qual extensão têm os scripts PowerShell?",opts:[".bat","<b>.ps1</b>",".cmd",".pwsh"],ans:1,exp:"✅ Scripts PowerShell têm extensão <strong>.ps1</strong>! Para executar: <code>.\\meu_script.ps1</code>. O Windows bloqueia execução por segurança — use <code>Set-ExecutionPolicy RemoteSigned</code> para liberar."},
+  {q:"Qual extensão têm os scripts PowerShell?",opts:[".bat",".ps1",".cmd",".pwsh"],ans:1,exp:"✅ Scripts PowerShell têm extensão <strong>.ps1</strong>! Para executar: <code>.\\meu_script.ps1</code>. O Windows bloqueia execução por segurança — use <code>Set-ExecutionPolicy RemoteSigned</code> para liberar."},
   {q:"No PowerShell, como se verifica se uma variável $x é maior que 10?",opts:["$x > 10","$x -gt 10","$x greater 10","if($x > 10)"],ans:1,exp:"✅ O PowerShell usa operadores de texto: <strong>-gt</strong> (greater than). Outros: <code>-lt</code> (menor), <code>-eq</code> (igual), <code>-ne</code> (diferente). O sinal <code>&gt;</code> é usado para redirecionar saída!"},
   {q:"O que o bloco <code>finally</code> faz no try/catch/finally?",opts:["Captura o erro","Executa somente se der erro","Executa sempre, com ou sem erro","Ignora exceções"],ans:2,exp:"✅ O bloco <strong>finally</strong> sempre executa — seja com sucesso ou com erro. Ideal para limpeza: fechar conexões, remover arquivos temporários, logar o término da execução."},
-  {q:"Qual cmdlet exibe mensagens coloridas no terminal com ForegroundColor?",opts:["Write-Log","Print-Host","Write-Host","Echo-Color"],ans:2,exp:"✅ <strong>Write-Host</strong> exibe texto no terminal com cor: <code>Write-Host 'OK!' -ForegroundColor Green</code>. Dentro de funções, prefira <code>Write-Verbose</code> ou <code>Write-Output</code> para não poluir pipelines!"},
+  {q:"Qual cmdlet exibe mensagens coloridas no terminal com ForegroundColor?",opts:["Write-Log","Print-Host","Write-Host","Echo-Color"],ans:2,exp:"✅ <strong>Write-Host</strong> exibe texto no terminal com cor: <code>Write-Host 'OK!' -ForegroundColor Green</code>. Dentro de funções, prefira <code>Write-Verbose</code> ou <code>Write-Output</code> para não poluir pipelines!"}
 ];
-let currentQ=0,quizScore=0,answered=false;
-function initQuiz(){const d=document.getElementById('quizDots');d.innerHTML='';questions.forEach((_,i)=>{const dot=document.createElement('div');dot.className='quiz-dot'+(i===0?' current':'');d.appendChild(dot);});renderQuestion();}
-function renderQuestion(){if(currentQ>=questions.length){showResult();return;}answered=false;const q=questions[currentQ];document.getElementById('quizCounter').textContent=`${currentQ+1} / ${questions.length}`;document.getElementById('quizContent').innerHTML=`<div class="question-text">${q.q}</div><div class="options">${q.opts.map((o,i)=>`<button class="option-btn" onclick="selectAnswer(${i})"><span class="option-letter">${'ABCD'[i]}</span><span>${o}</span></button>`).join('')}</div><div class="quiz-feedback" id="qFeedback"></div><button class="quiz-next" id="qNext" onclick="nextQuestion()">Próxima →</button>`;}
-function selectAnswer(idx){if(answered)return;answered=true;const q=questions[currentQ];document.querySelectorAll('.option-btn').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add('correct');else if(i===idx&&idx!==q.ans)b.classList.add('wrong');});const fb=document.getElementById('qFeedback');if(idx===q.ans){quizScore++;fb.className='quiz-feedback show ok';fb.innerHTML='🎉 '+q.exp;addXP(20);}else{fb.className='quiz-feedback show err';fb.innerHTML='❌ '+q.exp;}document.getElementById('qNext').style.display='inline-block';const dots=document.querySelectorAll('.quiz-dot');dots[currentQ].className='quiz-dot done';if(currentQ+1<questions.length)dots[currentQ+1].className='quiz-dot current';}
-function nextQuestion(){currentQ++;renderQuestion();}
-function showResult(){const pct=Math.round((quizScore/questions.length)*100);const msg=pct===100?'🏆 Perfeito!':pct>=75?'🌟 Muito bem!':pct>=50?'👍 Bom!':'📖 Continue!';document.getElementById('quizContent').innerHTML=`<div class="quiz-result"><div class="score">${quizScore}/${questions.length}</div><div class="score-label">${msg}</div><div class="xp-earn">⚡ +${quizScore*20} XP</div><br><button class="quiz-restart" onclick="restartQuiz()">🔄 Tentar novamente</button></div>`;if(quizScore===4)showAch('🏆','Quiz Perfeito!','4 de 4 corretas!');}
-function restartQuiz(){currentQ=0;quizScore=0;answered=false;initQuiz();}
-let achQ=[],achShow=false;
-function showAch(i,t,d){achQ.push({i,t,d});if(!achShow)procAch();}
-function procAch(){if(!achQ.length){achShow=false;return;}achShow=true;const {i,t,d}=achQ.shift();document.getElementById('achIcon').textContent=i;document.getElementById('achTitle').textContent=t;document.getElementById('achDesc').textContent=d;const p=document.getElementById('achPopup');p.classList.add('show');setTimeout(()=>{p.classList.remove('show');setTimeout(procAch,400);},3500);}
-function checkAch(){if(xp>=50&&!window._a50){window._a50=1;showAch('🌱','Primeiros Passos!','+50 XP!');}if(xp>=Math.floor(totalXP/2)&&!window._a50p){window._a50p=1;showAch('🔥','Em Chamas!','Metade do XP!');}if(xp>=totalXP&&!window._a100){window._a100=1;showAch('💎','Semana 10 Completa!','Parabéns!');}}
-initQuiz();
-setTimeout(()=>{const f=document.querySelector('.cc-header');if(f)toggleCard(f);},800);
+
+let cur=0,quizXP=0,answered=false;
+function buildQuiz(){const dots=document.getElementById('quizDots');dots.innerHTML=questions.map((_,i)=>`<div class="quiz-dot${i===0?' current':''}" id="qd${i}"></div>`).join('');renderQ();}
+function renderQ(){const q=questions[cur];answered=false;document.getElementById('quizCounter').textContent=`${cur+1} / ${questions.length}`;document.getElementById('quizBody').innerHTML=`<div class="question-text">${q.q}</div><div class="options">${q.opts.map((o,i)=>`<button class="option-btn" onclick="answer(this,${i})"><div class="option-letter">${'ABCD'[i]}</div>${o}</button>`).join('')}</div><div class="quiz-feedback" id="qfb"></div><button class="quiz-next" id="qnext" onclick="nextQ()">${cur<questions.length-1?'Próxima →':'Ver Resultado'}</button>`;}
+function answer(btn,idx){if(answered)return;answered=true;const q=questions[cur];document.querySelectorAll('.option-btn').forEach(b=>b.disabled=true);const correct=idx===q.ans;btn.classList.add(correct?'correct':'wrong');if(!correct)document.querySelectorAll('.option-btn')[q.ans].classList.add('correct');const fb=document.getElementById('qfb');fb.innerHTML=q.exp;fb.className='quiz-feedback show '+(correct?'ok':'err');if(correct){quizXP+=20;addXP(20);}document.getElementById(`qd${cur}`).classList.remove('current');document.getElementById(`qd${cur}`).classList.add('done');document.getElementById('qnext').style.display='inline-block';}
+function nextQ(){cur++;if(cur<questions.length){document.getElementById(`qd${cur}`).classList.add('current');renderQ();}else{document.getElementById('quizBody').innerHTML=`<div class="quiz-result"><div class="score">${quizXP/20}/${questions.length}</div><div class="score-label">respostas corretas</div><div class="xp-earn">⚡ +${quizXP} XP ganhos</div><br><button class="quiz-restart" onclick="cur=0;quizXP=0;buildQuiz()">🔄 Refazer Quiz</button></div>`;if(quizXP===questions.length*20)showAch('🧠','Quiz Perfeito!','100% de acertos!');}}
+buildQuiz();
 </script>
 </body>
 </html>
