@@ -779,6 +779,178 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
     <a class="res-card" href="https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/running-remote-commands" target="_blank"><div class="res-icon">📄</div><div class="res-title">MS Docs — Remoting</div><div class="res-desc">Documentação oficial completa</div></a>
     <a class="res-card" href="https://learn.microsoft.com" target="_blank"><div class="res-icon">🎓</div><div class="res-title">Microsoft Learn</div><div class="res-desc">Cursos gratuitos online</div></a>
     <a class="res-card" href="https://youtube.com" target="_blank"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "PowerShell Remoting"</div></a>
+
+  <!-- ══════════════════════════════════════════════════
+       FICHAS PRÁTICAS — METODOLOGIA ATIVA
+       S11: PowerShell Remoting e Cmdlets Avançados
+  ══════════════════════════════════════════════════ -->
+  <div class="section-header" style="margin-top:56px;">
+    <div class="section-icon" style="background:rgba(240,180,41,.12);border:1px solid rgba(240,180,41,.3);">✏️</div>
+    <h2 class="section-title">Fichas Práticas — Lápis de Cor + Sulfite</h2>
+    <span class="section-xp">+60 XP</span>
+  </div>
+  <p style="color:var(--text-muted);font-size:.9em;margin-bottom:20px;line-height:1.6;">
+    Abra cada ficha, copie o mapa no sulfite e teste o comando no computador. O desenho à mão reforça o que você digitou.
+  </p>
+
+  <style>
+    .fp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;}
+    .fp-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;background:var(--surface2);}
+    .fp-icon{font-size:1.1em;}
+    .fp-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.92em;color:var(--text);flex:1;}
+    .fp-badge{font-family:'DM Mono',monospace;font-size:.7em;padding:2px 10px;border-radius:50px;border:1px solid;}
+    .fp-badge.amber{color:var(--amber);border-color:rgba(240,180,41,.4);background:rgba(240,180,41,.08);}
+    .fp-badge.blue{color:var(--blue);border-color:rgba(88,166,255,.4);background:rgba(88,166,255,.08);}
+    .fp-badge.green{color:var(--green);border-color:rgba(57,211,83,.4);background:rgba(57,211,83,.08);}
+    .fp-badge.red{color:var(--red);border-color:rgba(248,81,73,.4);background:rgba(248,81,73,.08);}
+    .fp-chevron{color:var(--text-dim);transition:transform .3s;font-size:.85em;}
+    .fp-body{display:none;padding:20px 22px;border-top:1px solid var(--border);}
+    .fp-body.open{display:block;}
+    .fp-instruction{background:rgba(88,166,255,.07);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:16px;font-size:.85em;color:var(--text-muted);line-height:1.6;}
+    .fp-instruction strong{color:var(--blue);}
+    .fp-color-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:10px 14px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);}
+    .fp-swatch{display:flex;align-items:center;gap:6px;font-size:.78em;color:var(--text-muted);}
+    .fp-dot{width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,.1);flex-shrink:0;}
+    .fp-sulfite{border:2px dashed #3a3f4a;border-radius:10px;padding:14px 16px;background:#0a0f16;margin:12px 0;position:relative;}
+    .fp-sulfite::before{content:'✏️ COPIAR NO SULFITE';font-size:.65em;font-family:'DM Mono',monospace;color:var(--amber);letter-spacing:.1em;font-weight:700;display:block;margin-bottom:12px;}
+    .fp-tip{background:rgba(57,211,83,.07);border-left:3px solid var(--green);border-radius:0 7px 7px 0;padding:9px 13px;margin-top:12px;font-size:.83em;color:var(--text-muted);line-height:1.5;}
+    .fp-tip strong{color:var(--green);}
+    .fp-tip code{background:rgba(57,211,83,.1);color:var(--green);padding:1px 5px;border-radius:3px;font-family:'DM Mono',monospace;font-size:.9em;}
+    .fp-mission{background:rgba(240,180,41,.07);border:1px solid rgba(240,180,41,.2);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:.82em;color:var(--text-muted);line-height:1.5;}
+    .fp-mission strong{color:var(--amber);}
+    .fp-flow-svg{width:100%;max-width:460px;display:block;margin:0 auto;}
+    .fp-checklist{display:flex;flex-direction:column;gap:8px;margin:8px 0;}
+    .fp-check-item{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:var(--surface2);}
+    .fp-check-box{width:20px;height:20px;border:2px solid #3a4555;border-radius:4px;flex-shrink:0;margin-top:1px;}
+    .fp-check-label{font-size:.84em;color:var(--text);font-weight:500;}
+    .fp-check-sub{font-size:.76em;color:var(--text-muted);margin-top:2px;font-family:'DM Mono',monospace;}
+  </style>
+
+  <!-- FICHA 7 -->
+  <div class="fp-card">
+    <div class="fp-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.fp-chevron').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''">
+      <span class="fp-icon">🌐</span>
+      <span class="fp-title">Ficha 7 — Mapa de Rede do Laboratório (desenhar no sulfite)</span>
+      <span class="fp-badge amber">Sulfite + Lápis</span>
+      <span class="fp-chevron">▾</span>
+    </div>
+    <div class="fp-body">
+      <div class="fp-instruction"><strong>O que fazer:</strong> Copie o mapa no sulfite como se fosse o laboratório real. Coloque o número de PCs da sua escola. Use setas para mostrar quem manda o comando e quem recebe. Escreva o protocolo (WinRM / porta 5985) nas setas.</div>
+      <div class="fp-color-legend">
+        <div class="fp-swatch"><div class="fp-dot" style="background:#0d2139;"></div>Azul = PC administrador (você)</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#1a4731;"></div>Verde = PC remoto que responde</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#3d0f0d;"></div>Vermelho = PC sem WinRM (bloqueado)</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#3d2c00;"></div>Amarelo = seta do comando / protocolo</div>
+      </div>
+      <div class="fp-sulfite">
+        <svg class="fp-flow-svg" viewBox="0 0 460 220" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="fc" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#f0b429"/></marker>
+            <marker id="fd" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#f85149"/></marker>
+          </defs>
+          <!-- PC ADM -->
+          <rect x="8" y="62" width="110" height="72" rx="9" fill="#0d2139" stroke="#58a6ff" stroke-width="2"/>
+          <text x="63" y="90" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#58a6ff" font-weight="700">PC-ADM</text>
+          <text x="63" y="105" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#8b949e">WinRM habilitado</text>
+          <text x="63" y="118" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#8b949e">Invoke-Command</text>
+          <text x="63" y="131" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#58a6ff">← você está aqui</text>
+          <!-- setas WinRM -->
+          <line x1="118" y1="87" x2="218" y2="68" stroke="#f0b429" stroke-width="1.5" stroke-dasharray="5,2" marker-end="url(#fc)"/>
+          <text x="168" y="64" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="#f0b429">WinRM :5985</text>
+          <line x1="118" y1="98" x2="218" y2="110" stroke="#f0b429" stroke-width="1.5" stroke-dasharray="5,2" marker-end="url(#fc)"/>
+          <text x="168" y="122" text-anchor="middle" font-family="DM Mono,monospace" font-size="7" fill="#f0b429">WinRM :5985</text>
+          <line x1="118" y1="114" x2="218" y2="155" stroke="#f85149" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#fd)"/>
+          <text x="148" y="155" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#f85149">bloqueado ✗</text>
+          <!-- PC-LAB01 -->
+          <rect x="226" y="38" width="100" height="54" rx="8" fill="#1a4731" stroke="#39d353" stroke-width="1.5"/>
+          <text x="276" y="60" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#39d353" font-weight="700">PC-LAB01</text>
+          <text x="276" y="74" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#8b949e">Win11 Pro — 16GB</text>
+          <text x="276" y="86" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#39d353">✓ responde</text>
+          <!-- PC-LAB02 -->
+          <rect x="226" y="104" width="100" height="54" rx="8" fill="#1a4731" stroke="#39d353" stroke-width="1.5"/>
+          <text x="276" y="126" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#39d353" font-weight="700">PC-LAB02</text>
+          <text x="276" y="140" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#8b949e">Win11 Pro — 8GB</text>
+          <text x="276" y="152" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#39d353">✓ responde</text>
+          <!-- PC-LAB03 bloqueado -->
+          <rect x="226" y="168" width="100" height="38" rx="8" fill="#3d0f0d" stroke="#f85149" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="276" y="188" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#f85149" font-weight="700">PC-LAB03</text>
+          <text x="276" y="200" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#f85149">✗ WinRM desligado</text>
+          <!-- Resultado -->
+          <rect x="342" y="52" width="112" height="95" rx="8" fill="#3d2c00" stroke="#f0b429" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="398" y="72" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#f0b429" font-weight="700">RESULTADO.CSV</text>
+          <text x="398" y="87" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#39d353">LAB01 ✓ ok</text>
+          <text x="398" y="101" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#39d353">LAB02 ✓ ok</text>
+          <text x="398" y="115" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#f85149">LAB03 ✗ erro</text>
+          <line x1="326" y1="82" x2="342" y2="88" stroke="#f0b429" stroke-width="1" marker-end="url(#fc)"/>
+          <line x1="326" y1="128" x2="342" y2="110" stroke="#f0b429" stroke-width="1" marker-end="url(#fc)"/>
+          <!-- espaço sulfite -->
+          <rect x="8" y="188" width="210" height="26" rx="7" fill="none" stroke="#3a3f4a" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="113" y="205" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#484f58">✏️ Adicione aqui os PCs do seu laboratório real</text>
+        </svg>
+        <div class="fp-mission"><strong>Missão:</strong> Substituindo os nomes, quantos PCs existem no seu laboratório? Quantos você conseguiria administrar de uma vez com Remoting? Escreva os nomes nos retângulos do desenho.</div>
+      </div>
+      <div class="fp-tip"><strong>Comando para testar:</strong><br><code>Invoke-Command -ComputerName PC-LAB01,PC-LAB02 -ScriptBlock { hostname; (Get-WmiObject Win32_OperatingSystem).FreePhysicalMemory }</code></div>
+    </div>
+  </div>
+
+  <!-- FICHA 8 -->
+  <div class="fp-card">
+    <div class="fp-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.fp-chevron').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''">
+      <span class="fp-icon">🔒</span>
+      <span class="fp-title">Ficha 8 — Checklist de Segurança do Remoting (marcar no sulfite)</span>
+      <span class="fp-badge red">Sulfite + Computador</span>
+      <span class="fp-chevron">▾</span>
+    </div>
+    <div class="fp-body">
+      <div class="fp-instruction"><strong>O que fazer:</strong> Copie a checklist no sulfite. Marque cada item com <strong style="color:var(--green);">verde</strong> quando concluído e <strong style="color:var(--red);">vermelho</strong> quando ainda não foi feito. Execute os comandos no computador um por vez.</div>
+      <div class="fp-sulfite">
+        <div class="fp-checklist">
+          <div class="fp-check-item">
+            <div class="fp-check-box"></div>
+            <div>
+              <div class="fp-check-label">Enable-PSRemoting -Force executado como Administrador</div>
+              <div class="fp-check-sub">Inicia WinRM + cria regras de firewall automaticamente</div>
+            </div>
+          </div>
+          <div class="fp-check-item">
+            <div class="fp-check-box"></div>
+            <div>
+              <div class="fp-check-label">TrustedHosts configurado (ambiente fora de domínio)</div>
+              <div class="fp-check-sub">Set-Item WSMan:\localhost\Client\TrustedHosts -Value "IP-do-PC"</div>
+            </div>
+          </div>
+          <div class="fp-check-item">
+            <div class="fp-check-box"></div>
+            <div>
+              <div class="fp-check-label">Test-WSMan respondeu com sucesso</div>
+              <div class="fp-check-sub">Test-WSMan -ComputerName PC-LAB01 — deve retornar dados do WinRM</div>
+            </div>
+          </div>
+          <div class="fp-check-item">
+            <div class="fp-check-box"></div>
+            <div>
+              <div class="fp-check-label">Invoke-Command executado em pelo menos 1 PC remoto</div>
+              <div class="fp-check-sub">Invoke-Command -ComputerName PC-LAB01 -ScriptBlock { hostname }</div>
+            </div>
+          </div>
+          <div class="fp-check-item">
+            <div class="fp-check-box"></div>
+            <div>
+              <div class="fp-check-label">Relatório CSV gerado com dados de múltiplos PCs</div>
+              <div class="fp-check-sub">Invoke-Command + Export-Csv salvando resultado em auditoria.csv</div>
+            </div>
+          </div>
+          <div class="fp-check-item">
+            <div class="fp-check-box"></div>
+            <div>
+              <div class="fp-check-label">Sessão persistente criada com New-PSSession</div>
+              <div class="fp-check-sub">$s = New-PSSession -ComputerName PC-LAB01 — reutilizar sem autenticar de novo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fp-mission"><strong>Reflexão no sulfite:</strong> Escreva ao lado de cada item: <em>"Por que isso é importante para a segurança da rede?"</em>. Discuta com o colega ao lado antes de responder.</div>
+    </div>
   </div>
 
 </div>

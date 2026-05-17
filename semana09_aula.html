@@ -1171,6 +1171,217 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
     <a class="res-card" href="https://youtube.com" target="_blank"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "PowerShell pipeline"</div></a>
   </div>
 
+
+  <!-- ══════════════════════════════════════════════════
+       FICHAS PRÁTICAS — METODOLOGIA ATIVA
+       S09: Pipeline & Filtragem
+  ══════════════════════════════════════════════════ -->
+  <div class="section-header" style="margin-top:56px;">
+    <div class="section-icon" style="background:rgba(240,180,41,.12);border:1px solid rgba(240,180,41,.3);">✏️</div>
+    <h2 class="section-title">Fichas Práticas — Lápis de Cor + Sulfite</h2>
+    <span class="section-xp">+60 XP</span>
+  </div>
+  <p style="color:var(--text-muted);font-size:.9em;margin-bottom:20px;line-height:1.6;">
+    Abra cada ficha, leia as instruções, copie o mapa no sulfite com lápis de cor e depois teste o comando no computador. O desenho reforça a memória do que você digitou.
+  </p>
+
+  <style>
+    /* ── Fichas Práticas ── */
+    .fp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;}
+    .fp-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;background:var(--surface2);}
+    .fp-icon{font-size:1.1em;}
+    .fp-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.92em;color:var(--text);flex:1;}
+    .fp-badge{font-family:'DM Mono',monospace;font-size:.7em;padding:2px 10px;border-radius:50px;border:1px solid;}
+    .fp-badge.amber{color:var(--amber);border-color:rgba(240,180,41,.4);background:rgba(240,180,41,.08);}
+    .fp-badge.blue{color:var(--blue);border-color:rgba(88,166,255,.4);background:rgba(88,166,255,.08);}
+    .fp-badge.green{color:var(--green);border-color:rgba(57,211,83,.4);background:rgba(57,211,83,.08);}
+    .fp-badge.purple{color:var(--purple);border-color:rgba(188,140,255,.4);background:rgba(188,140,255,.08);}
+    .fp-chevron{color:var(--text-dim);transition:transform .3s;font-size:.85em;}
+    .fp-body{display:none;padding:20px 22px;border-top:1px solid var(--border);}
+    .fp-body.open{display:block;}
+
+    .fp-instruction{background:rgba(88,166,255,.07);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:16px;font-size:.85em;color:var(--text-muted);line-height:1.6;}
+    .fp-instruction strong{color:var(--blue);}
+
+    .fp-color-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:10px 14px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);}
+    .fp-swatch{display:flex;align-items:center;gap:6px;font-size:.78em;color:var(--text-muted);}
+    .fp-dot{width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,.1);flex-shrink:0;}
+
+    .fp-sulfite{border:2px dashed #3a3f4a;border-radius:10px;padding:14px 16px;background:#0a0f16;margin:12px 0;position:relative;}
+    .fp-sulfite::before{content:'✏️ COPIAR NO SULFITE';font-size:.65em;font-family:'DM Mono',monospace;color:var(--amber);letter-spacing:.1em;font-weight:700;display:block;margin-bottom:10px;}
+
+    .fp-pipeline{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin:8px 0;}
+    .fp-node{font-family:'DM Mono',monospace;font-size:.75em;padding:7px 11px;border-radius:7px;text-align:center;min-width:88px;}
+    .fp-pipe{font-size:1.1em;color:var(--purple);padding:0 2px;margin-top:-8px;}
+    .fp-node-label{font-size:.65em;color:var(--text-dim);text-align:center;margin-top:3px;}
+
+    .fp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0;}
+    .fp-box{border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:var(--surface2);}
+    .fp-box-title{font-size:.72em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px;}
+    .fp-box-content{font-family:'DM Mono',monospace;font-size:.76em;color:var(--text-muted);line-height:1.5;}
+    .fp-box-blank{border:1px dashed #2d3748;border-radius:5px;min-height:36px;margin-top:6px;background:#080d14;display:flex;align-items:center;justify-content:center;font-size:.68em;color:#3a4555;text-align:center;padding:4px;}
+
+    .fp-table-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:7px;margin:10px 0;}
+    .fp-tbox{border:1px solid var(--border);border-radius:7px;padding:9px;background:var(--surface2);text-align:center;}
+    .fp-tbox-kw{font-family:'DM Mono',monospace;font-size:.85em;font-weight:700;margin-bottom:3px;}
+    .fp-tbox-desc{font-size:.72em;color:var(--text-muted);line-height:1.4;}
+    .fp-tbox-blank{border:1px dashed #2d3748;border-radius:4px;min-height:28px;margin-top:6px;background:#080d14;font-size:.65em;color:#3a4555;display:flex;align-items:center;justify-content:center;}
+
+    .fp-tip{background:rgba(57,211,83,.07);border-left:3px solid var(--green);border-radius:0 7px 7px 0;padding:9px 13px;margin-top:12px;font-size:.83em;color:var(--text-muted);line-height:1.5;}
+    .fp-tip strong{color:var(--green);}
+    .fp-tip code{background:rgba(57,211,83,.1);color:var(--green);padding:1px 5px;border-radius:3px;font-family:'DM Mono',monospace;font-size:.9em;}
+
+    .fp-mission{background:rgba(240,180,41,.07);border:1px solid rgba(240,180,41,.2);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:.82em;color:var(--text-muted);line-height:1.5;}
+    .fp-mission strong{color:var(--amber);}
+  </style>
+
+  <!-- FICHA 1 -->
+  <div class="fp-card">
+    <div class="fp-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.fp-chevron').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''">
+      <span class="fp-icon">🗺️</span>
+      <span class="fp-title">Ficha 1 — Mapa do Pipeline (copiar no sulfite)</span>
+      <span class="fp-badge amber">Sulfite + Lápis</span>
+      <span class="fp-chevron">▾</span>
+    </div>
+    <div class="fp-body">
+      <div class="fp-instruction"><strong>O que fazer:</strong> Copie o mapa abaixo no sulfite. Use lápis de cor seguindo a legenda. Depois digite o comando no computador e veja se a saída bate com o que você desenhou.</div>
+      <div class="fp-color-legend">
+        <div class="fp-swatch"><div class="fp-dot" style="background:#1e3a8a;"></div>Azul = coleta dados</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#14532d;"></div>Verde = filtra</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#713f12;"></div>Amarelo = organiza</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#7f1d1d;"></div>Vermelho = exporta</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#4a1d96;"></div>Roxo = pipe |</div>
+      </div>
+      <div class="fp-sulfite">
+        <div class="fp-pipeline">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="fp-node" style="background:#1e3a8a;color:#bfdbfe;">Get-Process</div>
+            <div class="fp-node-label">coleta (azul)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <span class="fp-pipe">→</span>
+            <div class="fp-node fp-pipe" style="background:#4a1d96;color:#ede9fe;min-width:28px;padding:7px 8px;font-size:1em;">|</div>
+            <div class="fp-node-label">pipe (roxo)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="fp-node" style="background:#14532d;color:#bbf7d0;">Where-Object</div>
+            <div class="fp-node-label">filtra (verde)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <span class="fp-pipe">→</span>
+            <div class="fp-node fp-pipe" style="background:#4a1d96;color:#ede9fe;min-width:28px;padding:7px 8px;font-size:1em;">|</div>
+            <div class="fp-node-label">pipe (roxo)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="fp-node" style="background:#713f12;color:#fde68a;">Sort-Object</div>
+            <div class="fp-node-label">ordena (amarelo)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <span class="fp-pipe">→</span>
+            <div class="fp-node fp-pipe" style="background:#4a1d96;color:#ede9fe;min-width:28px;padding:7px 8px;font-size:1em;">|</div>
+            <div class="fp-node-label">pipe (roxo)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="fp-node" style="background:#7f1d1d;color:#fca5a5;">Export-Csv</div>
+            <div class="fp-node-label">exporta (vermelho)</div>
+          </div>
+        </div>
+        <div class="fp-mission" style="margin-top:10px;"><strong>Missão extra:</strong> Desenhe uma seta curva de volta do Export-Csv para o Get-Process e escreva: <em>"e se eu quiser outro dado?"</em> — qual cmdlet você trocaria?</div>
+      </div>
+      <div class="fp-tip"><strong>Comando para testar:</strong><br><code>Get-Process | Where-Object {$_.CPU -gt 10} | Sort-Object CPU -Descending | Export-Csv processos.csv -NoTypeInformation</code></div>
+    </div>
+  </div>
+
+  <!-- FICHA 2 -->
+  <div class="fp-card">
+    <div class="fp-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.fp-chevron').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''">
+      <span class="fp-icon">🔬</span>
+      <span class="fp-title">Ficha 2 — Anatomia do Where-Object (peça por peça)</span>
+      <span class="fp-badge blue">Sulfite + Computador</span>
+      <span class="fp-chevron">▾</span>
+    </div>
+    <div class="fp-body">
+      <div class="fp-instruction"><strong>O que fazer:</strong> Digite o comando no computador. Depois preencha as caixinhas no sulfite descrevendo com suas palavras o que cada parte faz.</div>
+      <div class="cmd-block" style="margin-bottom:14px;">
+        <div class="cmd-block-label"><span>COMANDO</span>Where-Object — anatomia completa</div>
+        <div class="cmd-input"><span class="ps">PS C:\&gt; </span><span class="kw">Get-Process</span> <span class="op">|</span> <span class="kw">Where-Object</span> { <span class="var">$_</span><span class="op">.</span>CPU <span class="op">-gt</span> <span class="op">10</span> }</div>
+      </div>
+      <div class="fp-sulfite">
+        <div class="fp-grid">
+          <div class="fp-box" style="border-color:#1e3a8a;">
+            <div class="fp-box-title" style="color:#58a6ff;">Get-Process</div>
+            <div class="fp-box-content">Lista todos os processos em execução</div>
+            <div class="fp-box-blank">Como é no Gerenciador de Tarefas?</div>
+          </div>
+          <div class="fp-box" style="border-color:#4a1d96;">
+            <div class="fp-box-title" style="color:#bc8cff;">| (pipe)</div>
+            <div class="fp-box-content">Passa cada processo para o próximo</div>
+            <div class="fp-box-blank">Desenhe uma esteira de fábrica aqui</div>
+          </div>
+          <div class="fp-box" style="border-color:#14532d;">
+            <div class="fp-box-title" style="color:#39d353;">Where-Object { }</div>
+            <div class="fp-box-content">Filtra: só passa quem atende a condição</div>
+            <div class="fp-box-blank">O que é -gt? O que é -lt?</div>
+          </div>
+          <div class="fp-box" style="border-color:#713f12;">
+            <div class="fp-box-title" style="color:#f0b429;">$_ .CPU</div>
+            <div class="fp-box-content">$_ = o item atual sendo testado</div>
+            <div class="fp-box-blank">Escreva 2 outras propriedades de $_</div>
+          </div>
+        </div>
+      </div>
+      <div class="fp-tip"><strong>Desafio:</strong> Troque <code>-gt 10</code> por <code>-gt 50</code> e depois por <code>-lt 5</code>. O que muda? Anote no sulfite ao lado da ficha.</div>
+    </div>
+  </div>
+
+  <!-- FICHA 3 -->
+  <div class="fp-card">
+    <div class="fp-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.fp-chevron').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''">
+      <span class="fp-icon">🎨</span>
+      <span class="fp-title">Ficha 3 — Comparadores: tabela para colorir e completar</span>
+      <span class="fp-badge green">Sulfite + Lápis</span>
+      <span class="fp-chevron">▾</span>
+    </div>
+    <div class="fp-body">
+      <div class="fp-instruction"><strong>O que fazer:</strong> Copie esta tabela no sulfite. Pinte de <strong>verde</strong> os comparadores que significam "aprovado/maior" e de <strong>vermelho</strong> os que rejeitam. Escreva um exemplo seu para cada um.</div>
+      <div class="fp-sulfite">
+        <div class="fp-table-grid">
+          <div class="fp-tbox" style="border-color:#14532d;">
+            <div class="fp-tbox-kw" style="color:#39d353;">-eq</div>
+            <div class="fp-tbox-desc">igual a<br><em>equal</em></div>
+            <div class="fp-tbox-blank">meu exemplo:</div>
+          </div>
+          <div class="fp-tbox" style="border-color:#7f1d1d;">
+            <div class="fp-tbox-kw" style="color:#f85149;">-ne</div>
+            <div class="fp-tbox-desc">diferente de<br><em>not equal</em></div>
+            <div class="fp-tbox-blank">meu exemplo:</div>
+          </div>
+          <div class="fp-tbox" style="border-color:#1e3a8a;">
+            <div class="fp-tbox-kw" style="color:#58a6ff;">-gt</div>
+            <div class="fp-tbox-desc">maior que<br><em>greater than</em></div>
+            <div class="fp-tbox-blank">meu exemplo:</div>
+          </div>
+          <div class="fp-tbox" style="border-color:#1e3a8a;">
+            <div class="fp-tbox-kw" style="color:#58a6ff;">-lt</div>
+            <div class="fp-tbox-desc">menor que<br><em>less than</em></div>
+            <div class="fp-tbox-blank">meu exemplo:</div>
+          </div>
+          <div class="fp-tbox" style="border-color:#4a1d96;">
+            <div class="fp-tbox-kw" style="color:#bc8cff;">-like</div>
+            <div class="fp-tbox-desc">parecido com<br>(usa * curinga)</div>
+            <div class="fp-tbox-blank">meu exemplo:</div>
+          </div>
+          <div class="fp-tbox" style="border-color:#713f12;">
+            <div class="fp-tbox-kw" style="color:#f0b429;">-contains</div>
+            <div class="fp-tbox-desc">contém o valor<br>(em listas)</div>
+            <div class="fp-tbox-blank">meu exemplo:</div>
+          </div>
+        </div>
+      </div>
+      <div class="fp-mission"><strong>Missão computador:</strong> Teste cada comparador digitando um comando real. Ex.: <code>Get-Service | Where-Object {$_.Status -eq "Running"}</code> — quantos serviços ativos aparecem na sua máquina?</div>
+    </div>
+  </div>
+
 </div><!-- /container -->
 
 <!-- NAV -->

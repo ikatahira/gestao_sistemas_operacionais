@@ -956,6 +956,212 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
     <a class="res-card" href="https://youtube.com" target="_blank"><div class="res-icon">▶️</div><div class="res-title">YouTube</div><div class="res-desc">Pesquise: "PowerShell scripts"</div></a>
   </div>
 
+
+  <!-- ══════════════════════════════════════════════════
+       FICHAS PRÁTICAS — METODOLOGIA ATIVA
+       S10: Scripts, If/For e Funções
+  ══════════════════════════════════════════════════ -->
+  <div class="section-header" style="margin-top:56px;">
+    <div class="section-icon" style="background:rgba(240,180,41,.12);border:1px solid rgba(240,180,41,.3);">✏️</div>
+    <h2 class="section-title">Fichas Práticas — Lápis de Cor + Sulfite</h2>
+    <span class="section-xp">+60 XP</span>
+  </div>
+  <p style="color:var(--text-muted);font-size:.9em;margin-bottom:20px;line-height:1.6;">
+    Abra cada ficha, copie o mapa no sulfite e teste o código no computador. O desenho à mão reforça o que você digitou.
+  </p>
+
+  <style>
+    .fp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;}
+    .fp-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none;background:var(--surface2);}
+    .fp-icon{font-size:1.1em;}
+    .fp-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.92em;color:var(--text);flex:1;}
+    .fp-badge{font-family:'DM Mono',monospace;font-size:.7em;padding:2px 10px;border-radius:50px;border:1px solid;}
+    .fp-badge.amber{color:var(--amber);border-color:rgba(240,180,41,.4);background:rgba(240,180,41,.08);}
+    .fp-badge.blue{color:var(--blue);border-color:rgba(88,166,255,.4);background:rgba(88,166,255,.08);}
+    .fp-badge.green{color:var(--green);border-color:rgba(57,211,83,.4);background:rgba(57,211,83,.08);}
+    .fp-badge.purple{color:var(--purple);border-color:rgba(188,140,255,.4);background:rgba(188,140,255,.08);}
+    .fp-chevron{color:var(--text-dim);transition:transform .3s;font-size:.85em;}
+    .fp-body{display:none;padding:20px 22px;border-top:1px solid var(--border);}
+    .fp-body.open{display:block;}
+    .fp-instruction{background:rgba(88,166,255,.07);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:16px;font-size:.85em;color:var(--text-muted);line-height:1.6;}
+    .fp-instruction strong{color:var(--blue);}
+    .fp-color-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:10px 14px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);}
+    .fp-swatch{display:flex;align-items:center;gap:6px;font-size:.78em;color:var(--text-muted);}
+    .fp-dot{width:14px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,.1);flex-shrink:0;}
+    .fp-sulfite{border:2px dashed #3a3f4a;border-radius:10px;padding:14px 16px;background:#0a0f16;margin:12px 0;position:relative;}
+    .fp-sulfite::before{content:'✏️ COPIAR NO SULFITE';font-size:.65em;font-family:'DM Mono',monospace;color:var(--amber);letter-spacing:.1em;font-weight:700;display:block;margin-bottom:12px;}
+    .fp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:8px 0;}
+    .fp-box{border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:var(--surface2);}
+    .fp-box-title{font-size:.72em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px;}
+    .fp-box-content{font-family:'DM Mono',monospace;font-size:.76em;color:var(--text-muted);line-height:1.5;}
+    .fp-box-blank{border:1px dashed #2d3748;border-radius:5px;min-height:36px;margin-top:6px;background:#080d14;display:flex;align-items:center;justify-content:center;font-size:.68em;color:#3a4555;text-align:center;padding:4px;}
+    .fp-tip{background:rgba(57,211,83,.07);border-left:3px solid var(--green);border-radius:0 7px 7px 0;padding:9px 13px;margin-top:12px;font-size:.83em;color:var(--text-muted);line-height:1.5;}
+    .fp-tip strong{color:var(--green);}
+    .fp-tip code{background:rgba(57,211,83,.1);color:var(--green);padding:1px 5px;border-radius:3px;font-family:'DM Mono',monospace;font-size:.9em;}
+    .fp-mission{background:rgba(240,180,41,.07);border:1px solid rgba(240,180,41,.2);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:.82em;color:var(--text-muted);line-height:1.5;}
+    .fp-mission strong{color:var(--amber);}
+    .fp-flow-svg{width:100%;max-width:460px;display:block;margin:0 auto;}
+    .fp-checklist{display:flex;flex-direction:column;gap:8px;margin:8px 0;}
+    .fp-check-item{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:var(--surface2);}
+    .fp-check-box{width:20px;height:20px;border:2px solid #3a4555;border-radius:4px;flex-shrink:0;margin-top:1px;}
+    .fp-check-label{font-size:.84em;color:var(--text);font-weight:500;}
+    .fp-check-sub{font-size:.76em;color:var(--text-muted);margin-top:2px;font-family:'DM Mono',monospace;}
+  </style>
+
+  <!-- FICHA 4 -->
+  <div class="fp-card">
+    <div class="fp-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.fp-chevron').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''">
+      <span class="fp-icon">🔀</span>
+      <span class="fp-title">Ficha 4 — Fluxograma do If/Else (copiar no sulfite)</span>
+      <span class="fp-badge amber">Sulfite + Lápis</span>
+      <span class="fp-chevron">▾</span>
+    </div>
+    <div class="fp-body">
+      <div class="fp-instruction"><strong>O que fazer:</strong> Copie o fluxograma no sulfite usando as cores indicadas. Depois crie seu próprio exemplo do dia a dia (ex.: "Se a bateria &lt; 20% → avise; senão → ok").</div>
+      <div class="fp-color-legend">
+        <div class="fp-swatch"><div class="fp-dot" style="background:#1e3a8a;"></div>Azul = início e fim (retângulo arredondado)</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#713f12;"></div>Amarelo = condição (losango)</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#14532d;"></div>Verde = bloco SIM (retângulo)</div>
+        <div class="fp-swatch"><div class="fp-dot" style="background:#7f1d1d;"></div>Vermelho = bloco NÃO (retângulo)</div>
+      </div>
+      <div class="fp-sulfite">
+        <svg class="fp-flow-svg" viewBox="0 0 460 310" xmlns="http://www.w3.org/2000/svg">
+          <defs><marker id="fa" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#484f58"/></marker></defs>
+          <!-- INÍCIO -->
+          <rect x="155" y="8" width="150" height="34" rx="17" fill="#0d2139" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="230" y="29" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#58a6ff">INÍCIO DO SCRIPT</text>
+          <!-- seta -->
+          <line x1="230" y1="42" x2="230" y2="68" stroke="#484f58" stroke-width="1.5" marker-end="url(#fa)"/>
+          <!-- CONDIÇÃO losango -->
+          <polygon points="230,72 330,112 230,152 130,112" fill="#3d2c00" stroke="#f0b429" stroke-width="1.5"/>
+          <text x="230" y="107" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#f0b429">condição</text>
+          <text x="230" y="121" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#f0b429">verdadeira?</text>
+          <!-- label SIM -->
+          <text x="350" y="110" font-family="DM Sans,sans-serif" font-size="11" fill="#39d353" font-weight="600">SIM</text>
+          <line x1="330" y1="112" x2="390" y2="112" stroke="#484f58" stroke-width="1.5" marker-end="url(#fa)"/>
+          <!-- bloco SIM -->
+          <rect x="390" y="88" width="60" height="48" rx="7" fill="#1a4731" stroke="#39d353" stroke-width="1.5"/>
+          <text x="420" y="110" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#39d353">bloco</text>
+          <text x="420" y="124" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#39d353">verdadeiro</text>
+          <!-- label NÃO -->
+          <text x="72" y="110" font-family="DM Sans,sans-serif" font-size="11" fill="#f85149" font-weight="600">NÃO</text>
+          <line x1="130" y1="112" x2="80" y2="112" stroke="#484f58" stroke-width="1.5" marker-end="url(#fa)"/>
+          <!-- bloco NÃO -->
+          <rect x="10" y="88" width="70" height="48" rx="7" fill="#3d0f0d" stroke="#f85149" stroke-width="1.5"/>
+          <text x="45" y="110" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#f85149">bloco</text>
+          <text x="45" y="124" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#f85149">falso</text>
+          <!-- convergir para baixo -->
+          <line x1="45" y1="136" x2="45" y2="220" stroke="#484f58" stroke-width="1.5"/>
+          <line x1="45" y1="220" x2="230" y2="220" stroke="#484f58" stroke-width="1.5" marker-end="url(#fa)"/>
+          <line x1="420" y1="136" x2="420" y2="220" stroke="#484f58" stroke-width="1.5"/>
+          <line x1="420" y1="220" x2="230" y2="220" stroke="#484f58" stroke-width="1.5"/>
+          <line x1="230" y1="152" x2="230" y2="220" stroke="#484f58" stroke-width="1.5" marker-end="url(#fa)"/>
+          <!-- FIM -->
+          <rect x="155" y="228" width="150" height="34" rx="17" fill="#0d2139" stroke="#58a6ff" stroke-width="1.5"/>
+          <text x="230" y="249" text-anchor="middle" font-family="DM Mono,monospace" font-size="12" fill="#58a6ff">CONTINUA...</text>
+          <!-- espaço meu exemplo -->
+          <rect x="8" y="272" width="444" height="32" rx="7" fill="none" stroke="#3a3f4a" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="230" y="289" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#484f58">✏️ Escreva seu exemplo: "Se _____ então _____ senão _____"</text>
+        </svg>
+      </div>
+      <div class="fp-tip"><strong>Comando para testar:</strong><br><code>$cpu = (Get-Process | Measure-Object -Property CPU -Sum).Sum; if ($cpu -gt 100) { "CPU alta!" } else { "CPU ok" }</code></div>
+    </div>
+  </div>
+
+  <!-- FICHA 5 -->
+  <div class="fp-card">
+    <div class="fp-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.fp-chevron').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''">
+      <span class="fp-icon">🧩</span>
+      <span class="fp-title">Ficha 5 — Anatomia de uma Função (peça por peça)</span>
+      <span class="fp-badge purple">Sulfite + Computador</span>
+      <span class="fp-chevron">▾</span>
+    </div>
+    <div class="fp-body">
+      <div class="fp-instruction"><strong>O que fazer:</strong> Copie o esquema no sulfite. Pinte cada parte de uma cor diferente. Escreva ao lado com suas palavras o que aquela parte faz. Depois chame a função no computador.</div>
+      <div class="cmd-block" style="margin-bottom:14px;">
+        <div class="cmd-block-label"><span>FUNÇÃO</span>Verificar-Servico — estrutura completa</div>
+        <div class="cmd-input" style="line-height:2.1;">
+<span class="kw">function</span> <span style="color:var(--blue);">Verificar-Servico</span> {<br>
+&nbsp;&nbsp;<span style="color:var(--purple);">param</span>( [<span style="color:var(--green);">string</span>]<span class="var">$NomeServico</span> )<br>
+&nbsp;&nbsp;<span class="var">$srv</span> = <span class="kw">Get-Service</span> <span class="var">$NomeServico</span><br>
+&nbsp;&nbsp;<span class="kw">if</span> (<span class="var">$srv</span><span class="op">.</span>Status <span class="op">-eq</span> <span style="color:var(--green);">"Running"</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">Write-Host</span> <span style="color:var(--green);">"✓ Rodando"</span><br>
+&nbsp;&nbsp;} <span class="kw">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">Write-Host</span> <span style="color:var(--red);">"✗ Parado!"</span><br>
+&nbsp;&nbsp;}<br>
+}
+        </div>
+      </div>
+      <div class="fp-sulfite">
+        <div class="fp-grid">
+          <div class="fp-box" style="border-color:#713f12;">
+            <div class="fp-box-title" style="color:#f0b429;">function</div>
+            <div class="fp-box-content">declara a função<br>(cor amarelo)</div>
+            <div class="fp-box-blank">Para que serve declarar?</div>
+          </div>
+          <div class="fp-box" style="border-color:#1e3a8a;">
+            <div class="fp-box-title" style="color:#58a6ff;">Verificar-Servico</div>
+            <div class="fp-box-content">nome: Verbo-Substantivo<br>(cor azul)</div>
+            <div class="fp-box-blank">Escreva outro nome válido</div>
+          </div>
+          <div class="fp-box" style="border-color:#4a1d96;">
+            <div class="fp-box-title" style="color:#bc8cff;">param( )</div>
+            <div class="fp-box-content">parâmetros de entrada<br>(cor roxo)</div>
+            <div class="fp-box-blank">O que é [string]? Outros tipos?</div>
+          </div>
+          <div class="fp-box" style="border-color:#14532d;">
+            <div class="fp-box-title" style="color:#39d353;">{ corpo }</div>
+            <div class="fp-box-content">chaves delimitam o bloco<br>(cor verde)</div>
+            <div class="fp-box-blank">O que tem dentro deste bloco?</div>
+          </div>
+        </div>
+        <div class="fp-mission"><strong>Missão:</strong> Chame a função: <code>Verificar-Servico -NomeServico "Spooler"</code> e depois <code>Verificar-Servico -NomeServico "wuauserv"</code>. Qual retornou "Parado!"?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FICHA 6 -->
+  <div class="fp-card">
+    <div class="fp-header" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.fp-chevron').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''">
+      <span class="fp-icon">🏭</span>
+      <span class="fp-title">Ficha 6 — ForEach: a esteira de objetos (desenho no sulfite)</span>
+      <span class="fp-badge green">Sulfite + Computador</span>
+      <span class="fp-chevron">▾</span>
+    </div>
+    <div class="fp-body">
+      <div class="fp-instruction"><strong>O que fazer:</strong> Desenhe a analogia da esteira no sulfite. Cada "peça" que passa na esteira é um item da lista. Escreva o que acontece com cada um dentro do bloco { }.</div>
+      <div class="fp-sulfite">
+        <svg class="fp-flow-svg" viewBox="0 0 460 155" xmlns="http://www.w3.org/2000/svg">
+          <defs><marker id="fb" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#58a6ff"/></marker></defs>
+          <!-- esteira -->
+          <rect x="10" y="88" width="440" height="16" rx="4" fill="#1c2330" stroke="#21262d" stroke-width="1"/>
+          <text x="230" y="101" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#484f58">$lista (array de serviços)</text>
+          <!-- itens -->
+          <rect x="20" y="58" width="52" height="32" rx="6" fill="#0d2139" stroke="#58a6ff" stroke-width="1"/>
+          <text x="46" y="77" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#58a6ff">item 1</text>
+          <rect x="84" y="58" width="52" height="32" rx="6" fill="#0d2139" stroke="#58a6ff" stroke-width="1"/>
+          <text x="110" y="77" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#58a6ff">item 2</text>
+          <rect x="148" y="58" width="52" height="32" rx="6" fill="#0d2139" stroke="#58a6ff" stroke-width="1"/>
+          <text x="174" y="77" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#58a6ff">item 3</text>
+          <text x="232" y="79" font-family="DM Mono,monospace" font-size="14" fill="#484f58">...</text>
+          <!-- seta ForEach -->
+          <line x1="270" y1="74" x2="320" y2="74" stroke="#58a6ff" stroke-width="2" marker-end="url(#fb)"/>
+          <text x="295" y="66" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#bc8cff" font-weight="600">ForEach</text>
+          <!-- bloco -->
+          <rect x="328" y="48" width="90" height="52" rx="7" fill="#1a4731" stroke="#39d353" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <text x="373" y="69" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#39d353">bloco { }</text>
+          <text x="373" y="82" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#39d353">executa</text>
+          <text x="373" y="95" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#39d353">para cada</text>
+          <!-- espaço missão -->
+          <rect x="10" y="114" width="440" height="35" rx="7" fill="none" stroke="#3a3f4a" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="230" y="129" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#484f58">✏️ Liste 3 situações de TI onde ForEach seria útil:</text>
+          <text x="230" y="143" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#484f58">Ex.: "Para cada PC no lab, verificar o antivírus"</text>
+        </svg>
+      </div>
+      <div class="fp-tip"><strong>Desafio computador:</strong><br><code>@("Spooler","WinRM","wuauserv") | ForEach-Object { Get-Service $_ | Select-Object Name, Status }</code><br>Quantos serviços apareceram? Quais estavam "Stopped"? Anote no sulfite.</div>
+    </div>
+  </div>
+
 </div>
 
 <nav class="nav-bar">
