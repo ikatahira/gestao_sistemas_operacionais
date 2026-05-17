@@ -155,6 +155,36 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .mission-check:hover{border-color:var(--purple);color:var(--purple);}
 .mission-check.done{background:var(--green);border-color:var(--green);color:#0d1117;}
 
+/* GABARITO */
+.gabarito-shell{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:24px;}
+.gabarito-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:background .2s;}
+.gabarito-header:hover{background:var(--surface2);}
+.gabarito-header.open{border-bottom-color:var(--border);}
+.gabarito-header-icon{width:36px;height:36px;border-radius:8px;background:rgba(57,211,83,.12);border:1px solid rgba(57,211,83,.25);display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0;}
+.gabarito-header-text{flex:1;}
+.gabarito-header-text h3{font-family:'Syne',sans-serif;font-size:.95em;font-weight:700;color:var(--green);}
+.gabarito-header-text p{font-size:.78em;color:var(--text-muted);margin-top:2px;}
+.gabarito-warn{font-size:.72em;background:rgba(240,180,41,.1);border:1px solid rgba(240,180,41,.25);border-radius:50px;padding:3px 10px;color:var(--amber);white-space:nowrap;}
+.gabarito-chevron{color:var(--text-muted);font-size:.9em;transition:transform .3s;}
+.gabarito-body{display:none;padding:20px;}
+.gabarito-body.open{display:block;}
+.gab-item{margin-bottom:20px;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;}
+.gab-item:last-child{margin-bottom:0;}
+.gab-item-header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);}
+.gab-item-num{width:28px;height:28px;border-radius:6px;background:var(--green-dim);border:1px solid rgba(57,211,83,.3);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.8em;font-weight:700;color:var(--green);flex-shrink:0;}
+.gab-item-title{font-family:'Syne',sans-serif;font-size:.88em;font-weight:700;color:var(--text);}
+.gab-item-body{padding:14px 16px;}
+.gab-note{font-size:.83em;color:var(--text-muted);margin-bottom:12px;line-height:1.6;background:rgba(88,166,255,.06);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;padding:8px 12px;}
+.gab-note strong{color:var(--blue);}
+.gab-cmd{background:#0a0f16;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.82em;line-height:1.7;white-space:pre-wrap;overflow-x:auto;}
+.gab-cmd .cm{color:var(--text-dim);}
+.gab-cmd .kw{color:var(--blue);}
+.gab-cmd .param{color:var(--purple);}
+.gab-cmd .str{color:var(--amber);}
+.gab-cmd .var{color:var(--green);}
+.gab-tip{margin-top:10px;font-size:.8em;color:var(--text-muted);line-height:1.5;background:rgba(57,211,83,.06);border-left:3px solid var(--green);border-radius:0 6px 6px 0;padding:8px 12px;}
+.gab-tip strong{color:var(--green);}
+
 /* QUIZ */
 .quiz-shell{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
 .quiz-topbar{background:linear-gradient(135deg,var(--purple-dim),var(--blue-dim));padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
@@ -979,6 +1009,85 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
     <div class="mission-check" id="m3" onclick="completeMission('m3','m3card',25)">○</div>
   </div>
 
+  <!-- GABARITO DAS MISSÕES -->
+  <div class="gabarito-shell">
+    <div class="gabarito-header" onclick="toggleGabarito(this)">
+      <div class="gabarito-header-icon">✅</div>
+      <div class="gabarito-header-text">
+        <h3>Gabarito das Missões</h3>
+        <p>Tente fazer antes de abrir — o esforço é o que aprende!</p>
+      </div>
+      <span class="gabarito-warn">⚠️ Tente primeiro!</span>
+      <span class="gabarito-chevron">▾</span>
+    </div>
+    <div class="gabarito-body">
+
+      <!-- MISSÃO 1 -->
+      <div class="gab-item">
+        <div class="gab-item-header">
+          <div class="gab-item-num">M1</div>
+          <div class="gab-item-title">Relatório de Processos — top10cpu.csv</div>
+        </div>
+        <div class="gab-item-body">
+          <div class="gab-note"><strong>Estratégia:</strong> Get-Process retorna objetos com propriedade CPU. Sort-Object -Descending + Select-Object -First 10 filtram os maiores. Export-Csv salva sem o tipo .NET (parâmetro -NoTypeInformation).</div>
+          <div class="gab-cmd"><span class="cm"># Missão 1 — Pipeline: processos com mais CPU → CSV</span>
+<span class="kw">Get-Process</span> |
+  <span class="kw">Sort-Object</span> <span class="param">-Property</span> CPU <span class="param">-Descending</span> |
+  <span class="kw">Select-Object</span> <span class="param">-First</span> 10 <span class="param">-Property</span> Name, CPU, Id |
+  <span class="kw">Export-Csv</span> <span class="param">-Path</span> <span class="str">'.\top10cpu.csv'</span> <span class="param">-NoTypeInformation</span> <span class="param">-Encoding</span> UTF8
+
+<span class="cm"># Conferir o resultado</span>
+<span class="kw">Import-Csv</span> <span class="str">'.\top10cpu.csv'</span> | <span class="kw">Format-Table</span></div>
+          <div class="gab-tip"><strong>Atenção:</strong> processos sem janela aberta (serviços) costumam ter CPU = <code>null</code>. Se aparecer erro, adicione <code>| Where-Object { $_.CPU -ne $null }</code> antes do Sort-Object.</div>
+        </div>
+      </div>
+
+      <!-- MISSÃO 2 -->
+      <div class="gab-item">
+        <div class="gab-item-header">
+          <div class="gab-item-num">M2</div>
+          <div class="gab-item-title">Auditoria de Serviços — rodando.csv e parados.csv</div>
+        </div>
+        <div class="gab-item-body">
+          <div class="gab-note"><strong>Estratégia:</strong> Where-Object filtra pelo Status do serviço. Status -eq "Running" para os ativos, -eq "Stopped" para os parados. Dois Export-Csv com caminhos diferentes.</div>
+          <div class="gab-cmd"><span class="cm"># Missão 2 — Auditoria separada por status</span>
+<span class="kw">Get-Service</span> | <span class="kw">Where-Object</span> { <span class="var">$_</span>.Status <span class="param">-eq</span> <span class="str">'Running'</span> } |
+  <span class="kw">Select-Object</span> Name, Status, DisplayName |
+  <span class="kw">Export-Csv</span> <span class="param">-Path</span> <span class="str">'.\rodando.csv'</span> <span class="param">-NoTypeInformation</span> <span class="param">-Encoding</span> UTF8
+
+<span class="kw">Get-Service</span> | <span class="kw">Where-Object</span> { <span class="var">$_</span>.Status <span class="param">-eq</span> <span class="str">'Stopped'</span> } |
+  <span class="kw">Select-Object</span> Name, Status, DisplayName |
+  <span class="kw">Export-Csv</span> <span class="param">-Path</span> <span class="str">'.\parados.csv'</span> <span class="param">-NoTypeInformation</span> <span class="param">-Encoding</span> UTF8
+
+<span class="cm"># Quantos em cada grupo?</span>
+<span class="kw">Write-Host</span> <span class="str">"Rodando: $((Import-Csv .\rodando.csv).Count)"</span>
+<span class="kw">Write-Host</span> <span class="str">"Parados: $((Import-Csv .\parados.csv).Count)"</span></div>
+          <div class="gab-tip"><strong>Variação aceita:</strong> pode-se usar <code>-eq 'Stopped'</code> ou <code>-ne 'Running'</code> — ambos funcionam, mas o primeiro é mais explícito e legível.</div>
+        </div>
+      </div>
+
+      <!-- MISSÃO 3 -->
+      <div class="gab-item">
+        <div class="gab-item-header">
+          <div class="gab-item-num">M3</div>
+          <div class="gab-item-title">Inventário Rápido do Sistema — 5 linhas</div>
+        </div>
+        <div class="gab-item-body">
+          <div class="gab-note"><strong>Estratégia:</strong> variáveis de ambiente ($env:) fornecem PC e usuário sem precisar de cmdlets pesados. Get-PSDrive filtra o drive C: e usa a propriedade Free (em bytes) — dividir por 1GB converte para gigabytes legíveis.</div>
+          <div class="gab-cmd"><span class="cm"># Missão 3 — Inventário em 5 linhas</span>
+<span class="var">$pc</span>      = <span class="var">$env:COMPUTERNAME</span>
+<span class="var">$usuario</span> = <span class="var">$env:USERNAME</span>
+<span class="var">$livreGB</span> = [<span class="kw">math</span>]::Round((<span class="kw">Get-PSDrive</span> C).Free / 1GB, 2)
+<span class="kw">Write-Host</span> <span class="str">"PC      : $pc"</span>
+<span class="kw">Write-Host</span> <span class="str">"Usuário : $usuario"</span>
+<span class="kw">Write-Host</span> <span class="str">"Livre C : $livreGB GB"</span></div>
+          <div class="gab-tip"><strong>Por que [math]::Round?</strong> A divisão por 1GB retorna muitas casas decimais. O Round arredonda para 2 casas, deixando a saída limpa. O <code>1GB</code> é uma constante embutida do PowerShell (= 1.073.741.824 bytes).</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- QUIZ -->
   <div class="section-header">
     <div class="section-icon amber">🧠</div>
@@ -1396,6 +1505,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 <footer>Gestão de Sistemas Operacionais I · GSO I 2026 · Prof. Isaque Kampa</footer>
 
 <script>
+function toggleGabarito(h){const b=h.nextElementSibling,o=b.classList.contains('open');b.classList.toggle('open');h.classList.toggle('open');h.querySelector('.gabarito-chevron').style.transform=o?'':'rotate(180deg)';}
+
 let xp=0,objDone=new Set(),missionDone=new Set(),cardXpDone=new Set();
 const totalXP=420;
 

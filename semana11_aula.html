@@ -147,6 +147,36 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .mission-check:hover{border-color:var(--cyan);color:var(--cyan);}
 .mission-check.done{background:var(--green);border-color:var(--green);color:#0d1117;}
 
+/* GABARITO */
+.gabarito-shell{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:24px;}
+.gabarito-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:background .2s;}
+.gabarito-header:hover{background:var(--surface2);}
+.gabarito-header.open{border-bottom-color:var(--border);}
+.gabarito-header-icon{width:36px;height:36px;border-radius:8px;background:rgba(57,211,83,.12);border:1px solid rgba(57,211,83,.25);display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0;}
+.gabarito-header-text{flex:1;}
+.gabarito-header-text h3{font-family:'Syne',sans-serif;font-size:.95em;font-weight:700;color:var(--green);}
+.gabarito-header-text p{font-size:.78em;color:var(--text-muted);margin-top:2px;}
+.gabarito-warn{font-size:.72em;background:rgba(240,180,41,.1);border:1px solid rgba(240,180,41,.25);border-radius:50px;padding:3px 10px;color:var(--amber);white-space:nowrap;}
+.gabarito-chevron{color:var(--text-muted);font-size:.9em;transition:transform .3s;}
+.gabarito-body{display:none;padding:20px;}
+.gabarito-body.open{display:block;}
+.gab-item{margin-bottom:20px;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;}
+.gab-item:last-child{margin-bottom:0;}
+.gab-item-header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface2);}
+.gab-item-num{width:28px;height:28px;border-radius:6px;background:var(--green-dim);border:1px solid rgba(57,211,83,.3);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.8em;font-weight:700;color:var(--green);flex-shrink:0;}
+.gab-item-title{font-family:'Syne',sans-serif;font-size:.88em;font-weight:700;color:var(--text);}
+.gab-item-body{padding:14px 16px;}
+.gab-note{font-size:.83em;color:var(--text-muted);margin-bottom:12px;line-height:1.6;background:rgba(88,166,255,.06);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;padding:8px 12px;}
+.gab-note strong{color:var(--blue);}
+.gab-cmd{background:#0a0f16;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-family:'DM Mono',monospace;font-size:.82em;line-height:1.7;white-space:pre-wrap;overflow-x:auto;}
+.gab-cmd .cm{color:var(--text-dim);}
+.gab-cmd .kw{color:var(--blue);}
+.gab-cmd .param{color:var(--purple);}
+.gab-cmd .str{color:var(--amber);}
+.gab-cmd .var{color:var(--green);}
+.gab-tip{margin-top:10px;font-size:.8em;color:var(--text-muted);line-height:1.5;background:rgba(57,211,83,.06);border-left:3px solid var(--green);border-radius:0 6px 6px 0;padding:8px 12px;}
+.gab-tip strong{color:var(--green);}
+
 /* QUIZ */
 .quiz-shell{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
 .quiz-topbar{background:linear-gradient(135deg,var(--cyan-dim),var(--blue-dim));padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
@@ -606,6 +636,122 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
     <div class="mission-check" id="m3" onclick="completeMission('m3','m3card',25)">○</div>
   </div>
 
+  <!-- GABARITO DAS MISSÕES -->
+  <div class="gabarito-shell">
+    <div class="gabarito-header" onclick="toggleGabarito(this)">
+      <div class="gabarito-header-icon">✅</div>
+      <div class="gabarito-header-text">
+        <h3>Gabarito das Missões</h3>
+        <p>Tente fazer antes de abrir — o esforço é o que aprende!</p>
+      </div>
+      <span class="gabarito-warn">⚠️ Tente primeiro!</span>
+      <span class="gabarito-chevron">▾</span>
+    </div>
+    <div class="gabarito-body">
+
+      <!-- MISSÃO 1 -->
+      <div class="gab-item">
+        <div class="gab-item-header">
+          <div class="gab-item-num">M1</div>
+          <div class="gab-item-title">Habilitando e Testando o WinRM</div>
+        </div>
+        <div class="gab-item-body">
+          <div class="gab-note"><strong>Estratégia:</strong> Execute cada comando em sequência. Enable-PSRemoting só funciona como Administrador — clique com botão direito no ícone do PowerShell e escolha "Executar como Administrador". Confirme com Y quando perguntado.</div>
+          <div class="gab-cmd"><span class="cm"># Passo 1 — Abrir PowerShell como Administrador, depois:</span>
+<span class="kw">Enable-PSRemoting</span> <span class="param">-Force</span>
+
+<span class="cm"># Passo 2 — Verificar se o serviço WinRM está rodando</span>
+<span class="kw">Get-Service</span> WinRM
+
+<span class="cm"># Resultado esperado:</span>
+<span class="cm"># Status   Name   DisplayName</span>
+<span class="cm"># Running  WinRM  Windows Remote Management (WS-Management)</span>
+
+<span class="cm"># Passo 3 — Testar conectividade com o próprio PC (localhost)</span>
+<span class="kw">Test-WSMan</span> localhost
+
+<span class="cm"># Resultado esperado: bloco com versão do protocolo WinRM</span>
+<span class="cm"># wsmid          : http://schemas.dmtf.org/wbem/wsman/1/...</span>
+<span class="cm"># ProtocolVersion: http://schemas.dmtf.org/wbem/wsman/1/...</span></div>
+          <div class="gab-tip"><strong>Se Test-WSMan não responder:</strong> verifique o Firewall do Windows — Enable-PSRemoting cria a regra automaticamente, mas políticas de grupo em ambientes de domínio podem bloqueá-la. Tente <code>netsh advfirewall firewall show rule name="Windows Remote Management (HTTP-In)"</code> para confirmar.</div>
+        </div>
+      </div>
+
+      <!-- MISSÃO 2 -->
+      <div class="gab-item">
+        <div class="gab-item-header">
+          <div class="gab-item-num">M2</div>
+          <div class="gab-item-title">Gerenciamento Remoto de Serviços via localhost</div>
+        </div>
+        <div class="gab-item-body">
+          <div class="gab-note"><strong>Estratégia:</strong> Em laboratório sem outro PC, usamos <code>localhost</code> como destino remoto — funciona perfeitamente para testar Remoting. A sessão persistente com New-PSSession economiza autenticação repetida.</div>
+          <div class="gab-cmd"><span class="cm"># Missão 2 — Parte A: Listar serviços remotamente</span>
+<span class="kw">Invoke-Command</span> <span class="param">-ComputerName</span> localhost <span class="param">-ScriptBlock</span> {
+    <span class="kw">Get-Service</span> | <span class="kw">Where-Object</span> Status <span class="param">-eq</span> <span class="str">'Running'</span> | <span class="kw">Select-Object</span> <span class="param">-First</span> 5
+}
+
+<span class="cm"># Parte B: Parar e iniciar o Spooler remotamente</span>
+<span class="kw">Invoke-Command</span> <span class="param">-ComputerName</span> localhost <span class="param">-ScriptBlock</span> { <span class="kw">Stop-Service</span> Spooler <span class="param">-Force</span> }
+<span class="kw">Invoke-Command</span> <span class="param">-ComputerName</span> localhost <span class="param">-ScriptBlock</span> { <span class="kw">Start-Service</span> Spooler }
+<span class="kw">Invoke-Command</span> <span class="param">-ComputerName</span> localhost <span class="param">-ScriptBlock</span> { (<span class="kw">Get-Service</span> Spooler).Status }
+
+<span class="cm"># Parte C: Sessão persistente — autentica uma vez, usa várias</span>
+<span class="var">$s</span> = <span class="kw">New-PSSession</span> <span class="param">-ComputerName</span> localhost
+
+<span class="kw">Invoke-Command</span> <span class="param">-Session</span> <span class="var">$s</span> <span class="param">-ScriptBlock</span> { <span class="var">$env:COMPUTERNAME</span> }
+<span class="kw">Invoke-Command</span> <span class="param">-Session</span> <span class="var">$s</span> <span class="param">-ScriptBlock</span> { <span class="kw">Get-Date</span> }
+<span class="kw">Invoke-Command</span> <span class="param">-Session</span> <span class="var">$s</span> <span class="param">-ScriptBlock</span> { (<span class="kw">Get-Process</span>).Count }
+
+<span class="cm"># Sempre feche a sessão ao terminar!</span>
+<span class="kw">Remove-PSSession</span> <span class="var">$s</span></div>
+          <div class="gab-tip"><strong>Por que usar localhost?</strong> O WinRM funciona igualmente para conexões locais — você exercita exatamente o mesmo código que usaria em PCs remotos reais, só mudando <code>localhost</code> pelo IP ou nome do PC de destino.</div>
+        </div>
+      </div>
+
+      <!-- MISSÃO 3 -->
+      <div class="gab-item">
+        <div class="gab-item-header">
+          <div class="gab-item-num">M3</div>
+          <div class="gab-item-title">Script de Auditoria Remota com Export-Csv</div>
+        </div>
+        <div class="gab-item-body">
+          <div class="gab-note"><strong>Estratégia:</strong> Invoke-Command com uma lista de computadores executa o bloco em paralelo. O try/catch dentro do ScriptBlock trata PCs offline — o parâmetro -ErrorAction Stop é obrigatório para que o catch funcione. Export-Csv salva o resultado.</div>
+          <div class="gab-cmd"><span class="cm"># Missão 3 — Script de auditoria remota com CSV</span>
+<span class="var">$computadores</span> = @(<span class="str">'localhost'</span>)  <span class="cm"># adicione mais nomes/IPs aqui</span>
+
+<span class="var">$resultado</span> = <span class="kw">Invoke-Command</span> <span class="param">-ComputerName</span> <span class="var">$computadores</span> <span class="param">-ScriptBlock</span> {
+    <span class="kw">try</span> {
+        <span class="var">$os</span> = <span class="kw">Get-CimInstance</span> Win32_OperatingSystem <span class="param">-ErrorAction</span> Stop
+        [<span class="kw">pscustomobject</span>]@{
+            PC         = <span class="var">$env:COMPUTERNAME</span>
+            SO         = <span class="var">$os</span>.Caption
+            UltimoBoot = <span class="var">$os</span>.LastBootUpTime
+            Processos  = (<span class="kw">Get-Process</span>).Count
+            Status     = <span class="str">'OK'</span>
+        }
+    } <span class="kw">catch</span> {
+        [<span class="kw">pscustomobject</span>]@{
+            PC         = <span class="var">$env:COMPUTERNAME</span>
+            SO         = <span class="str">'-'</span>
+            UltimoBoot = <span class="str">'-'</span>
+            Processos  = 0
+            Status     = <span class="str">"ERRO: $($_.Exception.Message)"</span>
+        }
+    }
+} <span class="param">-ErrorAction</span> SilentlyContinue
+
+<span class="var">$resultado</span> | <span class="kw">Select-Object</span> PC, SO, UltimoBoot, Processos, Status |
+    <span class="kw">Export-Csv</span> <span class="param">-Path</span> <span class="str">'.\auditoria.csv'</span> <span class="param">-NoTypeInformation</span> <span class="param">-Encoding</span> UTF8
+
+<span class="kw">Write-Host</span> <span class="str">"Auditoria salva em auditoria.csv — $($resultado.Count) PC(s) verificado(s)"</span>
+<span class="var">$resultado</span> | <span class="kw">Format-Table</span> <span class="param">-AutoSize</span></div>
+          <div class="gab-tip"><strong>Para testar com PC offline:</strong> adicione um nome inexistente à lista, como <code>'PC-INEXISTENTE'</code>. O <code>-ErrorAction SilentlyContinue</code> no Invoke-Command evita que PCs inacessíveis parem o script — e o CSV registrará o erro para cada um.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- QUIZ -->
   <div class="section-header">
     <div class="section-icon amber">🧠</div>
@@ -966,6 +1112,8 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 <footer>Gestão de Sistemas Operacionais I · GSO I 2026 · Prof. Isaque Katahira · ETEC — Centro Paula Souza</footer>
 
 <script>
+function toggleGabarito(h){const b=h.nextElementSibling,o=b.classList.contains('open');b.classList.toggle('open');h.classList.toggle('open');h.querySelector('.gabarito-chevron').style.transform=o?'':'rotate(180deg)';}
+
 let xp=0,objDone=new Set(),missionDone=new Set(),cardXpDone=new Set();
 const totalXP=420;
 
