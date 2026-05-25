@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S05-B – Pastas, Compactação e E-mail | GSO I 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#07100a;
+  --surface:#0d1f12;
+  --surface2:#142819;
+  --surface3:#1a3420;
+  --border:#1e4028;
+  --accent:#22c55e;
+  --accent2:#16a34a;
+  --blue:#3b82f6;
+  --purple:#a855f7;
+  --amber:#f59e0b;
+  --red:#ef4444;
+  --teal:#14b8a6;
+  --google:#ea4335;
+  --text:#d1fae5;
+  --text-muted:#4ade80;
+  --text-dim:#86efac;
+  --white:#fff;
+  --r:14px;
+  --r-sm:8px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* XP BAR */
+.xp-bar-wrap{position:fixed;top:0;left:0;right:0;z-index:300;height:4px;background:rgba(0,0,0,.5);}
+.xp-bar-fill{height:100%;background:linear-gradient(90deg,#22c55e,#16a34a,#86efac);width:0%;transition:width .6s ease;}
+
+/* HEADER */
+.site-header{background:linear-gradient(135deg,#040c06,#071510,#0d1f12);border-bottom:1px solid var(--border);position:sticky;top:4px;z-index:200;}
+.header-inner{max-width:1100px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.week-pill{font-family:'JetBrains Mono',monospace;font-size:.72em;font-weight:700;padding:4px 12px;border-radius:50px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.4);color:var(--accent);}
+.header-titles{flex:1;}
+.header-titles h1{font-family:'Fraunces',serif;font-size:clamp(1em,2.5vw,1.5em);font-weight:700;color:var(--white);}
+.header-titles p{font-size:.8em;color:#4ade80;margin-top:2px;}
+.xp-display{font-family:'JetBrains Mono',monospace;font-size:.78em;font-weight:700;color:var(--amber);background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);padding:5px 14px;border-radius:50px;white-space:nowrap;}
+
+/* PROGRESS PHASES */
+.phases-nav{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;max-width:none;}
+.phase-btn{font-family:'JetBrains Mono',monospace;font-size:.7em;font-weight:700;padding:5px 13px;border-radius:50px;border:1px solid var(--border);color:#4ade80;background:transparent;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+.phase-btn:hover,.phase-btn.active{background:rgba(34,197,94,.2);border-color:var(--accent);color:var(--white);}
+.phase-lock{opacity:.4;cursor:not-allowed;}
+
+.page{max-width:1100px;margin:0 auto;padding:28px 28px;}
+
+/* NAV ROW */
+.nav-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:32px;}
+.nav-btn{padding:9px 20px;border-radius:var(--r-sm);text-decoration:none;font-weight:600;font-size:.85em;transition:all .2s;display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;}
+.nav-btn-ghost{background:var(--surface);border-color:var(--border);color:var(--text-dim);}
+.nav-btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn-primary{background:linear-gradient(135deg,#15803d,#22c55e);color:var(--white);box-shadow:0 4px 16px rgba(34,197,94,.3);}
+.nav-btn-primary:hover{transform:translateY(-2px);}
+.nav-spacer{flex:1;}
+
+/* HERO MISSION */
+.mission-hero{background:linear-gradient(135deg,#040c06,#071510 40%,#0a1f0d);border:1px solid var(--border);border-radius:var(--r);padding:36px 32px;margin-bottom:28px;position:relative;overflow:hidden;}
+.mission-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(34,197,94,.15),transparent 70%);pointer-events:none;}
+.mission-tag{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.7em;font-weight:700;padding:4px 13px;border-radius:50px;background:rgba(34,197,94,.2);border:1px solid rgba(34,197,94,.4);color:var(--accent);margin-bottom:14px;}
+.mission-hero h2{font-family:'Fraunces',serif;font-size:clamp(1.5em,3vw,2.2em);font-weight:700;color:var(--white);margin-bottom:10px;line-height:1.2;}
+.mission-hero h2 span{color:var(--accent);}
+.mission-hero p{font-size:.93em;color:var(--text-dim);max-width:620px;margin-bottom:22px;}
+.mission-rewards{display:flex;gap:12px;flex-wrap:wrap;}
+.reward-badge{display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.3);border:1px solid rgba(34,197,94,.2);border-radius:50px;padding:7px 16px;font-size:.82em;font-weight:600;color:var(--text-dim);}
+.reward-badge span{color:var(--amber);font-family:'JetBrains Mono',monospace;}
+
+/* PHASE HEADER */
+.phase-header{display:flex;align-items:center;gap:16px;margin:36px 0 20px;padding:20px 24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);border-left:4px solid var(--accent);}
+.phase-num{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent));color:var(--white);font-family:'JetBrains Mono',monospace;font-size:1.2em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.phase-info h3{font-family:'Fraunces',serif;font-size:1.2em;color:var(--white);margin-bottom:4px;}
+.phase-info p{font-size:.85em;color:#4ade80;}
+.phase-xp{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.8em;font-weight:700;color:var(--amber);background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);padding:5px 14px;border-radius:50px;white-space:nowrap;}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:26px;margin-bottom:20px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.card.green::before{background:linear-gradient(90deg,#15803d,var(--accent));}
+.card.blue::before{background:linear-gradient(90deg,#1d4ed8,var(--blue));}
+.card.purple::before{background:linear-gradient(90deg,#6d28d9,var(--purple));}
+.card.amber::before{background:linear-gradient(90deg,#92400e,var(--amber));}
+.card.google::before{background:linear-gradient(90deg,#ea4335,#fbbc04,#34a853,#4285f4);}
+.card.teal::before{background:linear-gradient(90deg,#0e7490,var(--teal));}
+.card-title{font-family:'Fraunces',serif;font-size:1.2em;font-weight:700;color:var(--white);display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+
+/* THEORY BOX */
+.theory{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:var(--r-sm);padding:16px 20px;margin-bottom:14px;font-size:.9em;color:var(--text-dim);}
+.theory strong{color:var(--accent);}
+
+/* TERMINAL */
+.terminal{background:#020d04;border:1px solid #1a3a1e;border-radius:var(--r-sm);overflow:hidden;margin:14px 0;font-family:'JetBrains Mono',monospace;}
+.terminal-bar{background:#0a1a0c;padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #1a3a1e;}
+.dot{width:12px;height:12px;border-radius:50%;}
+.dot-red{background:#ff5f57;}.dot-yellow{background:#ffbd2e;}.dot-green{background:#27c93f;}
+.terminal-label{font-size:.72em;color:#4ade80;margin-left:8px;}
+.terminal-body{padding:16px 18px;font-size:.82em;line-height:2;}
+.cmd{color:#86efac;}.out{color:#a7f3d0;}.comment{color:#2d6a4f;font-style:italic;}.success{color:#4ade80;}
+.prompt{color:#22c55e;margin-right:4px;font-weight:700;}
+.cmd-copy{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);padding:2px 8px;border-radius:4px;cursor:pointer;font-size:.78em;color:var(--accent);float:right;margin-top:2px;transition:all .2s;}
+.cmd-copy:hover{background:rgba(34,197,94,.25);}
+
+/* FOLDER TREE */
+.folder-tree{background:#020d04;border:1px solid #1a3a1e;border-radius:var(--r-sm);padding:18px 20px;font-family:'JetBrains Mono',monospace;font-size:.85em;line-height:1.9;margin:14px 0;}
+.ft-root{color:#22c55e;font-weight:700;}
+.ft-dir{color:#86efac;}
+.ft-file{color:#a7f3d0;}
+.ft-sub{margin-left:20px;}
+.ft-sub2{margin-left:40px;}
+.ft-sub3{margin-left:60px;}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:0;}
+.step{display:flex;gap:0;position:relative;}
+.step:not(:last-child)::after{content:'';position:absolute;left:19px;top:40px;bottom:-8px;width:2px;background:linear-gradient(180deg,rgba(34,197,94,.3),transparent);}
+.step-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;padding-top:8px;}
+.step-num{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.82em;font-weight:700;flex-shrink:0;z-index:1;}
+.step-num.green{background:linear-gradient(135deg,#15803d,var(--accent));color:var(--white);}
+.step-num.blue{background:linear-gradient(135deg,#1d4ed8,var(--blue));color:var(--white);}
+.step-num.purple{background:linear-gradient(135deg,#6d28d9,var(--purple));color:var(--white);}
+.step-num.amber{background:linear-gradient(135deg,#92400e,var(--amber));color:var(--white);}
+.step-num.google{background:linear-gradient(135deg,#ea4335,#fbbc04);color:var(--white);}
+.step-num.teal{background:linear-gradient(135deg,#0e7490,var(--teal));color:var(--white);}
+.step-body{flex:1;padding:6px 0 26px 18px;}
+.step-body h4{font-size:1em;font-weight:700;color:var(--white);margin-bottom:8px;}
+.step-body p{font-size:.9em;color:var(--text-dim);line-height:1.65;}
+
+/* WIN11 MOCKUP */
+.win11{background:#1a1f2e;border:1px solid #253352;border-radius:var(--r);overflow:hidden;margin:14px 0;}
+.win11-bar{background:#0f172a;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #253352;}
+.win11-btn{width:12px;height:12px;border-radius:50%;}
+.win11-btn-red{background:#ef4444;}.win11-btn-yellow{background:#f59e0b;}.win11-btn-green{background:#22c55e;}
+.win11-title{font-size:.73em;color:#64748b;margin-left:8px;flex:1;}
+.win11-addr{font-size:.7em;color:#4ade80;font-family:'JetBrains Mono',monospace;background:rgba(34,197,94,.08);padding:2px 8px;border-radius:4px;}
+.win11-body{padding:18px 20px;}
+.win11-path{font-family:'JetBrains Mono',monospace;font-size:.8em;color:var(--amber);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:var(--r-sm);padding:8px 14px;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.win11-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;}
+.win11-folder{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:var(--r-sm);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:background .15s;}
+.win11-folder:hover{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2);}
+.win11-icon{font-size:2em;}
+.win11-name{font-size:.68em;color:var(--text-dim);text-align:center;line-height:1.3;}
+
+/* DRIVE MOCKUP */
+.gdrive{background:#fff;border-radius:var(--r);overflow:hidden;margin:14px 0;border:1px solid #e2e8f0;}
+.gdrive-bar{background:#f8fafc;padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e2e8f0;}
+.gdrive-logo{font-size:.8em;font-weight:700;color:#1a73e8;}
+.gdrive-search{flex:1;background:#e8f0fe;border-radius:50px;padding:6px 14px;font-size:.78em;color:#5f6368;}
+.gdrive-body{padding:16px;}
+.gdrive-folder-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r-sm);cursor:pointer;transition:background .15s;}
+.gdrive-folder-row:hover{background:#f0f4ff;}
+.gdrive-folder-row .gi{font-size:1.3em;}
+.gdrive-folder-name{font-size:.85em;font-weight:500;color:#202124;}
+.gdrive-folder-sub{font-size:.72em;color:#5f6368;margin-left:auto;}
+.gdrive-sub-row{margin-left:28px;border-left:2px solid #e8f0fe;padding-left:10px;}
+
+/* EMAIL MOCKUP */
+.email-mock{background:#fff;border-radius:var(--r);overflow:hidden;margin:14px 0;border:1px solid #e2e8f0;}
+.email-bar{background:#f8fafc;padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e2e8f0;font-size:.78em;color:#5f6368;}
+.email-bar strong{color:#202124;}
+.email-body-inner{padding:18px;}
+.email-field{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:.85em;}
+.email-field label{color:#5f6368;width:60px;flex-shrink:0;font-weight:600;}
+.email-field span{color:#202124;}
+.email-subj{color:#1a73e8;font-weight:600;}
+.email-content{margin-top:14px;font-size:.85em;color:#3c4043;line-height:1.7;background:#fafafa;border-radius:var(--r-sm);padding:14px;}
+.attach-tag{display:inline-flex;align-items:center;gap:6px;background:#e8f0fe;border:1px solid #4285f4;border-radius:50px;padding:4px 12px;font-size:.75em;color:#1a73e8;font-weight:600;margin-top:10px;}
+
+/* ALERT / TIP */
+.alert{display:flex;gap:12px;border-radius:var(--r-sm);padding:13px 16px;margin:12px 0;font-size:.88em;}
+.alert-green{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);}
+.alert-blue{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);}
+.alert-amber{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);}
+.alert-icon{font-size:1.2em;flex-shrink:0;}
+.alert-text{color:var(--text-dim);}
+.alert-text strong{color:var(--white);}
+
+/* QUIZ SECTION */
+.quiz-section{background:linear-gradient(135deg,rgba(168,85,247,.08),rgba(34,197,94,.05));border:1px solid rgba(168,85,247,.25);border-radius:var(--r);padding:26px;margin:20px 0;}
+.quiz-title{font-family:'Fraunces',serif;font-size:1.15em;color:var(--white);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.quiz-q{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;margin-bottom:12px;}
+.quiz-q p{font-size:.9em;color:var(--text-dim);margin-bottom:12px;font-weight:600;}
+.quiz-options{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;cursor:pointer;transition:all .2s;font-size:.88em;color:var(--text-dim);}
+.quiz-opt:hover{border-color:var(--accent);color:var(--white);background:rgba(34,197,94,.06);}
+.quiz-opt.correct{background:rgba(34,197,94,.15);border-color:var(--accent);color:var(--accent);}
+.quiz-opt.wrong{background:rgba(239,68,68,.1);border-color:var(--red);color:var(--red);}
+.quiz-opt.disabled{cursor:not-allowed;pointer-events:none;}
+.quiz-feedback{margin-top:10px;font-size:.83em;padding:10px 14px;border-radius:var(--r-sm);display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#86efac;}
+.quiz-feedback.bad{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#fca5a5;}
+
+/* CHECKLIST */
+.checklist{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.checklist li{display:flex;align-items:flex-start;gap:10px;font-size:.88em;color:var(--text-dim);}
+.checklist li::before{content:'▸';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
+kbd{background:#1a3420;border:1px solid #2d5a38;border-radius:4px;padding:1px 6px;font-family:'JetBrains Mono',monospace;font-size:.82em;color:#86efac;}
+code{font-family:'JetBrains Mono',monospace;background:rgba(34,197,94,.1);padding:1px 6px;border-radius:4px;font-size:.85em;color:#86efac;}
+
+/* ACHIEVEMENT */
+.achievement{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(34,197,94,.06));border:1px solid rgba(245,158,11,.3);border-radius:var(--r);padding:20px 24px;display:flex;align-items:center;gap:16px;margin:16px 0;}
+.ach-icon{font-size:2.5em;flex-shrink:0;}
+.ach-info h4{font-family:'Fraunces',serif;font-size:1em;color:var(--white);margin-bottom:4px;}
+.ach-info p{font-size:.82em;color:var(--amber);}
+.ach-xp{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.9em;font-weight:700;color:var(--amber);}
+
+/* PROGRESS TRACKER */
+.progress-tracker{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:24px;}
+.pt-title{font-size:.85em;font-weight:600;color:var(--text-dim);margin-bottom:12px;display:flex;justify-content:space-between;}
+.pt-phases{display:flex;gap:4px;}
+.pt-phase{flex:1;height:8px;border-radius:4px;background:var(--border);transition:background .4s;}
+.pt-phase.done{background:linear-gradient(90deg,var(--accent2),var(--accent));}
+.pt-phase.current{background:linear-gradient(90deg,var(--amber),#fcd34d);animation:pulse-bar 1.5s ease-in-out infinite;}
+@keyframes pulse-bar{0%,100%{opacity:1;}50%{opacity:.6;}}
+
+/* NOTIFICATION */
+.notif{position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#15803d,#22c55e);color:var(--white);padding:14px 20px;border-radius:var(--r);font-weight:600;font-size:.9em;display:flex;align-items:center;gap:10px;z-index:999;transform:translateY(120px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);max-width:280px;}
+.notif.show{transform:translateY(0);opacity:1;}
+
+/* SECTION DIVIDER */
+.section-anchor{scroll-margin-top:80px;}
+
+/* RESPONSIVE */
+@media(max-width:700px){.page{padding:18px 14px;}.mission-hero{padding:24px 18px;}.phase-header{flex-wrap:wrap;}.win11-grid{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));}}
+</style>
+</head>
+<body>
+
+<!-- XP BAR -->
+<div class="xp-bar-wrap"><div class="xp-bar-fill" id="xpBar"></div></div>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif">
+  <span id="notif-icon">⭐</span>
+  <span id="notif-text">XP Ganho!</span>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <span class="week-pill">S05-B</span>
+    <div class="header-titles">
+      <h1>Pastas, Compactação & E-mail</h1>
+      <p>PowerShell · Windows 11 · Google Drive · ZIP · Gmail</p>
+    </div>
+    <div class="xp-display" id="xpCounter">⚡ 0 XP</div>
+  </div>
+  <div class="phases-nav" id="phasesNav">
+    <a href="#fase1" class="phase-btn active">📁 F1 · PowerShell</a>
+    <a href="#fase2" class="phase-btn">🖥️ F2 · Windows 11</a>
+    <a href="#fase3" class="phase-btn">☁️ F3 · Google Drive</a>
+    <a href="#fase4" class="phase-btn">🗜️ F4 · ZIP</a>
+    <a href="#fase5" class="phase-btn">📧 F5 · E-mail</a>
+    <a href="#fase6" class="phase-btn">📥 F6 · Download</a>
+    <a href="#fase7" class="phase-btn">📄 F7 · Currículo</a>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- NAV TOP -->
+  <div class="nav-row">
+    <a href="semana05_aula.html" class="nav-btn nav-btn-ghost">⬅ S05</a>
+    <a href="index.html" class="nav-btn nav-btn-ghost">🏠 Índice</a>
+    <span class="nav-spacer"></span>
+    <a href="semana06_aula.html" class="nav-btn nav-btn-primary">S06 ➡</a>
+  </div>
+
+  <!-- MISSION HERO -->
+  <div class="mission-hero">
+    <div class="mission-tag">🎮 MISSÃO DESBLOQUEADA · NÍVEL 2</div>
+    <h2>Organize o Caos.<br><span>Domine Pastas & Arquivos.</span></h2>
+    <p>Nesta aula você vai criar estruturas de pastas profissionais usando PowerShell, Windows 11 e Google Drive — depois compactar, enviar por e-mail e baixar. Cada fase concluída ganha XP. Boa sorte, técnico!</p>
+    <div class="mission-rewards">
+      <div class="reward-badge">🏆 Recompensa total: <span>700 XP</span></div>
+      <div class="reward-badge">⏱ Duração: <span>~90 min</span></div>
+      <div class="reward-badge">📦 Missões: <span>7 Fases</span></div>
+    </div>
+  </div>
+
+  <!-- PROGRESS TRACKER -->
+  <div class="progress-tracker">
+    <div class="pt-title"><span>🗺️ Progresso da Missão</span><span id="ptLabel">Fase 1/7</span></div>
+    <div class="pt-phases" id="ptPhases">
+      <div class="pt-phase current" id="pt0"></div>
+      <div class="pt-phase" id="pt1"></div>
+      <div class="pt-phase" id="pt2"></div>
+      <div class="pt-phase" id="pt3"></div>
+      <div class="pt-phase" id="pt4"></div>
+      <div class="pt-phase" id="pt5"></div>
+      <div class="pt-phase" id="pt6"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FASE 1 — PowerShell -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="fase1" class="section-anchor">
+    <div class="phase-header">
+      <div class="phase-num">1</div>
+      <div class="phase-info">
+        <h3>📁 Fase 1 — Criar Pastas com PowerShell</h3>
+        <p>Use o terminal para criar toda a estrutura de uma vez, como um profissional</p>
+      </div>
+      <div class="phase-xp">+100 XP</div>
+    </div>
+
+    <div class="card green">
+      <div class="card-title">🧠 Por que usar PowerShell para criar pastas?</div>
+      <div class="theory">
+        O <strong>PowerShell</strong> é o terminal avançado do Windows. Em vez de clicar pasta por pasta no Explorer, você escreve um comando e cria <em>dezenas de pastas</em> em segundos. É mais rápido, repetível e profissional — exatamente o que um técnico de TI faz no dia a dia.
+      </div>
+      <div class="theory">
+        O comando principal é <strong>New-Item</strong>. Para criar uma pasta, usamos <code>New-Item -ItemType Directory -Path "caminho"</code>. O atalho <code>mkdir</code> funciona igualmente bem.
+      </div>
+
+      <div class="card-title" style="margin-top:20px;">📦 Estrutura de Pastas do Cotidiano</div>
+      <p style="font-size:.9em;color:var(--text-dim);margin-bottom:12px;">Imagine que você é um estudante de TI. Esta é uma organização realista de arquivos:</p>
+
+      <div class="folder-tree">
+        <div class="ft-root">📁 C:\Usuarios\Aluno\</div>
+        <div class="ft-sub">
+          <div>📁 <span class="ft-dir">Documentos\</span></div>
+          <div class="ft-sub2">
+            <div>📁 <span class="ft-dir">Escola\</span></div>
+            <div class="ft-sub3">
+              <div>📁 <span class="ft-dir">GSO_I\</span></div>
+              <div>📁 <span class="ft-dir">Matematica\</span></div>
+              <div>📁 <span class="ft-dir">Portugues\</span></div>
+            </div>
+            <div>📁 <span class="ft-dir">Trabalhos\</span></div>
+            <div>📁 <span class="ft-dir">Curriculo\</span></div>
+          </div>
+          <div>📁 <span class="ft-dir">Pessoal\</span></div>
+          <div class="ft-sub2">
+            <div>📁 <span class="ft-dir">Fotos\</span></div>
+            <div>📁 <span class="ft-dir">Musicas\</span></div>
+            <div>📁 <span class="ft-dir">Downloads_Organizados\</span></div>
+          </div>
+          <div>📁 <span class="ft-dir">Profissional\</span></div>
+          <div class="ft-sub2">
+            <div>📁 <span class="ft-dir">Projetos_TI\</span></div>
+            <div>📁 <span class="ft-dir">Certificados\</span></div>
+            <div>📁 <span class="ft-dir">Scripts\</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-title" style="margin-top:24px;">💻 Criando tudo com PowerShell</div>
+      <p style="font-size:.9em;color:var(--text-dim);margin-bottom:12px;"><strong>Passo 1:</strong> Abra o PowerShell como Administrador — pressione <kbd>Win + X</kbd> e escolha <strong>Terminal (Admin)</strong> ou <strong>PowerShell (Admin)</strong>.</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+          <div class="terminal-label">Windows PowerShell — Criar estrutura completa</div>
+        </div>
+        <div class="terminal-body">
+          <span class="comment"># Definir pasta raiz — troque "Aluno" pelo seu usuário</span><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">$raiz = "$env:USERPROFILE\Documentos\MeuOrganizador"</span><br><br>
+          <span class="comment"># Criar as pastas principais com subpastas de uma vez</span><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">$pastas = @(</span><br>
+          &nbsp;&nbsp;<span class="out">"Escola\GSO_I",</span><br>
+          &nbsp;&nbsp;<span class="out">"Escola\Matematica",</span><br>
+          &nbsp;&nbsp;<span class="out">"Escola\Portugues",</span><br>
+          &nbsp;&nbsp;<span class="out">"Escola\Trabalhos",</span><br>
+          &nbsp;&nbsp;<span class="out">"Escola\Curriculo",</span><br>
+          &nbsp;&nbsp;<span class="out">"Pessoal\Fotos",</span><br>
+          &nbsp;&nbsp;<span class="out">"Pessoal\Musicas",</span><br>
+          &nbsp;&nbsp;<span class="out">"Pessoal\Downloads_Organizados",</span><br>
+          &nbsp;&nbsp;<span class="out">"Profissional\Projetos_TI",</span><br>
+          &nbsp;&nbsp;<span class="out">"Profissional\Certificados",</span><br>
+          &nbsp;&nbsp;<span class="out">"Profissional\Scripts"</span><br>
+          <span class="cmd">)</span><br><br>
+          <span class="comment"># Loop: cria cada pasta (e as pai automaticamente)</span><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">foreach ($p in $pastas) {</span><br>
+          &nbsp;&nbsp;<span class="cmd">New-Item -ItemType Directory -Path "$raiz\$p" -Force | Out-Null</span><br>
+          &nbsp;&nbsp;<span class="success">Write-Host "✔ Criada: $p" -ForegroundColor Green</span><br>
+          <span class="cmd">}</span><br><br>
+          <span class="success">✔ Criada: Escola\GSO_I</span><br>
+          <span class="success">✔ Criada: Escola\Matematica</span><br>
+          <span class="success">✔ Criada: Escola\Portugues</span><br>
+          <span class="success">✔ Criada: Escola\Trabalhos</span><br>
+          <span class="success">✔ Criada: Escola\Curriculo</span><br>
+          <span class="success">✔ Criada: Pessoal\Fotos</span><br>
+          <span class="success">✔ Criada: Pessoal\Musicas</span><br>
+          <span class="success">✔ Criada: Pessoal\Downloads_Organizados</span><br>
+          <span class="success">✔ Criada: Profissional\Projetos_TI</span><br>
+          <span class="success">✔ Criada: Profissional\Certificados</span><br>
+          <span class="success">✔ Criada: Profissional\Scripts</span>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+          <div class="terminal-label">Verificar o que foi criado</div>
+        </div>
+        <div class="terminal-body">
+          <span class="comment"># Ver a estrutura completa em árvore</span><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">tree "$raiz"</span><br><br>
+          <span class="comment"># Contar quantas pastas foram criadas</span><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">(Get-ChildItem "$raiz" -Recurse -Directory).Count</span><br>
+          <span class="out">11</span><br><br>
+          <span class="comment"># Abrir a pasta no Explorer</span><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">explorer "$raiz"</span>
+        </div>
+      </div>
+
+      <div class="alert alert-green">
+        <div class="alert-icon">💡</div>
+        <div class="alert-text"><strong>Dica Pro:</strong> O parâmetro <code>-Force</code> evita erros caso a pasta já exista. O <code>| Out-Null</code> esconde a saída verbosa do comando, deixando o terminal mais limpo.</div>
+      </div>
+
+      <!-- QUIZ F1 -->
+      <div class="quiz-section" style="margin-top:20px;">
+        <div class="quiz-title">🎯 Mini-Quiz — Fase 1 <span style="font-size:.7em;color:var(--amber);font-family:'JetBrains Mono',monospace;">+30 XP</span></div>
+        <div class="quiz-q" id="q1">
+          <p>Qual flag do <code>New-Item</code> evita erros quando a pasta já existe?</p>
+          <div class="quiz-options">
+            <div class="quiz-opt" onclick="checkQ('q1',this,false)">⬡ -Override</div>
+            <div class="quiz-opt" onclick="checkQ('q1',this,false)">⬡ -SkipErrors</div>
+            <div class="quiz-opt" onclick="checkQ('q1',this,true)">⬡ -Force</div>
+            <div class="quiz-opt" onclick="checkQ('q1',this,false)">⬡ -Quiet</div>
+          </div>
+          <div class="quiz-feedback" id="q1-fb"></div>
+        </div>
+        <div class="quiz-q" id="q2">
+          <p>Qual comando abre o Explorador de Arquivos direto em uma pasta pelo PowerShell?</p>
+          <div class="quiz-options">
+            <div class="quiz-opt" onclick="checkQ('q2',this,false)">⬡ open "caminho"</div>
+            <div class="quiz-opt" onclick="checkQ('q2',this,true)">⬡ explorer "caminho"</div>
+            <div class="quiz-opt" onclick="checkQ('q2',this,false)">⬡ start-folder "caminho"</div>
+            <div class="quiz-opt" onclick="checkQ('q2',this,false)">⬡ cd "caminho"</div>
+          </div>
+          <div class="quiz-feedback" id="q2-fb"></div>
+        </div>
+      </div>
+
+      <div class="achievement" id="ach1" style="display:none;">
+        <div class="ach-icon">🏆</div>
+        <div class="ach-info">
+          <h4>Conquista Desbloqueada: Mestre do Terminal!</h4>
+          <p>Você criou 11 pastas com apenas 10 linhas de PowerShell</p>
+        </div>
+        <div class="ach-xp">+100 XP</div>
+      </div>
+      <button class="nav-btn nav-btn-primary" style="margin-top:16px;border:none;cursor:pointer;" onclick="completePhase(0,'Fase 1 concluída! PowerShell dominado! 🎉')">✔ Concluir Fase 1</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FASE 2 — Windows 11 -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="fase2" class="section-anchor">
+    <div class="phase-header">
+      <div class="phase-num">2</div>
+      <div class="phase-info">
+        <h3>🖥️ Fase 2 — Mesma Estrutura no Windows 11</h3>
+        <p>Criar as mesmas pastas clicando com o mouse no Explorador de Arquivos</p>
+      </div>
+      <div class="phase-xp">+100 XP</div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-title">🖱️ Criando Pastas pelo Windows 11</div>
+      <div class="theory">
+        Nem sempre você terá acesso ao PowerShell — por exemplo, em computadores bloqueados de escola ou trabalho. Saber criar pastas pelo <strong>Explorador de Arquivos</strong> é habilidade essencial. Compare: o que o PowerShell fez em 3 segundos, o Explorer levará ~2 minutos — mas o resultado é idêntico!
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num blue">1</div></div>
+          <div class="step-body">
+            <h4>Abrir o Explorador de Arquivos</h4>
+            <p>Pressione <kbd>Win + E</kbd> — o Explorador abre instantaneamente. Na barra lateral esquerda, clique em <strong>Documentos</strong>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num blue">2</div></div>
+          <div class="step-body">
+            <h4>Criar a pasta raiz "MeuOrganizador"</h4>
+            <p>Dentro de Documentos: clique com o botão direito em área vazia → <strong>Novo → Pasta</strong>. Digite <code>MeuOrganizador</code> e pressione <kbd>Enter</kbd>.</p>
+            <div class="win11">
+              <div class="win11-bar">
+                <div class="win11-btn win11-btn-red"></div><div class="win11-btn win11-btn-yellow"></div><div class="win11-btn win11-btn-green"></div>
+                <div class="win11-title">Explorador de Arquivos</div>
+                <div class="win11-addr">Este Computador › Documentos</div>
+              </div>
+              <div class="win11-body">
+                <div class="win11-path">📍 C:\Users\Aluno\Documentos\</div>
+                <div class="win11-grid">
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">MeuOrganizador</div></div>
+                  <div class="win11-folder" style="border-style:dashed;border-color:rgba(34,197,94,.4);"><div class="win11-icon">➕</div><div class="win11-name" style="color:#22c55e;">Nova Pasta…</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num blue">3</div></div>
+          <div class="step-body">
+            <h4>Criar as 3 pastas principais</h4>
+            <p>Abra <code>MeuOrganizador</code> com duplo clique. Repita o passo anterior 3 vezes para criar: <code>Escola</code>, <code>Pessoal</code> e <code>Profissional</code>.</p>
+            <div class="win11">
+              <div class="win11-bar">
+                <div class="win11-btn win11-btn-red"></div><div class="win11-btn win11-btn-yellow"></div><div class="win11-btn win11-btn-green"></div>
+                <div class="win11-title">Explorador de Arquivos</div>
+                <div class="win11-addr">… › Documentos › MeuOrganizador</div>
+              </div>
+              <div class="win11-body">
+                <div class="win11-path">📍 C:\Users\Aluno\Documentos\MeuOrganizador\</div>
+                <div class="win11-grid">
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">Escola</div></div>
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">Pessoal</div></div>
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">Profissional</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num blue">4</div></div>
+          <div class="step-body">
+            <h4>Criar subpastas dentro de "Escola"</h4>
+            <p>Abra a pasta <code>Escola</code> com duplo clique. Crie dentro dela: <code>GSO_I</code>, <code>Matematica</code>, <code>Portugues</code>, <code>Trabalhos</code> e <code>Curriculo</code>.</p>
+            <div class="win11">
+              <div class="win11-bar">
+                <div class="win11-btn win11-btn-red"></div><div class="win11-btn win11-btn-yellow"></div><div class="win11-btn win11-btn-green"></div>
+                <div class="win11-title">Explorador de Arquivos</div>
+                <div class="win11-addr">… › MeuOrganizador › Escola</div>
+              </div>
+              <div class="win11-body">
+                <div class="win11-path">📍 …\MeuOrganizador\Escola\</div>
+                <div class="win11-grid">
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">GSO_I</div></div>
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">Matematica</div></div>
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">Portugues</div></div>
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">Trabalhos</div></div>
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">Curriculo</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num blue">5</div></div>
+          <div class="step-body">
+            <h4>Repetir para "Pessoal" e "Profissional"</h4>
+            <p>Navegue até <code>Pessoal</code> e crie: <code>Fotos</code>, <code>Musicas</code>, <code>Downloads_Organizados</code>. Depois vá a <code>Profissional</code> e crie: <code>Projetos_TI</code>, <code>Certificados</code>, <code>Scripts</code>.</p>
+            <div class="alert alert-blue">
+              <div class="alert-icon">⌨️</div>
+              <div class="alert-text"><strong>Atalho útil:</strong> Dentro do Explorer, pressione <kbd>Ctrl+Shift+N</kbd> para criar uma nova pasta sem precisar do clique direito.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-amber" style="margin-top:16px;">
+        <div class="alert-icon">🔍</div>
+        <div class="alert-text"><strong>Compare os métodos:</strong> PowerShell criou 11 subpastas com 1 script. No Explorer foram ~15 cliques. Para tarefas únicas → Explorer. Para tarefas repetidas ou em massa → PowerShell sempre!</div>
+      </div>
+
+      <button class="nav-btn nav-btn-primary" style="margin-top:16px;border:none;cursor:pointer;" onclick="completePhase(1,'Fase 2 concluída! Windows 11 dominado! 🖥️')">✔ Concluir Fase 2</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FASE 3 — Google Drive -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="fase3" class="section-anchor">
+    <div class="phase-header">
+      <div class="phase-num">3</div>
+      <div class="phase-info">
+        <h3>☁️ Fase 3 — Mesma Estrutura no Google Drive</h3>
+        <p>Nuvem: acesse seus arquivos de qualquer lugar, qualquer dispositivo</p>
+      </div>
+      <div class="phase-xp">+100 XP</div>
+    </div>
+
+    <div class="card google">
+      <div class="card-title">☁️ O que é o Google Drive?</div>
+      <div class="theory">
+        O <strong>Google Drive</strong> é um serviço de armazenamento em nuvem — seus arquivos ficam salvos nos servidores do Google e você acessa de qualquer lugar. Com uma conta Gmail você já tem <strong>15 GB gratuitos</strong>. É ideal para backups, colaboração e acesso remoto.
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num google">1</div></div>
+          <div class="step-body">
+            <h4>Acessar o Google Drive</h4>
+            <p>Abra o navegador e acesse <strong>drive.google.com</strong>. Faça login com sua conta Google (Gmail). Você verá a tela inicial do Drive, com "Meu Drive" no painel esquerdo.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num google">2</div></div>
+          <div class="step-body">
+            <h4>Criar a pasta raiz no Drive</h4>
+            <p>No canto superior esquerdo, clique em <strong>+ Novo → Pasta</strong>. Digite <code>MeuOrganizador</code> e clique em <strong>Criar</strong>.</p>
+            <div class="gdrive">
+              <div class="gdrive-bar">
+                <div class="gdrive-logo">🔺 Drive</div>
+                <div class="gdrive-search">🔍 Pesquisar no Drive...</div>
+              </div>
+              <div class="gdrive-body">
+                <div class="gdrive-folder-row">
+                  <div class="gi">📁</div>
+                  <div class="gdrive-folder-name">MeuOrganizador</div>
+                  <div class="gdrive-folder-sub">Agora</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num google">3</div></div>
+          <div class="step-body">
+            <h4>Criar subpastas — mesmo processo</h4>
+            <p>Abra a pasta <code>MeuOrganizador</code> com duplo clique. Clique em <strong>+ Novo → Pasta</strong> para cada pasta: <code>Escola</code>, <code>Pessoal</code>, <code>Profissional</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num google">4</div></div>
+          <div class="step-body">
+            <h4>Criar subpastas dentro de cada pasta</h4>
+            <p>Abra <code>Escola</code> → crie: <code>GSO_I</code>, <code>Matematica</code>, <code>Portugues</code>, <code>Trabalhos</code>, <code>Curriculo</code>. Depois faça o mesmo em <code>Pessoal</code> e <code>Profissional</code>.</p>
+            <div class="gdrive">
+              <div class="gdrive-bar">
+                <div class="gdrive-logo">🔺 Drive</div>
+                <div class="gdrive-search">📁 MeuOrganizador › Escola</div>
+              </div>
+              <div class="gdrive-body">
+                <div class="gdrive-folder-row"><div class="gi">📁</div><div class="gdrive-folder-name">GSO_I</div><div class="gdrive-folder-sub">Agora</div></div>
+                <div class="gdrive-folder-row"><div class="gi">📁</div><div class="gdrive-folder-name">Matematica</div><div class="gdrive-folder-sub">Agora</div></div>
+                <div class="gdrive-folder-row"><div class="gi">📁</div><div class="gdrive-folder-name">Portugues</div><div class="gdrive-folder-sub">Agora</div></div>
+                <div class="gdrive-folder-row"><div class="gi">📁</div><div class="gdrive-folder-name">Trabalhos</div><div class="gdrive-folder-sub">Agora</div></div>
+                <div class="gdrive-folder-row"><div class="gi">📁</div><div class="gdrive-folder-name">Curriculo</div><div class="gdrive-folder-sub">Agora</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num google">5</div></div>
+          <div class="step-body">
+            <h4>Verificar estrutura completa</h4>
+            <p>Clique em <strong>Meu Drive</strong> na barra lateral para ver a visão geral. Use a setinha ▶ ao lado de cada pasta para expandir a árvore.</p>
+            <div class="gdrive">
+              <div class="gdrive-bar">
+                <div class="gdrive-logo">🔺 Meu Drive</div>
+              </div>
+              <div class="gdrive-body">
+                <div class="gdrive-folder-row"><div class="gi">▼📁</div><div class="gdrive-folder-name">MeuOrganizador</div></div>
+                <div class="gdrive-sub-row">
+                  <div class="gdrive-folder-row"><div class="gi">▼📁</div><div class="gdrive-folder-name">Escola</div></div>
+                  <div class="gdrive-sub-row">
+                    <div class="gdrive-folder-row"><div class="gi">📁</div><div class="gdrive-folder-name">GSO_I</div></div>
+                    <div class="gdrive-folder-row"><div class="gi">📁</div><div class="gdrive-folder-name">Matematica</div></div>
+                    <div class="gdrive-folder-row"><div class="gi">📁</div><div class="gdrive-folder-name">Curriculo</div></div>
+                  </div>
+                  <div class="gdrive-folder-row"><div class="gi">▶📁</div><div class="gdrive-folder-name">Pessoal</div></div>
+                  <div class="gdrive-folder-row"><div class="gi">▶📁</div><div class="gdrive-folder-name">Profissional</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-green">
+        <div class="alert-icon">☁️</div>
+        <div class="alert-text"><strong>Vantagem do Drive:</strong> Ao contrário do HD local, o Drive faz backup automático. Se o computador quebrar ou for roubado, seus arquivos estão seguros na nuvem!</div>
+      </div>
+
+      <button class="nav-btn nav-btn-primary" style="margin-top:16px;border:none;cursor:pointer;background:linear-gradient(135deg,#1a73e8,#4285f4);" onclick="completePhase(2,'Fase 3 concluída! Na nuvem! ☁️')">✔ Concluir Fase 3</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FASE 4 — ZIP -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="fase4" class="section-anchor">
+    <div class="phase-header">
+      <div class="phase-num">4</div>
+      <div class="phase-info">
+        <h3>🗜️ Fase 4 — Compactar a Pasta em ZIP</h3>
+        <p>Compressão: agrupe e reduza arquivos para enviar facilmente</p>
+      </div>
+      <div class="phase-xp">+100 XP</div>
+    </div>
+
+    <div class="card amber">
+      <div class="card-title">📦 O que é um arquivo ZIP?</div>
+      <div class="theory">
+        Um arquivo <strong>.zip</strong> agrupa múltiplos arquivos e pastas em um único arquivo compactado. Isso facilita o envio por e-mail (1 arquivo em vez de muitos) e reduz o tamanho. O Windows 11 cria e extrai ZIP de forma nativa — sem instalar nada.
+      </div>
+
+      <div class="card-title" style="margin-top:20px;">🖱️ Método 1 — Explorador de Arquivos (mais fácil)</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num amber">1</div></div>
+          <div class="step-body">
+            <h4>Localizar a pasta</h4>
+            <p>Abra o Explorador de Arquivos (<kbd>Win+E</kbd>). Navegue até <code>Documentos\MeuOrganizador</code> e clique <strong>uma vez</strong> na pasta para selecioná-la (não abrir).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num amber">2</div></div>
+          <div class="step-body">
+            <h4>Compactar</h4>
+            <p>Clique com o botão direito na pasta selecionada → <strong>Compactar em arquivo ZIP</strong>. No Windows 11, essa opção aparece diretamente no menu ou dentro de "Mostrar mais opções" → "Enviar para" → "Pasta compactada".</p>
+            <div class="win11">
+              <div class="win11-bar">
+                <div class="win11-btn win11-btn-red"></div><div class="win11-btn win11-btn-yellow"></div><div class="win11-btn win11-btn-green"></div>
+                <div class="win11-title">Menu de contexto — Botão direito</div>
+              </div>
+              <div class="win11-body">
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 0;max-width:240px;">
+                  <div style="padding:8px 16px;font-size:.83em;color:var(--text-dim);display:flex;align-items:center;gap:10px;">📋 Copiar</div>
+                  <div style="padding:8px 16px;font-size:.83em;color:var(--text-dim);display:flex;align-items:center;gap:10px;">✂️ Recortar</div>
+                  <div style="height:1px;background:var(--border);margin:4px 0;"></div>
+                  <div style="padding:8px 16px;font-size:.83em;color:#22c55e;font-weight:700;display:flex;align-items:center;gap:10px;background:rgba(34,197,94,.08);">🗜️ Compactar em arquivo ZIP ◄</div>
+                  <div style="padding:8px 16px;font-size:.83em;color:var(--text-dim);display:flex;align-items:center;gap:10px;">🗑️ Excluir</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num amber">3</div></div>
+          <div class="step-body">
+            <h4>Nomear o arquivo ZIP</h4>
+            <p>O Windows vai criar um arquivo chamado <code>MeuOrganizador.zip</code> na mesma pasta. Você pode renomear para algo mais descritivo como <code>MeuOrganizador_2026.zip</code>.</p>
+            <div class="win11">
+              <div class="win11-bar">
+                <div class="win11-btn win11-btn-red"></div><div class="win11-btn win11-btn-yellow"></div><div class="win11-btn win11-btn-green"></div>
+                <div class="win11-title">Resultado na pasta Documentos</div>
+              </div>
+              <div class="win11-body">
+                <div class="win11-grid">
+                  <div class="win11-folder"><div class="win11-icon">📁</div><div class="win11-name">MeuOrganizador</div></div>
+                  <div class="win11-folder" style="border-color:rgba(245,158,11,.4);"><div class="win11-icon">🗜️</div><div class="win11-name" style="color:var(--amber);">MeuOrganizador.zip</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-title" style="margin-top:24px;">💻 Método 2 — PowerShell (mais rápido)</div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+          <div class="terminal-label">PowerShell — Compactar com Compress-Archive</div>
+        </div>
+        <div class="terminal-body">
+          <span class="comment"># Compactar a pasta em ZIP com PowerShell</span><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">$origem = "$env:USERPROFILE\Documentos\MeuOrganizador"</span><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">$destino = "$env:USERPROFILE\Documentos\MeuOrganizador_2026.zip"</span><br><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">Compress-Archive -Path $origem -DestinationPath $destino -Force</span><br><br>
+          <span class="success"># Verificar tamanho do arquivo ZIP criado</span><br>
+          <span class="prompt">PS&gt;</span> <span class="cmd">(Get-Item $destino).length / 1KB</span><br>
+          <span class="out">2.34  ← tamanho em KB</span>
+        </div>
+      </div>
+
+      <div class="alert alert-amber">
+        <div class="alert-icon">📏</div>
+        <div class="alert-text"><strong>Por que o ZIP é pequeno?</strong> Pastas vazias comprimem quase 100%. À medida que você adicionar arquivos, o ZIP crescerá, mas sempre menor que o original — especialmente com documentos de texto.</div>
+      </div>
+
+      <button class="nav-btn nav-btn-primary" style="margin-top:16px;border:none;cursor:pointer;background:linear-gradient(135deg,#92400e,#f59e0b);" onclick="completePhase(3,'Fase 4 concluída! ZIP criado! 🗜️')">✔ Concluir Fase 4</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FASE 5 — E-MAIL -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="fase5" class="section-anchor">
+    <div class="phase-header">
+      <div class="phase-num">5</div>
+      <div class="phase-info">
+        <h3>📧 Fase 5 — Enviar o ZIP por E-mail</h3>
+        <p>Gmail: anexar o arquivo compactado e enviar profissionalmente</p>
+      </div>
+      <div class="phase-xp">+100 XP</div>
+    </div>
+
+    <div class="card teal">
+      <div class="card-title">📨 Enviando o ZIP pelo Gmail</div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num teal">1</div></div>
+          <div class="step-body">
+            <h4>Abrir o Gmail</h4>
+            <p>Acesse <strong>gmail.com</strong> no navegador e faça login. Clique no botão vermelho <strong>"+ Escrever"</strong> (ou "+ Novo e-mail") no canto superior esquerdo.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num teal">2</div></div>
+          <div class="step-body">
+            <h4>Preencher destinatário e assunto</h4>
+            <p>No campo <strong>"Para"</strong> digite o e-mail do destinatário (pode ser o do professor ou um e-mail próprio para teste). No campo <strong>"Assunto"</strong> escreva algo profissional.</p>
+            <div class="email-mock">
+              <div class="email-bar"><strong>✏️ Nova Mensagem</strong></div>
+              <div class="email-body-inner">
+                <div class="email-field"><label>Para:</label><span>professor@escola.com.br</span></div>
+                <div class="email-field"><label>Assunto:</label><span class="email-subj">Entrega — Estrutura de Pastas · GSO I 2026</span></div>
+                <div class="email-content">
+                  Boa tarde, Professor,<br><br>
+                  Segue em anexo a estrutura de pastas organizada criada com PowerShell e Windows 11, conforme atividade da Semana 05-B.<br><br>
+                  Atenciosamente,<br>
+                  <strong>[Seu Nome] — Turma de TI</strong>
+                </div>
+                <div class="attach-tag">📎 MeuOrganizador_2026.zip &nbsp;·&nbsp; 2,3 KB</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num teal">3</div></div>
+          <div class="step-body">
+            <h4>Anexar o arquivo ZIP</h4>
+            <p>Na barra inferior da janela de composição, clique no ícone de <strong>clipe 📎</strong>. Navegue até <code>Documentos\MeuOrganizador_2026.zip</code> e clique em <strong>Abrir</strong>. Aguarde o upload completar.</p>
+            <div class="alert alert-green">
+              <div class="alert-icon">📎</div>
+              <div class="alert-text"><strong>Limite do Gmail:</strong> E-mails com anexos de até <strong>25 MB</strong> são enviados diretamente. Arquivos maiores são automaticamente enviados como link do Google Drive.</div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num teal">4</div></div>
+          <div class="step-body">
+            <h4>Enviar o e-mail</h4>
+            <p>Revise tudo (destinatário, assunto, corpo do texto, anexo) e clique no botão azul <strong>"Enviar"</strong>. Uma mensagem de confirmação aparecerá na parte inferior da tela.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="nav-btn nav-btn-primary" style="margin-top:16px;border:none;cursor:pointer;background:linear-gradient(135deg,#0e7490,#14b8a6);" onclick="completePhase(4,'Fase 5 concluída! E-mail enviado! 📧')">✔ Concluir Fase 5</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FASE 6 — DOWNLOAD & DESCOMPACTAR -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="fase6" class="section-anchor">
+    <div class="phase-header">
+      <div class="phase-num">6</div>
+      <div class="phase-info">
+        <h3>📥 Fase 6 — Itens Enviados: Baixar e Descompactar</h3>
+        <p>Simule a perspectiva do destinatário: baixe e extraia o ZIP recebido</p>
+      </div>
+      <div class="phase-xp">+100 XP</div>
+    </div>
+
+    <div class="card purple">
+      <div class="card-title">📬 Acessando os Itens Enviados</div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num purple">1</div></div>
+          <div class="step-body">
+            <h4>Ir em "Enviados" no Gmail</h4>
+            <p>No painel esquerdo do Gmail, clique em <strong>"Enviados"</strong> (ou "Sent"). Localize o e-mail que você acabou de enviar — estará no topo da lista.</p>
+            <div class="email-mock">
+              <div class="email-bar"><strong>📤 Itens Enviados</strong></div>
+              <div class="email-body-inner">
+                <div style="background:#f0f9ff;border-radius:8px;padding:12px 14px;border-left:3px solid #1a73e8;">
+                  <div style="font-size:.85em;font-weight:600;color:#202124;">📎 Entrega — Estrutura de Pastas · GSO I 2026</div>
+                  <div style="font-size:.78em;color:#5f6368;margin-top:4px;">Para: professor@escola.com.br · Agora · 2,3 KB</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num purple">2</div></div>
+          <div class="step-body">
+            <h4>Abrir o e-mail e baixar o anexo</h4>
+            <p>Clique no e-mail para abri-lo. Role até o anexo <code>MeuOrganizador_2026.zip</code>. Passe o mouse sobre o anexo e clique no ícone de <strong>download ⬇</strong>. O arquivo será salvo na pasta Downloads.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num purple">3</div></div>
+          <div class="step-body">
+            <h4>Localizar o arquivo baixado</h4>
+            <p>Abra o Explorador de Arquivos (<kbd>Win+E</kbd>) → clique em <strong>Downloads</strong> no painel esquerdo. Você verá o arquivo <code>MeuOrganizador_2026.zip</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num purple">4</div></div>
+          <div class="step-body">
+            <h4>Descompactar — Método Explorer</h4>
+            <p>Clique com o botão direito no arquivo .zip → <strong>"Extrair Tudo..."</strong>. Na janela que abrir, clique em <strong>Procurar</strong> para escolher onde extrair (ex: Desktop) e depois clique em <strong>Extrair</strong>.</p>
+            <div class="win11">
+              <div class="win11-bar">
+                <div class="win11-btn win11-btn-red"></div><div class="win11-btn win11-btn-yellow"></div><div class="win11-btn win11-btn-green"></div>
+                <div class="win11-title">Extrair Pasta Compactada</div>
+              </div>
+              <div class="win11-body">
+                <div style="font-size:.85em;color:var(--text-dim);margin-bottom:10px;">Selecione um destino e extraia os arquivos</div>
+                <div style="background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:.78em;color:var(--amber);margin-bottom:10px;">C:\Users\Aluno\Desktop\</div>
+                <div style="display:flex;gap:8px;">
+                  <div class="nav-btn nav-btn-primary" style="font-size:.8em;padding:7px 16px;">✔ Extrair</div>
+                  <div style="font-size:.8em;padding:7px 16px;border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text-dim);">Cancelar</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num purple">5</div></div>
+          <div class="step-body">
+            <h4>Descompactar — Método PowerShell</h4>
+            <div class="terminal">
+              <div class="terminal-bar">
+                <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                <div class="terminal-label">PowerShell — Expand-Archive</div>
+              </div>
+              <div class="terminal-body">
+                <span class="comment"># Extrair o ZIP para a Área de Trabalho</span><br>
+                <span class="prompt">PS&gt;</span> <span class="cmd">$zip = "$env:USERPROFILE\Downloads\MeuOrganizador_2026.zip"</span><br>
+                <span class="prompt">PS&gt;</span> <span class="cmd">$destino = "$env:USERPROFILE\Desktop\MeuOrganizador_Extraido"</span><br><br>
+                <span class="prompt">PS&gt;</span> <span class="cmd">Expand-Archive -Path $zip -DestinationPath $destino -Force</span><br><br>
+                <span class="success"># Verificar estrutura extraída</span><br>
+                <span class="prompt">PS&gt;</span> <span class="cmd">tree $destino</span><br>
+                <span class="out">MeuOrganizador_Extraido</span><br>
+                <span class="out">└── MeuOrganizador</span><br>
+                <span class="out">&nbsp;&nbsp;&nbsp;&nbsp;├── Escola</span><br>
+                <span class="out">&nbsp;&nbsp;&nbsp;&nbsp;├── Pessoal</span><br>
+                <span class="out">&nbsp;&nbsp;&nbsp;&nbsp;└── Profissional</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-green">
+        <div class="alert-icon">✅</div>
+        <div class="alert-text"><strong>Ciclo completo!</strong> Você criou as pastas → compactou → enviou por e-mail → baixou → extraiu. Esse é exatamente o fluxo de trabalho usado por profissionais de TI diariamente!</div>
+      </div>
+
+      <button class="nav-btn nav-btn-primary" style="margin-top:16px;border:none;cursor:pointer;background:linear-gradient(135deg,#6d28d9,#a855f7);" onclick="completePhase(5,'Fase 6 concluída! ZIP extraído! 📥')">✔ Concluir Fase 6</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FASE 7 — CURRÍCULO -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="fase7" class="section-anchor">
+    <div class="phase-header">
+      <div class="phase-num">7</div>
+      <div class="phase-info">
+        <h3>📄 Fase 7 — Enviar o Currículo por E-mail</h3>
+        <p>Missão final: e-mail profissional com currículo anexado</p>
+      </div>
+      <div class="phase-xp">+100 XP 🏆 BOSS</div>
+    </div>
+
+    <div class="card green">
+      <div class="card-title">🎯 E-mail Profissional com Currículo</div>
+      <div class="theory">
+        Enviar um currículo por e-mail parece simples, mas há erros comuns que eliminam candidatos antes mesmo da leitura. Veja o modelo correto e os principais erros a evitar.
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num green">1</div></div>
+          <div class="step-body">
+            <h4>Preparar o arquivo do currículo</h4>
+            <p>Salve seu currículo em <strong>PDF</strong> (formato universal — qualquer computador abre igual). Nomeie assim: <code>Curriculo_SeuNome_2026.pdf</code>. Evite nomes genéricos como "curriculo_final_v3_DEFINITIVO.docx" — passa má impressão.</p>
+            <div class="alert alert-blue">
+              <div class="alert-icon">📄</div>
+              <div class="alert-text"><strong>Como salvar em PDF no Word:</strong> Arquivo → Salvar Como → Tipo: PDF. No Google Docs: Arquivo → Fazer Download → PDF.</div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num green">2</div></div>
+          <div class="step-body">
+            <h4>Redigir o e-mail de apresentação</h4>
+            <p>O corpo do e-mail deve ser curto, profissional e direto. Veja o modelo abaixo:</p>
+            <div class="email-mock">
+              <div class="email-bar"><strong>✏️ Nova Mensagem — Currículo</strong></div>
+              <div class="email-body-inner">
+                <div class="email-field"><label>Para:</label><span>rh@empresa.com.br</span></div>
+                <div class="email-field"><label>Assunto:</label><span class="email-subj">Candidatura — Técnico em Informática · [Seu Nome]</span></div>
+                <div class="email-content">
+                  Bom dia,<br><br>
+                  Meu nome é <strong>[Seu Nome]</strong> e tenho interesse na vaga de <strong>Técnico em Informática</strong> anunciada em [plataforma/indicação].<br><br>
+                  Sou estudante do curso Técnico em Informática no Centro Paula Souza e tenho conhecimentos em Windows, PowerShell, organização de sistemas operacionais e suporte básico.<br><br>
+                  Segue meu currículo em anexo para sua apreciação. Fico à disposição para entrevista.<br><br>
+                  Atenciosamente,<br>
+                  <strong>[Seu Nome]</strong><br>
+                  📱 (XX) 9XXXX-XXXX<br>
+                  📧 seuemail@gmail.com
+                </div>
+                <div class="attach-tag">📎 Curriculo_SeuNome_2026.pdf</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num green">3</div></div>
+          <div class="step-body">
+            <h4>Verificar antes de enviar — Checklist</h4>
+            <ul class="checklist">
+              <li>O assunto está claro e profissional? (não vazio!)</li>
+              <li>O destinatário está correto? (confira duas vezes!)</li>
+              <li>O PDF foi anexado? (erro mais comum)</li>
+              <li>O corpo do texto não tem erros de digitação?</li>
+              <li>Seu nome e contato estão no final do e-mail?</li>
+              <li>O arquivo PDF abre corretamente? (teste antes de enviar)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num green">4</div></div>
+          <div class="step-body">
+            <h4>Enviar e confirmar nos Itens Enviados</h4>
+            <p>Clique <strong>Enviar</strong>. Depois acesse <strong>Itens Enviados</strong> e confirme que o e-mail com o anexo foi entregue corretamente. Pronto — candidatura profissional realizada!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-title" style="margin-top:20px;">🚫 Erros comuns a evitar</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px;">
+        <div class="alert" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);"><div class="alert-icon">❌</div><div class="alert-text" style="color:#fca5a5;"><strong>Assunto vazio</strong> — e-mail vai direto para spam</div></div>
+        <div class="alert" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);"><div class="alert-icon">❌</div><div class="alert-text" style="color:#fca5a5;"><strong>Esquecer o anexo</strong> — o erro mais frequente</div></div>
+        <div class="alert" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);"><div class="alert-icon">❌</div><div class="alert-text" style="color:#fca5a5;"><strong>Arquivo .docx</strong> — pode abrir diferente no computador do RH</div></div>
+        <div class="alert" style="background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);"><div class="alert-icon">❌</div><div class="alert-text" style="color:#fca5a5;"><strong>E-mail informal</strong> — "oi tô mandando meu cv" nunca funciona</div></div>
+      </div>
+
+      <button class="nav-btn nav-btn-primary" style="margin-top:20px;border:none;cursor:pointer;font-size:1em;padding:14px 28px;" onclick="completePhase(6,'🏆 MISSÃO COMPLETA! Você é um técnico de TI! +100 XP BÔNUS!')">🏆 Concluir Missão Final!</button>
+    </div>
+  </div>
+
+  <!-- FINAL QUIZ -->
+  <div class="quiz-section">
+    <div class="quiz-title">🎮 Quiz Final — Revisão Geral <span style="font-size:.7em;color:var(--amber);font-family:'JetBrains Mono',monospace;">+50 XP</span></div>
+    <div class="quiz-q" id="q3">
+      <p>Qual cmdlet do PowerShell compacta uma pasta em ZIP?</p>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="checkQ('q3',this,false)">⬡ Zip-Folder</div>
+        <div class="quiz-opt" onclick="checkQ('q3',this,true)">⬡ Compress-Archive</div>
+        <div class="quiz-opt" onclick="checkQ('q3',this,false)">⬡ Pack-Item</div>
+        <div class="quiz-opt" onclick="checkQ('q3',this,false)">⬡ New-Zip</div>
+      </div>
+      <div class="quiz-feedback" id="q3-fb"></div>
+    </div>
+    <div class="quiz-q" id="q4">
+      <p>Qual formato é mais indicado para enviar um currículo por e-mail?</p>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="checkQ('q4',this,false)">⬡ .docx (Word)</div>
+        <div class="quiz-opt" onclick="checkQ('q4',this,false)">⬡ .txt (Texto)</div>
+        <div class="quiz-opt" onclick="checkQ('q4',this,true)">⬡ .pdf (PDF)</div>
+        <div class="quiz-opt" onclick="checkQ('q4',this,false)">⬡ .zip (Compactado)</div>
+      </div>
+      <div class="quiz-feedback" id="q4-fb"></div>
+    </div>
+    <div class="quiz-q" id="q5">
+      <p>Qual cmdlet PowerShell extrai (descompacta) um arquivo ZIP?</p>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="checkQ('q5',this,false)">⬡ Extract-Archive</div>
+        <div class="quiz-opt" onclick="checkQ('q5',this,false)">⬡ Decompress-Zip</div>
+        <div class="quiz-opt" onclick="checkQ('q5',this,true)">⬡ Expand-Archive</div>
+        <div class="quiz-opt" onclick="checkQ('q5',this,false)">⬡ Unpack-Item</div>
+      </div>
+      <div class="quiz-feedback" id="q5-fb"></div>
+    </div>
+  </div>
+
+  <!-- SUMMARY CARD -->
+  <div class="card green" style="margin-top:8px;">
+    <div class="card-title">📋 Resumo da Aula — Comandos PowerShell</div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+        <div class="terminal-label">Referência rápida — todos os comandos desta aula</div>
+      </div>
+      <div class="terminal-body">
+        <span class="comment">## CRIAR PASTAS ##</span><br>
+        <span class="prompt">PS&gt;</span> <span class="cmd">New-Item -ItemType Directory -Path "C:\caminho\pasta" -Force</span><br>
+        <span class="prompt">PS&gt;</span> <span class="cmd">mkdir "C:\caminho\pasta"</span> <span class="comment"> # atalho</span><br><br>
+        <span class="comment">## VER ESTRUTURA ##</span><br>
+        <span class="prompt">PS&gt;</span> <span class="cmd">tree "C:\caminho"</span><br>
+        <span class="prompt">PS&gt;</span> <span class="cmd">Get-ChildItem "C:\caminho" -Recurse -Directory</span><br><br>
+        <span class="comment">## COMPACTAR ##</span><br>
+        <span class="prompt">PS&gt;</span> <span class="cmd">Compress-Archive -Path "pasta" -DestinationPath "arquivo.zip" -Force</span><br><br>
+        <span class="comment">## DESCOMPACTAR ##</span><br>
+        <span class="prompt">PS&gt;</span> <span class="cmd">Expand-Archive -Path "arquivo.zip" -DestinationPath "destino" -Force</span><br><br>
+        <span class="comment">## ABRIR EXPLORER ##</span><br>
+        <span class="prompt">PS&gt;</span> <span class="cmd">explorer "C:\caminho"</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV BOTTOM -->
+  <div class="nav-row" style="margin-top:28px;">
+    <a href="semana05_aula.html" class="nav-btn nav-btn-ghost">⬅ S05</a>
+    <a href="index.html" class="nav-btn nav-btn-ghost">🏠 Índice</a>
+    <span class="nav-spacer"></span>
+    <a href="semana06_aula.html" class="nav-btn nav-btn-primary">S06 ➡</a>
+  </div>
+
+</main>
+
+<script>
+// ══ XP SYSTEM ══
+let xp = 0;
+const maxXp = 700;
+const phaseXP = [100,100,100,100,100,100,100];
+const phaseDone = [false,false,false,false,false,false,false];
+
+function addXP(amount, msg) {
+  xp = Math.min(xp + amount, maxXp);
+  document.getElementById('xpCounter').textContent = '⚡ ' + xp + ' XP';
+  document.getElementById('xpBar').style.width = (xp / maxXp * 100) + '%';
+  showNotif('⭐', msg || '+' + amount + ' XP!');
+}
+
+function showNotif(icon, text) {
+  const n = document.getElementById('notif');
+  document.getElementById('notif-icon').textContent = icon;
+  document.getElementById('notif-text').textContent = text;
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 3200);
+}
+
+function completePhase(idx, msg) {
+  if (phaseDone[idx]) { showNotif('ℹ️','Fase já concluída!'); return; }
+  phaseDone[idx] = true;
+  addXP(phaseXP[idx], msg);
+
+  // Update progress bar
+  const pt = document.getElementById('pt' + idx);
+  if (pt) { pt.classList.remove('current'); pt.classList.add('done'); }
+  const next = document.getElementById('pt' + (idx+1));
+  if (next) next.classList.add('current');
+
+  // Update phase label
+  const done = phaseDone.filter(Boolean).length;
+  document.getElementById('ptLabel').textContent = 'Fase ' + done + '/7';
+
+  // Show achievement on phase 1
+  if (idx === 0) {
+    const a = document.getElementById('ach1');
+    if (a) a.style.display = 'flex';
+  }
+
+  // Final reward
+  if (phaseDone.every(Boolean)) {
+    setTimeout(() => showNotif('🏆','MISSÃO COMPLETA! Técnico de TI desbloqueado! 🎉'), 1000);
+  }
+}
+
+// ══ QUIZ ══
+const quizXP = {q1:15,q2:15,q3:20,q4:15,q5:15};
+const answered = {};
+
+function checkQ(qid, el, correct) {
+  if (answered[qid]) return;
+  answered[qid] = true;
+  const opts = el.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.classList.add('disabled'));
+  el.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) opts.forEach(o => { if (o.onclick && o.onclick.toString().includes('true')) o.classList.add('correct'); });
+  const fb = document.getElementById(qid + '-fb');
+  fb.classList.add('show', correct ? 'ok' : 'bad');
+  fb.textContent = correct ? '✔ Correto! +' + quizXP[qid] + ' XP' : '✘ Não era essa. Veja a resposta destacada em verde.';
+  if (correct) addXP(quizXP[qid]);
+}
+
+// ══ PHASE NAV HIGHLIGHT ══
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.phase-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+['fase1','fase2','fase3','fase4','fase5','fase6','fase7'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+</script>
+</body>
+</html>
