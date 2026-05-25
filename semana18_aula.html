@@ -3,174 +3,663 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Semana 18 – Configuração de Inicialização e Solução de Problemas | GSO I 2026</title>
+<title>Semana 18 – Inicialização e Solução de Problemas | GSO I 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --dark:#0f172a; --navy:#1e3a5f; --blue:#2a5298; --azure:#3b82f6;
-  --teal:#0891b2; --green:#16a34a; --amber:#d97706; --red:#dc2626;
-  --gray-50:#f8fafc; --gray-100:#f1f5f9; --gray-200:#e2e8f0;
-  --gray-500:#64748b; --gray-700:#334155; --white:#fff;
-  --radius:12px; --radius-sm:8px;
-  --shadow:0 4px 16px rgba(0,0,0,.1);
+  --bg:#0a0e1a;
+  --surface:#111827;
+  --surface2:#1a2236;
+  --surface3:#1e2d47;
+  --border:#253352;
+  --accent:#4f8ef7;
+  --accent2:#7c3aed;
+  --green:#22c55e;
+  --amber:#f59e0b;
+  --red:#ef4444;
+  --teal:#14b8a6;
+  --text:#e2e8f0;
+  --text-muted:#64748b;
+  --text-dim:#94a3b8;
+  --white:#fff;
+  --r:12px;
+  --r-sm:8px;
 }
-body{font-family:'IBM Plex Sans',sans-serif;background:var(--gray-50);color:var(--gray-700);line-height:1.7;}
+html{scroll-behavior:smooth;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-.header{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#2a5298 100%);color:var(--white);padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.3);}
-.header-inner{max-width:1200px;margin:0 auto;padding:18px 32px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-.week-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:5px 14px;font-size:.78em;font-weight:600;white-space:nowrap;font-family:'IBM Plex Mono',monospace;}
-.header-text{flex:1;}
-.header-text h1{font-size:clamp(1.1em,2.5vw,1.7em);font-weight:700;letter-spacing:-.02em;}
-.header-text p{opacity:.7;font-size:.85em;margin-top:3px;}
-.bloco-tag{background:linear-gradient(135deg,var(--teal),var(--azure));border-radius:50px;padding:5px 14px;font-size:.75em;font-weight:600;white-space:nowrap;}
-.avaliacao-badge{background:linear-gradient(135deg,var(--amber),#b45309);border-radius:50px;padding:5px 14px;font-size:.72em;font-weight:700;white-space:nowrap;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+.site-header{background:linear-gradient(135deg,#0a0e1a 0%,#0f1d3a 60%,#1a1040 100%);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;}
+.header-inner{max-width:1100px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.week-pill{font-family:'JetBrains Mono',monospace;font-size:.72em;font-weight:700;padding:4px 12px;border-radius:50px;background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.4);color:var(--accent);}
+.header-titles{flex:1;}
+.header-titles h1{font-family:'Fraunces',serif;font-size:clamp(1.1em,2.5vw,1.6em);font-weight:700;color:var(--white);}
+.header-titles p{font-size:.8em;color:var(--text-muted);margin-top:2px;}
+.bloco-pill{font-size:.72em;font-weight:600;padding:4px 12px;border-radius:50px;background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);color:#a78bfa;white-space:nowrap;}
+.progress-bar{height:3px;background:var(--border);}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:90%;}
 
-.container{max-width:1200px;margin:0 auto;padding:28px 32px;}
+.page{max-width:1100px;margin:0 auto;padding:32px 28px;}
 
-.card{background:var(--white);border-radius:var(--radius);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--gray-200);transition:box-shadow .2s;}
-.card:hover{box-shadow:0 8px 28px rgba(0,0,0,.14);}
-.card-title{font-size:1.25em;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--gray-100);}
-
-.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;}
-.obj-item{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-radius:var(--radius-sm);padding:14px;display:flex;gap:10px;align-items:flex-start;}
-.obj-num{width:22px;height:22px;background:var(--blue);color:var(--white);border-radius:50%;font-size:.72em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
-.obj-text{font-size:.9em;font-weight:500;color:var(--navy);}
-
-.teoria-item{background:var(--gray-50);border-radius:var(--radius-sm);padding:18px 22px;margin-bottom:14px;border-left:4px solid var(--teal);}
-.teoria-item h3{color:var(--navy);font-size:1em;font-weight:700;margin-bottom:6px;}
-.teoria-item p{color:var(--gray-500);font-size:.92em;}
-
-.ex-card{border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:18px;margin-bottom:14px;position:relative;overflow:hidden;}
-.ex-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--blue),var(--teal));}
-.ex-card.avaliacao-card::before{background:linear-gradient(180deg,var(--amber),var(--red));}
-.ex-card.avaliacao-card{background:linear-gradient(135deg,#fefce8,#fff7ed);border-color:#fde68a;}
-.ex-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--navy);color:var(--white);border-radius:50%;font-size:.78em;font-weight:700;margin-bottom:7px;}
-.ex-title{font-size:1em;font-weight:700;color:var(--navy);margin-bottom:4px;}
-.ex-meta{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
-.ex-tag{background:var(--gray-100);border-radius:50px;padding:2px 9px;font-size:.76em;font-weight:500;color:var(--gray-500);}
-.ex-desc{color:var(--gray-500);font-size:.9em;}
-
-.nav-bar{background:var(--white);border-radius:var(--radius);padding:16px 22px;box-shadow:var(--shadow);border:1px solid var(--gray-200);display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:20px;}
-.nav-btn{padding:9px 18px;border-radius:var(--radius-sm);text-decoration:none;font-weight:600;font-size:.88em;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
-.btn-primary{background:linear-gradient(135deg,var(--navy),var(--blue));color:var(--white);box-shadow:0 2px 8px rgba(30,58,95,.3);}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(30,58,95,.4);}
-.btn-secondary{background:var(--gray-100);color:var(--gray-700);border:1px solid var(--gray-200);}
-.btn-secondary:hover{background:var(--gray-200);}
-.btn-green{background:linear-gradient(135deg,var(--green),#15803d);color:var(--white);}
-.btn-disabled{opacity:.4;pointer-events:none;background:var(--gray-100);color:var(--gray-500);}
+.nav-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:32px;}
+.nav-btn{padding:9px 20px;border-radius:var(--r-sm);text-decoration:none;font-weight:600;font-size:.85em;transition:all .2s;display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;}
+.nav-btn-ghost{background:var(--surface);border-color:var(--border);color:var(--text-dim);}
+.nav-btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn-primary{background:linear-gradient(135deg,#2563eb,#4f8ef7);color:var(--white);box-shadow:0 4px 16px rgba(79,142,247,.3);}
+.nav-btn-primary:hover{transform:translateY(-2px);}
+.nav-btn-green{background:linear-gradient(135deg,#15803d,#22c55e);color:var(--white);}
 .nav-spacer{flex:1;}
 
-@media(max-width:768px){.container{padding:14px;}.card{padding:18px;}.obj-grid{grid-template-columns:1fr;}.nav-bar{gap:7px;}.nav-btn{padding:7px 12px;font-size:.82em;}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:24px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.card.accent-blue::before{background:linear-gradient(90deg,var(--accent2),var(--accent));}
+.card.accent-green::before{background:linear-gradient(90deg,var(--green),var(--teal));}
+.card.accent-amber::before{background:linear-gradient(90deg,var(--amber),#f97316);}
+.card.accent-red::before{background:linear-gradient(90deg,var(--red),var(--amber));}
+.card-title{font-family:'Fraunces',serif;font-size:1.3em;font-weight:700;color:var(--white);display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+
+.review-banner{background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(79,142,247,.1));border:1px solid rgba(124,58,237,.35);border-radius:var(--r);padding:24px 28px;margin-bottom:24px;}
+.review-tag{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.72em;font-weight:700;padding:4px 12px;border-radius:50px;background:rgba(124,58,237,.3);color:#c4b5fd;margin-bottom:12px;}
+.review-banner h2{font-family:'Fraunces',serif;font-size:1.3em;color:var(--white);margin-bottom:10px;}
+.review-banner p{font-size:.92em;color:var(--text-dim);margin-bottom:16px;}
+.ps-commands{display:flex;flex-wrap:wrap;gap:8px;}
+.ps-cmd{font-family:'JetBrains Mono',monospace;font-size:.8em;padding:6px 12px;background:rgba(0,0,0,.4);border:1px solid rgba(124,58,237,.3);border-radius:var(--r-sm);color:#c4b5fd;}
+
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+.obj-item{background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.2);border-radius:var(--r-sm);padding:14px 16px;display:flex;gap:10px;align-items:flex-start;}
+.obj-num{width:24px;height:24px;background:linear-gradient(135deg,var(--accent2),var(--accent));color:var(--white);border-radius:50%;font-size:.72em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.obj-text{font-size:.88em;font-weight:500;color:var(--text-dim);}
+
+.step-section{margin-bottom:40px;}
+.step-section-title{font-family:'Fraunces',serif;font-size:1.1em;color:var(--white);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.badge{font-family:'JetBrains Mono',monospace;font-size:.65em;padding:3px 10px;border-radius:50px;background:rgba(79,142,247,.2);border:1px solid rgba(79,142,247,.3);color:var(--accent);}
+
+.steps{display:flex;flex-direction:column;gap:0;}
+.step{display:flex;gap:0;position:relative;}
+.step:not(:last-child) .step-line{position:absolute;left:19px;top:40px;bottom:-10px;width:2px;background:linear-gradient(180deg,var(--border),transparent);}
+.step-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;padding-top:8px;}
+.step-num{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.85em;font-weight:700;flex-shrink:0;position:relative;z-index:1;}
+.step-num.blue{background:linear-gradient(135deg,#1d4ed8,var(--accent));color:var(--white);}
+.step-num.green{background:linear-gradient(135deg,#15803d,var(--green));color:var(--white);}
+.step-num.amber{background:linear-gradient(135deg,#92400e,var(--amber));color:var(--white);}
+.step-num.red{background:linear-gradient(135deg,#991b1b,var(--red));color:var(--white);}
+.step-body{flex:1;padding:6px 0 24px 16px;}
+.step-body h4{font-size:1em;font-weight:700;color:var(--white);margin-bottom:6px;}
+.step-body p{font-size:.9em;color:var(--text-dim);line-height:1.65;}
+.step-body p+p{margin-top:8px;}
+
+.terminal{background:#0d1117;border:1px solid #30363d;border-radius:var(--r-sm);overflow:hidden;margin:12px 0;font-family:'JetBrains Mono',monospace;}
+.terminal-bar{background:#161b22;padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #30363d;}
+.dot{width:12px;height:12px;border-radius:50%;}
+.dot-red{background:#ff5f57;}.dot-yellow{background:#ffbd2e;}.dot-green{background:#27c93f;}
+.terminal-label{font-size:.75em;color:#8b949e;margin-left:8px;font-weight:500;}
+.terminal-body{padding:14px 18px;font-size:.82em;line-height:1.8;}
+.cmd{color:#79c0ff;}.out{color:#c9d1d9;}.comment{color:#8b949e;}.success{color:#56d364;}.warn{color:#e3b341;}.err{color:#f85149;}.path{color:#ffa657;}
+.prompt{color:#7c3aed;margin-right:4px;}
+
+.win-screen{background:#1a1f2e;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:12px 0;}
+.win-bar{background:#0f172a;padding:8px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);}
+.win-btn{width:12px;height:12px;border-radius:50%;}
+.win-btn-red{background:#ef4444;}.win-btn-yellow{background:#f59e0b;}.win-btn-green{background:#22c55e;}
+.win-title{font-size:.75em;color:var(--text-muted);margin-left:8px;}
+.win-body{padding:16px 18px;}
+.win-setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,.03);border-radius:var(--r-sm);margin-bottom:6px;border:1px solid rgba(255,255,255,.06);}
+.win-setting-label{font-size:.87em;color:var(--text-dim);}
+.win-setting-label strong{color:var(--text);display:block;}
+.win-toggle{width:44px;height:24px;border-radius:50px;position:relative;flex-shrink:0;}
+.win-toggle.on{background:#2563eb;}.win-toggle.off{background:#374151;}
+.win-toggle::after{content:'';position:absolute;width:18px;height:18px;background:var(--white);border-radius:50%;top:3px;}
+.win-toggle.on::after{left:23px;}.win-toggle.off::after{left:3px;}
+.win-badge-green{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);color:var(--green);border-radius:50px;padding:2px 10px;font-size:.75em;font-weight:600;}
+.win-badge-amber{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--amber);border-radius:50px;padding:2px 10px;font-size:.75em;font-weight:600;}
+.win-badge-red{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:var(--red);border-radius:50px;padding:2px 10px;font-size:.75em;font-weight:600;}
+.win-section-title{font-size:.72em;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:8px;}
+
+/* BOOT MENU MOCKUP */
+.boot-menu{background:#000;border:2px solid #333;border-radius:var(--r-sm);overflow:hidden;margin:12px 0;font-family:'JetBrains Mono',monospace;}
+.boot-header{background:#001f4d;padding:12px 16px;color:#4fc3f7;font-size:.85em;font-weight:700;border-bottom:1px solid #003080;}
+.boot-body{padding:12px 16px;font-size:.82em;}
+.boot-option{padding:8px 12px;border-radius:4px;margin-bottom:4px;cursor:pointer;color:#ccc;}
+.boot-option.selected{background:#001f4d;color:#4fc3f7;border-left:3px solid #4fc3f7;}
+.boot-option.safe{color:#4caf50;}
+.boot-option.recovery{color:#ff9800;}
+.boot-hint{color:#666;font-size:.78em;margin-top:10px;border-top:1px solid #222;padding-top:8px;}
+
+/* ERROR SCREEN (BSOD) */
+.bsod{background:#0078d4;border-radius:var(--r-sm);padding:24px 28px;margin:12px 0;font-family:'JetBrains Mono',monospace;position:relative;overflow:hidden;}
+.bsod::before{content:':(';position:absolute;left:20px;top:10px;font-size:5em;opacity:.15;font-weight:700;}
+.bsod-title{font-size:1em;font-weight:700;color:#fff;margin-bottom:8px;}
+.bsod-code{font-size:.82em;color:rgba(255,255,255,.9);margin-bottom:12px;}
+.bsod-hint{font-size:.78em;color:rgba(255,255,255,.7);line-height:1.6;}
+.bsod-url{font-size:.75em;color:rgba(255,255,255,.6);margin-top:8px;}
+
+/* DIAGNOSTIC FLOWCHART */
+.flow{display:flex;flex-direction:column;gap:0;margin:16px 0;}
+.flow-step{display:flex;align-items:flex-start;gap:12px;position:relative;}
+.flow-step:not(:last-child)::after{content:'';position:absolute;left:15px;top:36px;bottom:-8px;width:2px;background:var(--border);}
+.flow-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9em;flex-shrink:0;}
+.flow-icon.problem{background:rgba(239,68,68,.2);border:2px solid var(--red);}
+.flow-icon.check{background:rgba(245,158,11,.2);border:2px solid var(--amber);}
+.flow-icon.fix{background:rgba(34,197,94,.2);border:2px solid var(--green);}
+.flow-content{flex:1;padding:4px 0 20px;}
+.flow-content h5{font-size:.92em;font-weight:700;color:var(--white);margin-bottom:4px;}
+.flow-content p{font-size:.85em;color:var(--text-dim);}
+.flow-code{font-family:'JetBrains Mono',monospace;font-size:.78em;color:var(--accent);background:rgba(79,142,247,.08);padding:4px 8px;border-radius:4px;display:inline-block;margin-top:4px;}
+
+.alert{border-radius:var(--r-sm);padding:14px 16px;margin:12px 0;display:flex;gap:10px;align-items:flex-start;font-size:.88em;}
+.alert-icon{font-size:1.2em;flex-shrink:0;}
+.alert-text{line-height:1.6;}
+.alert-text strong{display:block;margin-bottom:2px;}
+.alert.danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#fca5a5;}
+.alert.warning{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:#fde68a;}
+.alert.tip{background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.25);color:#bfdbfe;}
+.alert.success{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);color:#bbf7d0;}
+
+.info-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.87em;}
+.info-table th{background:rgba(79,142,247,.1);padding:10px 14px;text-align:left;color:var(--accent);font-weight:600;font-size:.8em;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--border);}
+.info-table td{padding:10px 14px;border:1px solid var(--border);color:var(--text-dim);}
+.info-table tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+.info-table td:first-child{font-family:'JetBrains Mono',monospace;color:var(--text);}
+
+.exercise{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:22px 24px;margin-bottom:16px;position:relative;overflow:hidden;}
+.exercise:hover{border-color:var(--accent);}
+.exercise::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent2),var(--accent));}
+.exercise-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+.exercise-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.8em;font-weight:700;color:var(--white);flex-shrink:0;}
+.exercise-meta{flex:1;}
+.exercise-title{font-size:1em;font-weight:700;color:var(--white);margin-bottom:4px;}
+.exercise-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.ex-tag{font-size:.72em;padding:2px 8px;border-radius:50px;background:var(--surface3);border:1px solid var(--border);color:var(--text-muted);}
+.exercise-desc{font-size:.9em;color:var(--text-dim);padding-left:44px;margin-bottom:10px;}
+.checklist{list-style:none;padding-left:44px;}
+.checklist li{display:flex;align-items:flex-start;gap:8px;font-size:.88em;color:var(--text-dim);padding:4px 0;}
+.checklist li::before{content:'□';color:var(--accent);font-family:'JetBrains Mono',monospace;flex-shrink:0;}
+
+.resources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;}
+.resource-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-decoration:none;transition:all .2s;display:block;}
+.resource-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.resource-icon{font-size:1.4em;margin-bottom:6px;}
+.resource-name{font-size:.85em;font-weight:600;color:var(--text);margin-bottom:3px;}
+.resource-url{font-size:.75em;color:var(--text-muted);}
+
+@media(max-width:700px){.page{padding:16px;}.card{padding:16px;}.terminal-body{font-size:.78em;}.step-left{width:32px;}.step-num{width:32px;height:32px;font-size:.78em;}.step-line{left:15px!important;}}
 </style>
 </head>
 <body>
-<header class="header">
+
+<header class="site-header">
   <div class="header-inner">
-    <span class="week-badge">S18/20</span>
-    <div class="header-text">
-      <h1>Configuração de Inicialização e Solução de Problemas</h1>
+    <span class="week-pill">S18/20</span>
+    <div class="header-titles">
+      <h1>⚙️ Configuração de Inicialização e Solução de Problemas</h1>
       <p>Gestão de Sistemas Operacionais I · Prof. Isaque Katahira · 2026</p>
     </div>
-    <span class="bloco-tag">🗂 Segurança e Avançado</span>
-    
+    <span class="bloco-pill">🗂 Segurança e Avançado</span>
   </div>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
 </header>
 
-<div class="container">
-  <nav class="nav-bar">
-    <a href="semana17_aula.html" class="nav-btn btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn btn-secondary">🏠 Índice</a>
-    <a href="semana18_guia.html" class="nav-btn btn-green">📝 Guia</a>
+<main class="page">
+
+  <nav class="nav-row">
+    <a href="semana17_aula.html" class="nav-btn nav-btn-ghost">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-ghost">🏠 Índice</a>
+    <a href="semana18_guia.html" class="nav-btn nav-btn-green">📝 Guia</a>
     <span class="nav-spacer"></span>
-    <a href="semana19_aula.html" class="nav-btn btn-primary">Próxima ➡</a>
+    <a href="semana19_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
   </nav>
 
-  <div class="card">
-    <div class="card-title">🎯 Objetivos de Aprendizagem</div>
-    <div class="obj-grid"><div class="obj-item"><div class="obj-num">1</div><span class="obj-text">Configurar opções de inicialização do Windows</span></div>
-<div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Usar o modo de segurança para diagnóstico e reparo</span></div>
-<div class="obj-item"><div class="obj-num">3</div><span class="obj-text">Simular e resolver problemas comuns de boot</span></div>
-<div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Usar o WinRE (Windows Recovery Environment)</span></div></div>
+  <!-- REVIEW BANNER -->
+  <div class="review-banner">
+    <div class="review-tag">⚡ Revisão da Aula Anterior</div>
+    <h2>Na semana passada: Segurança, Atualizações e Registro</h2>
+    <p>Configuramos o Windows Update, exploramos o Editor de Registro com segurança, gerenciamos o Windows Defender via PowerShell e definimos políticas de segurança local. Hoje usaremos esses conhecimentos para <strong>resolver problemas de inicialização</strong> — quando o PC nem chega a ligar direito.</p>
+    <div class="ps-commands">
+      <span class="ps-cmd">Get-MpComputerStatus</span>
+      <span class="ps-cmd">secpol.msc</span>
+      <span class="ps-cmd">regedit</span>
+      <span class="ps-cmd">Get-HotFix</span>
+      <span class="ps-cmd">sfc /scannow</span>
+    </div>
+    <div class="alert tip" style="margin-top:14px;margin-bottom:0;">
+      <div class="alert-icon">💡</div>
+      <div class="alert-text"><strong>Conexão com hoje:</strong> O comando <code>sfc /scannow</code> (verificação de arquivos do sistema) que vimos na semana passada é uma das primeiras ferramentas a usar dentro do <strong>WinRE</strong> quando o Windows não inicia.</div>
+    </div>
   </div>
 
-  <div class="card">
-    <div class="card-title">📖 Conteúdo da Aula</div>
-    <div class="teoria-item"><h3>⚙️ Configuração de Inicialização (msconfig)</h3><p>O msconfig (Configuração do Sistema) é a ferramenta básica para configurar a inicialização: aba Inicialização (semelhante à aba Inicialização do Gerenciador de Tarefas), aba Serviços (ativar/desativar serviços na inicialização), aba Ferramentas (atalhos para ferramentas de diagnóstico). Muito útil para diagnosticar problemas causados por programas que iniciam com o Windows.</p></div>
-<div class="teoria-item"><h3>🔒 Modos de Inicialização do Windows</h3><p>Modo Normal: inicialização completa. Modo de Segurança: inicia apenas com drivers mínimos e sem programas de terceiros — ideal para diagnóstico. Modo de Segurança com Rede: adiciona suporte a rede. Modo de Segurança com Prompt de Comando: sem interface gráfica. Para entrar no modo de segurança: Win+R → msconfig → Inicialização → Inicialização Segura, ou pressione F8/Shift+F8 durante o boot (dependendo da configuração).</p></div>
-<div class="teoria-item"><h3>🔧 Windows Recovery Environment (WinRE)</h3><p>O WinRE é o ambiente de recuperação do Windows — uma versão mínima que inicia quando o Windows principal não consegue. Acesso: Configurações → Sistema → Recuperação → Inicialização Avançada, ou segure Shift enquanto reinicia. Ferramentas disponíveis: Restauração do Sistema, Reparo de Inicialização, Prompt de Comando (para comandos avançados como bootrec, diskpart), Reset do PC.</p></div>
-<div class="teoria-item"><h3>🚨 Problemas Comuns de Boot e Soluções</h3><p>Erro 'BOOTMGR is missing': use bootrec /fixmbr e bootrec /fixboot no Prompt de Comando do WinRE. Loop de reinicialização: acesse WinRE → Reparo de Inicialização. Tela azul (BSOD): anote o código de erro (ex: CRITICAL_PROCESS_DIED) e pesquise. Muito lento no boot: use msconfig para desativar programas desnecessários na inicialização. Arquivo corrompido: sfc /scannow.</p></div>
+  <!-- OBJETIVOS -->
+  <div class="card accent-blue">
+    <div class="card-title">🎯 O que você vai aprender hoje</div>
+    <div class="obj-grid">
+      <div class="obj-item"><div class="obj-num">1</div><span class="obj-text">Configurar opções de inicialização do Windows com msconfig</span></div>
+      <div class="obj-item"><div class="obj-num">2</div><span class="obj-text">Usar o Modo de Segurança para diagnóstico e reparo</span></div>
+      <div class="obj-item"><div class="obj-num">3</div><span class="obj-text">Simular e resolver problemas comuns de boot</span></div>
+      <div class="obj-item"><div class="obj-num">4</div><span class="obj-text">Usar o WinRE (Windows Recovery Environment)</span></div>
+    </div>
   </div>
 
-  
+  <!-- PARTE 1: MSCONFIG -->
+  <div class="card accent-blue">
+    <div class="card-title">⚙️ Parte 1 — Configuração do Sistema (msconfig)</div>
 
-  <div class="card">
+    <div class="step-section">
+      <div class="step-section-title">O que é o msconfig? <span class="badge">CONCEITO</span></div>
+      <p style="font-size:.92em;color:var(--text-dim);margin-bottom:16px;">O <strong>msconfig</strong> é o painel de controle da inicialização do Windows. É a primeira ferramenta que um técnico usa quando o PC está lento para iniciar ou tem problemas causados por programas de terceiros.</p>
+
+      <table class="info-table">
+        <tr><th>Aba</th><th>O que faz</th><th>Quando usar</th></tr>
+        <tr><td>Geral</td><td>Escolhe o tipo de inicialização (Normal, Diagnóstico, Seletiva)</td><td>Para isolar problemas</td></tr>
+        <tr><td>Inicialização</td><td>Configura modos de boot (seguro, etc.)</td><td>Para entrar no Modo Seguro sem F8</td></tr>
+        <tr><td>Serviços</td><td>Ativa/desativa serviços na inicialização</td><td>Para diagnóstico de conflitos</td></tr>
+        <tr><td>Ferramentas</td><td>Atalhos para ferramentas do Windows</td><td>Acesso rápido a diagnósticos</td></tr>
+      </table>
+    </div>
+
+    <div class="step-section">
+      <div class="step-section-title">Passo a passo: Usando o msconfig <span class="badge">PRÁTICA</span></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-left"><div class="step-num blue">1</div></div>
+          <div class="step-body">
+            <h4>Abrir o msconfig</h4>
+            <p>Pressione <kbd>Win + R</kbd> → digite <code>msconfig</code> → Enter. Ou busque "Configuração do Sistema" no menu Iniciar.</p>
+            <div class="win-screen">
+              <div class="win-bar"><div class="win-btn win-btn-red"></div><div class="win-btn win-btn-yellow"></div><div class="win-btn win-btn-green"></div><div class="win-title">⚙️ Configuração do Sistema (msconfig)</div></div>
+              <div class="win-body">
+                <div style="display:flex;gap:4px;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:8px;">
+                  <span style="font-size:.8em;padding:5px 12px;background:rgba(79,142,247,.15);border-radius:4px;color:var(--accent);border:1px solid rgba(79,142,247,.3);">Geral</span>
+                  <span style="font-size:.8em;padding:5px 12px;background:transparent;border-radius:4px;color:var(--text-muted);">Inicialização</span>
+                  <span style="font-size:.8em;padding:5px 12px;background:transparent;border-radius:4px;color:var(--text-muted);">Serviços</span>
+                  <span style="font-size:.8em;padding:5px 12px;background:transparent;border-radius:4px;color:var(--text-muted);">Ferramentas</span>
+                </div>
+                <div class="win-section-title">Seleção de inicialização</div>
+                <div class="win-setting-row" style="margin-bottom:6px;">
+                  <div style="display:flex;align-items:center;gap:8px;font-size:.85em;color:var(--text);">
+                    <div style="width:14px;height:14px;border-radius:50%;border:2px solid var(--accent);background:var(--accent);flex-shrink:0;"></div>
+                    <span>Inicialização normal</span>
+                  </div>
+                </div>
+                <div class="win-setting-row" style="margin-bottom:6px;">
+                  <div style="display:flex;align-items:center;gap:8px;font-size:.85em;color:var(--text-dim);">
+                    <div style="width:14px;height:14px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;"></div>
+                    <span>Inicialização de diagnóstico (somente serviços básicos)</span>
+                  </div>
+                </div>
+                <div class="win-setting-row">
+                  <div style="display:flex;align-items:center;gap:8px;font-size:.85em;color:var(--text-dim);">
+                    <div style="width:14px;height:14px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;"></div>
+                    <span>Inicialização seletiva (escolha o que carregar)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="alert tip"><div class="alert-icon">💡</div><div class="alert-text"><strong>Diagnóstico rápido:</strong> Use "Inicialização de diagnóstico" para ver se o problema desaparece sem serviços de terceiros. Se desaparecer, algum serviço instalado é o culpado.</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-left"><div class="step-num blue">2</div></div>
+          <div class="step-body">
+            <h4>Aba Serviços: Isolando conflitos</h4>
+            <p>Vá para a aba <strong>Serviços</strong>. Marque "Ocultar todos os serviços Microsoft" — assim você vê apenas serviços de terceiros (aplicativos instalados). Desative todos e reinicie. Se o problema sumir, reative pela metade, reinicie, e vá identificando o culpado.</p>
+            <div class="win-screen">
+              <div class="win-bar"><div class="win-btn win-btn-red"></div><div class="win-btn win-btn-yellow"></div><div class="win-btn win-btn-green"></div><div class="win-title">⚙️ msconfig — Aba Serviços</div></div>
+              <div class="win-body">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:.82em;color:var(--text-dim);">
+                  <div style="width:14px;height:14px;border:1px solid var(--accent);background:rgba(79,142,247,.3);flex-shrink:0;"></div>
+                  <span>✓ Ocultar todos os serviços Microsoft</span>
+                </div>
+                <div class="win-setting-row"><div class="win-setting-label"><strong>Serviços de terceiros visíveis:</strong></div></div>
+                <div class="win-setting-row"><div class="win-setting-label" style="display:flex;align-items:center;gap:8px;"><div style="width:12px;height:12px;border:1px solid var(--border);background:rgba(79,142,247,.3);flex-shrink:0;"></div><span>Adobe Acrobat Update Service</span></div><span class="win-badge-green">Rodando</span></div>
+                <div class="win-setting-row"><div class="win-setting-label" style="display:flex;align-items:center;gap:8px;"><div style="width:12px;height:12px;border:1px solid var(--border);flex-shrink:0;"></div><span>Steam Client Service</span></div><span class="win-badge-amber">Parado</span></div>
+                <div class="win-setting-row"><div class="win-setting-label" style="display:flex;align-items:center;gap:8px;"><div style="width:12px;height:12px;border:1px solid var(--border);background:rgba(79,142,247,.3);flex-shrink:0;"></div><span>NVIDIA Display Container LS</span></div><span class="win-badge-green">Rodando</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left"><div class="step-num blue">3</div></div>
+          <div class="step-body">
+            <h4>Aba Inicialização: Entrar no Modo Seguro sem F8</h4>
+            <p>Na aba <strong>Inicialização</strong>, marque <em>"Inicialização segura"</em> e escolha o tipo. Ao clicar em OK e reiniciar, o Windows entra automaticamente no Modo Seguro — sem precisar pressionar F8 (que muitas vezes não funciona em PCs modernos com boot rápido).</p>
+            <div class="alert danger"><div class="alert-icon">⚠️</div><div class="alert-text"><strong>Lembre-se:</strong> Após o diagnóstico, volte ao msconfig e <em>desmarque</em> a inicialização segura. Caso contrário, o PC ficará preso no Modo Seguro toda vez que reiniciar!</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTE 2: MODOS DE INICIALIZAÇÃO -->
+  <div class="card accent-amber">
+    <div class="card-title">🔒 Parte 2 — Modos de Inicialização</div>
+
+    <div class="step-section">
+      <div class="step-section-title">Os diferentes modos explicados <span class="badge">CONCEITO</span></div>
+      <table class="info-table">
+        <tr><th>Modo</th><th>O que carrega</th><th>Quando usar</th></tr>
+        <tr><td>Normal</td><td>Tudo (drivers, serviços, aplicativos)</td><td>Uso normal do dia a dia</td></tr>
+        <tr><td>Seguro (Safe Mode)</td><td>Apenas drivers essenciais + sem terceiros</td><td>Diagnosticar problemas de software/driver</td></tr>
+        <tr><td>Seguro com Rede</td><td>Modo Seguro + suporte a rede/internet</td><td>Precisa baixar driver ou acessar internet para resolver o problema</td></tr>
+        <tr><td>Seguro com Prompt</td><td>Modo Seguro + apenas linha de comando</td><td>Problemas graves sem interface gráfica</td></tr>
+        <tr><td>WinRE</td><td>Ambiente de recuperação isolado</td><td>Windows não consegue iniciar de forma alguma</td></tr>
+      </table>
+    </div>
+
+    <div class="step-section">
+      <div class="step-section-title">Como fica o Modo Seguro na prática <span class="badge">VISUAL</span></div>
+      <div class="boot-menu">
+        <div class="boot-header">🔧 Opções de Inicialização Avançadas do Windows</div>
+        <div class="boot-body">
+          <div class="boot-option">Inicialização normal do Windows</div>
+          <div class="boot-option safe selected">► Modo de Segurança</div>
+          <div class="boot-option safe">Modo de Segurança com Rede</div>
+          <div class="boot-option safe">Modo de Segurança com Prompt de Comando</div>
+          <div class="boot-option recovery">Ferramentas de Recuperação do Sistema</div>
+          <div class="boot-option">Iniciar o Windows normalmente</div>
+          <div class="boot-hint">Use ↑↓ para selecionar, Enter para confirmar<br>No boot rápido moderno, use msconfig ou Shift+Reiniciar</div>
+        </div>
+      </div>
+      <div class="alert tip"><div class="alert-icon">💡</div><div class="alert-text"><strong>Boot rápido (UEFI):</strong> PCs modernos com SSD iniciam tão rápido que o F8 não funciona. Use: <kbd>Win + R</kbd> → <code>msconfig</code> → Inicialização → Inicialização segura; ou <kbd>Shift + Reiniciar</kbd> para acesso ao menu de recuperação.</div></div>
+    </div>
+
+    <div class="step-section">
+      <div class="step-section-title">Entrar no Modo Seguro — Método moderno <span class="badge">PRÁTICA</span></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-left"><div class="step-num amber">1</div></div>
+          <div class="step-body">
+            <h4>Via Configurações (PC ligado normalmente)</h4>
+            <p>Vá em <strong>Configurações → Sistema → Recuperação → Inicialização Avançada → Reiniciar Agora</strong>. O Windows reiniciará mostrando um menu de opções.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-left"><div class="step-num amber">2</div></div>
+          <div class="step-body">
+            <h4>No menu de recuperação, navegue:</h4>
+            <p><strong>Solução de Problemas → Opções Avançadas → Configurações de Inicialização → Reiniciar</strong></p>
+            <p>Após reiniciar, pressione <kbd>4</kbd> para Modo Seguro, <kbd>5</kbd> para Modo Seguro com Rede, ou <kbd>6</kbd> para Modo Seguro com Prompt.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num amber">3</div></div>
+          <div class="step-body">
+            <h4>Via PowerShell (forma mais rápida para técnicos)</h4>
+            <div class="terminal">
+              <div class="terminal-bar"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><div class="terminal-label">PowerShell (Administrador)</div></div>
+              <div class="terminal-body">
+                <span class="comment"># Reiniciar direto no menu de recuperação</span><br>
+                <span class="prompt">PS&gt;</span><span class="cmd"> shutdown /r /o /t 0</span><br><br>
+                <span class="comment"># Configurar para iniciar em modo seguro no próximo boot</span><br>
+                <span class="prompt">PS&gt;</span><span class="cmd"> bcdedit /set {current} safeboot minimal</span><br>
+                <span class="success">Operação concluída com êxito.</span><br><br>
+                <span class="comment"># Para voltar ao normal após o diagnóstico:</span><br>
+                <span class="prompt">PS&gt;</span><span class="cmd"> bcdedit /deletevalue {current} safeboot</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTE 3: WinRE -->
+  <div class="card accent-green">
+    <div class="card-title">🔧 Parte 3 — Windows Recovery Environment (WinRE)</div>
+
+    <div class="step-section">
+      <div class="step-section-title">O que é o WinRE? <span class="badge">CONCEITO</span></div>
+      <p style="font-size:.92em;color:var(--text-dim);margin-bottom:16px;">O WinRE é como um "Windows de emergência" — uma versão mínima que fica guardada em uma partição separada. Ele inicia automaticamente quando o Windows principal falha <strong>três vezes seguidas</strong>, ou você pode acessá-lo manualmente.</p>
+
+      <div class="win-screen">
+        <div class="win-bar"><div class="win-btn win-btn-red"></div><div class="win-btn win-btn-yellow"></div><div class="win-btn win-btn-green"></div><div class="win-title">🔧 Ambiente de Recuperação do Windows (WinRE)</div></div>
+        <div class="win-body">
+          <div class="win-section-title">Escolha uma opção</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.2);border-radius:8px;padding:14px;text-align:center;">
+              <div style="font-size:1.5em;margin-bottom:6px;">🔄</div>
+              <div style="font-size:.84em;font-weight:600;color:var(--text);margin-bottom:3px;">Continuar</div>
+              <div style="font-size:.75em;color:var(--text-muted);">Sair e retornar ao Windows 11</div>
+            </div>
+            <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:14px;text-align:center;">
+              <div style="font-size:1.5em;margin-bottom:6px;">🔧</div>
+              <div style="font-size:.84em;font-weight:600;color:var(--text);margin-bottom:3px;">Solução de Problemas</div>
+              <div style="font-size:.75em;color:var(--text-muted);">Redefinir PC ou opções avançadas</div>
+            </div>
+            <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:14px;text-align:center;">
+              <div style="font-size:1.5em;margin-bottom:6px;">📱</div>
+              <div style="font-size:.84em;font-weight:600;color:var(--text);margin-bottom:3px;">Usar um dispositivo</div>
+              <div style="font-size:.75em;color:var(--text-muted);">USB, DVD ou conexão de rede</div>
+            </div>
+            <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:14px;text-align:center;">
+              <div style="font-size:1.5em;margin-bottom:6px;">⭕</div>
+              <div style="font-size:.84em;font-weight:600;color:var(--text);margin-bottom:3px;">Desligar o PC</div>
+              <div style="font-size:.75em;color:var(--text-muted);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-section">
+      <div class="step-section-title">Ferramentas do WinRE: Opções Avançadas <span class="badge">PRÁTICA</span></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-left"><div class="step-num green">1</div></div>
+          <div class="step-body">
+            <h4>Reparo de Inicialização (Startup Repair)</h4>
+            <p>Solução de Problemas → Opções Avançadas → Reparo de Inicialização. O Windows <em>tenta automaticamente</em> corrigir arquivos de boot danificados. Use como primeiro recurso quando o Windows não inicia.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-line"></div>
+          <div class="step-left"><div class="step-num green">2</div></div>
+          <div class="step-body">
+            <h4>Restauração do Sistema</h4>
+            <p>Volta o Windows a um "ponto de restauração" anterior — antes de uma atualização ou instalação problemática. <em>Não apaga arquivos pessoais</em>, apenas desfaz mudanças no sistema.</p>
+            <div class="alert tip"><div class="alert-icon">💡</div><div class="alert-text"><strong>Boas práticas:</strong> Sempre crie um ponto de restauração antes de instalar drivers, programas desconhecidos, ou editar o Registro. Use: <code>rstrui.exe</code> ou Painel de Controle → Sistema → Proteção do Sistema.</div></div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-left"><div class="step-num green">3</div></div>
+          <div class="step-body">
+            <h4>Prompt de Comando no WinRE</h4>
+            <p>A ferramenta mais poderosa do WinRE. Com ela você executa comandos avançados de recuperação:</p>
+            <div class="terminal">
+              <div class="terminal-bar"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><div class="terminal-label">Prompt de Comando — WinRE</div></div>
+              <div class="terminal-body">
+                <span class="comment"># Reparar o registro mestre de boot (MBR)</span><br>
+                <span class="prompt">X:\&gt;</span><span class="cmd"> bootrec /fixmbr</span><br>
+                <span class="success">A operação foi concluída com êxito.</span><br><br>
+                <span class="comment"># Reparar o setor de boot</span><br>
+                <span class="prompt">X:\&gt;</span><span class="cmd"> bootrec /fixboot</span><br><br>
+                <span class="comment"># Reconstruir o Boot Configuration Data</span><br>
+                <span class="prompt">X:\&gt;</span><span class="cmd"> bootrec /rebuildbcd</span><br><br>
+                <span class="comment"># Verificar e reparar arquivos de sistema</span><br>
+                <span class="prompt">X:\&gt;</span><span class="cmd"> sfc /scannow</span><br><br>
+                <span class="comment"># Reparar imagem do Windows</span><br>
+                <span class="prompt">X:\&gt;</span><span class="cmd"> DISM /Online /Cleanup-Image /RestoreHealth</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTE 4: DIAGNÓSTICO DE PROBLEMAS -->
+  <div class="card accent-red">
+    <div class="card-title">🚨 Parte 4 — Diagnóstico de Problemas Comuns de Boot</div>
+
+    <div class="step-section">
+      <div class="step-section-title">Tela Azul (BSOD) — Como interpretar <span class="badge">VISUAL</span></div>
+      <div class="bsod">
+        <div class="bsod-title">:(</div>
+        <div class="bsod-title">Seu PC encontrou um problema e precisa ser reiniciado. Estamos apenas coletando algumas informações de erro e depois reiniciaremos para você.</div>
+        <div class="bsod-code">0% concluído</div>
+        <div class="bsod-hint">
+          Se quiser saber mais, pesquise online este erro mais tarde:<br>
+          <strong>CRITICAL_PROCESS_DIED</strong>
+        </div>
+        <div class="bsod-url">Para mais informações sobre esse problema e possíveis correções, acesse https://www.windows.com/stopcode</div>
+      </div>
+      <div class="alert tip"><div class="alert-icon">📸</div><div class="alert-text"><strong>Primeiro passo quando vir um BSOD:</strong> Fotografe a tela com o celular para ter o código de erro. Depois pesquise o código (ex: CRITICAL_PROCESS_DIED, IRQL_NOT_LESS_OR_EQUAL) no site da Microsoft ou Google.</div></div>
+    </div>
+
+    <div class="step-section">
+      <div class="step-section-title">Guia de Diagnóstico: Problemas × Soluções <span class="badge">REFERÊNCIA</span></div>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-icon problem">🔴</div>
+          <div class="flow-content">
+            <h5>"BOOTMGR is missing" ou "No bootable device"</h5>
+            <p>O gerenciador de boot não foi encontrado — arquivo corrompido ou disco não está sendo detectado.</p>
+            <span class="flow-code">WinRE → Prompt → bootrec /fixmbr → bootrec /fixboot → bootrec /rebuildbcd</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon check">🟡</div>
+          <div class="flow-content">
+            <h5>Loop de reinicialização infinito</h5>
+            <p>O Windows começa a carregar, trava, reinicia, repete. Geralmente causado por uma atualização com falha.</p>
+            <span class="flow-code">WinRE → Opções Avançadas → Reparo de Inicialização — ou — Restauração do Sistema</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon problem">🔴</div>
+          <div class="flow-content">
+            <h5>BSOD repetido com código de erro</h5>
+            <p>Anote o código → pesquise → se for driver: Modo Seguro → desinstalar driver. Se for hardware: rodar diagnóstico de memória e disco.</p>
+            <span class="flow-code">Modo Seguro → Gerenciador de Dispositivos → Reverter/Desinstalar driver</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon check">🟡</div>
+          <div class="flow-content">
+            <h5>Windows muito lento no boot (mais de 2 minutos)</h5>
+            <p>Muitos programas iniciando junto com o Windows. Sem necessidade de WinRE — o Windows ainda funciona.</p>
+            <span class="flow-code">msconfig → Serviços (desativar terceiros) + Gerenciador de Tarefas → Inicialização</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-icon fix">🟢</div>
+          <div class="flow-content">
+            <h5>Arquivo de sistema corrompido (erros aleatórios)</h5>
+            <p>O Windows funciona mas com erros, travamentos, aplicativos que não abrem. O SFC verifica e repara arquivos corrompidos.</p>
+            <span class="flow-code">sfc /scannow (como Administrador) → DISM /Online /Cleanup-Image /RestoreHealth</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="terminal" style="margin-top:16px;">
+        <div class="terminal-bar"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><div class="terminal-label">PowerShell — Sequência completa de diagnóstico</div></div>
+        <div class="terminal-body">
+          <span class="comment"># 1. Verificar arquivos do sistema</span><br>
+          <span class="prompt">PS&gt;</span><span class="cmd"> sfc /scannow</span><br><br>
+          <span class="comment"># 2. Se sfc encontrar erros que não conseguiu reparar, use DISM:</span><br>
+          <span class="prompt">PS&gt;</span><span class="cmd"> DISM /Online /Cleanup-Image /CheckHealth</span><br>
+          <span class="prompt">PS&gt;</span><span class="cmd"> DISM /Online /Cleanup-Image /ScanHealth</span><br>
+          <span class="prompt">PS&gt;</span><span class="cmd"> DISM /Online /Cleanup-Image /RestoreHealth</span><br><br>
+          <span class="comment"># 3. Verificar erros no disco (chkdsk)</span><br>
+          <span class="prompt">PS&gt;</span><span class="cmd"> chkdsk C: /f /r</span><br>
+          <span class="warn">O chkdsk não pode ser executado agora. Agendar para próximo boot? [S] S</span><br><br>
+          <span class="comment"># 4. Verificar log de erros do sistema</span><br>
+          <span class="prompt">PS&gt;</span><span class="cmd"> Get-EventLog -LogName System -EntryType Error -Newest 20</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATIVIDADES PRÁTICAS -->
+  <div class="card accent-green">
     <div class="card-title">🔬 Atividades Práticas</div>
-    <p style="color:var(--gray-500);margin-bottom:16px;font-size:.9em;">Acesse o <a href="semana18_guia.html" style="color:var(--blue);font-weight:600;">Guia de Exercícios</a> para ver as rubricas e resoluções detalhadas.</p>
-    
-    <div class="ex-card ">
-      <div class="ex-num">1</div>
-      <div class="ex-title">Configurando a Inicialização com msconfig</div>
-      <div class="ex-meta">
-        <span class="ex-tag">⏱ 30 min</span>
-        <span class="ex-tag">🔬 Laboratório</span>
+    <p style="font-size:.9em;color:var(--text-muted);margin-bottom:20px;">Acesse o <a href="semana18_guia.html" style="color:var(--accent);">Guia de Exercícios</a> para rubricas e resoluções detalhadas.</p>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">1</div>
+        <div class="exercise-meta">
+          <div class="exercise-title">Configurando a Inicialização com msconfig</div>
+          <div class="exercise-tags"><span class="ex-tag">⏱ 30 min</span><span class="ex-tag">🔬 Laboratório</span><span class="ex-tag">msconfig</span></div>
+        </div>
       </div>
-      <div class="ex-desc">Use o msconfig para analisar e otimizar a configuração de inicialização do Windows, identificando serviços e programas desnecessários.</div>
+      <div class="exercise-desc">Use o msconfig para analisar e otimizar a configuração de inicialização, identificando serviços e programas desnecessários.</div>
+      <ul class="checklist">
+        <li>Abra o msconfig e anote quantos serviços de terceiros estão ativos</li>
+        <li>Desative todos os serviços de terceiros e reinicie</li>
+        <li>Meça o tempo de boot antes e depois da desativação</li>
+        <li>Reative um por um até identificar quais são necessários</li>
+        <li>Documente o resultado em relatório (use Export-Csv no PowerShell)</li>
+      </ul>
     </div>
-    <div class="ex-card ">
-      <div class="ex-num">2</div>
-      <div class="ex-title">Explorando o Modo de Segurança</div>
-      <div class="ex-meta">
-        <span class="ex-tag">⏱ 35 min</span>
-        <span class="ex-tag">🔬 Laboratório</span>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">2</div>
+        <div class="exercise-meta">
+          <div class="exercise-title">Explorando o Modo de Segurança</div>
+          <div class="exercise-tags"><span class="ex-tag">⏱ 35 min</span><span class="ex-tag">🔬 Laboratório</span><span class="ex-tag">Safe Mode</span></div>
+        </div>
       </div>
-      <div class="ex-desc">Configure e entre no Modo de Segurança do Windows para explorar as diferenças em relação ao modo normal de inicialização.</div>
+      <div class="exercise-desc">Configure e entre no Modo de Segurança do Windows para explorar as diferenças em relação ao modo normal.</div>
+      <ul class="checklist">
+        <li>Configure o Modo Seguro via msconfig (aba Inicialização)</li>
+        <li>Reinicie e observe: quais programas NÃO abrem no Modo Seguro?</li>
+        <li>Verifique a resolução de tela e a aparência do Desktop</li>
+        <li>Use o PowerShell: <code>Get-Service | Where Status -eq Running | Measure-Object</code> para contar serviços ativos e compare com o modo normal</li>
+        <li>Volte ao modo normal desmarcando a opção no msconfig</li>
+      </ul>
     </div>
-    <div class="ex-card ">
-      <div class="ex-num">3</div>
-      <div class="ex-title">Simulação de Diagnóstico de Problemas de Boot</div>
-      <div class="ex-meta">
-        <span class="ex-tag">⏱ 25 min</span>
-        <span class="ex-tag">🔬 Laboratório</span>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">3</div>
+        <div class="exercise-meta">
+          <div class="exercise-title">Simulação de Diagnóstico de Problemas de Boot</div>
+          <div class="exercise-tags"><span class="ex-tag">⏱ 25 min</span><span class="ex-tag">📝 Pesquisa</span><span class="ex-tag">sfc / DISM</span></div>
+        </div>
       </div>
-      <div class="ex-desc">Pesquise e documente os procedimentos para diagnosticar e resolver os problemas de boot mais comuns no Windows.</div>
+      <div class="exercise-desc">Execute a sequência de diagnóstico e documente os procedimentos para os problemas de boot mais comuns.</div>
+      <ul class="checklist">
+        <li>Execute <code>sfc /scannow</code> e documente o resultado</li>
+        <li>Execute <code>DISM /Online /Cleanup-Image /CheckHealth</code></li>
+        <li>Execute <code>Get-EventLog -LogName System -EntryType Error -Newest 10</code> e interprete os erros encontrados</li>
+        <li>Crie um documento com o "Protocolo de Diagnóstico de Boot" para usar como referência</li>
+      </ul>
     </div>
   </div>
 
-  <div class="card">
+  <!-- RECURSOS -->
+  <div class="card accent-blue">
     <div class="card-title">🔗 Recursos Complementares</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
-      <div style="background:var(--gray-50);border-radius:8px;padding:14px;border:1px solid var(--gray-200);">
-        <div style="font-size:1.4em;margin-bottom:6px;">📄</div>
-        <div style="font-weight:600;font-size:.88em;color:var(--navy);margin-bottom:3px;">Microsoft Docs</div>
-        <div style="font-size:.82em;color:var(--gray-500);">docs.microsoft.com</div>
-      </div>
-      <div style="background:var(--gray-50);border-radius:8px;padding:14px;border:1px solid var(--gray-200);">
-        <div style="font-size:1.4em;margin-bottom:6px;">💻</div>
-        <div style="font-weight:600;font-size:.88em;color:var(--navy);margin-bottom:3px;">PowerShell Docs</div>
-        <div style="font-size:.82em;color:var(--gray-500);">learn.microsoft.com/powershell</div>
-      </div>
-      <div style="background:var(--gray-50);border-radius:8px;padding:14px;border:1px solid var(--gray-200);">
-        <div style="font-size:1.4em;margin-bottom:6px;">▶️</div>
-        <div style="font-weight:600;font-size:.88em;color:var(--navy);margin-bottom:3px;">YouTube</div>
-        <div style="font-size:.82em;color:var(--gray-500);">Pesquise: "Configuração de Inicializ..."</div>
-      </div>
-      <div style="background:var(--gray-50);border-radius:8px;padding:14px;border:1px solid var(--gray-200);">
-        <div style="font-size:1.4em;margin-bottom:6px;">🎓</div>
-        <div style="font-weight:600;font-size:.88em;color:var(--navy);margin-bottom:3px;">Microsoft Learn</div>
-        <div style="font-size:.82em;color:var(--gray-500);">learn.microsoft.com — cursos gratuitos</div>
-      </div>
+    <div class="resources-grid">
+      <div class="resource-card"><div class="resource-icon">📄</div><div class="resource-name">Microsoft Docs</div><div class="resource-url">docs.microsoft.com</div></div>
+      <div class="resource-card"><div class="resource-icon">💻</div><div class="resource-name">PowerShell Docs</div><div class="resource-url">learn.microsoft.com/powershell</div></div>
+      <div class="resource-card"><div class="resource-icon">▶️</div><div class="resource-name">YouTube</div><div class="resource-url">Pesquise: "Windows WinRE recuperação"</div></div>
+      <div class="resource-card"><div class="resource-icon">🎓</div><div class="resource-name">Microsoft Learn</div><div class="resource-url">learn.microsoft.com — cursos gratuitos</div></div>
     </div>
   </div>
 
-  <nav class="nav-bar">
-    <a href="semana17_aula.html" class="nav-btn btn-secondary">⬅ Anterior</a>
-    <a href="index.html" class="nav-btn btn-secondary">🏠 Índice</a>
-    <a href="semana18_guia.html" class="nav-btn btn-green">📝 Guia</a>
+  <nav class="nav-row">
+    <a href="semana17_aula.html" class="nav-btn nav-btn-ghost">⬅ Anterior</a>
+    <a href="index.html" class="nav-btn nav-btn-ghost">🏠 Índice</a>
+    <a href="semana18_guia.html" class="nav-btn nav-btn-green">📝 Guia</a>
     <span class="nav-spacer"></span>
-    <a href="semana19_aula.html" class="nav-btn btn-primary">Próxima ➡</a>
+    <a href="semana19_aula.html" class="nav-btn nav-btn-primary">Próxima ➡</a>
   </nav>
-</div>
+
+</main>
 </body>
 </html>
