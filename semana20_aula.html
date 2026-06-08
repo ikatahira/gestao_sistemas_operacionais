@@ -1059,7 +1059,7 @@
         <div class="code-block">
           <button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy"></i> Copiar</button>
           <span class="comment"># Resumo completo do sistema</span><br>
-          <span class="cmd">systeminfo</span> <span class="str">| Select-String "Host Name","OS Name","Total Physical"</span>
+          <span class="cmd">systeminfo</span> | <span class="cmd">Select-String</span> <span class="str">"Nome do host", "SO", "Memória física total"</span>
         </div>
 
         <div class="task-item" onclick="toggleTask(this,'m1')">
@@ -1079,9 +1079,9 @@
             <span class="prev-label">PS C:\Windows\system32&gt;</span> <span class="cmd">whoami</span><br>
             <span class="prev-val">desktop-ab12cd3\aluno</span><br>
             <span class="prev-label">PS C:\Windows\system32&gt;</span> <span class="cmd">systeminfo | Select-String ...</span><br>
-            <span class="prev-ok">Host Name:         DESKTOP-AB12CD3</span><br>
-            <span class="prev-ok">OS Name:           Microsoft Windows 11 ...</span><br>
-            <span class="prev-ok">Total Physical Memory: 8.192 MB</span>
+            <span class="prev-ok">Nome do host:              DESKTOP-AB12CD3</span><br>
+            <span class="prev-ok">SO:                        Microsoft Windows 11 ...</span><br>
+            <span class="prev-ok">Memória física total:      8.192 MB</span>
           </div>
         </div>
       </div>
@@ -1405,8 +1405,12 @@
         </div>
         <div class="code-block">
           <button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy"></i> Copiar</button>
-          <span class="comment"># Cria o registro do atendimento</span><br>
+          <span class="comment"># 1. Coleta as informações do sistema de forma universal e rápida</span><br>
+          <span class="cmd">$osName</span> = (<span class="cmd">Get-CimInstance</span> Win32_OperatingSystem).Caption<br>
+          <span class="cmd">$totalRam</span> = <span class="str">"{0:N0} MB"</span> -f ((<span class="cmd">Get-CimInstance</span> Win32_ComputerSystem).TotalPhysicalMemory / 1MB)<br>
+          <span class="comment"># 2. Define o caminho do arquivo</span><br>
           <span class="cmd">$arquivo</span> = <span class="str">"$env:USERPROFILE\Desktop\TechSupport\Documentacao\atendimento.txt"</span><br>
+          <span class="comment"># 3. Cria o conteúdo do relatório injetando as variáveis</span><br>
           <span class="cmd">$conteudo</span> = <span class="str">@"</span><br>
           <span class="str">========================================</span><br>
           <span class="str">REGISTRO DE ATENDIMENTO — TECHSUPPORT</span><br>
@@ -1414,6 +1418,11 @@
           <span class="str">Data: $(Get-Date -Format "dd/MM/yyyy HH:mm")</span><br>
           <span class="str">Técnico: $(whoami)</span><br>
           <span class="str">Computador: $(hostname)</span><br>
+          <br>
+          <span class="str">RESUMO DO SISTEMA:</span><br>
+          <span class="str">Nome do Host: $env:COMPUTERNAME</span><br>
+          <span class="str">Nome do SO:   $osName</span><br>
+          <span class="str">Memória RAM:  $totalRam</span><br>
           <span class="str">----------------------------------------</span><br>
           <span class="str">ATIVIDADES REALIZADAS:</span><br>
           <span class="str">[ ] Reconhecimento do equipamento</span><br>
@@ -1422,8 +1431,12 @@
           <span class="str">[ ] Verificação de desempenho</span><br>
           <span class="str">========================================</span><br>
           <span class="str">"@</span><br>
+          <span class="comment"># 4. Garante que a pasta Documentacao exista antes de criar o arquivo</span><br>
+          <span class="cmd">$pasta</span> = <span class="cmd">Split-Path</span> <span class="str">$arquivo</span><br>
+          <span class="cmd">if</span> (!(<span class="cmd">Test-Path</span> <span class="str">$pasta</span>)) { <span class="cmd">New-Item</span> -ItemType Directory -Path <span class="str">$pasta</span> -Force | <span class="cmd">Out-Null</span> }<br>
+          <span class="comment"># 5. Salva o arquivo e abre no Bloco de Notas</span><br>
           <span class="cmd">$conteudo</span> | <span class="cmd">Out-File</span> -FilePath <span class="str">$arquivo</span> -Encoding UTF8<br>
-          <span class="cmd">Write-Host</span> <span class="str">"Arquivo criado!"</span> -ForegroundColor Cyan<br>
+          <span class="cmd">Write-Host</span> <span class="str">"Arquivo criado com sucesso com o resumo do sistema!"</span> -ForegroundColor Cyan<br>
           <span class="cmd">notepad</span> <span class="str">$arquivo</span>
         </div>
 
