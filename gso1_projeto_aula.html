@@ -472,7 +472,7 @@
   <div class="meta-row">
     <div class="meta-item"><i class="ti ti-clock"></i> 60 minutos</div>
     <div class="meta-item"><i class="ti ti-users"></i> Turma GSO I</div>
-    <div class="meta-item"><i class="ti ti-school"></i> Etec Professor Mário Antônio Verza</div>
+    <div class="meta-item"><i class="ti ti-school"></i> Etec Palmital</div>
     <div class="meta-item"><i class="ti ti-tool"></i> Windows 11 + PowerShell</div>
   </div>
 </div>
@@ -572,19 +572,384 @@
           </ul>
         </div>
       </div>
-      <div class="disc-card gso" onclick="toggleDisc(this)">
+      <div class="disc-card gso" onclick="toggleDiscGso(this)" id="gso-card">
         <div class="badge-you">VOCÊ ESTÁ AQUI</div>
         <div class="disc-emoji">💻</div>
         <div class="disc-name">Gestão de Sistemas Operacionais I</div>
         <div class="disc-product">Produto: <strong>Checklist de configuração + Evidência prática</strong></div>
-        <div class="disc-expand">
-          <ul>
-            <li>Configuração básica do sistema operacional</li>
-            <li>Criação de usuários</li>
-            <li>Organização de pastas</li>
-            <li>Ajustes de desempenho e personalização</li>
-            <li>Introdução a comandos básicos (PowerShell)</li>
-          </ul>
+        <div style="font-size:12px;color:#1e6fd9;margin-top:6px;font-weight:500">▸ Clique para ver o passo a passo completo</div>
+        <div class="disc-expand" id="gso-expand" style="max-width:100%">
+
+          <!-- INTRO -->
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;margin-bottom:16px">
+            <div style="font-weight:700;font-size:13px;color:#1e40af;margin-bottom:4px">O que você vai aprender e fazer nesta disciplina</div>
+            <div style="font-size:12px;color:#374151;line-height:1.6">Sua missão no projeto é preparar o computador do cliente da TechSupport Solutions. Você vai usar o <strong>Windows 11</strong> e o <strong>PowerShell</strong> para fazer isso de forma profissional, como um técnico de verdade.</div>
+          </div>
+
+          <!-- ATIVIDADE 1 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:14px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#1e6fd9;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 1</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Configuração básica do sistema operacional</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:10px">Passo 1 — Abra as Configurações do Windows</div>
+              <!-- SIMULAÇÃO TELA 1 -->
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:12px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;display:flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block"></span>
+                  <span style="margin-left:6px">Configurações do Windows 11</span>
+                </div>
+                <div style="padding:12px 14px;display:flex;gap:12px">
+                  <div style="width:130px;flex-shrink:0">
+                    <div style="font-size:11px;font-weight:700;color:#7dd3fc;margin-bottom:8px">⚙️ Configurações</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">🏠 Sistema</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">📶 Bluetooth e disp.</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">🌐 Rede e internet</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">🎨 Personalização</div>
+                    <div style="font-size:11px;background:#1e3a5f;color:#7dd3fc;padding:4px 6px;border-radius:4px;margin-bottom:2px;font-weight:600">👥 Contas ◀</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">⏱️ Hora e idioma</div>
+                  </div>
+                  <div style="flex:1">
+                    <div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:8px">👥 Contas</div>
+                    <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:6px;cursor:pointer">
+                      <div style="font-size:11px;color:#e2e8f0;font-weight:600">Suas informações</div>
+                      <div style="font-size:10px;color:#64748b">Conta Microsoft, foto de perfil</div>
+                    </div>
+                    <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:6px;cursor:pointer">
+                      <div style="font-size:11px;color:#e2e8f0;font-weight:600">Opções de entrada</div>
+                      <div style="font-size:10px;color:#64748b">Senha, PIN, Windows Hello</div>
+                    </div>
+                    <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;cursor:pointer">
+                      <div style="font-size:11px;color:#7dd3fc;font-weight:600">Outros usuários ◀ você clica aqui</div>
+                      <div style="font-size:10px;color:#4a80c4">Adicionar ou remover outros usuários</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:12px;color:#92400e">
+                <strong>Como abrir:</strong> Pressione <kbd style="background:#fff;border:1px solid #d1d5db;border-radius:3px;padding:1px 5px;font-size:11px">Win</kbd> + <kbd style="background:#fff;border:1px solid #d1d5db;border-radius:3px;padding:1px 5px;font-size:11px">I</kbd> ao mesmo tempo → clique em <strong>Contas</strong> → depois em <strong>Outros usuários</strong>
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 2 — Ajuste o nome do computador</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:12px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;display:flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block"></span>
+                  <span style="margin-left:6px">Configurações → Sistema → Sobre</span>
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:10px">🖥️ Sobre este PC</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:10px 12px;margin-bottom:8px">
+                    <table style="width:100%;font-size:11px;border-collapse:collapse">
+                      <tr><td style="color:#64748b;padding:3px 0">Nome do dispositivo</td><td style="color:#7dd3fc;text-align:right">DESKTOP-AB12CD3</td></tr>
+                      <tr><td style="color:#64748b;padding:3px 0">Processador</td><td style="color:#e2e8f0;text-align:right">Intel Core i3-10100</td></tr>
+                      <tr><td style="color:#64748b;padding:3px 0">RAM instalada</td><td style="color:#e2e8f0;text-align:right">8,00 GB</td></tr>
+                      <tr><td style="color:#64748b;padding:3px 0">Tipo de sistema</td><td style="color:#e2e8f0;text-align:right">Sistema operacional 64 bits</td></tr>
+                      <tr><td style="color:#64748b;padding:3px 0">Edição do Windows</td><td style="color:#4ade80;text-align:right">Windows 11 Pro</td></tr>
+                    </table>
+                  </div>
+                  <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="font-size:11px;color:#7dd3fc">Renomear este computador</span>
+                    <span style="background:#2563eb;color:#fff;font-size:10px;padding:3px 8px;border-radius:4px">Renomear ›</span>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:8px 12px;font-size:12px;color:#166534">
+                <strong>Dica:</strong> Vá em Configurações → Sistema → Sobre → clique em <strong>"Renomear este PC"</strong>. Digite um nome sem espaços e sem acento (ex: <code style="background:#dcfce7;padding:1px 4px;border-radius:3px">PC-TECHSUPP-01</code>). O Windows vai pedir para reiniciar.
+              </div>
+            </div>
+          </div>
+
+          <!-- ATIVIDADE 2 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:14px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#0e7490;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 2</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Criação de usuários no Windows 11</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 1 — Acessar "Outros usuários" nas Configurações</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Configurações → Contas → Outros usuários
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:12px;font-weight:700;color:#7dd3fc;margin-bottom:10px">Outros usuários</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                    <div>
+                      <div style="font-size:11px;color:#e2e8f0">aluno</div>
+                      <div style="font-size:10px;color:#64748b">Administrador local</div>
+                    </div>
+                    <span style="font-size:10px;color:#64748b">›</span>
+                  </div>
+                  <div style="background:#1e3a5f;border:2px dashed #2563eb;border-radius:6px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <span style="width:24px;height:24px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0">+</span>
+                    <div>
+                      <div style="font-size:11px;color:#7dd3fc;font-weight:600">Adicionar outro usuário ◀ clique aqui</div>
+                      <div style="font-size:10px;color:#4a80c4">Conta local ou Microsoft</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 2 — Criar conta local (sem Microsoft)</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Criar uma conta
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:11px;color:#94a3b8;margin-bottom:10px">Como este usuário vai entrar?</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:6px;border:1px solid #334155">
+                    <div style="font-size:11px;color:#94a3b8">📧 Entre com um endereço de e-mail (Microsoft)</div>
+                  </div>
+                  <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;margin-bottom:10px">
+                    <div style="font-size:11px;color:#7dd3fc;font-weight:600">🔗 Não tenho as informações de entrada desta pessoa ◀ clique</div>
+                  </div>
+                  <div style="background:#0a1628;border:1px solid #1e40af;border-radius:6px;padding:8px 10px">
+                    <div style="font-size:11px;color:#93c5fd;font-weight:600">➕ Adicionar um usuário sem conta Microsoft ◀ depois clique aqui</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 3 — Preencher nome e senha</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Criar um usuário para este computador
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="margin-bottom:8px">
+                    <div style="font-size:10px;color:#94a3b8;margin-bottom:3px">Quem vai usar este computador?</div>
+                    <div style="background:#1e293b;border:1px solid #2563eb;border-radius:4px;padding:6px 10px;font-size:12px;color:#7dd3fc">tecnico.campo</div>
+                  </div>
+                  <div style="margin-bottom:8px">
+                    <div style="font-size:10px;color:#94a3b8;margin-bottom:3px">Senha (recomendado)</div>
+                    <div style="background:#1e293b;border:1px solid #334155;border-radius:4px;padding:6px 10px;font-size:12px;color:#64748b">••••••••••</div>
+                  </div>
+                  <div style="margin-bottom:10px">
+                    <div style="font-size:10px;color:#94a3b8;margin-bottom:3px">Inserir senha novamente</div>
+                    <div style="background:#1e293b;border:1px solid #334155;border-radius:4px;padding:6px 10px;font-size:12px;color:#64748b">••••••••••</div>
+                  </div>
+                  <div style="display:flex;justify-content:flex-end;gap:8px">
+                    <div style="background:#334155;color:#94a3b8;font-size:11px;padding:5px 14px;border-radius:4px">Avançar</div>
+                    <div style="background:#2563eb;color:#fff;font-size:11px;padding:5px 14px;border-radius:4px;font-weight:600">Avançar ›</div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;font-size:12px;color:#92400e">
+                <strong>Atenção:</strong> Use o nome <strong>tecnico.campo</strong> (sem espaço, com ponto). Senha sugerida: <strong>Fatec@2026</strong> — ou a senha definida pelo professor.
+              </div>
+            </div>
+          </div>
+
+          <!-- ATIVIDADE 3 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:14px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#15803d;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 3</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Organização de pastas no Explorer</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Como deve ficar sua estrutura de pastas</div>
+              <div style="background:#0f1b2d;border-radius:8px;padding:14px;margin-bottom:12px;font-family:monospace;font-size:12px;color:#e2e8f0;line-height:2">
+                <div style="color:#38bdf8;font-weight:700">📁 Desktop</div>
+                <div style="padding-left:20px;color:#7dd3fc">└── 📁 TechSupport</div>
+                <div style="padding-left:40px;color:#4ade80">├── 📁 Chamados</div>
+                <div style="padding-left:60px;color:#a3e635">│&nbsp;&nbsp;&nbsp;├── 📁 Abertos</div>
+                <div style="padding-left:60px;color:#a3e635">│&nbsp;&nbsp;&nbsp;└── 📁 Concluidos</div>
+                <div style="padding-left:40px;color:#4ade80">├── 📁 Documentacao</div>
+                <div style="padding-left:40px;color:#4ade80">└── 📁 Prints</div>
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Simulação do Explorer com as pastas criadas</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;display:flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block"></span>
+                  <span style="margin-left:6px">📁 Este Computador › Desktop › TechSupport</span>
+                </div>
+                <div style="padding:10px 14px;display:flex;gap:10px;flex-wrap:wrap">
+                  <div style="background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px 14px;text-align:center;min-width:90px">
+                    <div style="font-size:22px;margin-bottom:4px">📁</div>
+                    <div style="font-size:11px;color:#e2e8f0">Chamados</div>
+                  </div>
+                  <div style="background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px 14px;text-align:center;min-width:90px">
+                    <div style="font-size:22px;margin-bottom:4px">📁</div>
+                    <div style="font-size:11px;color:#e2e8f0">Documentacao</div>
+                  </div>
+                  <div style="background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px 14px;text-align:center;min-width:90px">
+                    <div style="font-size:22px;margin-bottom:4px">📁</div>
+                    <div style="font-size:11px;color:#e2e8f0">Prints</div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;font-size:12px;color:#92400e">
+                <strong>Para criar uma pasta:</strong> Clique com botão direito na área vazia do Explorer → <strong>Novo</strong> → <strong>Pasta</strong> → Digite o nome → Enter. Ou use o PowerShell (aba Missões GSO I).
+              </div>
+            </div>
+          </div>
+
+          <!-- ATIVIDADE 4 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:14px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#b45309;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 4</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Ajustes de desempenho e personalização</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 1 — Desativar efeitos visuais para melhorar desempenho</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Desempenho do Windows — Propriedades
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:11px;color:#94a3b8;margin-bottom:8px">Opções de Desempenho — Efeitos visuais</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;border:2px solid #64748b;display:inline-block;flex-shrink:0"></span>
+                    <span style="font-size:11px;color:#94a3b8">Deixar o Windows escolher o que é melhor</span>
+                  </div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;border:2px solid #64748b;display:inline-block;flex-shrink:0"></span>
+                    <span style="font-size:11px;color:#94a3b8">Ajustar para melhor aparência</span>
+                  </div>
+                  <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;background:#2563eb;display:inline-block;flex-shrink:0"></span>
+                    <span style="font-size:11px;color:#7dd3fc;font-weight:600">● Ajustar para melhor desempenho ◀ marque esta opção</span>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:12px;color:#92400e">
+                <strong>Como abrir:</strong> Pressione <kbd style="background:#fff;border:1px solid #d1d5db;border-radius:3px;padding:1px 5px;font-size:11px">Win</kbd> → pesquise <strong>"Ajustar a aparência"</strong> → clique em "Ajustar a aparência e desempenho do Windows" → selecione "Ajustar para melhor desempenho" → OK
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 2 — Verificar plano de energia</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Painel de Controle → Opções de Energia
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:11px;color:#94a3b8;margin-bottom:8px">Escolha um plano de energia</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:6px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;border:2px solid #64748b;display:inline-block;flex-shrink:0"></span>
+                    <div>
+                      <div style="font-size:11px;color:#94a3b8;font-weight:600">Equilibrado (recomendado)</div>
+                      <div style="font-size:10px;color:#475569">Equilibra desempenho e economia</div>
+                    </div>
+                  </div>
+                  <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;background:#2563eb;display:inline-block;flex-shrink:0"></span>
+                    <div>
+                      <div style="font-size:11px;color:#7dd3fc;font-weight:600">● Alto desempenho ◀ selecione este</div>
+                      <div style="font-size:10px;color:#4a80c4">Favorece desempenho, pode consumir mais energia</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;font-size:12px;color:#92400e">
+                <strong>Como abrir:</strong> Pressione <kbd style="background:#fff;border:1px solid #d1d5db;border-radius:3px;padding:1px 5px;font-size:11px">Win</kbd> → pesquise <strong>"Opções de Energia"</strong> → selecione <strong>Alto desempenho</strong>. Isso é importante para computadores lentos!
+              </div>
+            </div>
+          </div>
+
+          <!-- ATIVIDADE 5 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:6px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#7c3aed;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 5</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Introdução ao PowerShell</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Como abrir o PowerShell como administrador</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Windows PowerShell — Administrador
+                </div>
+                <div style="padding:10px 14px;font-family:monospace;font-size:12px;color:#e2e8f0;line-height:1.8">
+                  <div style="color:#4ade80">Windows PowerShell</div>
+                  <div style="color:#64748b">Copyright (C) Microsoft Corporation.</div>
+                  <div style="color:#64748b;margin-bottom:6px">Todos os direitos reservados.</div>
+                  <div><span style="color:#7dd3fc">PS</span> <span style="color:#fbbf24">C:\Windows\system32</span><span style="color:#e2e8f0">&gt;</span> <span style="color:#a3e635">_</span></div>
+                </div>
+              </div>
+              <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:12px;color:#166534">
+                <strong>O caminho</strong> <code style="background:#dcfce7;padding:1px 4px;border-radius:3px">C:\Windows\system32&gt;</code> significa que você está executando como <strong>administrador</strong>. Se aparecer outro caminho (ex: C:\Users\aluno), feche e abra novamente com botão direito → "Executar como administrador".
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Comandos básicos para começar</div>
+              <div style="overflow-x:auto">
+                <table style="width:100%;border-collapse:collapse;font-size:12px">
+                  <thead>
+                    <tr style="background:#0f1b2d">
+                      <th style="color:#7dd3fc;padding:8px 10px;text-align:left;font-weight:600">Comando</th>
+                      <th style="color:#7dd3fc;padding:8px 10px;text-align:left;font-weight:600">O que faz</th>
+                      <th style="color:#7dd3fc;padding:8px 10px;text-align:left;font-weight:600">Exemplo de resultado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">hostname</td>
+                      <td style="padding:7px 10px;color:#374151">Mostra o nome do computador</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#15803d">DESKTOP-AB12CD3</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #e2e8f0">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">whoami</td>
+                      <td style="padding:7px 10px;color:#374151">Mostra o usuário logado</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#15803d">desktop-ab12\aluno</td>
+                    </tr>
+                    <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">dir</td>
+                      <td style="padding:7px 10px;color:#374151">Lista arquivos e pastas</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#15803d">TechSupport &lt;DIR&gt;</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #e2e8f0">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">cd Desktop</td>
+                      <td style="padding:7px 10px;color:#374151">Navega até a pasta Desktop</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#15803d">PS C:\Users\aluno\Desktop&gt;</td>
+                    </tr>
+                    <tr style="background:#f8fafc">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">cls</td>
+                      <td style="padding:7px 10px;color:#374151">Limpa a tela do PowerShell</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#64748b">(tela em branco)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRODUTO FINAL -->
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;margin-top:14px">
+            <div style="font-weight:700;font-size:13px;color:#1e40af;margin-bottom:6px">Produto final desta disciplina</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <span style="background:#dbeafe;color:#1e40af;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">✓ Checklist preenchido</span>
+              <span style="background:#dcfce7;color:#15803d;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">✓ 4 prints no Google Docs</span>
+              <span style="background:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">✓ Arquivo atendimento.txt</span>
+              <span style="background:#ede9fe;color:#5b21b6;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">✓ Reflexão escrita</span>
+            </div>
+          </div>
+
         </div>
       </div>
       <div class="disc-card" onclick="toggleDisc(this)">
@@ -1122,7 +1487,7 @@
 </div><!-- /container -->
 
 <div class="footer-bar">
-  <strong>Prof. Isaque Katahira</strong> · Gestão de Sistemas Operacionais I · Fatec Ourinhos · 2026
+  <strong>Prof. Isaque Katahira</strong> · Gestão de Sistemas Operacionais I · Etec Palmital · 2026
 </div>
 
 <!-- POPUP -->
@@ -1264,6 +1629,17 @@ function toggleMission(id) {
 function toggleDisc(el) {
   const exp = el.querySelector('.disc-expand');
   exp.classList.toggle('open');
+}
+
+function toggleDiscGso(el) {
+  const exp = document.getElementById('gso-expand');
+  const isOpen = exp.classList.contains('open');
+  exp.classList.toggle('open');
+  const hint = el.querySelector('[style*="▸"]');
+  if (hint) hint.textContent = isOpen ? '▸ Clique para ver o passo a passo completo' : '▾ Clique para fechar';
+  if (!isOpen) {
+    setTimeout(() => { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+  }
 }
 
 function switchTab(id) {
