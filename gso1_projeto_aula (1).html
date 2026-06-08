@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSO I — Projeto Interdisciplinar 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  :root {
+    --navy: #0f1b2d;
+    --navy2: #1a2e4a;
+    --blue: #1e6fd9;
+    --blue-lt: #dbeafe;
+    --teal: #0e7490;
+    --teal-lt: #cffafe;
+    --green: #15803d;
+    --green-lt: #dcfce7;
+    --amber: #b45309;
+    --amber-lt: #fef3c7;
+    --red: #b91c1c;
+    --red-lt: #fee2e2;
+    --gray: #374151;
+    --gray-lt: #f8fafc;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --text2: #64748b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f0f4f8;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* TOP BAR */
+  #topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+    gap: 12px;
+  }
+  #topbar .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  #topbar .logo span { color: #38bdf8; }
+  #timer-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+  }
+  #timer-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: blink 1s infinite; flex-shrink: 0; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  #timer-phase { font-size: 12px; color: #94a3b8; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #progress-bar-wrap { position: sticky; top: 56px; z-index: 99; height: 4px; background: rgba(255,255,255,0.12); }
+  #progress-bar { height: 100%; background: #38bdf8; transition: width 1s linear, background 0.5s; }
+  #score-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.1); border-radius: 20px; padding: 4px 12px;
+    font-size: 13px; white-space: nowrap;
+  }
+  #score-num { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #fbbf24; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #162d50 60%, #1e3a6b 100%);
+    color: #fff;
+    padding: 64px 32px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(56,189,248,0.15);
+    border: 1px solid rgba(56,189,248,0.35);
+    color: #7dd3fc;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 4vw, 42px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .hero h1 span { color: #38bdf8; }
+  .hero .sub {
+    font-size: 16px;
+    color: #94a3b8;
+    max-width: 560px;
+    margin: 0 auto 32px;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #cbd5e1;
+  }
+  .meta-item i { font-size: 16px; color: #38bdf8; }
+
+  /* MAIN LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 20px;
+  }
+  .section-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-header p {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+
+  /* CARD */
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-sm { padding: 16px 20px; }
+
+  /* ALERT BOX */
+  .alert {
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .alert i { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .alert-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .alert-blue i, .alert-blue .a-title { color: var(--blue); }
+  .alert-green { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .alert-green i, .alert-green .a-title { color: var(--green); }
+  .alert-amber { background: #fffbeb; border: 1px solid #fde68a; }
+  .alert-amber i, .alert-amber .a-title { color: var(--amber); }
+  .a-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .a-body { font-size: 14px; color: var(--gray); }
+
+  /* DISCIPLINE GRID */
+  .disc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .disc-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    border-left-width: 4px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.15s;
+    position: relative;
+  }
+  .disc-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .disc-card.gso { border-left-color: #1e6fd9; background: #f0f7ff; }
+  .disc-card.gso .disc-name { color: #1e6fd9; }
+  .disc-card:not(.gso) { border-left-color: #94a3b8; }
+  .disc-emoji { font-size: 24px; margin-bottom: 8px; }
+  .disc-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .disc-product { font-size: 12px; color: var(--text2); }
+  .disc-product strong { color: var(--text); }
+  .badge-you {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: #1e6fd9;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.5px;
+  }
+  .disc-expand { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; }
+  .disc-expand.open { display: block; }
+  .disc-expand ul { padding-left: 16px; }
+  .disc-expand li { margin-bottom: 4px; color: var(--gray); }
+
+  /* MISSION CARDS — ACCORDION */
+  .mission {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .mission-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .mission-header:hover { background: #f8fafc; }
+  .mission-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px;
+    flex-shrink: 0; border: 2px solid;
+    transition: background 0.2s, color 0.2s;
+  }
+  .mission-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; flex: 1; }
+  .mission-status { font-size: 12px; color: var(--text2); }
+  .mission-done-badge { background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px; display: none; }
+  .mission-done-badge.show { display: inline-block; }
+  .mission-chevron { font-size: 18px; color: var(--text2); transition: transform 0.25s; }
+  .mission.open .mission-chevron { transform: rotate(180deg); }
+  .mission-body { display: none; padding: 0 22px 20px; }
+  .mission.open .mission-body { display: block; }
+
+  /* TASK ITEM */
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+    background: #fafbfc;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    position: relative;
+  }
+  .task-item:hover { background: #f1f5f9; }
+  .task-item.done { background: #f0fdf4; border-color: #bbf7d0; }
+  .task-checkbox {
+    width: 22px; height: 22px; border-radius: 6px;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+    transition: background 0.15s, border-color 0.15s;
+    font-size: 14px; color: #fff;
+  }
+  .task-item.done .task-checkbox { background: var(--green); border-color: var(--green); }
+  .task-content { flex: 1; }
+  .task-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .task-item.done .task-title { text-decoration: line-through; color: var(--text2); }
+  .task-desc { font-size: 12px; color: var(--text2); }
+  .task-badge {
+    font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 8px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .tb-cmd { background: #1e293b; color: #e2e8f0; font-family: monospace; }
+  .tb-print { background: #ede9fe; color: #5b21b6; }
+  .tb-check { background: #ecfdf5; color: #065f46; }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: #0f172a;
+    color: #e2e8f0;
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 10px 0;
+    overflow-x: auto;
+    position: relative;
+  }
+  .code-block .comment { color: #64748b; }
+  .code-block .cmd { color: #7dd3fc; }
+  .code-block .str { color: #86efac; }
+  .code-copy {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(255,255,255,0.1); border: none; border-radius: 6px;
+    color: #94a3b8; font-size: 12px; padding: 4px 10px; cursor: pointer;
+    display: flex; align-items: center; gap: 4px;
+    transition: background 0.15s;
+  }
+  .code-copy:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+  /* EXPECTED VIEW */
+  .preview-box {
+    background: #0f172a;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 12px 0;
+  }
+  .preview-bar {
+    background: #1e293b;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #64748b;
+  }
+  .preview-bar .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .preview-bar .dot:nth-child(1) { background: #f87171; }
+  .preview-bar .dot:nth-child(2) { background: #fbbf24; }
+  .preview-bar .dot:nth-child(3) { background: #4ade80; }
+  .preview-content { padding: 16px 18px; font-family: 'DM Mono', monospace; font-size: 12px; color: #e2e8f0; line-height: 1.8; }
+  .prev-label { color: #64748b; }
+  .prev-ok { color: #4ade80; }
+  .prev-val { color: #7dd3fc; }
+  .prev-path { color: #fbbf24; }
+
+  /* PROGRESS SECTION */
+  .progress-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .prog-bar-wrap { background: #e2e8f0; border-radius: 8px; height: 14px; overflow: hidden; margin: 12px 0; }
+  .prog-bar-fill { height: 100%; border-radius: 8px; transition: width 0.4s ease; background: var(--green); }
+  .prog-stats { display: flex; gap: 20px; flex-wrap: wrap; }
+  .prog-stat { text-align: center; }
+  .prog-stat .val { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; }
+  .prog-stat .lbl { font-size: 12px; color: var(--text2); }
+
+  /* ENTREGA */
+  .entrega-steps {
+    counter-reset: entrega;
+    list-style: none;
+    padding: 0;
+  }
+  .entrega-steps li {
+    counter-increment: entrega;
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+  }
+  .entrega-steps li::before {
+    content: counter(entrega);
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--navy); color: #fff;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .entrega-steps li strong { display: block; font-size: 14px; color: var(--text); }
+  .entrega-steps li span { font-size: 13px; color: var(--text2); }
+
+  /* POPUP */
+  #popup {
+    position: fixed; inset: 0; z-index: 999;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.55);
+  }
+  #popup.show { display: flex; }
+  #popup-box {
+    background: #fff; border-radius: 18px;
+    padding: 36px 40px; text-align: center;
+    max-width: 340px; width: 90%;
+    animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  #popup-icon { font-size: 56px; margin-bottom: 12px; }
+  #popup-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  #popup-msg { font-size: 14px; color: var(--text2); margin-bottom: 20px; }
+  #popup-close { background: var(--navy); color: #fff; border: none; border-radius: 8px; padding: 10px 28px; font-size: 14px; cursor: pointer; font-family: 'Syne', sans-serif; font-weight: 700; }
+
+  /* FOOTER */
+  .footer-bar { background: var(--navy); color: #94a3b8; text-align: center; padding: 20px; font-size: 13px; margin-top: 40px; }
+  .footer-bar strong { color: #38bdf8; }
+
+  /* TABS */
+  .tab-row { display: flex; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 500;
+    border: 1px solid var(--border); background: #fff; cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tab-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* COLOR OVERRIDES FOR MISSION NUMBERS */
+  .m1 .mission-num { border-color: #1e6fd9; color: #1e6fd9; }
+  .m1.open .mission-num { background: #1e6fd9; color: #fff; }
+  .m2 .mission-num { border-color: #0e7490; color: #0e7490; }
+  .m2.open .mission-num { background: #0e7490; color: #fff; }
+  .m3 .mission-num { border-color: #15803d; color: #15803d; }
+  .m3.open .mission-num { background: #15803d; color: #fff; }
+  .m4 .mission-num { border-color: #b45309; color: #b45309; }
+  .m4.open .mission-num { background: #b45309; color: #fff; }
+  .m5 .mission-num { border-color: #7c3aed; color: #7c3aed; }
+  .m5.open .mission-num { background: #7c3aed; color: #fff; }
+
+  @media (max-width: 640px) {
+    .container { padding: 16px 12px 40px; }
+    .hero { padding: 40px 16px 36px; }
+    .meta-row { gap: 12px; }
+    .disc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <div class="logo">GSO <span>I</span> · 2026</div>
+  <div id="timer-phase">Introdução do Projeto</div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <div id="score-pill"><i class="ti ti-star" style="font-size:15px;color:#fbbf24"></i> <span id="score-num">0</span></div>
+    <div id="timer-wrap">
+      <div id="timer-dot"></div>
+      <span id="timer-display">60:00</span>
+    </div>
+  </div>
+</div>
+<div id="progress-bar-wrap"><div id="progress-bar" style="width:100%"></div></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Projeto Interdisciplinar · Módulo I</div>
+  <h1>Central de Suporte e<br><span>Soluções em Informática</span></h1>
+  <p class="sub">Hoje você começa como analista júnior da <strong style="color:#fff">TechSupport Solutions</strong>. Sua missão: configurar, organizar e documentar.</p>
+  <div class="meta-row">
+    <div class="meta-item"><i class="ti ti-clock"></i> 60 minutos</div>
+    <div class="meta-item"><i class="ti ti-users"></i> Turma GSO I</div>
+    <div class="meta-item"><i class="ti ti-school"></i> Etec Palmital</div>
+    <div class="meta-item"><i class="ti ti-tool"></i> Windows 11 + PowerShell</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- TABS PRINCIPAIS -->
+  <div class="tab-row" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('tab-projeto')" id="btn-tab-projeto"><i class="ti ti-layout-grid"></i> O Projeto</button>
+    <button class="tab-btn" onclick="switchTab('tab-gso')" id="btn-tab-gso"><i class="ti ti-terminal-2"></i> Missões GSO I</button>
+    <button class="tab-btn" onclick="switchTab('tab-entrega')" id="btn-tab-entrega"><i class="ti ti-send"></i> Entrega</button>
+    <button class="tab-btn" onclick="switchTab('tab-progresso')" id="btn-tab-progresso"><i class="ti ti-chart-bar"></i> Meu Progresso</button>
+  </div>
+
+  <!-- TAB: PROJETO -->
+  <div class="tab-panel active" id="tab-projeto">
+
+    <div class="alert alert-blue">
+      <i class="ti ti-info-circle"></i>
+      <div>
+        <div class="a-title">A empresa fictícia</div>
+        <div class="a-body">A <strong>TechSupport Solutions</strong> presta serviços de suporte em informática para escritórios, comércios e pequenas empresas. Vocês foram contratados como <strong>analistas de suporte júnior</strong>.</div>
+      </div>
+    </div>
+
+    <!-- Problemas -->
+    <div class="section-header">
+      <div class="section-icon" style="background:#fee2e2"><i class="ti ti-alert-triangle" style="color:#b91c1c;font-size:22px"></i></div>
+      <div><h2>Problemas que a empresa precisa resolver</h2><p>5 frentes de trabalho — cada disciplina atua em uma</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:24px">
+      <div class="card card-sm" style="border-left:4px solid #ef4444">
+        <div style="font-size:11px;font-weight:700;color:#ef4444;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">01 · Hardware</div>
+        <div style="font-size:13px;color:var(--gray)">Computadores com baixo desempenho</div>
+      </div>
+      <div class="card card-sm" style="border-left:4px solid #f97316">
+        <div style="font-size:11px;font-weight:700;color:#f97316;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">02 · Software</div>
+        <div style="font-size:13px;color:var(--gray)">SOs e apps desconfigurados ou desatualizados</div>
+      </div>
+      <div class="card card-sm" style="border-left:4px solid #eab308">
+        <div style="font-size:11px;font-weight:700;color:#a16207;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">03 · Usuários</div>
+        <div style="font-size:13px;color:var(--gray)">Dificuldades no uso básico do computador</div>
+      </div>
+      <div class="card card-sm" style="border-left:4px solid #22c55e">
+        <div style="font-size:11px;font-weight:700;color:#15803d;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">04 · Organização</div>
+        <div style="font-size:13px;color:var(--gray)">Falta de organização de arquivos e perfis</div>
+      </div>
+      <div class="card card-sm" style="border-left:4px solid #6366f1">
+        <div style="font-size:11px;font-weight:700;color:#4338ca;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">05 · Gestão</div>
+        <div style="font-size:13px;color:var(--gray)">Ausência de controle dos atendimentos</div>
+      </div>
+    </div>
+
+    <!-- Disciplinas -->
+    <div class="section-header">
+      <div class="section-icon" style="background:#e0f2fe"><i class="ti ti-books" style="color:#0369a1;font-size:22px"></i></div>
+      <div><h2>Quem faz o quê?</h2><p>Clique em qualquer disciplina para ver os detalhes e o produto final</p></div>
+    </div>
+    <div class="disc-grid">
+      <div class="disc-card" onclick="toggleDisc(this)">
+        <div class="disc-emoji">📝</div>
+        <div class="disc-name">Linguagem, Trabalho e Tecnologia</div>
+        <div class="disc-product">Produto: <strong>Relatório + Manual do usuário</strong></div>
+        <div class="disc-expand">
+          <ul>
+            <li>Elaboração de registro de chamados</li>
+            <li>Relatórios técnicos</li>
+            <li>Manuais simples para o usuário</li>
+            <li>E-mails de resposta ao cliente</li>
+            <li>Comunicação oral simulada</li>
+          </ul>
+        </div>
+      </div>
+      <div class="disc-card" onclick="toggleDisc(this)">
+        <div class="disc-emoji">🎧</div>
+        <div class="disc-name">Suporte ao Usuário</div>
+        <div class="disc-product">Produto: <strong>Roteiro + Registro de chamados</strong></div>
+        <div class="disc-expand">
+          <ul>
+            <li>Simulação de atendimento nível 1 (help desk)</li>
+            <li>Classificação de chamados</li>
+            <li>Uso de roteiro de atendimento</li>
+            <li>Boas práticas de comunicação</li>
+          </ul>
+        </div>
+      </div>
+      <div class="disc-card" onclick="toggleDisc(this)">
+        <div class="disc-emoji">🧰</div>
+        <div class="disc-name">Operação e Configuração de Aplicativos</div>
+        <div class="disc-product">Produto: <strong>Planilha de controle + Documento técnico</strong></div>
+        <div class="disc-expand">
+          <ul>
+            <li>Instalação de editor de texto, planilha, apresentação</li>
+            <li>Configuração de navegador e e-mail</li>
+            <li>Criação de documentos e planilhas do projeto</li>
+          </ul>
+        </div>
+      </div>
+      <div class="disc-card gso" onclick="toggleDiscGso(this)" id="gso-card">
+        <div class="badge-you">VOCÊ ESTÁ AQUI</div>
+        <div class="disc-emoji">💻</div>
+        <div class="disc-name">Gestão de Sistemas Operacionais I</div>
+        <div class="disc-product">Produto: <strong>Checklist de configuração + Evidência prática</strong></div>
+        <div style="font-size:12px;color:#1e6fd9;margin-top:6px;font-weight:500">▸ Clique para ver o passo a passo completo</div>
+        <div class="disc-expand" id="gso-expand" style="max-width:100%">
+
+          <!-- INTRO -->
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;margin-bottom:16px">
+            <div style="font-weight:700;font-size:13px;color:#1e40af;margin-bottom:4px">O que você vai aprender e fazer nesta disciplina</div>
+            <div style="font-size:12px;color:#374151;line-height:1.6">Sua missão no projeto é preparar o computador do cliente da TechSupport Solutions. Você vai usar o <strong>Windows 11</strong> e o <strong>PowerShell</strong> para fazer isso de forma profissional, como um técnico de verdade.</div>
+          </div>
+
+          <!-- ATIVIDADE 1 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:14px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#1e6fd9;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 1</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Configuração básica do sistema operacional</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:10px">Passo 1 — Abra as Configurações do Windows</div>
+              <!-- SIMULAÇÃO TELA 1 -->
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:12px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;display:flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block"></span>
+                  <span style="margin-left:6px">Configurações do Windows 11</span>
+                </div>
+                <div style="padding:12px 14px;display:flex;gap:12px">
+                  <div style="width:130px;flex-shrink:0">
+                    <div style="font-size:11px;font-weight:700;color:#7dd3fc;margin-bottom:8px">⚙️ Configurações</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">🏠 Sistema</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">📶 Bluetooth e disp.</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">🌐 Rede e internet</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">🎨 Personalização</div>
+                    <div style="font-size:11px;background:#1e3a5f;color:#7dd3fc;padding:4px 6px;border-radius:4px;margin-bottom:2px;font-weight:600">👥 Contas ◀</div>
+                    <div style="font-size:11px;color:#94a3b8;padding:4px 6px;border-radius:4px;margin-bottom:2px">⏱️ Hora e idioma</div>
+                  </div>
+                  <div style="flex:1">
+                    <div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:8px">👥 Contas</div>
+                    <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:6px;cursor:pointer">
+                      <div style="font-size:11px;color:#e2e8f0;font-weight:600">Suas informações</div>
+                      <div style="font-size:10px;color:#64748b">Conta Microsoft, foto de perfil</div>
+                    </div>
+                    <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:6px;cursor:pointer">
+                      <div style="font-size:11px;color:#e2e8f0;font-weight:600">Opções de entrada</div>
+                      <div style="font-size:10px;color:#64748b">Senha, PIN, Windows Hello</div>
+                    </div>
+                    <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;cursor:pointer">
+                      <div style="font-size:11px;color:#7dd3fc;font-weight:600">Outros usuários ◀ você clica aqui</div>
+                      <div style="font-size:10px;color:#4a80c4">Adicionar ou remover outros usuários</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:12px;color:#92400e">
+                <strong>Como abrir:</strong> Pressione <kbd style="background:#fff;border:1px solid #d1d5db;border-radius:3px;padding:1px 5px;font-size:11px">Win</kbd> + <kbd style="background:#fff;border:1px solid #d1d5db;border-radius:3px;padding:1px 5px;font-size:11px">I</kbd> ao mesmo tempo → clique em <strong>Contas</strong> → depois em <strong>Outros usuários</strong>
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 2 — Ajuste o nome do computador</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:12px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;display:flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block"></span>
+                  <span style="margin-left:6px">Configurações → Sistema → Sobre</span>
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:12px;font-weight:700;color:#e2e8f0;margin-bottom:10px">🖥️ Sobre este PC</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:10px 12px;margin-bottom:8px">
+                    <table style="width:100%;font-size:11px;border-collapse:collapse">
+                      <tr><td style="color:#64748b;padding:3px 0">Nome do dispositivo</td><td style="color:#7dd3fc;text-align:right">DESKTOP-AB12CD3</td></tr>
+                      <tr><td style="color:#64748b;padding:3px 0">Processador</td><td style="color:#e2e8f0;text-align:right">Intel Core i3-10100</td></tr>
+                      <tr><td style="color:#64748b;padding:3px 0">RAM instalada</td><td style="color:#e2e8f0;text-align:right">8,00 GB</td></tr>
+                      <tr><td style="color:#64748b;padding:3px 0">Tipo de sistema</td><td style="color:#e2e8f0;text-align:right">Sistema operacional 64 bits</td></tr>
+                      <tr><td style="color:#64748b;padding:3px 0">Edição do Windows</td><td style="color:#4ade80;text-align:right">Windows 11 Pro</td></tr>
+                    </table>
+                  </div>
+                  <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="font-size:11px;color:#7dd3fc">Renomear este computador</span>
+                    <span style="background:#2563eb;color:#fff;font-size:10px;padding:3px 8px;border-radius:4px">Renomear ›</span>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:8px 12px;font-size:12px;color:#166534">
+                <strong>Dica:</strong> Vá em Configurações → Sistema → Sobre → clique em <strong>"Renomear este PC"</strong>. Digite um nome sem espaços e sem acento (ex: <code style="background:#dcfce7;padding:1px 4px;border-radius:3px">PC-TECHSUPP-01</code>). O Windows vai pedir para reiniciar.
+              </div>
+            </div>
+          </div>
+
+          <!-- ATIVIDADE 2 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:14px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#0e7490;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 2</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Criação de usuários no Windows 11</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 1 — Acessar "Outros usuários" nas Configurações</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Configurações → Contas → Outros usuários
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:12px;font-weight:700;color:#7dd3fc;margin-bottom:10px">Outros usuários</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                    <div>
+                      <div style="font-size:11px;color:#e2e8f0">aluno</div>
+                      <div style="font-size:10px;color:#64748b">Administrador local</div>
+                    </div>
+                    <span style="font-size:10px;color:#64748b">›</span>
+                  </div>
+                  <div style="background:#1e3a5f;border:2px dashed #2563eb;border-radius:6px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <span style="width:24px;height:24px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0">+</span>
+                    <div>
+                      <div style="font-size:11px;color:#7dd3fc;font-weight:600">Adicionar outro usuário ◀ clique aqui</div>
+                      <div style="font-size:10px;color:#4a80c4">Conta local ou Microsoft</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 2 — Criar conta local (sem Microsoft)</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Criar uma conta
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:11px;color:#94a3b8;margin-bottom:10px">Como este usuário vai entrar?</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:6px;border:1px solid #334155">
+                    <div style="font-size:11px;color:#94a3b8">📧 Entre com um endereço de e-mail (Microsoft)</div>
+                  </div>
+                  <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;margin-bottom:10px">
+                    <div style="font-size:11px;color:#7dd3fc;font-weight:600">🔗 Não tenho as informações de entrada desta pessoa ◀ clique</div>
+                  </div>
+                  <div style="background:#0a1628;border:1px solid #1e40af;border-radius:6px;padding:8px 10px">
+                    <div style="font-size:11px;color:#93c5fd;font-weight:600">➕ Adicionar um usuário sem conta Microsoft ◀ depois clique aqui</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 3 — Preencher nome e senha</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Criar um usuário para este computador
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="margin-bottom:8px">
+                    <div style="font-size:10px;color:#94a3b8;margin-bottom:3px">Quem vai usar este computador?</div>
+                    <div style="background:#1e293b;border:1px solid #2563eb;border-radius:4px;padding:6px 10px;font-size:12px;color:#7dd3fc">tecnico.campo</div>
+                  </div>
+                  <div style="margin-bottom:8px">
+                    <div style="font-size:10px;color:#94a3b8;margin-bottom:3px">Senha (recomendado)</div>
+                    <div style="background:#1e293b;border:1px solid #334155;border-radius:4px;padding:6px 10px;font-size:12px;color:#64748b">••••••••••</div>
+                  </div>
+                  <div style="margin-bottom:10px">
+                    <div style="font-size:10px;color:#94a3b8;margin-bottom:3px">Inserir senha novamente</div>
+                    <div style="background:#1e293b;border:1px solid #334155;border-radius:4px;padding:6px 10px;font-size:12px;color:#64748b">••••••••••</div>
+                  </div>
+                  <div style="display:flex;justify-content:flex-end;gap:8px">
+                    <div style="background:#334155;color:#94a3b8;font-size:11px;padding:5px 14px;border-radius:4px">Avançar</div>
+                    <div style="background:#2563eb;color:#fff;font-size:11px;padding:5px 14px;border-radius:4px;font-weight:600">Avançar ›</div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;font-size:12px;color:#92400e">
+                <strong>Atenção:</strong> Use o nome <strong>tecnico.campo</strong> (sem espaço, com ponto). Senha sugerida: <strong>Fatec@2026</strong> — ou a senha definida pelo professor.
+              </div>
+            </div>
+          </div>
+
+          <!-- ATIVIDADE 3 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:14px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#15803d;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 3</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Organização de pastas no Explorer</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Como deve ficar sua estrutura de pastas</div>
+              <div style="background:#0f1b2d;border-radius:8px;padding:14px;margin-bottom:12px;font-family:monospace;font-size:12px;color:#e2e8f0;line-height:2">
+                <div style="color:#38bdf8;font-weight:700">📁 Desktop</div>
+                <div style="padding-left:20px;color:#7dd3fc">└── 📁 TechSupport</div>
+                <div style="padding-left:40px;color:#4ade80">├── 📁 Chamados</div>
+                <div style="padding-left:60px;color:#a3e635">│&nbsp;&nbsp;&nbsp;├── 📁 Abertos</div>
+                <div style="padding-left:60px;color:#a3e635">│&nbsp;&nbsp;&nbsp;└── 📁 Concluidos</div>
+                <div style="padding-left:40px;color:#4ade80">├── 📁 Documentacao</div>
+                <div style="padding-left:40px;color:#4ade80">└── 📁 Prints</div>
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Simulação do Explorer com as pastas criadas</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;display:flex;align-items:center;gap:6px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block"></span>
+                  <span style="margin-left:6px">📁 Este Computador › Desktop › TechSupport</span>
+                </div>
+                <div style="padding:10px 14px;display:flex;gap:10px;flex-wrap:wrap">
+                  <div style="background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px 14px;text-align:center;min-width:90px">
+                    <div style="font-size:22px;margin-bottom:4px">📁</div>
+                    <div style="font-size:11px;color:#e2e8f0">Chamados</div>
+                  </div>
+                  <div style="background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px 14px;text-align:center;min-width:90px">
+                    <div style="font-size:22px;margin-bottom:4px">📁</div>
+                    <div style="font-size:11px;color:#e2e8f0">Documentacao</div>
+                  </div>
+                  <div style="background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px 14px;text-align:center;min-width:90px">
+                    <div style="font-size:22px;margin-bottom:4px">📁</div>
+                    <div style="font-size:11px;color:#e2e8f0">Prints</div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;font-size:12px;color:#92400e">
+                <strong>Para criar uma pasta:</strong> Clique com botão direito na área vazia do Explorer → <strong>Novo</strong> → <strong>Pasta</strong> → Digite o nome → Enter. Ou use o PowerShell (aba Missões GSO I).
+              </div>
+            </div>
+          </div>
+
+          <!-- ATIVIDADE 4 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:14px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#b45309;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 4</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Ajustes de desempenho e personalização</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 1 — Desativar efeitos visuais para melhorar desempenho</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Desempenho do Windows — Propriedades
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:11px;color:#94a3b8;margin-bottom:8px">Opções de Desempenho — Efeitos visuais</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;border:2px solid #64748b;display:inline-block;flex-shrink:0"></span>
+                    <span style="font-size:11px;color:#94a3b8">Deixar o Windows escolher o que é melhor</span>
+                  </div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;border:2px solid #64748b;display:inline-block;flex-shrink:0"></span>
+                    <span style="font-size:11px;color:#94a3b8">Ajustar para melhor aparência</span>
+                  </div>
+                  <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;margin-bottom:4px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;background:#2563eb;display:inline-block;flex-shrink:0"></span>
+                    <span style="font-size:11px;color:#7dd3fc;font-weight:600">● Ajustar para melhor desempenho ◀ marque esta opção</span>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:12px;color:#92400e">
+                <strong>Como abrir:</strong> Pressione <kbd style="background:#fff;border:1px solid #d1d5db;border-radius:3px;padding:1px 5px;font-size:11px">Win</kbd> → pesquise <strong>"Ajustar a aparência"</strong> → clique em "Ajustar a aparência e desempenho do Windows" → selecione "Ajustar para melhor desempenho" → OK
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Passo 2 — Verificar plano de energia</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Painel de Controle → Opções de Energia
+                </div>
+                <div style="padding:12px 14px">
+                  <div style="font-size:11px;color:#94a3b8;margin-bottom:8px">Escolha um plano de energia</div>
+                  <div style="background:#1e293b;border-radius:6px;padding:8px 10px;margin-bottom:6px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;border:2px solid #64748b;display:inline-block;flex-shrink:0"></span>
+                    <div>
+                      <div style="font-size:11px;color:#94a3b8;font-weight:600">Equilibrado (recomendado)</div>
+                      <div style="font-size:10px;color:#475569">Equilibra desempenho e economia</div>
+                    </div>
+                  </div>
+                  <div style="background:#1e3a5f;border:1px solid #2563eb;border-radius:6px;padding:8px 10px;display:flex;align-items:center;gap:8px">
+                    <span style="width:12px;height:12px;border-radius:50%;background:#2563eb;display:inline-block;flex-shrink:0"></span>
+                    <div>
+                      <div style="font-size:11px;color:#7dd3fc;font-weight:600">● Alto desempenho ◀ selecione este</div>
+                      <div style="font-size:10px;color:#4a80c4">Favorece desempenho, pode consumir mais energia</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;font-size:12px;color:#92400e">
+                <strong>Como abrir:</strong> Pressione <kbd style="background:#fff;border:1px solid #d1d5db;border-radius:3px;padding:1px 5px;font-size:11px">Win</kbd> → pesquise <strong>"Opções de Energia"</strong> → selecione <strong>Alto desempenho</strong>. Isso é importante para computadores lentos!
+              </div>
+            </div>
+          </div>
+
+          <!-- ATIVIDADE 5 -->
+          <div style="border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:6px">
+            <div style="background:#0f1b2d;padding:10px 14px;display:flex;align-items:center;gap:8px">
+              <span style="background:#7c3aed;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px">ATIVIDADE 5</span>
+              <span style="color:#e2e8f0;font-size:13px;font-weight:600">Introdução ao PowerShell</span>
+            </div>
+            <div style="padding:14px;font-size:13px;color:#374151">
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Como abrir o PowerShell como administrador</div>
+              <div style="background:#1a1a2e;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155">
+                <div style="background:#2d3748;padding:6px 12px;font-size:11px;color:#94a3b8">
+                  <span style="width:8px;height:8px;border-radius:50%;background:#f87171;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#fbbf24;display:inline-block;margin-right:3px"></span>
+                  <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;margin-right:6px"></span>
+                  Windows PowerShell — Administrador
+                </div>
+                <div style="padding:10px 14px;font-family:monospace;font-size:12px;color:#e2e8f0;line-height:1.8">
+                  <div style="color:#4ade80">Windows PowerShell</div>
+                  <div style="color:#64748b">Copyright (C) Microsoft Corporation.</div>
+                  <div style="color:#64748b;margin-bottom:6px">Todos os direitos reservados.</div>
+                  <div><span style="color:#7dd3fc">PS</span> <span style="color:#fbbf24">C:\Windows\system32</span><span style="color:#e2e8f0">&gt;</span> <span style="color:#a3e635">_</span></div>
+                </div>
+              </div>
+              <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:12px;color:#166534">
+                <strong>O caminho</strong> <code style="background:#dcfce7;padding:1px 4px;border-radius:3px">C:\Windows\system32&gt;</code> significa que você está executando como <strong>administrador</strong>. Se aparecer outro caminho (ex: C:\Users\aluno), feche e abra novamente com botão direito → "Executar como administrador".
+              </div>
+
+              <div style="font-weight:700;color:#1e293b;margin-bottom:8px">Comandos básicos para começar</div>
+              <div style="overflow-x:auto">
+                <table style="width:100%;border-collapse:collapse;font-size:12px">
+                  <thead>
+                    <tr style="background:#0f1b2d">
+                      <th style="color:#7dd3fc;padding:8px 10px;text-align:left;font-weight:600">Comando</th>
+                      <th style="color:#7dd3fc;padding:8px 10px;text-align:left;font-weight:600">O que faz</th>
+                      <th style="color:#7dd3fc;padding:8px 10px;text-align:left;font-weight:600">Exemplo de resultado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">hostname</td>
+                      <td style="padding:7px 10px;color:#374151">Mostra o nome do computador</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#15803d">DESKTOP-AB12CD3</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #e2e8f0">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">whoami</td>
+                      <td style="padding:7px 10px;color:#374151">Mostra o usuário logado</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#15803d">desktop-ab12\aluno</td>
+                    </tr>
+                    <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">dir</td>
+                      <td style="padding:7px 10px;color:#374151">Lista arquivos e pastas</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#15803d">TechSupport &lt;DIR&gt;</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #e2e8f0">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">cd Desktop</td>
+                      <td style="padding:7px 10px;color:#374151">Navega até a pasta Desktop</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#15803d">PS C:\Users\aluno\Desktop&gt;</td>
+                    </tr>
+                    <tr style="background:#f8fafc">
+                      <td style="padding:7px 10px;font-family:monospace;color:#1e6fd9;font-weight:600">cls</td>
+                      <td style="padding:7px 10px;color:#374151">Limpa a tela do PowerShell</td>
+                      <td style="padding:7px 10px;font-family:monospace;color:#64748b">(tela em branco)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRODUTO FINAL -->
+          <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;margin-top:14px">
+            <div style="font-weight:700;font-size:13px;color:#1e40af;margin-bottom:6px">Produto final desta disciplina</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <span style="background:#dbeafe;color:#1e40af;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">✓ Checklist preenchido</span>
+              <span style="background:#dcfce7;color:#15803d;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">✓ 4 prints no Google Docs</span>
+              <span style="background:#fef3c7;color:#92400e;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">✓ Arquivo atendimento.txt</span>
+              <span style="background:#ede9fe;color:#5b21b6;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px">✓ Reflexão escrita</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="disc-card" onclick="toggleDisc(this)">
+        <div class="disc-emoji">🛠️</div>
+        <div class="disc-name">Instalação e Manutenção de Computadores</div>
+        <div class="disc-product">Produto: <strong>Ficha técnica + Diagnóstico</strong></div>
+        <div class="disc-expand">
+          <ul>
+            <li>Montagem ou verificação de hardware</li>
+            <li>Identificação de falhas simples</li>
+            <li>Manutenção preventiva</li>
+          </ul>
+        </div>
+      </div>
+      <div class="disc-card" onclick="toggleDisc(this)">
+        <div class="disc-emoji">👨‍💻</div>
+        <div class="disc-name">Programação de Computadores I</div>
+        <div class="disc-product">Produto: <strong>Algoritmo documentado + Programa simples</strong></div>
+        <div class="disc-expand">
+          <ul>
+            <li>Algoritmo para registrar chamados</li>
+            <li>Calcular tempo de atendimento</li>
+            <li>Classificar prioridade</li>
+          </ul>
+        </div>
+      </div>
+      <div class="disc-card" onclick="toggleDisc(this)">
+        <div class="disc-emoji">🗄️</div>
+        <div class="disc-name">Modelagem de Banco de Dados</div>
+        <div class="disc-product">Produto: <strong>Diagrama DER + Estrutura lógica</strong></div>
+        <div class="disc-expand">
+          <ul>
+            <li>Modelagem de usuários, chamados, técnicos, status</li>
+            <li>Criação de diagrama (DER)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-green" style="margin-top:20px">
+      <i class="ti ti-trophy"></i>
+      <div>
+        <div class="a-title">Produto final integrado</div>
+        <div class="a-body">Computador configurado e funcional · Sistema de registro de chamados · Documentação técnica · Relatório final · Apresentação para a turma</div>
+      </div>
+    </div>
+
+  </div><!-- /tab-projeto -->
+
+  <!-- TAB: GSO I MISSIONS -->
+  <div class="tab-panel" id="tab-gso">
+
+    <div class="alert alert-blue">
+      <i class="ti ti-target"></i>
+      <div>
+        <div class="a-title">Sua contribuição no projeto</div>
+        <div class="a-body">Em GSO I você é o responsável pela <strong>configuração do sistema operacional</strong>. Cada missão abaixo é uma tarefa real de suporte. Marque cada passo conforme for executando.</div>
+      </div>
+    </div>
+
+    <!-- MISSION 1 -->
+    <div class="mission m1" id="m1">
+      <div class="mission-header" onclick="toggleMission('m1')">
+        <div class="mission-num">1</div>
+        <div style="flex:1">
+          <div class="mission-title">Reconhecimento do equipamento</div>
+          <div class="mission-status" id="stat-m1">0 / 4 tarefas</div>
+        </div>
+        <div class="mission-done-badge" id="badge-m1">✓ Concluída</div>
+        <i class="ti ti-chevron-down mission-chevron"></i>
+      </div>
+      <div class="mission-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Antes de qualquer configuração, o técnico precisa saber com o que está trabalhando. Execute os comandos abaixo no PowerShell e anote os resultados.</p>
+
+        <div class="task-item" onclick="toggleTask(this,'m1')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Abra o PowerShell como administrador</div>
+            <div class="task-desc">Botão Iniciar → pesquise "PowerShell" → clique com botão direito → "Executar como administrador"</div>
+          </div>
+          <span class="task-badge tb-check">Passo 1</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m1')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Verifique o nome do computador e do usuário</div>
+            <div class="task-desc">Digite o comando abaixo e pressione Enter</div>
+          </div>
+          <span class="task-badge tb-cmd">Comando</span>
+        </div>
+        <div class="code-block">
+          <button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy"></i> Copiar</button>
+          <span class="comment"># Nome do computador e usuário logado</span><br>
+          <span class="cmd">hostname</span><br>
+          <span class="cmd">whoami</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m1')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Veja as especificações do sistema</div>
+            <div class="task-desc">Processador, RAM, versão do Windows</div>
+          </div>
+          <span class="task-badge tb-cmd">Comando</span>
+        </div>
+        <div class="code-block">
+          <button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy"></i> Copiar</button>
+          <span class="comment"># Resumo completo do sistema</span><br>
+          <span class="cmd">systeminfo</span> <span class="str">| Select-String "Host Name","OS Name","Total Physical"</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m1')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Tire um print da tela do PowerShell</div>
+            <div class="task-desc">Pressione Win + Shift + S, selecione a janela do PowerShell com os resultados</div>
+          </div>
+          <span class="task-badge tb-print">Print obrigatório</span>
+        </div>
+
+        <div class="preview-box">
+          <div class="preview-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Resultado esperado no PowerShell</div>
+          <div class="preview-content">
+            <span class="prev-label">PS C:\Windows\system32&gt;</span> <span class="cmd">hostname</span><br>
+            <span class="prev-val">DESKTOP-AB12CD3</span><br>
+            <span class="prev-label">PS C:\Windows\system32&gt;</span> <span class="cmd">whoami</span><br>
+            <span class="prev-val">desktop-ab12cd3\aluno</span><br>
+            <span class="prev-label">PS C:\Windows\system32&gt;</span> <span class="cmd">systeminfo | Select-String ...</span><br>
+            <span class="prev-ok">Host Name:         DESKTOP-AB12CD3</span><br>
+            <span class="prev-ok">OS Name:           Microsoft Windows 11 ...</span><br>
+            <span class="prev-ok">Total Physical Memory: 8.192 MB</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /m1 -->
+
+    <!-- MISSION 2 -->
+    <div class="mission m2" id="m2">
+      <div class="mission-header" onclick="toggleMission('m2')">
+        <div class="mission-num">2</div>
+        <div style="flex:1">
+          <div class="mission-title">Organização de pastas do atendimento</div>
+          <div class="mission-status" id="stat-m2">0 / 4 tarefas</div>
+        </div>
+        <div class="mission-done-badge" id="badge-m2">✓ Concluída</div>
+        <i class="ti ti-chevron-down mission-chevron"></i>
+      </div>
+      <div class="mission-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px">O técnico precisa criar uma estrutura de pastas padronizada para guardar todos os registros de atendimento da empresa.</p>
+
+        <div class="task-item" onclick="toggleTask(this,'m2')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Crie a estrutura de pastas da empresa no PowerShell</div>
+            <div class="task-desc">Execute o comando abaixo para criar todas as pastas de uma só vez</div>
+          </div>
+          <span class="task-badge tb-cmd">Comando</span>
+        </div>
+        <div class="code-block">
+          <button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy"></i> Copiar</button>
+          <span class="comment"># Cria estrutura de pastas no Desktop</span><br>
+          <span class="cmd">$base</span> = <span class="str">"$env:USERPROFILE\Desktop\TechSupport"</span><br>
+          <span class="cmd">New-Item</span> -ItemType Directory -Path <span class="str">"$base\Chamados\Abertos"</span> -Force<br>
+          <span class="cmd">New-Item</span> -ItemType Directory -Path <span class="str">"$base\Chamados\Concluidos"</span> -Force<br>
+          <span class="cmd">New-Item</span> -ItemType Directory -Path <span class="str">"$base\Documentacao"</span> -Force<br>
+          <span class="cmd">New-Item</span> -ItemType Directory -Path <span class="str">"$base\Prints"</span> -Force<br>
+          <span class="cmd">Write-Host</span> <span class="str">"Pastas criadas com sucesso!"</span> -ForegroundColor Green
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m2')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Confirme que as pastas foram criadas</div>
+            <div class="task-desc">Liste o conteúdo da pasta TechSupport</div>
+          </div>
+          <span class="task-badge tb-cmd">Comando</span>
+        </div>
+        <div class="code-block">
+          <button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy"></i> Copiar</button>
+          <span class="cmd">Get-ChildItem</span> <span class="str">"$env:USERPROFILE\Desktop\TechSupport"</span> -Recurse
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m2')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Abra a pasta no Explorador de Arquivos e confirme visualmente</div>
+            <div class="task-desc">No Explorer, navegue até Desktop → TechSupport. Você deve ver as 4 subpastas.</div>
+          </div>
+          <span class="task-badge tb-check">Verificar</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m2')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Tire um print do Explorer mostrando a estrutura de pastas</div>
+            <div class="task-desc">Win + Shift + S, selecione a janela do Explorer com todas as pastas visíveis</div>
+          </div>
+          <span class="task-badge tb-print">Print obrigatório</span>
+        </div>
+
+        <div class="preview-box">
+          <div class="preview-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Estrutura esperada no Explorer</div>
+          <div class="preview-content">
+            <span class="prev-path">📁 Desktop</span><br>
+            <span class="prev-path">&nbsp;&nbsp;└── 📁 TechSupport</span><br>
+            <span class="prev-ok">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 Chamados</span><br>
+            <span class="prev-val">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── 📁 Abertos</span><br>
+            <span class="prev-val">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── 📁 Concluidos</span><br>
+            <span class="prev-ok">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 📁 Documentacao</span><br>
+            <span class="prev-ok">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 Prints</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /m2 -->
+
+    <!-- MISSION 3 -->
+    <div class="mission m3" id="m3">
+      <div class="mission-header" onclick="toggleMission('m3')">
+        <div class="mission-num">3</div>
+        <div style="flex:1">
+          <div class="mission-title">Criação de usuário — na nuvem!</div>
+          <div class="mission-status" id="stat-m3">0 / 4 tarefas</div>
+        </div>
+        <div class="mission-done-badge" id="badge-m3">✓ Concluída</div>
+        <i class="ti ti-chevron-down mission-chevron"></i>
+      </div>
+      <div class="mission-body">
+
+        <!-- BLOQUEIO EXPLICADO -->
+        <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;gap:12px">
+          <div style="font-size:24px;flex-shrink:0">🔒</div>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:#b91c1c;margin-bottom:4px">Computadores da escola — sem permissão de administrador</div>
+            <div style="font-size:13px;color:#7f1d1d;line-height:1.6">Os computadores do laboratório são gerenciados pela escola. Por isso, <strong>não é possível criar usuários locais</strong> com o PowerShell ou pelas Configurações — o sistema bloqueia qualquer tentativa sem privilégio de administrador.</div>
+            <div style="margin-top:8px;background:#fee2e2;border-radius:6px;padding:6px 10px;font-family:monospace;font-size:12px;color:#991b1b">
+              Access is denied.<br>
+              <span style="color:#b91c1c">New-LocalUser : Acesso negado.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOLUÇÃO: NUVEM -->
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;gap:12px">
+          <div style="font-size:24px;flex-shrink:0">☁️</div>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:#15803d;margin-bottom:4px">Solução: criar o usuário na nuvem com o Google Workspace</div>
+            <div style="font-size:13px;color:#166534;line-height:1.6">No mercado real, a maioria das empresas já usa <strong>usuários na nuvem</strong> (Google Workspace, Microsoft 365, Azure AD). Vamos simular exatamente isso — criar a conta <strong>tecnico.campo</strong> no Google, como uma empresa faria.</div>
+          </div>
+        </div>
+
+        <!-- COMPARATIVO -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+          <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 14px">
+            <div style="font-size:11px;font-weight:700;color:#b91c1c;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Local (bloqueado aqui)</div>
+            <div style="font-size:12px;color:#7f1d1d;line-height:1.7">Precisa de admin no PC<br>Só funciona naquele computador<br>Senha fica só naquela máquina</div>
+          </div>
+          <div style="background:#f0fdf4;border:2px solid #4ade80;border-radius:8px;padding:12px 14px">
+            <div style="font-size:11px;font-weight:700;color:#15803d;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Na nuvem ✓ faremos isso</div>
+            <div style="font-size:12px;color:#166534;line-height:1.7">Acessa de qualquer computador<br>Não precisa de admin local<br>É como empresas reais fazem</div>
+          </div>
+        </div>
+
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Siga os passos abaixo para criar a conta <strong>tecnico.campo</strong> usando o Gmail — você vai vivenciar o mesmo fluxo de um administrador de TI real.</p>
+
+        <div class="task-item" onclick="toggleTask(this,'m3')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Abra o Gmail e clique em "Criar conta"</div>
+            <div class="task-desc">Acesse gmail.com → clique em "Criar conta" → escolha "Para uso pessoal"</div>
+          </div>
+          <span class="task-badge tb-check">Passo 1</span>
+        </div>
+
+        <!-- SIMULAÇÃO TELA GMAIL -->
+        <div class="preview-box" style="margin-bottom:12px">
+          <div class="preview-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div> gmail.com — Criar conta Google</div>
+          <div style="padding:14px;background:#1a1a2e">
+            <div style="background:#fff;border-radius:8px;padding:16px;max-width:320px;margin:0 auto;font-family:sans-serif">
+              <div style="text-align:center;margin-bottom:12px">
+                <div style="font-size:22px;margin-bottom:4px">🔵🔴🟡🟢</div>
+                <div style="font-size:13px;font-weight:700;color:#202124">Criar uma Conta do Google</div>
+                <div style="font-size:11px;color:#5f6368">Para usar o Gmail, Drive e muito mais</div>
+              </div>
+              <div style="margin-bottom:8px">
+                <div style="font-size:10px;color:#5f6368;margin-bottom:3px">Nome</div>
+                <div style="display:flex;gap:6px">
+                  <div style="flex:1;border:1px solid #dadce0;border-radius:4px;padding:6px 8px;font-size:11px;color:#3c4043">Tecnico</div>
+                  <div style="flex:1;border:1px solid #dadce0;border-radius:4px;padding:6px 8px;font-size:11px;color:#3c4043">Campo</div>
+                </div>
+              </div>
+              <div style="margin-bottom:8px">
+                <div style="font-size:10px;color:#5f6368;margin-bottom:3px">Nome de usuário</div>
+                <div style="border:2px solid #1a73e8;border-radius:4px;padding:6px 8px;font-size:11px;color:#3c4043;display:flex;justify-content:space-between">
+                  <span style="color:#1a73e8;font-weight:600">tecnico.campo.etec</span>
+                  <span style="color:#9aa0a6">@gmail.com</span>
+                </div>
+                <div style="font-size:10px;color:#1a73e8;margin-top:3px">✓ Disponível</div>
+              </div>
+              <div style="margin-bottom:10px">
+                <div style="font-size:10px;color:#5f6368;margin-bottom:3px">Senha</div>
+                <div style="border:1px solid #dadce0;border-radius:4px;padding:6px 8px;font-size:11px;color:#9aa0a6">••••••••••</div>
+              </div>
+              <div style="background:#1a73e8;color:#fff;text-align:center;border-radius:4px;padding:8px;font-size:12px;font-weight:600">Próxima ›</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m3')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Preencha os dados do usuário</div>
+            <div class="task-desc">Nome: Tecnico Campo · E-mail sugerido: tecnico.campo.etec@gmail.com · Anote a senha que criou</div>
+          </div>
+          <span class="task-badge tb-check">Passo 2</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m3')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Conclua o cadastro e faça login com a nova conta</div>
+            <div class="task-desc">Abra uma aba anônima (Ctrl + Shift + N) → acesse gmail.com → faça login com o e-mail e senha que você criou. Isso simula um novo usuário acessando o sistema.</div>
+          </div>
+          <span class="task-badge tb-check">Passo 3</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m3')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Tire um print mostrando o Gmail logado com a nova conta</div>
+            <div class="task-desc">A caixa de entrada da conta tecnico.campo deve estar visível, mostrando o e-mail no canto superior direito</div>
+          </div>
+          <span class="task-badge tb-print">Print obrigatório</span>
+        </div>
+
+        <div class="preview-box">
+          <div class="preview-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div> Como deve ficar o print — Gmail logado com a nova conta</div>
+          <div style="padding:14px;background:#1a1a2e">
+            <div style="background:#fff;border-radius:8px;padding:10px 14px;font-family:sans-serif">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #e2e8f0">
+                <div style="font-size:13px;font-weight:700;color:#202124">📧 Gmail</div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <div style="width:28px;height:28px;border-radius:50%;background:#1a73e8;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">TC</div>
+                  <div style="font-size:11px;color:#5f6368">tecnico.campo.etec@gmail.com</div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:#5f6368;text-align:center;padding:10px;background:#f8f9fa;border-radius:6px">
+                Bem-vindo ao Gmail, Tecnico Campo!<br>
+                <span style="font-size:11px;color:#9aa0a6">Sua caixa de entrada está vazia</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONEXÃO COM O MERCADO -->
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 14px;margin-top:14px">
+          <div style="font-weight:700;font-size:13px;color:#1e40af;margin-bottom:6px">💡 Por que isso é importante no mercado?</div>
+          <div style="font-size:12px;color:#374151;line-height:1.7">
+            Empresas como Google, Microsoft e Amazon gerenciam <strong>milhares de usuários na nuvem</strong> sem precisar de administrador em cada máquina. Com o <strong>Google Workspace for Education</strong> (que a própria Etec pode usar), o administrador cria, edita e desativa contas de professores e alunos de qualquer lugar — exatamente como você acabou de fazer.
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /m3 -->
+
+    <!-- MISSION 4 -->
+    <div class="mission m4" id="m4">
+      <div class="mission-header" onclick="toggleMission('m4')">
+        <div class="mission-num">4</div>
+        <div style="flex:1">
+          <div class="mission-title">Verificação de desempenho do sistema</div>
+          <div class="mission-status" id="stat-m4">0 / 4 tarefas</div>
+        </div>
+        <div class="mission-done-badge" id="badge-m4">✓ Concluída</div>
+        <i class="ti ti-chevron-down mission-chevron"></i>
+      </div>
+      <div class="mission-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px">O cliente reclamou que o computador está lento. Vamos verificar o uso de CPU e RAM para diagnosticar o problema.</p>
+
+        <div class="task-item" onclick="toggleTask(this,'m4')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Verifique os 5 processos que mais consomem CPU</div>
+            <div class="task-desc">Identifique se há algum processo suspeito ou pesado</div>
+          </div>
+          <span class="task-badge tb-cmd">Comando</span>
+        </div>
+        <div class="code-block">
+          <button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy"></i> Copiar</button>
+          <span class="comment"># Top 5 processos por uso de CPU</span><br>
+          <span class="cmd">Get-Process</span> | <span class="cmd">Sort-Object</span> CPU -Descending | <span class="cmd">Select-Object</span> -First 5 Name, CPU, WorkingSet
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m4')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Veja o uso total de memória RAM</div>
+            <div class="task-desc">Quanto de RAM está livre vs. em uso</div>
+          </div>
+          <span class="task-badge tb-cmd">Comando</span>
+        </div>
+        <div class="code-block">
+          <button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy"></i> Copiar</button>
+          <span class="comment"># Uso de memória RAM em GB</span><br>
+          <span class="cmd">$os</span> = <span class="cmd">Get-CimInstance</span> Win32_OperatingSystem<br>
+          <span class="cmd">$total</span> = [math]::Round(<span class="str">$os.TotalVisibleMemorySize</span> / 1MB, 2)<br>
+          <span class="cmd">$livre</span> = [math]::Round(<span class="str">$os.FreePhysicalMemory</span> / 1MB, 2)<br>
+          <span class="cmd">$uso</span> = [math]::Round(<span class="str">$total - $livre</span>, 2)<br>
+          <span class="cmd">Write-Host</span> <span class="str">"RAM Total: $total GB | Em uso: $uso GB | Livre: $livre GB"</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m4')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Abra o Gerenciador de Tarefas e confirme os dados</div>
+            <div class="task-desc">Ctrl + Shift + Esc → aba "Desempenho" → compare CPU e Memória com o que o PowerShell mostrou</div>
+          </div>
+          <span class="task-badge tb-check">Verificar</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m4')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Tire um print do Gerenciador de Tarefas aberto na aba Desempenho</div>
+            <div class="task-desc">Deve mostrar os gráficos de CPU e Memória em tempo real</div>
+          </div>
+          <span class="task-badge tb-print">Print obrigatório</span>
+        </div>
+      </div>
+    </div><!-- /m4 -->
+
+    <!-- MISSION 5 -->
+    <div class="mission m5" id="m5">
+      <div class="mission-header" onclick="toggleMission('m5')">
+        <div class="mission-num">5</div>
+        <div style="flex:1">
+          <div class="mission-title">Checklist final e documentação</div>
+          <div class="mission-status" id="stat-m5">0 / 4 tarefas</div>
+        </div>
+        <div class="mission-done-badge" id="badge-m5">✓ Concluída</div>
+        <i class="ti ti-chevron-down mission-chevron"></i>
+      </div>
+      <div class="mission-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Todo atendimento precisa ser documentado. Vamos criar o arquivo de registro do atendimento de hoje.</p>
+
+        <div class="task-item" onclick="toggleTask(this,'m5')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Crie o arquivo de registro do atendimento</div>
+            <div class="task-desc">O arquivo será salvo automaticamente na pasta Documentacao que criamos na Missão 2</div>
+          </div>
+          <span class="task-badge tb-cmd">Comando</span>
+        </div>
+        <div class="code-block">
+          <button class="code-copy" onclick="copyCode(this)"><i class="ti ti-copy"></i> Copiar</button>
+          <span class="comment"># Cria o registro do atendimento</span><br>
+          <span class="cmd">$arquivo</span> = <span class="str">"$env:USERPROFILE\Desktop\TechSupport\Documentacao\atendimento.txt"</span><br>
+          <span class="cmd">$conteudo</span> = <span class="str">@"</span><br>
+          <span class="str">========================================</span><br>
+          <span class="str">REGISTRO DE ATENDIMENTO — TECHSUPPORT</span><br>
+          <span class="str">========================================</span><br>
+          <span class="str">Data: $(Get-Date -Format "dd/MM/yyyy HH:mm")</span><br>
+          <span class="str">Técnico: $(whoami)</span><br>
+          <span class="str">Computador: $(hostname)</span><br>
+          <span class="str">----------------------------------------</span><br>
+          <span class="str">ATIVIDADES REALIZADAS:</span><br>
+          <span class="str">[ ] Reconhecimento do equipamento</span><br>
+          <span class="str">[ ] Organização de pastas</span><br>
+          <span class="str">[ ] Criação de usuário tecnico.campo</span><br>
+          <span class="str">[ ] Verificação de desempenho</span><br>
+          <span class="str">========================================</span><br>
+          <span class="str">"@</span><br>
+          <span class="cmd">$conteudo</span> | <span class="cmd">Out-File</span> -FilePath <span class="str">$arquivo</span> -Encoding UTF8<br>
+          <span class="cmd">Write-Host</span> <span class="str">"Arquivo criado!"</span> -ForegroundColor Cyan<br>
+          <span class="cmd">notepad</span> <span class="str">$arquivo</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m5')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">No Bloco de Notas, marque as atividades que realizou com [X]</div>
+            <div class="task-desc">Troque [ ] por [X] nas atividades que você completou hoje. Salve o arquivo (Ctrl + S).</div>
+          </div>
+          <span class="task-badge tb-check">Editar</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m5')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Mova seus prints para a pasta TechSupport\Prints</div>
+            <div class="task-desc">Abra o Explorer, vá até a pasta Downloads ou Área de Trabalho, mova os prints capturados para Desktop\TechSupport\Prints</div>
+          </div>
+          <span class="task-badge tb-check">Organizar</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this,'m5')">
+          <div class="task-checkbox"><i class="ti ti-check"></i></div>
+          <div class="task-content">
+            <div class="task-title">Tire o print final da pasta TechSupport com tudo organizado</div>
+            <div class="task-desc">O Explorer deve mostrar a pasta Prints com os 3 prints dentro + o arquivo atendimento.txt na Documentacao</div>
+          </div>
+          <span class="task-badge tb-print">Print final</span>
+        </div>
+      </div>
+    </div><!-- /m5 -->
+
+  </div><!-- /tab-gso -->
+
+  <!-- TAB: ENTREGA -->
+  <div class="tab-panel" id="tab-entrega">
+
+    <div class="alert alert-amber">
+      <i class="ti ti-clipboard-check"></i>
+      <div>
+        <div class="a-title">O que você vai entregar hoje</div>
+        <div class="a-body">Sua evidência prática de GSO I consiste em <strong>4 prints + 1 arquivo de registro</strong> organizados em uma pasta documentada.</div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-icon" style="background:#f0fdf4"><i class="ti ti-file-check" style="color:#15803d;font-size:22px"></i></div>
+      <div><h2>Passo a passo da entrega</h2><p>Siga a ordem abaixo no final da aula</p></div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <ol class="entrega-steps">
+        <li>
+          <div>
+            <strong>Confirme que você tem os 4 prints</strong>
+            <span>Print 1: PowerShell com hostname/whoami · Print 2: Explorer com pastas · Print 3: PowerShell com usuário criado · Print 4: Gerenciador de Tarefas (Desempenho)</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Verifique o arquivo atendimento.txt</strong>
+            <span>Deve estar em Desktop\TechSupport\Documentacao com as atividades marcadas com [X]</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Abra o Google Docs</strong>
+            <span>Acesse drive.google.com → Novo → Documentos Google</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Nomeie o documento corretamente</strong>
+            <span>Título: <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:12px">GSO1_SeuNome_AtendimentoTechSupport</code></span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Cole os 4 prints no documento</strong>
+            <span>Insira cada print em ordem, com uma legenda embaixo explicando o que ele mostra (ex: "Resultado do comando hostname no PowerShell")</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Responda a pergunta de reflexão no final do documento</strong>
+            <span>Por que um técnico de suporte precisa documentar cada atendimento? Escreva pelo menos 3 linhas.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <strong>Compartilhe o link com o professor</strong>
+            <span>Botão "Compartilhar" → "Qualquer pessoa com o link" pode visualizar → Copie e envie pelo formulário indicado</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="alert alert-green">
+      <i class="ti ti-star"></i>
+      <div>
+        <div class="a-title">Critérios de avaliação</div>
+        <div class="a-body">Processo e participação · Produto técnico (4 prints + arquivo .txt) · Documentação no Google Docs · Legenda e texto de reflexão · Postura profissional durante a aula</div>
+      </div>
+    </div>
+
+  </div><!-- /tab-entrega -->
+
+  <!-- TAB: PROGRESSO -->
+  <div class="tab-panel" id="tab-progresso">
+    <div class="progress-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3 style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700">Meu progresso na aula</h3>
+        <span id="pct-label" style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--green)">0%</span>
+      </div>
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="main-prog" style="width:0%"></div></div>
+      <div class="prog-stats">
+        <div class="prog-stat"><div class="val" id="stat-done" style="color:var(--green)">0</div><div class="lbl">Tarefas concluídas</div></div>
+        <div class="prog-stat"><div class="val" id="stat-total" style="color:var(--text2)">20</div><div class="lbl">Total de tarefas</div></div>
+        <div class="prog-stat"><div class="val" id="stat-missions" style="color:var(--blue)">0</div><div class="lbl">Missões completas</div></div>
+        <div class="prog-stat"><div class="val" id="stat-prints" style="color:var(--amber)">0</div><div class="lbl">Prints capturados</div></div>
+      </div>
+    </div>
+
+    <div id="mission-list-progress">
+    </div>
+
+  </div><!-- /tab-progresso -->
+
+</div><!-- /container -->
+
+<div class="footer-bar">
+  <strong>Prof. Isaque Katahira</strong> · Gestão de Sistemas Operacionais I · Etec Palmital · 2026
+</div>
+
+<!-- POPUP -->
+<div id="popup">
+  <div id="popup-box">
+    <div id="popup-icon">🎉</div>
+    <div id="popup-title">Missão concluída!</div>
+    <div id="popup-msg">Você completou todas as tarefas desta missão. Continue assim!</div>
+    <button id="popup-close" onclick="closePopup()">Continuar →</button>
+  </div>
+</div>
+
+<script>
+const TOTAL_MINUTES = 60;
+const PHASES = [
+  { at: 60, label: "Apresentação do Projeto Interdisciplinar" },
+  { at: 50, label: "Missão 1 — Reconhecimento do equipamento" },
+  { at: 42, label: "Missão 2 — Organização de pastas" },
+  { at: 34, label: "Missão 3 — Criação de usuário" },
+  { at: 22, label: "Missão 4 — Verificação de desempenho" },
+  { at: 10, label: "Missão 5 — Documentação e entrega" },
+  { at: 0, label: "Finalizando — entrega!" },
+];
+
+let seconds = TOTAL_MINUTES * 60;
+const timerDisplay = document.getElementById('timer-display');
+const timerDot = document.getElementById('timer-dot');
+const progressBar = document.getElementById('progress-bar');
+const phaseLabel = document.getElementById('timer-phase');
+
+function getPhase(mins) {
+  for (let i = 0; i < PHASES.length - 1; i++) {
+    if (mins <= PHASES[i].at && mins >= PHASES[i+1].at) return PHASES[i].label;
+  }
+  return PHASES[PHASES.length-1].label;
+}
+
+setInterval(() => {
+  if (seconds <= 0) return;
+  seconds--;
+  const m = Math.floor(seconds/60);
+  const s = seconds%60;
+  timerDisplay.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const pct = (seconds/(TOTAL_MINUTES*60))*100;
+  progressBar.style.width = pct + '%';
+  if (pct > 50) progressBar.style.background = '#38bdf8';
+  else if (pct > 20) progressBar.style.background = '#fbbf24';
+  else progressBar.style.background = '#f87171';
+  timerDot.style.background = pct > 20 ? '#4ade80' : '#f87171';
+  phaseLabel.textContent = getPhase(m);
+}, 1000);
+
+const MISSION_TASKS = { m1:4, m2:4, m3:4, m4:4, m5:4 };
+const missionDone = { m1:0, m2:0, m3:0, m4:0, m5:0 };
+let score = 0;
+let printCount = 0;
+
+function toggleTask(el, missionId) {
+  const wasDone = el.classList.contains('done');
+  el.classList.toggle('done');
+  const badge = el.querySelector('.task-badge');
+  const isPrint = badge && badge.classList.contains('tb-print');
+
+  if (!wasDone) {
+    missionDone[missionId]++;
+    score += isPrint ? 15 : 10;
+    if (isPrint) printCount++;
+  } else {
+    missionDone[missionId]--;
+    score -= isPrint ? 15 : 10;
+    if (isPrint) printCount = Math.max(0, printCount-1);
+  }
+
+  const total = MISSION_TASKS[missionId];
+  const done = missionDone[missionId];
+  document.getElementById('stat-'+missionId).textContent = `${done} / ${total} tarefas`;
+  const badge2 = document.getElementById('badge-'+missionId);
+  if (done >= total) {
+    badge2.classList.add('show');
+    showPopup(missionId);
+  } else {
+    badge2.classList.remove('show');
+  }
+
+  updateScore();
+  updateProgress();
+}
+
+function updateScore() {
+  document.getElementById('score-num').textContent = Math.max(0, score);
+}
+
+function updateProgress() {
+  const totalTasks = 20;
+  let doneTasks = Object.values(missionDone).reduce((a,b)=>a+b,0);
+  const pct = Math.round((doneTasks/totalTasks)*100);
+  document.getElementById('main-prog').style.width = pct+'%';
+  document.getElementById('pct-label').textContent = pct+'%';
+  document.getElementById('stat-done').textContent = doneTasks;
+  document.getElementById('stat-total').textContent = totalTasks;
+  document.getElementById('stat-missions').textContent = Object.values(missionDone).filter((v,i) => v >= Object.values(MISSION_TASKS)[i]).length;
+  document.getElementById('stat-prints').textContent = printCount;
+
+  const colors = [pct >= 100 ? 'var(--green)' : pct >= 50 ? 'var(--blue)' : 'var(--amber)'];
+  document.getElementById('pct-label').style.color = colors[0];
+
+  buildMissionProgress();
+}
+
+function buildMissionProgress() {
+  const names = ['Reconhecimento do equipamento','Organização de pastas','Criação de usuário','Verificação de desempenho','Documentação e entrega'];
+  const colors = ['#1e6fd9','#0e7490','#15803d','#b45309','#7c3aed'];
+  const container = document.getElementById('mission-list-progress');
+  container.innerHTML = '';
+  ['m1','m2','m3','m4','m5'].forEach((id,i) => {
+    const done = missionDone[id];
+    const total = MISSION_TASKS[id];
+    const pct = Math.round((done/total)*100);
+    const div = document.createElement('div');
+    div.className = 'card card-sm';
+    div.style.marginBottom = '10px';
+    div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:14px;font-weight:600;color:var(--text)"><span style="color:${colors[i]};font-family:Syne,sans-serif;font-weight:800">M${i+1}</span> ${names[i]}</span>
+        <span style="font-size:13px;color:var(--text2)">${done}/${total} <span style="color:${colors[i]};font-weight:600">${pct}%</span></span>
+      </div>
+      <div style="background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden">
+        <div style="width:${pct}%;height:100%;background:${colors[i]};transition:width 0.4s;border-radius:6px"></div>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function toggleMission(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+function toggleDisc(el) {
+  const exp = el.querySelector('.disc-expand');
+  exp.classList.toggle('open');
+}
+
+function toggleDiscGso(el) {
+  const exp = document.getElementById('gso-expand');
+  const isOpen = exp.classList.contains('open');
+  exp.classList.toggle('open');
+  const hint = el.querySelector('[style*="▸"]');
+  if (hint) hint.textContent = isOpen ? '▸ Clique para ver o passo a passo completo' : '▾ Clique para fechar';
+  if (!isOpen) {
+    setTimeout(() => { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+  }
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('btn-'+id).classList.add('active');
+  if (id === 'tab-progresso') buildMissionProgress();
+}
+
+let popupTimeout;
+function showPopup(missionId) {
+  const names = {m1:'Reconhecimento',m2:'Organização de Pastas',m3:'Criação de Usuário',m4:'Diagnóstico de Desempenho',m5:'Documentação'};
+  document.getElementById('popup-title').textContent = `Missão ${missionId.slice(1)} concluída!`;
+  document.getElementById('popup-msg').textContent = `Você finalizou a missão "${names[missionId]}". Excelente trabalho de técnico!`;
+  const icons = ['🔍','📁','👤','📊','📋'];
+  document.getElementById('popup-icon').textContent = icons[parseInt(missionId.slice(1))-1];
+  document.getElementById('popup').classList.add('show');
+  clearTimeout(popupTimeout);
+  popupTimeout = setTimeout(closePopup, 4000);
+}
+function closePopup() { document.getElementById('popup').classList.remove('show'); }
+
+function copyCode(btn) {
+  const block = btn.parentElement;
+  const text = Array.from(block.childNodes)
+    .filter(n => n.nodeType === 3 || (n.tagName && n.tagName !== 'BUTTON'))
+    .map(n => n.textContent).join('').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = '<i class="ti ti-check"></i> Copiado!';
+    setTimeout(() => { btn.innerHTML = '<i class="ti ti-copy"></i> Copiar'; }, 2000);
+  });
+}
+
+buildMissionProgress();
+</script>
+</body>
+</html>
